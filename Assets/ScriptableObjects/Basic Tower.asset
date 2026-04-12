@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748fc758e0b4ac84a8c3ae06a610c1f6, type: 3}
   m_Name: Basic Tower
   m_EditorClassIdentifier: Assembly-CSharp::TowerSO
+  towerName: Test
+  towerDescription: A tower for early testing
   attackRange: 4
   towerHealth: 20
   towerDamage: 5

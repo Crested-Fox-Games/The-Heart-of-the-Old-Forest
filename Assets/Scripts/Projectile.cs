@@ -20,14 +20,15 @@ public class Projectile : MonoBehaviour
         StartCoroutine(MoveToTarget());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.TryGetComponent<Enemy>(out hitEnemy))
+        if(other.gameObject.TryGetComponent<Enemy>(out hitEnemy))
         {
+            Debug.Log("Hit enemy");
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 
-            //This will probably need to be changed for optimization
+            //TODO: This will probably need to be changed for optimization
             //Destroy projectile.
             Destroy(gameObject);
         }
