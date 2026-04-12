@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TowerSO", menuName = "Scriptable Objects/TowerSO")]
+[CreateAssetMenu(fileName = "TowerSO", menuName = "Towers/TowerSO")]
 public class TowerSO : ScriptableObject
 {
     [SerializeField]
