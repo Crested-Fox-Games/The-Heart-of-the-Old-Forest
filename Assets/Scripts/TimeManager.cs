@@ -5,7 +5,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField]
     private GameObject sceneLight;
 
-    private Quaternion lightRotation;
+    private Vector3 lightRotation;
 
     private float cycleTime = 0f;
     private float cycleDuration = 720f; // 12 minutes in seconds
@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
-        lightRotation = sceneLight.transform.rotation;
+        lightRotation = sceneLight.transform.localEulerAngles;
         lightRotation.x = 0;
     }
 
