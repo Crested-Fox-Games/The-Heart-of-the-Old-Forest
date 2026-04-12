@@ -45,12 +45,12 @@ public class TimeManager : MonoBehaviour
         if(cycleTime < cycleDayDuration)
         {
             //Day period
-            sunAngle += 180f / cycleDayDuration * Time.deltaTime;
+            sunAngle = 180f / cycleDayDuration * cycleTime;
         }
         else
         {
             //Night period
-            sunAngle += 180f / (cycleDuration - cycleDayDuration) * Time.deltaTime;
+            sunAngle = 180f / (cycleDuration - cycleDayDuration) * cycleTime;
         }
 
         if (sunAngle >= 360f)
