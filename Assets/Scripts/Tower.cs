@@ -8,6 +8,8 @@ public class Tower : MonoBehaviour
     [SerializeField]
     private TowerSO towerSO;
 
+    private string towerName, towerDescription;
+
     private float attackRange, towerDamage, towerHealth, attackCooldown;
 
     private GameObject projectile;
@@ -24,6 +26,17 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
+        InitializeValues();
+
+        SphereCollider col = gameObject.AddComponent<SphereCollider>();
+        col.radius = attackRange;
+    }
+
+    private void InitializeValues()
+    {
+        towerName = towerSO.TowerName;
+        towerDescription = towerSO.TowerDescription;
+
         attackRange = towerSO.AttackRange;
         towerDamage = towerSO.TowerDamage;
         towerHealth = towerSO.TowerHealth;
@@ -31,9 +44,7 @@ public class Tower : MonoBehaviour
 
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
-
-        SphereCollider col = gameObject.AddComponent<SphereCollider>();
-        col.radius = attackRange;
+ 
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -93,7 +104,7 @@ public class Tower : MonoBehaviour
             }
 
             //Spawn projectile with stats
-            //For optimization turn projs off and on instead of destroying
+            //TODO: For optimization turn projs off and on instead of destroying
             GameObject proj = Instantiate(projectile);
 
             //Set the position to the towers location

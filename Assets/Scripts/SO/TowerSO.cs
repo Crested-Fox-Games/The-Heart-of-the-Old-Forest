@@ -4,10 +4,23 @@ using UnityEngine;
 public class TowerSO : ScriptableObject
 {
     [SerializeField]
+    private string towerName, towerDescription;
+
+    [SerializeField]
     private float attackRange, towerHealth, towerDamage, attackCooldown;
 
     [SerializeField]
     private GameObject projectile, displayObject;
+
+    /// <summary>
+    /// The name of the tower
+    /// </summary>
+    public string TowerName => towerName;
+
+    /// <summary>
+    /// The description of the tower
+    /// </summary>
+    public string TowerDescription => towerDescription;
 
     /// <summary>
     /// The range the tower can fire at enemies
