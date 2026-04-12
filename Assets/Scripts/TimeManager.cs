@@ -28,20 +28,20 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateCycle()
     {
-        if(cycleTime < cycleDuration)
+        if(cycleTime >= cycleDuration)
         {
-            cycleTime += Time.deltaTime;
+            cycleTime -= cycleDuration;
+            currentDay++;
         }
         else
         {
-            cycleTime = 0f;
-            currentDay++;
+            cycleTime += Time.deltaTime;
         }
     }
 
     private void UpdateLighting()
     {
-        //TODO: This will update the lighting and the skybox
+        //This will update the lighting and the skybox
         if(cycleTime < cycleDayDuration)
         {
             //Day period
