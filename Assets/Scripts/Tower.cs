@@ -97,18 +97,6 @@ public class Tower : MonoBehaviour
         //Checks to ensure there is a target to hit
         while (targetEnemy != null)
         {
-            //Checks if the target enemy has been killed, and if so, adds a new target from the list
-            if(targetEnemy == null && targets.Count > 0)
-            {
-                targetEnemy = targets[0];
-                targets.RemoveAt(0);
-            }
-            else if (targetEnemy == null) 
-            {
-                //Ends the ienumerator as there are no targets to hit
-                break;
-            }
-
             if(stunned) //TODO: add some sort of stun time.
             {
                 yield return new WaitForSeconds(3f);
@@ -127,6 +115,19 @@ public class Tower : MonoBehaviour
 
             //Activate cooldown
             yield return new WaitForSeconds(attackCooldown);
+
+
+            //Checks if the target enemy has been killed, and if so, adds a new target from the list
+            if (targetEnemy == null && targets.Count > 0)
+            {
+                targetEnemy = targets[0];
+                targets.RemoveAt(0);
+            }
+            else if (targetEnemy == null)
+            {
+                //Ends the ienumerator as there are no targets to hit
+                break;
+            }
         }
     }
 }
