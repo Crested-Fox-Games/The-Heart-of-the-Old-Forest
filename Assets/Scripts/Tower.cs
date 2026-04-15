@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    #region SO Fields
     [SerializeField]
     private TowerSO towerSO;
 
@@ -13,6 +14,8 @@ public class Tower : MonoBehaviour
     private float attackRange, towerDamage, towerHealth, attackCooldown;
 
     private GameObject projectile, displayObject;
+
+    #endregion
 
     private GameObject targetEnemy;
 

@@ -11,8 +11,10 @@ public enum ToolTier
     Magic
 }
 
+//TODO: Add a node controller that handles node chunks and respawns them in a random spot in that area
 public class ResourceNode : MonoBehaviour
 {
+    #region SO Fields
     [SerializeField]
     private ResourceSO resourceSO;
 
@@ -25,8 +27,11 @@ public class ResourceNode : MonoBehaviour
 
     private int resourceAmountDropped;
 
+    #endregion
 
     private float currentResourceDurability = 0;
+
+    private bool depleted = false;
 
     private void Start()
     {
@@ -55,24 +60,38 @@ public class ResourceNode : MonoBehaviour
         resourceAmountDropped = resourceSO.ResourceAmountDropped;
     }
 
-    //TODO: will need to pass in the player breaking it so that it knows which player to give the resources to
-    //TODO: decide if tools will have durability
-    //TODO: decide if resources are dropped on node destruction, or every hit
-    //TODO: decide if nodes respawn or if theyre one time, if respawn, how often
-    public bool Breakable(ToolTier equippedToolTier)
+    /// <summary>
+    /// Checks if the node is breakable with the current tool
+    /// </summary>
+    /// <param name="equippedToolTier">The players tool tier</param>
+    /// <param name="resourcesGained">Sends the amount of resources earnt to the player</param>
+    /// <returns>True for player damaging node, false for tool too weak</returns>
+    public bool Breakable(ToolTier equippedToolTier, out int resourcesGained)
     {
+        //Return early if the resource is depleted
+        if(depleted)
+        {
+            resourcesGained = 0;
+            return false;
+        }
+
         if(equippedToolTier >= toolTierRequired)
         {
-            DamageNode();
+            resourcesGained = DamageNode();
             return true;
         }
         else
         {
+            resourcesGained = 0;
             return false;
         }
     }
 
-    private void DamageNode()
+    /// <summary>
+    /// Damages the node when a player successfully hits it
+    /// </summary>
+    /// <returns>Returns the amount of resources the player gains</returns>
+    private int DamageNode()
     {
         //Reduces the durability left on the resource
         currentResourceDurability--;
@@ -80,9 +99,16 @@ public class ResourceNode : MonoBehaviour
         //Checks if the resource should be destroyed/disabled
         if (currentResourceDurability <= 0)
         {
-            //Nothing left in resource
-           
+            //TODO: Show a used resource node, maybe have multiple stages
+            
+            //Disables hitting the node
+            depleted = true;
+
+            //Returns the resources when node broken
+            return resourceAmountDropped;
         }
+
+        return 0;
     }
 
 }
