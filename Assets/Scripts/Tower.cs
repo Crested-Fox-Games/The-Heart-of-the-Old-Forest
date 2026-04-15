@@ -32,6 +32,9 @@ public class Tower : MonoBehaviour
         col.radius = attackRange;
     }
 
+    /// <summary>
+    /// Sets the initial values of the tower based on the SO
+    /// </summary>
     private void InitializeValues()
     {
         towerName = towerSO.TowerName;
