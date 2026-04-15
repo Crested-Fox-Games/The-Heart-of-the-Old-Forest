@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using UnityEngine;
 
@@ -22,6 +23,9 @@ public class ResourceNode : MonoBehaviour
 
     private float resourceDurability;
 
+    private int resourceAmountDropped;
+
+
     private float currentResourceDurability = 0;
 
     private void Start()
@@ -35,14 +39,20 @@ public class ResourceNode : MonoBehaviour
     /// </summary>
     private void InitializeValues()
     {
+        //Enums
         resourceType = resourceSO.ResourceType;
         toolTierRequired = resourceSO.ToolTier;
 
+        //Strings
         resourceName = resourceSO.ResourceName;
         resourceDescription = resourceSO.Description;
 
+        //Floats
         resourceDurability = resourceSO.ResourceDurability;
         currentResourceDurability += resourceDurability;
+
+        //Ints
+        resourceAmountDropped = resourceSO.ResourceAmountDropped;
     }
 
     //TODO: will need to pass in the player breaking it so that it knows which player to give the resources to
@@ -53,7 +63,7 @@ public class ResourceNode : MonoBehaviour
     {
         if(equippedToolTier >= toolTierRequired)
         {
-            
+            DamageNode();
             return true;
         }
         else

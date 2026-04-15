@@ -12,9 +12,7 @@ public class Tower : MonoBehaviour
 
     private float attackRange, towerDamage, towerHealth, attackCooldown;
 
-    private GameObject projectile;
-
-    private GameObject displayObject;
+    private GameObject projectile, displayObject;
 
     private GameObject targetEnemy;
 
@@ -37,14 +35,17 @@ public class Tower : MonoBehaviour
     /// </summary>
     private void InitializeValues()
     {
+        //String
         towerName = towerSO.TowerName;
         towerDescription = towerSO.TowerDescription;
 
+        //Float
         attackRange = towerSO.AttackRange;
         towerDamage = towerSO.TowerDamage;
         towerHealth = towerSO.TowerHealth;
         attackCooldown = towerSO.AttackCooldown;
 
+        //GameObjects
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
  

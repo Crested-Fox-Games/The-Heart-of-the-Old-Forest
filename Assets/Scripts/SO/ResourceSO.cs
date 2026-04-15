@@ -17,6 +17,8 @@ public class ResourceSO : ScriptableObject
     private string resourceName, resourceDescription;
     [SerializeField]
     private float resourceDurability;
+    [SerializeField]
+    private int resourceamountDropped;
 
     /// <summary>
     /// The resources type
@@ -42,4 +44,9 @@ public class ResourceSO : ScriptableObject
     /// The amount of times the node needs to be hit before its destroyed
     /// </summary>
     public float ResourceDurability => resourceDurability;
+
+    /// <summary>
+    /// The amount of resources dropped - TODO: specify whether per hit or for whole node
+    /// </summary>
+    public int ResourceAmountDropped => resourceamountDropped;
 }
