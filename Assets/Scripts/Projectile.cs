@@ -34,6 +34,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    //TODO: Determine if it moves to the enemy or if it moves to where the enemy was/will be
     private IEnumerator MoveToTarget()
     {
         while(Vector3.Distance(transform.position, targetEnemy.transform.position) > 0.1f) //TODO: Determine if theres a check, or if the proj just travels until it hits target.
