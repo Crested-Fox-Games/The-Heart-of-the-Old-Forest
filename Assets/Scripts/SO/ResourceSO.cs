@@ -46,7 +46,7 @@ public class ResourceSO : ScriptableObject
     public float ResourceDurability => resourceDurability;
 
     /// <summary>
-    /// The amount of resources dropped - TODO: specify whether per hit or for whole node
+    /// The amount of resources dropped when the node is destroyed
     /// </summary>
     public int ResourceAmountDropped => resourceamountDropped;
 }

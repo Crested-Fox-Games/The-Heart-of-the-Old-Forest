@@ -100,7 +100,8 @@ public class ResourceNode : MonoBehaviour
         if (currentResourceDurability <= 0)
         {
             //TODO: Show a used resource node, maybe have multiple stages
-            
+            gameObject.SetActive(false);
+
             //Disables hitting the node
             depleted = true;
 
