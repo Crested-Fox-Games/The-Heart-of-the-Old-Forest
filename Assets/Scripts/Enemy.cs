@@ -1,8 +1,13 @@
 using UnityEngine;
 
+//TODO: make this class an abstract parent when implementing enemy types
 public class Enemy : MonoBehaviour
 {
-    //This class will later be made an abstract parent
+    #region SO Fields
+    [SerializeField]
+    private EnemySO enemySO;
+
+    #endregion
 
     float health = 5;
 
