@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the initial values of the node based on the SO
+    /// Sets the initial values of the enemy based on the SO
     /// </summary>
     private void InitializeValues()
     {
