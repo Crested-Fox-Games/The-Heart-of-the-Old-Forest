@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    private float enemyHealth, enemySpeed, enemyDamage;
+    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate;
 
     #endregion
 
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         enemyHealth = enemySO.EnemyHealth;
         enemySpeed = enemySO.EnemySpeed;
         enemyDamage = enemySO.EnemyDamage;
-
+        enemyAttackRate = enemySO.EnemyAttackRate;
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects

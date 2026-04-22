@@ -6,7 +6,7 @@ public class EnemySO : ScriptableObject
     [SerializeField]
     private string enemyName, enemyDescription;
     [SerializeField]
-    private float enemyHealth, enemySpeed, enemyDamage, enemyRange;
+    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemyRange;
     [SerializeField]
     private GameObject projectile;
 
@@ -34,6 +34,11 @@ public class EnemySO : ScriptableObject
     /// The damage the enemy deals
     /// </summary>
     public float EnemyDamage => enemyDamage;
+
+    /// <summary>
+    /// The rate at which the enemy can attack
+    /// </summary>
+    public float EnemyAttackRate => enemyAttackRate;
 
     /// <summary>
     /// The range that the enemy can hit from (Only used in ranged enemies)
