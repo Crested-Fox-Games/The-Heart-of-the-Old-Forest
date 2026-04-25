@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abb2786e9344f54abe494856f5a50b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  enemySO: {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
 --- !u!1 &8172561241524579009
 GameObject:
   m_ObjectHideFlags: 0
