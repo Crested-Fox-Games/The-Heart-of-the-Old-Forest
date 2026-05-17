@@ -14,6 +14,7 @@ public class BaseResourceController : MonoBehaviour
     //This will take all of the resources the players have collected and put it into a team storage
     private void OnTriggerEnter(Collider other)
     {
+        //TODO: Once player created, add this function to take the resources from them 
         //Player player;
 
         /*
@@ -22,9 +23,13 @@ public class BaseResourceController : MonoBehaviour
          *      player.CollectResources()
          * }
          */
-
     }
 
+    /// <summary>
+    /// Adds resources to the controller stockpile
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <param name="amount"></param>
     private void AddResources(ResourceType resourceType, int amount)
     {
         //Adds resources to the stockpile
@@ -32,6 +37,12 @@ public class BaseResourceController : MonoBehaviour
         resourceAmounts[resourceType] += amount;
     }
 
+    /// <summary>
+    /// Runs a check and will return a boolean based on if the resources were successfully removed
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <param name="amount"></param>
+    /// <returns></returns>
     private bool RemoveResources(ResourceType resourceType, int amount)
     {
         //Runs a check to ensure there are enough resources, then removes the resources if theres enough
@@ -44,9 +55,14 @@ public class BaseResourceController : MonoBehaviour
         {
             return false;
         }
-
     }
 
+    /// <summary>
+    /// The check for if the controller has enough resources
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <param name="amount"></param>
+    /// <returns></returns>
     public bool CheckEnoughResources(ResourceType resourceType, int amount)
     {
         //Checks the dictionary to see if the team has enough resources required
@@ -59,4 +75,6 @@ public class BaseResourceController : MonoBehaviour
             return false;
         }
     }
+
+    //TODO: add some sort of ui that displays resources, and a function to update that
 }
