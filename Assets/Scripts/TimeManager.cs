@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TimeManager : MonoBehaviour
@@ -12,6 +13,20 @@ public class TimeManager : MonoBehaviour
     private float cycleDayDuration = 480f; // 8 minutes in seconds
     private float sunAngle = 0; // Used in calculating sun position
     private int currentDay = 0;
+
+    /// <summary>
+    /// This event fires when the night starts
+    /// </summary>
+    public event Action OnNightStart;
+    /// <summary>
+    /// This event fires when the night ends
+    /// </summary>
+    public event Action OnNightEnd;
+
+    /// <summary>
+    /// Internal bool for tracking if its night time
+    /// </summary>
+    private bool isNight = false;
 
     private void Start()
     {
@@ -46,11 +61,22 @@ public class TimeManager : MonoBehaviour
         {
             //Day period
             sunAngle = 180f / cycleDayDuration * cycleTime;
+            if(isNight)
+            {
+                isNight = false;
+                OnNightEnd?.Invoke();
+            }
         }
         else
         {
             //Night period
             sunAngle = 180f / (cycleDuration - cycleDayDuration) * cycleTime;
+
+            if (!isNight)
+            {
+                isNight = true;
+                OnNightStart?.Invoke();
+            }
         }
 
         if (sunAngle >= 360f)
