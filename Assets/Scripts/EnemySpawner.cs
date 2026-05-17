@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class EnemySpawner : MonoBehaviour
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
     /// </summary>
     private Coroutine spawnCoroutine;
+
+    /// <summary>
+    /// The base time between enemies spawning, might be modified later based on different conditions
+    /// </summary>
+    [SerializeField]
+    private float baseSpawnInterval = 5f; 
 
     private void Start()
     {
@@ -48,12 +55,28 @@ public class EnemySpawner : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
+        //TODO: change this to be based on the amount of enemies spawned, so that we can cap the amount. 
+        //This means that we will need to either have the enemies be children of this object and check child count,
+        //or we need to have some sort of subscription system that fires on enemy death 
 
-        yield return null;
+        while (true)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(baseSpawnInterval);
+        }
     }
 
     private void SpawnEnemy()
     {
+        //TODO: calculate the spawn position based on how the base is set up
+        //(dont want static distance from crystal as it may spawn enemies in base)
 
+        //TODO: select enemy type
+
+        //TODO: spawn enemy
+
+        //TODO: set heart crystal as target for enemy
+
+        //TODO: subscribe to enemy death event?
     }
 }
