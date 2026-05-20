@@ -33,7 +33,7 @@ public class BaseResourceController : MonoBehaviour
     private void AddResources(ResourceType resourceType, int amount)
     {
         //Adds resources to the stockpile
-        //NOTE: this should automatically new fields to the dictionary if they dont exist already
+        //NOTE: this should automatically add new fields to the dictionary if they dont exist already
         resourceAmounts[resourceType] += amount;
     }
 
