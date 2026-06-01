@@ -5,9 +5,14 @@ using UnityEngine.Rendering;
 
 public class EnemySpawner : MonoBehaviour
 {
-    //TODO: Some sort of dictionary for spawning enemies based on conditions like bosses killed, amount of days passed, total player count
+    //TODO: Some sort of way to change spawn patterns (timer between spawns, amount of enemies at once, enemies stats)
+    //based on conditions like bosses killed, amount of days passed, total player count
     
-    //NOTE: THIS IS A TESTING PREFAB, Needs to be updated later
+    //TODO: Dictionary of all enemies in the game that can be spawned at night
+
+    /// <summary>
+    /// The list of currently unlocked enemies that can be spawned.
+    /// </summary>
     [SerializeField]
     private List<GameObject> unlockedEnemies;
 
