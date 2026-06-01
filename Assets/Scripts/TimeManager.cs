@@ -57,7 +57,7 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateLighting()
     {
-        Debug.Log("Cycle time " + cycleTime + " Sun angle " + sunAngle);
+        
         //This will update the lighting and the skybox
         if (cycleTime < cycleDayDuration)
         {

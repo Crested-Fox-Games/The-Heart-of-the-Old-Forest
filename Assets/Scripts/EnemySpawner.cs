@@ -5,6 +5,10 @@ using UnityEngine.Rendering;
 public class EnemySpawner : MonoBehaviour
 {
     //TODO: Some sort of dictionary for spawning enemies based on conditions like bosses killed, amount of days passed, total player count
+    
+    //NOTE: THIS IS A TESTING PREFAB, Needs to be updated later
+    [SerializeField]
+    private GameObject enemyPrefab;
 
     [SerializeField]
     private TimeManager timeManager;
@@ -68,15 +72,28 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
+        Enemy currentEnemy;
         //TODO: calculate the spawn position based on how the base is set up
         //(dont want static distance from crystal as it may spawn enemies in base)
 
         //TODO: select enemy type
 
-        //TODO: spawn enemy
+        //Spawn enemy
+        currentEnemy = Instantiate(enemyPrefab, transform.position + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
-        //TODO: set heart crystal as target for enemy
+        //Set heart crystal as target for enemy
+        currentEnemy.SetHeartCrystal(HeartCrystal);
 
-        //TODO: subscribe to enemy death event?
+        //TODO: subscribe to enemy death event? (If limiting amount of enemies spawned at once)
+    }
+
+    /// <summary>
+    /// This is used to ensure that the enemy spawns at the correct height, as they spawn from center of prefab
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <returns></returns>
+    private Vector3 GetEnemyHeightHalved(GameObject enemy)
+    {
+        return new Vector3(0, enemy.GetComponent<Renderer>().bounds.size.y / 2f, 0);
     }
 }

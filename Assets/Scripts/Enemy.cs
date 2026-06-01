@@ -13,7 +13,9 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    private float currentHealth ;
+    private float currentHealth;
+
+    private GameObject heartCrystal;
 
     private void Start()
     {
@@ -43,5 +45,10 @@ public class Enemy : MonoBehaviour
         Debug.Log($"{damage} damage dealt");
 
         currentHealth -= damage;
+    }
+
+    public void SetHeartCrystal(GameObject heartCrystal)
+    {
+        this.heartCrystal = heartCrystal;
     }
 }
