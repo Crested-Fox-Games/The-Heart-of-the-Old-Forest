@@ -78,7 +78,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
+        //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
+
         //TODO: calculate the spawn position based on how the base is set up
         //(dont want static distance from crystal as it may spawn enemies in base)
 
