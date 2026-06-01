@@ -11,6 +11,7 @@ public class TimeManager : MonoBehaviour
     private float cycleTime = 0f;
     private float cycleDuration = 720f; // 12 minutes in seconds
     private float cycleDayDuration = 480f; // 8 minutes in seconds
+    private float cycleNightDuration = 240f; // 4 minutes in seconds
     private float sunAngle = 0; // Used in calculating sun position
     private int currentDay = 0;
 
@@ -56,8 +57,9 @@ public class TimeManager : MonoBehaviour
 
     private void UpdateLighting()
     {
+        Debug.Log("Cycle time " + cycleTime + " Sun angle " + sunAngle);
         //This will update the lighting and the skybox
-        if(cycleTime < cycleDayDuration)
+        if (cycleTime < cycleDayDuration)
         {
             //Day period
             sunAngle = 180f / cycleDayDuration * cycleTime;
@@ -70,7 +72,7 @@ public class TimeManager : MonoBehaviour
         else
         {
             //Night period
-            sunAngle = 180f / (cycleDuration - cycleDayDuration) * cycleTime;
+            sunAngle = 180f + (180f / cycleNightDuration * (cycleTime - cycleDayDuration));
 
             if (!isNight)
             {
@@ -80,8 +82,18 @@ public class TimeManager : MonoBehaviour
         }
 
         if (sunAngle >= 360f)
+        {
             sunAngle -= 360f;
+        }
+            
 
         sceneLight.transform.localRotation = Quaternion.Euler(sunAngle, lightRotation.y, lightRotation.z);
     }
+
+    #if UNITY_EDITOR
+        public void SkipToNight()
+        {
+            cycleTime = cycleDayDuration;
+        }
+    #endif
 }
