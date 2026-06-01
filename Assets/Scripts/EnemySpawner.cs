@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -8,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     
     //NOTE: THIS IS A TESTING PREFAB, Needs to be updated later
     [SerializeField]
-    private GameObject enemyPrefab;
+    private List<GameObject> unlockedEnemies;
 
     [SerializeField]
     private TimeManager timeManager;
@@ -76,10 +77,15 @@ public class EnemySpawner : MonoBehaviour
         //TODO: calculate the spawn position based on how the base is set up
         //(dont want static distance from crystal as it may spawn enemies in base)
 
-        //TODO: select enemy type
+        //Select enemy type
+        //TODO: Might need to add weights to the enemies so that we can adjust what types of enemies spawn more
+        int randomIndex = Random.Range(0, unlockedEnemies.Count);
+        GameObject enemyPrefab = unlockedEnemies[randomIndex];
 
         //Spawn enemy
         currentEnemy = Instantiate(enemyPrefab, transform.position + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+
+        //TODO: Might need to update its parent object to the spawner or some other object
 
         //Set heart crystal as target for enemy
         currentEnemy.SetHeartCrystal(HeartCrystal);
@@ -96,4 +102,6 @@ public class EnemySpawner : MonoBehaviour
     {
         return new Vector3(0, enemy.GetComponent<Renderer>().bounds.size.y / 2f, 0);
     }
+
+    //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
 }

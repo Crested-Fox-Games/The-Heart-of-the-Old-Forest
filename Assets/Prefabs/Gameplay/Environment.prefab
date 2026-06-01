@@ -157,7 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcec4c84e7a4e2498f2310512a7c940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 4319076105005162707, guid: 04fcf8afe41bdf44cb6ca06a1394242c, type: 3}
+  unlockedEnemies:
+  - {fileID: 4319076105005162707, guid: 04fcf8afe41bdf44cb6ca06a1394242c, type: 3}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
