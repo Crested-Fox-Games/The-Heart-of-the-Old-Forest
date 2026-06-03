@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class DevController : MonoBehaviour
 {
     [SerializeField] 
-    private InputActionAsset inputactions;
+    private InputActionAsset inputActions;
 
     private InputActionMap devMap;
 
@@ -15,7 +15,7 @@ public class DevController : MonoBehaviour
 
     private void Awake()
     {
-        devMap = inputactions.FindActionMap("Dev");
+        devMap = inputActions.FindActionMap("Dev");
 
         //Checks if the game is being played in editor
         //NOTE: Might want to add a check for dev build so we can also test in build
