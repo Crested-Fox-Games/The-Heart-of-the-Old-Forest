@@ -25,6 +25,11 @@ public class EnemyCluster
     /// The list of enemies in the cluster
     /// </summary>
     public List<GameObject> enemies = new();
+
+    /// <summary>
+    /// The direction that the cluster will spawn in
+    /// </summary>
+    public int direction = 0;
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -120,11 +125,9 @@ public class EnemySpawner : MonoBehaviour
         //Creates a cluser of random enemies
         EnemyCluster cluster = GetRandomCluster();
 
-        Debug.Log("Spawning cluster with " + cluster.enemies.Count + " enemies and a minimum spawn value of: " + cluster.minSpawnValue);
-
         foreach (GameObject enemy in cluster.enemies)
         {
-            SpawnEnemy(enemy, cluster.radius);
+            SpawnEnemy(enemy, cluster.radius, cluster.direction);
         }
     }
 
@@ -137,6 +140,9 @@ public class EnemySpawner : MonoBehaviour
         EnemyCluster newCluster = new EnemyCluster();
 
         float totalWeight = 0;
+
+        //spawn enemy cluster in NEWS directions
+        newCluster.direction = Random.Range(0, 4);
 
         //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
         newCluster.minSpawnValue = Random.Range(50, 100);
@@ -173,18 +179,18 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// Used for the spawning of the individual enemies
     /// </summary>
-    private void SpawnEnemy(GameObject enemyPrefab, float spawnRadius)
+    private void SpawnEnemy(GameObject enemyPrefab, float spawnRadius, int direction)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
 
         //Get enemy spawn position
-        Vector3 pos = GetSpawnPosition(spawnRadius);
+        Vector3 pos = GetSpawnPosition(spawnRadius, direction);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
-        Debug.Log("Spawned enemy: " + currentEnemy.name + " at position: " + pos);
+
 
         //Increment spawn count
         spawnCount++;
@@ -199,11 +205,8 @@ public class EnemySpawner : MonoBehaviour
         currentEnemy.onEnemyKilled += () => spawnCount--;
     }
 
-    private Vector3 GetSpawnPosition(float spawnRadius)
+    private Vector3 GetSpawnPosition(float spawnRadius, int direction)
     {
-        //spawn enemies in clusters in NEWS directions, at a certain distance away.
-        int direction = Random.Range(0, 4);
-
         //TODO: change this later
         float distance = 25f;
 
