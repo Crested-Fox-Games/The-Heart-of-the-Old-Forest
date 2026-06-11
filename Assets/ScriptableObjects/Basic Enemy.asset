@@ -17,5 +17,7 @@ MonoBehaviour:
   enemyHealth: 10
   enemySpeed: 5
   enemyDamage: 3
+  enemyAttackRate: 0
   enemyRange: 0
+  enemySpawnWeight: 10
   projectile: {fileID: 0}

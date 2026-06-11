@@ -9,7 +9,9 @@ public class Enemy : MonoBehaviour
     private EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate;
+    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+
+    public float EnemySpawnWeight => enemySpawnWeight;
 
     #endregion
 
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour
         enemySpeed = enemySO.EnemySpeed;
         enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
+        enemySpawnWeight = enemySO.EnemySpawnWeight;
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
@@ -50,5 +53,15 @@ public class Enemy : MonoBehaviour
     public void SetHeartCrystal(GameObject heartCrystal)
     {
         this.heartCrystal = heartCrystal;
+    }
+
+    private void Death()
+    {
+
+    }
+
+    public void GameDeath()
+    {
+
     }
 }

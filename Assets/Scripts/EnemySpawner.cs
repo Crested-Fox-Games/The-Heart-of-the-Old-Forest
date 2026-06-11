@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+
+/// <summary>
+/// This data class is responsible for what is needed in a cluster of enemies
+/// </summary>
+[System.Serializable]
+public class EnemyCluster
+{
+    public float minSpawnValue;
+
+    //TODO: figure out a way to determine the radius of the clusters spawns
+    public float radius = 5f;
+
+    public List<GameObject> enemies;
+}
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -36,6 +51,16 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private float baseSpawnInterval = 5f; 
 
+    /// <summary>
+    /// The current amount of enemies that have been spawned
+    /// </summary>
+    private int spawnCount = 0;
+
+    /// <summary>
+    /// The max amount of enemies that can be spawned at once
+    /// </summary>
+    private int maxSpawnCount = 100;
+
     private void Start()
     {
         //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
@@ -59,6 +84,8 @@ public class EnemySpawner : MonoBehaviour
         StopCoroutine(spawnCoroutine);
     }
 
+    //TODO: Change enemy spawning to spawn in clusters instead of individuals
+
     /// <summary>
     /// The coroutine that handles the timing of enemy spawns
     /// </summary>
@@ -71,33 +98,118 @@ public class EnemySpawner : MonoBehaviour
 
         while (true)
         {
-            SpawnEnemy();
+            if(spawnCount < maxSpawnCount)
+            {
+                SpawnCluster();
+            }
+            
             yield return new WaitForSeconds(baseSpawnInterval);
         }
     }
 
-    private void SpawnEnemy()
+    /// <summary>
+    /// Used for spawning a cluster of enemies
+    /// </summary>
+    private void SpawnCluster()
+    {
+        EnemyCluster cluster = GetRandomCluster();
+
+        foreach(GameObject enemy in cluster.enemies)
+        {
+            SpawnEnemy(enemy, cluster.radius);
+        }
+    }
+
+    /// <summary>
+    /// Gets a random cluster of enemies based on the spawn values
+    /// </summary>
+    private EnemyCluster GetRandomCluster()
+    {
+        EnemyCluster newCluster = new EnemyCluster();
+
+        float totalWeight = 0;
+
+        //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
+        newCluster.minSpawnValue = Random.Range(50, 100);
+
+        //Probably redundant but just to be safe
+        newCluster.enemies.Clear();
+
+        //Loop keeps adding enemies to the cluster until the total weight is above the minimum
+        while (totalWeight < newCluster.minSpawnValue)
+        {
+            //TODO: change this to be based on a spawn weight system
+            //(Also need to figure out how to differentiate name with the weight for how much they cost)
+            //(Unless we make them the same thing)
+            int randomIndex = Random.Range(0, unlockedEnemies.Count);
+
+            totalWeight += unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySpawnWeight;
+
+            newCluster.enemies.Add(unlockedEnemies[randomIndex]);
+        }
+
+        return newCluster;
+    }
+
+    /// <summary>
+    /// Used for the spawning of the individual enemies
+    /// </summary>
+    private void SpawnEnemy(GameObject enemyPrefab, float spawnRadius)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
 
-        //TODO: calculate the spawn position based on how the base is set up
-        //(dont want static distance from crystal as it may spawn enemies in base)
+        //Get enemy spawn position
+        Vector3 pos = GetSpawnPosition(spawnRadius);
 
-        //Select enemy type
-        //TODO: Might need to add weights to the enemies so that we can adjust what types of enemies spawn more
-        int randomIndex = Random.Range(0, unlockedEnemies.Count);
-        GameObject enemyPrefab = unlockedEnemies[randomIndex];
+        //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
+        currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
-        //Spawn enemy
-        currentEnemy = Instantiate(enemyPrefab, transform.position + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
-
-        //TODO: Might need to update its parent object to the spawner or some other object
+        //Update its parent object to the spawner
+        currentEnemy.transform.parent = this.transform;
 
         //Set heart crystal as target for enemy
         currentEnemy.SetHeartCrystal(HeartCrystal);
 
         //TODO: subscribe to enemy death event? (If limiting amount of enemies spawned at once)
+    }
+
+    private Vector3 GetSpawnPosition(float spawnRadius)
+    {
+        //spawn enemies in clusters in NEWS directions, at a certain distance away.
+        int direction = Random.Range(0, 4);
+
+        //TODO: change this later
+        float distance = 25f;
+
+        Vector3 cardinalPos;
+
+        //Get the position based on the cardinal directions
+        switch (direction)
+        {
+            case 0: //North
+                cardinalPos = new Vector3(0, 0, distance);
+                break;
+            case 1: //East
+                cardinalPos = new Vector3(distance, 0, 0);
+                break;
+            case 2: //South
+                cardinalPos = new Vector3(0, 0, -distance);
+                break;
+            case 3: //West
+                cardinalPos = new Vector3(-distance, 0, 0);
+                break;
+            default:
+                return Vector3.zero;
+        }
+
+        //This offsets the spawn pos to a random point in the spawn radius
+        //TODO: Will need to check to ensure this spawn point is not inside any other enemies or obstacles
+        Vector2 offset = Random.insideUnitCircle * spawnRadius;
+
+        //TODO: Need to use something like raycast to get ground height for spawn pos
+
+        return cardinalPos + new Vector3(offset.x, 0, offset.y);
     }
 
     /// <summary>
