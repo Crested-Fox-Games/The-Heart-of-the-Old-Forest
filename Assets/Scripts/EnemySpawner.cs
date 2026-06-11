@@ -10,11 +10,20 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class EnemyCluster
 {
+    /// <summary>
+    /// The minimum amount of points needed in a cluster
+    /// </summary>
     public float minSpawnValue;
 
     //TODO: figure out a way to determine the radius of the clusters spawns
+    /// <summary>
+    /// The radius that the enemies in the cluster spawn in
+    /// </summary>
     public float radius = 5f;
 
+    /// <summary>
+    /// The list of enemies in the cluster
+    /// </summary>
     public List<GameObject> enemies;
 }
 
