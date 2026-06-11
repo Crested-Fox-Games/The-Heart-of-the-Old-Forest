@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     private string enemyName, enemyDescription;
     private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
 
-    public float EnemySpawnWeight => enemySpawnWeight;
+    public EnemySO EnemySO => enemySO;
 
     #endregion
 
@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     public event Action onEnemyKilled;
 
-    private void Start()
+    private void Awake()
     {
         InitializeValues();
         currentHealth = enemyHealth;

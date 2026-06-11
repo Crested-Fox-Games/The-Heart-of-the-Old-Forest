@@ -24,7 +24,7 @@ public class EnemyCluster
     /// <summary>
     /// The list of enemies in the cluster
     /// </summary>
-    public List<GameObject> enemies;
+    public List<GameObject> enemies = new();
 }
 
 public class EnemySpawner : MonoBehaviour
@@ -120,7 +120,9 @@ public class EnemySpawner : MonoBehaviour
         //Creates a cluser of random enemies
         EnemyCluster cluster = GetRandomCluster();
 
-        foreach(GameObject enemy in cluster.enemies)
+        Debug.Log("Spawning cluster with " + cluster.enemies.Count + " enemies and a minimum spawn value of: " + cluster.minSpawnValue);
+
+        foreach (GameObject enemy in cluster.enemies)
         {
             SpawnEnemy(enemy, cluster.radius);
         }
@@ -150,7 +152,17 @@ public class EnemySpawner : MonoBehaviour
             //(Unless we make them the same thing)
             int randomIndex = Random.Range(0, unlockedEnemies.Count);
 
-            totalWeight += unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySpawnWeight;
+            //The weight of the current enemy
+            float enemyWeight = unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySO.EnemySpawnWeight;
+
+            if(enemyWeight <=0)
+            {
+                Debug.LogWarning("Enemy " + unlockedEnemies[randomIndex].name + " has a spawn weight of 0 or less, and will not be added to clusters.");
+
+                break;
+            }
+
+            totalWeight += enemyWeight;
 
             newCluster.enemies.Add(unlockedEnemies[randomIndex]);
         }
@@ -171,6 +183,8 @@ public class EnemySpawner : MonoBehaviour
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+
+        Debug.Log("Spawned enemy: " + currentEnemy.name + " at position: " + pos);
 
         //Increment spawn count
         spawnCount++;

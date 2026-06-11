@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50b8bd6d33505848a1e5d058f3cb71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DevController
-  inputactions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   timeManager: {fileID: 8987464460459311553}
 --- !u!1 &7346716959144363141
 GameObject:
@@ -251,4 +251,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f7d9f944dfe1f48977e91f5d488d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
-  sceneLight: {fileID: 0}
+  sceneLight: {fileID: 1298315677116841691}
