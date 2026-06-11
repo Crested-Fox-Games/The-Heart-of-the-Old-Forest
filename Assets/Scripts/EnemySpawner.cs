@@ -82,9 +82,9 @@ public class EnemySpawner : MonoBehaviour
     private void NightEnded()
     {
         StopCoroutine(spawnCoroutine);
-    }
 
-    //TODO: Change enemy spawning to spawn in clusters instead of individuals
+        //TODO: decide if all the enemies die once day hits, to encourage day exploration instead of wasting time killing leftover enemies
+    }
 
     /// <summary>
     /// The coroutine that handles the timing of enemy spawns
@@ -92,10 +92,6 @@ public class EnemySpawner : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
-        //TODO: change this to be based on the amount of enemies spawned, so that we can cap the amount. 
-        //This means that we will need to either have the enemies be children of this object and check child count,
-        //or we need to have some sort of subscription system that fires on enemy death 
-
         while (true)
         {
             if(spawnCount < maxSpawnCount)
@@ -112,6 +108,7 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private void SpawnCluster()
     {
+        //Creates a cluser of random enemies
         EnemyCluster cluster = GetRandomCluster();
 
         foreach(GameObject enemy in cluster.enemies)
@@ -125,6 +122,7 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private EnemyCluster GetRandomCluster()
     {
+        //Creates a new cluster data type to be populated
         EnemyCluster newCluster = new EnemyCluster();
 
         float totalWeight = 0;
@@ -165,13 +163,17 @@ public class EnemySpawner : MonoBehaviour
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
+        //Increment spawn count
+        spawnCount++;
+
         //Update its parent object to the spawner
         currentEnemy.transform.parent = this.transform;
 
         //Set heart crystal as target for enemy
         currentEnemy.SetHeartCrystal(HeartCrystal);
 
-        //TODO: subscribe to enemy death event? (If limiting amount of enemies spawned at once)
+        //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
+        currentEnemy.onEnemyKilled += () => spawnCount--;
     }
 
     private Vector3 GetSpawnPosition(float spawnRadius)
@@ -209,7 +211,8 @@ public class EnemySpawner : MonoBehaviour
 
         //TODO: Need to use something like raycast to get ground height for spawn pos
 
-        return cardinalPos + new Vector3(offset.x, 0, offset.y);
+        //Uses the cardinal position and offset to get the spawn position based on the heart crystal's position
+        return HeartCrystal.transform.position + cardinalPos + new Vector3(offset.x, 0, offset.y);
     }
 
     /// <summary>
@@ -223,4 +226,5 @@ public class EnemySpawner : MonoBehaviour
     }
 
     //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
+    //This might need to be a whole class that handles progression
 }
