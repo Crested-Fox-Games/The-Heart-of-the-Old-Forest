@@ -141,7 +141,7 @@ public class EnemySpawner : MonoBehaviour
 
         float totalWeight = 0;
 
-        //spawn enemy cluster in NEWS directions
+        //spawn enemy cluster in NESW directions
         newCluster.direction = Random.Range(0, 4);
 
         //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
