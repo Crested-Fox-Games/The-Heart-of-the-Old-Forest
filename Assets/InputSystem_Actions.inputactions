@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputSystem_Actions",
     "maps": [
         {
@@ -986,6 +987,34 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Dev",
+            "id": "07dec71e-0b7d-484a-bbfa-dfb40b1a4430",
+            "actions": [
+                {
+                    "name": "SkipToNight",
+                    "type": "Button",
+                    "id": "3cc44ae9-6363-4ad2-8be6-33124b757743",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e7e8441e-7d26-411a-9539-92f54179fdda",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SkipToNight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
