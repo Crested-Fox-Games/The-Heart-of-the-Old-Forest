@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovementScriptv3 : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float sensitivity = 2.8f;
     [SerializeField] private float rotationSmooth = 60f;
@@ -86,11 +86,12 @@ public class PlayerMovementScriptv3 : MonoBehaviour
 
     // --- INPUT ---
     /// <summary>
-    /// Handles the players movement inputs
+    /// Handles the players movement inputs, doesn't do any movement itself
     /// </summary>
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
+        //Gets the values from the player input
         Vector2 input = context.ReadValue<Vector2>();
         movementInputVector = new Vector3(input.x, 0f, input.y);
     }
