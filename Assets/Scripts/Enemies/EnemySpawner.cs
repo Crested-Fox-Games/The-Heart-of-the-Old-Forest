@@ -190,8 +190,6 @@ public class EnemySpawner : MonoBehaviour
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
-
-
         //Increment spawn count
         spawnCount++;
 
@@ -199,7 +197,7 @@ public class EnemySpawner : MonoBehaviour
         currentEnemy.transform.parent = this.transform;
 
         //Set heart crystal as target for enemy
-        currentEnemy.SetHeartCrystal(HeartCrystal);
+        currentEnemy.InitializeValues(HeartCrystal);
 
         //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
         currentEnemy.onEnemyKilled += () => spawnCount--;

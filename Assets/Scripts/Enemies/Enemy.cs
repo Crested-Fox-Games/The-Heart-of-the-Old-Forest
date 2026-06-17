@@ -16,22 +16,30 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    //References
+    private EnemyBrain enemyBrain;
+    private EnemyMovement enemyMovement;
+
     private float currentHealth;
 
     private GameObject heartCrystal;
+
+    public GameObject HeartCrystal => heartCrystal;
 
     public event Action onEnemyKilled;
 
     private void Awake()
     {
-        InitializeValues();
+        enemyBrain = GetComponent<EnemyBrain>();
+        enemyMovement = GetComponent<EnemyMovement>();
+
         currentHealth = enemyHealth;
     }
 
     /// <summary>
     /// Sets the initial values of the enemy based on the SO
     /// </summary>
-    private void InitializeValues()
+    public void InitializeValues(GameObject HeartCrystal)
     {
         //Strings
         enemyName = enemySO.EnemyName;
@@ -43,6 +51,12 @@ public class Enemy : MonoBehaviour
         enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
+
+        SetHeartCrystal(HeartCrystal);
+
+        //Starts the initialization for the enemy scripts
+        enemyMovement.Initialize();
+        enemyBrain.Initialize(HeartCrystal);
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
@@ -58,7 +72,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetHeartCrystal(GameObject heartCrystal)
+    private void SetHeartCrystal(GameObject heartCrystal)
     {
         this.heartCrystal = heartCrystal;
     }
