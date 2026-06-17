@@ -12,7 +12,7 @@ public class EnemyMovement : MonoBehaviour
     private NavMeshAgent agent;
 
     /// <summary>
-    /// Sets the initial values
+    /// Sets the initial values for the script
     /// </summary>
     public void Initialize()
     {

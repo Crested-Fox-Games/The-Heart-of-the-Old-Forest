@@ -9,6 +9,8 @@ public class EnemyBrain : MonoBehaviour
 
     //TODO: Will need a navigation script for handling the pathfinding.
 
+    //TODO: Will need a way for the brain to run for night time enemies vs world enemies
+
     //References
     private Enemy enemy;
     private EnemyMovement enemyMovement;
@@ -26,7 +28,7 @@ public class EnemyBrain : MonoBehaviour
     }
 
     /// <summary>
-    /// Allows the enemy class to pass through the heart crystal
+    /// Initializes values through references and setting the target to the heart crystal
     /// </summary>
     /// <param name="heartCrystal"></param>
     public void Initialize(GameObject heartCrystal)
