@@ -6,7 +6,7 @@ public class EnemySO : ScriptableObject
     [SerializeField]
     private string enemyName, enemyDescription;
     [SerializeField]
-    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemyRange;
+    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemyRange, enemySpawnWeight;
     [SerializeField]
     private GameObject projectile;
 
@@ -49,4 +49,9 @@ public class EnemySO : ScriptableObject
     /// The projectile an enemy will fire when it attacks (Only ranged and maybe magic?)
     /// </summary>
     public GameObject Projectile => projectile;
+
+    /// <summary>
+    /// The weight used for determining how much the enemy spawn costs
+    /// </summary>
+    public float EnemySpawnWeight => enemySpawnWeight;
 }
