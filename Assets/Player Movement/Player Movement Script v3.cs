@@ -50,6 +50,9 @@ public class PlayerMovementScriptv3 : MonoBehaviour
         Initialize();
     }
     
+    /// <summary>
+    /// Sets the initial values for the components
+    /// </summary>
     private void Initialize()
     {
         //Fetch Components 
@@ -82,12 +85,20 @@ public class PlayerMovementScriptv3 : MonoBehaviour
     }
 
     // --- INPUT ---
+    /// <summary>
+    /// Handles the players movement inputs
+    /// </summary>
+    /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 input = context.ReadValue<Vector2>();
         movementInputVector = new Vector3(input.x, 0f, input.y);
     }
 
+    /// <summary>
+    /// Handles the rotation of the player when the camera moves
+    /// </summary>
+    /// <param name="context"></param>
     public void OnCameraMovement(InputAction.CallbackContext context)
     {
         Vector2 delta = context.ReadValue<Vector2>();
@@ -99,6 +110,10 @@ public class PlayerMovementScriptv3 : MonoBehaviour
         targetPivotRotation = Mathf.Clamp(targetPivotRotation, minPivotRotation, maxPivotRotation);
     }
 
+    /// <summary>
+    /// Handles the player sliding
+    /// </summary>
+    /// <param name="context"></param>
     public void OnSlide(InputAction.CallbackContext context)
     {
         print("OnSlide");
@@ -116,6 +131,9 @@ public class PlayerMovementScriptv3 : MonoBehaviour
     }
 
     // --- CAMERA ---
+    /// <summary>
+    /// Handles the camera movement
+    /// </summary>
     private void UpdateCamera()
     {
         float t = 1f - Mathf.Exp(-rotationSmooth * Time.deltaTime);
@@ -135,20 +153,25 @@ public class PlayerMovementScriptv3 : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Gets the players velocity
+    /// </summary>
+    /// <returns></returns>
     private Vector3 InputVelocity()
     {
         if (movementInputVector.magnitude != 0)
         {
-            return transform.TransformDirection(movementInputVector*defaultVelocity);
+            return transform.TransformDirection(movementInputVector * defaultVelocity);
         }
 
         return Vector3.zero;
     }
     
-
+    /// <summary>
+    /// Handles the actual movement of the player
+    /// </summary>
     private void MovePlayer()
     {
-        
         rb.MovePosition(playerVelocity + rb.position);
         if (playerVelocity.magnitude > 0.1 && !isMoving)
         {
@@ -158,10 +181,11 @@ public class PlayerMovementScriptv3 : MonoBehaviour
         {
             isMoving = false;
         }
-
-
     }
 
+    /// <summary>
+    /// Handles updating the animator of the player
+    /// </summary>
     private void SetAnimationParameters()
     {
         animator.SetBool("IsMoving", isMoving);
@@ -171,6 +195,9 @@ public class PlayerMovementScriptv3 : MonoBehaviour
     
     // --- COLLISIONS ---
     
+    /// <summary>
+    /// Creates the colliders for collisions
+    /// </summary>
     private void SetCapsuleVars()
     {
         capsule = GetComponent<CapsuleCollider>();
@@ -180,8 +207,12 @@ public class PlayerMovementScriptv3 : MonoBehaviour
         capsuleP2 = -new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
     }
 
+    /// <summary>
+    /// Checks to see if any collisions have occured
+    /// </summary>
     private void CheckCollisions()
     {
+        //TODO: Make this work
         Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, playerVelocity, playerVelocity.magnitude);
     }
 }
