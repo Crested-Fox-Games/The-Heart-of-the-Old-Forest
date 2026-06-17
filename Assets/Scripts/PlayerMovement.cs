@@ -10,25 +10,49 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float defaultVelocity = 0.5f;
 
     // --- CAMERA ---
+    /// <summary>
+    /// The rotation set by input, used to lerp for smooth movement
+    /// </summary>
     private float targetPlayerRotation;
+    /// <summary>
+    /// The rotation of the pivot point set by input, used to lerp for smooth movement
+    /// </summary>
     private float targetPivotRotation;
+    /// <summary>
+    /// The current rotation of the player, used to lerp for smooth movement
+    /// </summary>
     private float currentPlayerRotation;
+    /// <summary>
+    /// The current rotation of the pivot point, used to lerp for smooth movement
+    /// </summary>
     private float currentPivotRotation;
     private Transform cameraPivot;
 
-    // --- Components ---
+    // --- COMPONENTS ---
     
     private Rigidbody rb;
     private Animator animator;
     private CapsuleCollider capsule;
-    
+
+    // --- PLAYER INPUTS ---
+    /// <summary>
+    /// The action map for all of the player inputs
+    /// </summary>
+    private InputActionMap playerMap;
+
+    private InputAction moveAction;
+    private InputAction lookAction;
+    private InputAction slideAction;
     
     // --- MOVEMENT ---
+    /// <summary>
+    /// Holds the Vector3 of the players movement inputs
+    /// </summary>
     private Vector3 movementInputVector;
     private bool isMoving;
     private bool isSliding;
     private Vector3 playerVelocity;
-    private  Vector3 residualVelocity;
+    private Vector3 residualVelocity;
     
     //Slide
     private Vector3 addedSlideVelocity;
@@ -48,6 +72,46 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Initialize();
+
+        //Gets the players action map
+        playerMap = InputSystem.actions.FindActionMap("Player");
+
+        //Finds the different player inputs
+        moveAction = playerMap.FindAction("Move");
+        lookAction = playerMap.FindAction("Look");
+        slideAction = playerMap.FindAction("Slide");
+
+        //Subsribes functions to the player inputs
+        SubscribeToInputs();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromInputs();
+    }
+
+    private void SubscribeToInputs()
+    {
+        moveAction.performed += OnMove;
+        moveAction.canceled += OnMove;
+
+        lookAction.performed += OnCameraMovement;
+        lookAction.canceled += OnCameraMovement;
+
+        slideAction.started += OnSlide;
+        slideAction.canceled += OnSlide;
+    }
+
+    private void UnsubscribeFromInputs()
+    {
+        moveAction.performed -= OnMove;
+        moveAction.canceled -= OnMove;
+
+        lookAction.performed -= OnCameraMovement;
+        lookAction.canceled -= OnCameraMovement;
+        
+        slideAction.started -= OnSlide;
+        slideAction.canceled -= OnSlide;
     }
     
     /// <summary>
@@ -93,6 +157,8 @@ public class PlayerMovement : MonoBehaviour
     {
         //Gets the values from the player input
         Vector2 input = context.ReadValue<Vector2>();
+
+        //Sets the inputs to Vector3 for the movement function
         movementInputVector = new Vector3(input.x, 0f, input.y);
     }
 
@@ -102,12 +168,23 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context"></param>
     public void OnCameraMovement(InputAction.CallbackContext context)
     {
+        //Gets the delta between the last 2 updates
         Vector2 delta = context.ReadValue<Vector2>();
-        if (delta.magnitude < 0.5f) delta = Vector2.zero;
+
+        //Ensures that if the magnitude is small it will not be jittery
+        if (delta.magnitude < 0.5f)
+        {
+            delta = Vector2.zero;
+        }
+
+        //Delta multiplied by sensitivity and (a random number?)
         delta *= sensitivity * 0.0066f;
 
+        //Updates the player rotation and pivot rotation based on delta values
         targetPlayerRotation += delta.x;
         targetPivotRotation -= delta.y;
+
+        //Clamps the pivot rotation to stop the camera clipping
         targetPivotRotation = Mathf.Clamp(targetPivotRotation, minPivotRotation, maxPivotRotation);
     }
 
@@ -173,7 +250,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void MovePlayer()
     {
+        //Uses the rigidbody to move the players position based on the player velocity
         rb.MovePosition(playerVelocity + rb.position);
+
+        //Updates the boolean for the animator
         if (playerVelocity.magnitude > 0.1 && !isMoving)
         {
             isMoving = true;
