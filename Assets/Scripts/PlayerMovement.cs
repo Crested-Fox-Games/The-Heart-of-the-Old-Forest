@@ -85,19 +85,19 @@ public class PlayerMovement : NetworkBehaviour
         slideAction = playerMap.FindAction("Slide");
 
         //Subsribes functions to the player inputs
-        SubscribeToInputs();
+        //SubscribeToInputs();
     }
 
     public override void OnStartClient()
     {
         //Checks to make sure that this object is owned by the client
-        Debug.Log($"{gameObject.name} is owned by this {IsOwner}");
         if(IsOwner)
         {
-            Debug.Log($"We trying to instantiate");
+            //Subsribes functions to the player inputs
+            SubscribeToInputs();
+
             //Create the camera at the pivot point
             Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
-            Debug.Log($"Camera {cam}");
         }
     }
 
