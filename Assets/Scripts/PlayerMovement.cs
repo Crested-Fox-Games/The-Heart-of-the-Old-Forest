@@ -1,9 +1,13 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : NetworkBehaviour
 {
+    #region Variables
+
     [SerializeField] private float sensitivity = 2.8f;
     [SerializeField] private float rotationSmooth = 60f;
     [SerializeField] private float minPivotRotation = -30f;
@@ -70,8 +74,70 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 capsuleP2;
     private Vector3 capsuleCenterWorldPosition;
     
-    
-    
+    // --- SYNC VARS ---
+    public readonly SyncVar<bool> IsMoving = new SyncVar<bool>();
+    public readonly SyncVar<bool > IsSliding = new SyncVar<bool>();
+
+    #endregion
+
+
+    #region Server Events
+
+    /// <summary>
+    /// Is run when a client connects to the game
+    /// </summary>
+    public override void OnStartClient()
+    {
+        //Checks to make sure that this object is owned by the client
+        if (IsOwner)
+        {
+            //Subsribes functions to the player inputs
+            SubscribeToInputs();
+
+            //Create the camera at the pivot point
+            Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
+        }
+
+        IsMoving.OnChange += OnMovingChanged;
+        IsSliding.OnChange += OnSlidingChanged;
+    }
+
+    /// <summary>
+    /// This sends data to the server for the animators
+    /// </summary>
+    /// <param name="moving"></param>
+    /// <param name="sliding"></param>
+    [ServerRpc]
+    private void SetMovementStateServerRPC(bool moving, bool sliding)
+    {
+        IsMoving.Value = moving;
+        IsSliding.Value = sliding;
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the movement bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnMovingChanged(bool prev, bool next, bool asServer)
+    {
+        animator.SetBool("IsMoving", next);
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the sliding bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnSlidingChanged(bool prev, bool next, bool asServer)
+    {
+        animator.SetBool("IsSliding", next);
+    }
+
+    #endregion
+   
     void Awake()
     {
         Initialize();
@@ -86,19 +152,6 @@ public class PlayerMovement : NetworkBehaviour
 
         //Subsribes functions to the player inputs
         //SubscribeToInputs();
-    }
-
-    public override void OnStartClient()
-    {
-        //Checks to make sure that this object is owned by the client
-        if(IsOwner)
-        {
-            //Subsribes functions to the player inputs
-            SubscribeToInputs();
-
-            //Create the camera at the pivot point
-            Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
-        }
     }
 
     private void OnDestroy()
@@ -163,14 +216,15 @@ public class PlayerMovement : NetworkBehaviour
         
     }
     
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         //Checks to ensure that we arent moving other players models
         if (!IsOwner)
             return;
 
         FindPlayerVelocity();
-        SetAnimationParameters();
+        //SetAnimationParameters();
+        SetMovementStateServerRPC(isMoving, isSliding);
         UpdateCamera();
         MovePlayer();
     }
