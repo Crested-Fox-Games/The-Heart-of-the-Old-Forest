@@ -136,6 +136,14 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5157244053637599692, guid: 94a85b52799726a4ca6ed9b59fdfda77, type: 3}
+      propertyPath: SceneId
+      value: 3988774359
+      objectReference: {fileID: 0}
+    - target: {fileID: 5157244053637599692, guid: 94a85b52799726a4ca6ed9b59fdfda77, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7604874821253831385, guid: 94a85b52799726a4ca6ed9b59fdfda77, type: 3}
       propertyPath: m_Name
       value: Player
