@@ -129,8 +129,8 @@ public class PlayerMovement : MonoBehaviour
         SetCapsuleVars();
         
         //Cursor Settings
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         
         //Turn off Physics
         rb.linearDamping = 0;
