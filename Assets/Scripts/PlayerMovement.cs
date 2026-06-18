@@ -1,7 +1,8 @@
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float sensitivity = 2.8f;
     [SerializeField] private float rotationSmooth = 60f;
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private float currentPivotRotation;
     private Transform cameraPivot;
+    [SerializeField]
+    private Camera cameraPrefab;
+
 
     // --- COMPONENTS ---
     
@@ -68,8 +72,7 @@ public class PlayerMovement : MonoBehaviour
     
     
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         Initialize();
 
@@ -85,6 +88,19 @@ public class PlayerMovement : MonoBehaviour
         SubscribeToInputs();
     }
 
+    public override void OnStartClient()
+    {
+        //Checks to make sure that this object is owned by the client
+        Debug.Log($"{gameObject.name} is owned by this {IsOwner}");
+        if(IsOwner)
+        {
+            Debug.Log($"We trying to instantiate");
+            //Create the camera at the pivot point
+            Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
+            Debug.Log($"Camera {cam}");
+        }
+    }
+
     private void OnDestroy()
     {
         UnsubscribeFromInputs();
@@ -92,6 +108,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void SubscribeToInputs()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         moveAction.performed += OnMove;
         moveAction.canceled += OnMove;
 
@@ -104,6 +124,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void UnsubscribeFromInputs()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         moveAction.performed -= OnMove;
         moveAction.canceled -= OnMove;
 
@@ -137,11 +161,14 @@ public class PlayerMovement : MonoBehaviour
         rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         
-        
     }
     
     private void LateUpdate()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         FindPlayerVelocity();
         SetAnimationParameters();
         UpdateCamera();
@@ -168,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context"></param>
     public void OnCameraMovement(InputAction.CallbackContext context)
     {
+
         //Gets the delta between the last 2 updates
         Vector2 delta = context.ReadValue<Vector2>();
 
