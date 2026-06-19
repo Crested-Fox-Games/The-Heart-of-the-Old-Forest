@@ -13,14 +13,6 @@ public class EnemyMovement : NetworkBehaviour
     private NavMeshAgent agent;
 
     /// <summary>
-    /// Runs on the server side
-    /// </summary>
-    public override void OnStartServer()
-    {
-        Initialize();
-    }
-
-    /// <summary>
     /// Runs on the client side
     /// </summary>
     public override void OnStartClient()
@@ -28,6 +20,7 @@ public class EnemyMovement : NetworkBehaviour
         if(!IsServerStarted)
         {
             agent.enabled = false;
+            return;
         }
     }
 
@@ -45,9 +38,6 @@ public class EnemyMovement : NetworkBehaviour
     /// <param name="targetPos"></param>
     public void MovementTarget(Vector3 targetPos)
     {
-        if(!IsServerStarted)
-            return;
-
         agent.SetDestination(targetPos);
     }
 }

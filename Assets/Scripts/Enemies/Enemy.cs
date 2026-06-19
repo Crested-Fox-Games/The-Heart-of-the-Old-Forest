@@ -58,6 +58,7 @@ public class Enemy : NetworkBehaviour
         enemySpawnWeight = enemySO.EnemySpawnWeight;
 
         //Starts the initialization for the enemy scripts
+        enemyMovement.Initialize();
         enemyBrain.Initialize(HeartCrystal);
     }
 

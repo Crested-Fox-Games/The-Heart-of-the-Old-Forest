@@ -46,6 +46,9 @@ public class EnemyBrain : NetworkBehaviour
     {
         currentTarget = target;
 
+        if (!IsServerStarted)
+            return;
+
         //TODO: Will probably need to move this later
         enemyMovement.MovementTarget(currentTarget.transform.position);
     }
