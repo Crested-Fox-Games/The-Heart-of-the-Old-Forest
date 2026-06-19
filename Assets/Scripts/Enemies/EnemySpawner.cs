@@ -1,8 +1,7 @@
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// This data class is responsible for what is needed in a cluster of enemies
@@ -32,7 +31,7 @@ public class EnemyCluster
     public int direction = 0;
 }
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : NetworkBehaviour
 {
     //TODO: Some sort of way to change spawn patterns (timer between spawns, amount of enemies at once, enemies stats)
     //based on conditions like bosses killed, amount of days passed, total player count
@@ -49,12 +48,6 @@ public class EnemySpawner : MonoBehaviour
     private TimeManager timeManager;
 
     /// <summary>
-    /// The gameobject for the heart crystal, so that this can be passed to enemies that spawn
-    /// </summary>
-    [SerializeField]
-    private GameObject HeartCrystal;
-
-    /// <summary>
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
     /// </summary>
     private Coroutine spawnCoroutine;
@@ -63,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
     /// The base time between enemies spawning, might be modified later based on different conditions
     /// </summary>
     [SerializeField]
-    private float baseSpawnInterval = 5f; 
+    private float baseSpawnInterval = 5f;
 
     /// <summary>
     /// The current amount of enemies that have been spawned
@@ -75,11 +68,24 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private int maxSpawnCount = 100;
 
-    private void Start()
+    /// <summary>
+    /// This is called when the server starts running
+    /// </summary>
+    public override void OnStartServer()
     {
-        //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
-        timeManager.OnNightStart += NightStarted;
-        timeManager.OnNightEnd += NightEnded;
+            //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
+            timeManager.OnNightStart += NightStarted;
+            timeManager.OnNightEnd += NightEnded;
+    }
+
+    /// <summary>
+    /// This is called when the server stops running
+    /// </summary>
+    public override void OnStopServer()
+    {
+            //This unsubscribes the functions to the time manager so that they dont fire anymore
+            timeManager.OnNightStart -= NightStarted;
+            timeManager.OnNightEnd -= NightEnded;
     }
 
     /// <summary>
@@ -95,7 +101,11 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private void NightEnded()
     {
-        StopCoroutine(spawnCoroutine);
+        if(spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
 
         //TODO: decide if all the enemies die once day hits, to encourage day exploration instead of wasting time killing leftover enemies
     }
@@ -161,7 +171,7 @@ public class EnemySpawner : MonoBehaviour
             //The weight of the current enemy
             float enemyWeight = unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySO.EnemySpawnWeight;
 
-            if(enemyWeight <=0)
+            if(enemyWeight <= 0)
             {
                 Debug.LogWarning("Enemy " + unlockedEnemies[randomIndex].name + " has a spawn weight of 0 or less, and will not be added to clusters.");
 
@@ -193,11 +203,8 @@ public class EnemySpawner : MonoBehaviour
         //Increment spawn count
         spawnCount++;
 
-        //Update its parent object to the spawner
-        currentEnemy.transform.parent = this.transform;
-
-        //Set heart crystal as target for enemy
-        currentEnemy.InitializeValues(HeartCrystal);
+        //Spawns the enemy on the client side
+        ServerManager.Spawn(currentEnemy.gameObject);
 
         //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
         currentEnemy.onEnemyKilled += () => spawnCount--;
@@ -246,7 +253,7 @@ public class EnemySpawner : MonoBehaviour
     /// <returns></returns>
     private Vector3 GetEnemyHeightHalved(GameObject enemy)
     {
-        return new Vector3(0, enemy.GetComponent<Renderer>().bounds.size.y / 2f, 0);
+        return new Vector3(0, enemy.GetComponentInChildren<Renderer>().bounds.size.y / 2f, 0);
     }
 
     //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example

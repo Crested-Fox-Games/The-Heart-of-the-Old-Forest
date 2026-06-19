@@ -1,8 +1,9 @@
+using FishNet.Object;
 using System;
 using UnityEngine;
 
 //TODO: make this class an abstract parent when implementing enemy types
-public class Enemy : MonoBehaviour
+public class Enemy : NetworkBehaviour
 {
     #region SO Fields
     [SerializeField]
@@ -32,13 +33,17 @@ public class Enemy : MonoBehaviour
         enemyBrain = GetComponent<EnemyBrain>();
         enemyMovement = GetComponent<EnemyMovement>();
 
+        InitializeValues();
+
         currentHealth = enemyHealth;
+
+        heartCrystal = FindFirstObjectByType<HeartCrystal>().gameObject;
     }
 
     /// <summary>
     /// Sets the initial values of the enemy based on the SO
     /// </summary>
-    public void InitializeValues(GameObject HeartCrystal)
+    public void InitializeValues()
     {
         //Strings
         enemyName = enemySO.EnemyName;
@@ -50,8 +55,6 @@ public class Enemy : MonoBehaviour
         enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
-
-        SetHeartCrystal(HeartCrystal);
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
@@ -69,11 +72,6 @@ public class Enemy : MonoBehaviour
         {
             Death();
         }
-    }
-
-    private void SetHeartCrystal(GameObject heartCrystal)
-    {
-        this.heartCrystal = heartCrystal;
     }
 
     private void Death()
