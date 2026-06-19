@@ -48,6 +48,12 @@ public class EnemySpawner : NetworkBehaviour
     private TimeManager timeManager;
 
     /// <summary>
+    /// The gameobject for the heart crystal, so that this can be passed to enemies that spawn
+    /// </summary>
+    [SerializeField]
+    private GameObject HeartCrystal;
+
+    /// <summary>
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
     /// </summary>
     private Coroutine spawnCoroutine;
