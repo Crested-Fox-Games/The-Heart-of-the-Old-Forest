@@ -1,7 +1,8 @@
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : NetworkBehaviour
 {
     //The enemy movement will be done in multiple stages
     //1. The Brain will handle the decision making
@@ -10,6 +11,25 @@ public class EnemyMovement : MonoBehaviour
 
     //References
     private NavMeshAgent agent;
+
+    /// <summary>
+    /// Runs on the server side
+    /// </summary>
+    public override void OnStartServer()
+    {
+        Initialize();
+    }
+
+    /// <summary>
+    /// Runs on the client side
+    /// </summary>
+    public override void OnStartClient()
+    {
+        if(!IsServerStarted)
+        {
+            agent.enabled = false;
+        }
+    }
 
     /// <summary>
     /// Sets the initial values for the script
@@ -25,6 +45,9 @@ public class EnemyMovement : MonoBehaviour
     /// <param name="targetPos"></param>
     public void MovementTarget(Vector3 targetPos)
     {
+        if(!IsServerStarted)
+            return;
+
         agent.SetDestination(targetPos);
     }
 }

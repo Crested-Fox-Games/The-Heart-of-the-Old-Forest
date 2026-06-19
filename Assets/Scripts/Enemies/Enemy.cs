@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class Enemy : NetworkBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
 
-    private float currentHealth;
+    public readonly SyncVar<float> currentHealth = new();
 
     private GameObject heartCrystal;
 
@@ -28,16 +29,16 @@ public class Enemy : NetworkBehaviour
 
     public event Action onEnemyKilled;
 
-    private void Awake()
+    public override void OnStartServer()
     {
+        heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
+
         enemyBrain = GetComponent<EnemyBrain>();
         enemyMovement = GetComponent<EnemyMovement>();
 
         InitializeValues();
 
-        currentHealth = enemyHealth;
-
-        heartCrystal = FindFirstObjectByType<HeartCrystal>().gameObject;
+        currentHealth.Value = enemyHealth;
     }
 
     /// <summary>
@@ -57,18 +58,20 @@ public class Enemy : NetworkBehaviour
         enemySpawnWeight = enemySO.EnemySpawnWeight;
 
         //Starts the initialization for the enemy scripts
-        enemyMovement.Initialize();
         enemyBrain.Initialize(HeartCrystal);
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
     public void TakeDamage(float damage)
     {
+        if (!IsServerStarted)
+            return;
+
         Debug.Log($"{damage} damage dealt");
 
-        currentHealth -= damage;
+        currentHealth.Value -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth.Value <= 0)
         {
             Death();
         }
