@@ -149,7 +149,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 6285314516071495299}
-  InitializedParentNetworkBehaviour: {fileID: 8535247991466032598}
+  InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
@@ -552,10 +552,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4087036553716210926}
     m_Modifications:
-    - target: {fileID: 1347123215649116283, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+    - target: {fileID: 4938967864148522903, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
+      propertyPath: _addedNetworkObject
       value: 
-      objectReference: {fileID: 2100000, guid: 0f756ee0637221a4b910896ac9fc3e46, type: 2}
+      objectReference: {fileID: 2303001875477162613}
+    - target: {fileID: 5688456065919917795, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7335877145718042285, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

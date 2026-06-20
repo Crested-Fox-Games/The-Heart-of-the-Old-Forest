@@ -194,9 +194,9 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4265476058
       objectReference: {fileID: 0}
-    - target: {fileID: 4513605450204079535, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: InitializedParentNetworkBehaviour
-      value: 
+    - target: {fileID: 6230412495579946276, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 3942473692
       objectReference: {fileID: 0}
     - target: {fileID: 8172561241524579009, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Name
