@@ -24,6 +24,11 @@ public class EnemyMovement : NetworkBehaviour
         }
     }
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
     /// <summary>
     /// Sets the initial values for the script
     /// </summary>
