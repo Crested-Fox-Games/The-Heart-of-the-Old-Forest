@@ -96,8 +96,8 @@ public class TimeManager : NetworkBehaviour
         sceneLight.transform.localRotation = Quaternion.Euler(sunAngle, lightRotation.y, lightRotation.z);
     }
 
-    #if UNITY_EDITOR
-        public void SkipToNight()
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+    public void SkipToNight()
         {
             cycleTime.Value = cycleDayDuration;
         }

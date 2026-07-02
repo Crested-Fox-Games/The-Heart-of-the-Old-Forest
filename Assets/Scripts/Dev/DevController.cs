@@ -19,8 +19,8 @@ public class DevController : MonoBehaviour
 
         //Checks if the game is being played in editor
         //NOTE: Might want to add a check for dev build so we can also test in build
-        #if UNITY_EDITOR
-            devMap.Enable();
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+        devMap.Enable();
 
             skipToNight = devMap.FindAction("SkipToNight");
             skipToNight.performed += ctx => SkipToNight();
@@ -30,8 +30,8 @@ public class DevController : MonoBehaviour
     /// <summary>
     /// This #if will only run if the game is being played in the editor
     /// </summary>
-    #if UNITY_EDITOR
-        [SerializeField]
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [SerializeField]
         TimeManager timeManager;
 
         private void SkipToNight()
