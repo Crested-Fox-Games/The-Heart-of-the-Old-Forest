@@ -21,6 +21,10 @@ public class Enemy : NetworkBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
 
+    /// <summary>
+    /// The current health of the enemy, the syncvar allows this variable to be updated across
+    /// the network whenever it is changed so that all of the clients have the same value
+    /// </summary>
     public readonly SyncVar<float> currentHealth = new();
 
     private GameObject heartCrystal;
