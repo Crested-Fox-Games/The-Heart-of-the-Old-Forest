@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public enum ToolTier
 }
 
 //TODO: Add a node controller that handles node chunks and respawns them in a random spot in that area
-public class ResourceNode : MonoBehaviour
+public class ResourceNode : NetworkBehaviour
 {
     #region SO Fields
     [SerializeField]
@@ -110,5 +111,8 @@ public class ResourceNode : MonoBehaviour
 
         return 0;
     }
+
+    //TODO: Popup text that says what keybind to press to hit node (Maybe this needs to be a seperate class for this
+    //so that we can use it for other interactables
 
 }
