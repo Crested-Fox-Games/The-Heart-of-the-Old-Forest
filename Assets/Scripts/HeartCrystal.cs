@@ -1,16 +1,18 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class HeartCrystal : MonoBehaviour
+public class HeartCrystal : NetworkBehaviour
 {
-    //Needs to be able to take damage
-
     //The current and starting health
-    private float startingHealth = 100f, currentHealth;
+    private float startingHealth = 100f;
 
-    private void Start()
+    public readonly SyncVar<float> currentHealth = new();
+
+    public override void OnStartServer()
     {
         //Initializes the health
-        currentHealth = startingHealth;
+        currentHealth.Value = startingHealth;
     }
 
     /// <summary>
@@ -19,7 +21,15 @@ public class HeartCrystal : MonoBehaviour
     /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        if (!IsServerStarted)
+            return;
+
+        currentHealth.Value -= damage;
+
+        if(currentHealth.Value < 0)
+        {
+            //Run some sort of game over function
+        }
     }
 
     //TODO: update some sort of in scene ui that displays a health bar

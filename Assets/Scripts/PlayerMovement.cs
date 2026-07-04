@@ -1,8 +1,13 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
+    #region Variables
+
     [SerializeField] private float sensitivity = 2.8f;
     [SerializeField] private float rotationSmooth = 60f;
     [SerializeField] private float minPivotRotation = -30f;
@@ -27,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private float currentPivotRotation;
     private Transform cameraPivot;
+    [SerializeField]
+    private Camera cameraPrefab;
+
 
     // --- COMPONENTS ---
     
@@ -66,10 +74,71 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 capsuleP2;
     private Vector3 capsuleCenterWorldPosition;
     
-    
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // --- SYNC VARS ---
+    public readonly SyncVar<bool> IsMoving = new SyncVar<bool>();
+    public readonly SyncVar<bool > IsSliding = new SyncVar<bool>();
+
+    #endregion
+
+
+    #region Server Events
+
+    /// <summary>
+    /// Is run when a client connects to the game
+    /// </summary>
+    public override void OnStartClient()
+    {
+        //Checks to make sure that this object is owned by the client
+        if (IsOwner)
+        {
+            //Subsribes functions to the player inputs
+            SubscribeToInputs();
+
+            //Create the camera at the pivot point
+            Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
+        }
+
+        IsMoving.OnChange += OnMovingChanged;
+        IsSliding.OnChange += OnSlidingChanged;
+    }
+
+    /// <summary>
+    /// This sends data to the server for the animators
+    /// </summary>
+    /// <param name="moving"></param>
+    /// <param name="sliding"></param>
+    [ServerRpc]
+    private void SetMovementStateServerRPC(bool moving, bool sliding)
+    {
+        IsMoving.Value = moving;
+        IsSliding.Value = sliding;
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the movement bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnMovingChanged(bool prev, bool next, bool asServer)
+    {
+        animator.SetBool("IsMoving", next);
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the sliding bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnSlidingChanged(bool prev, bool next, bool asServer)
+    {
+        animator.SetBool("IsSliding", next);
+    }
+
+    #endregion
+   
+    void Awake()
     {
         Initialize();
 
@@ -82,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         slideAction = playerMap.FindAction("Slide");
 
         //Subsribes functions to the player inputs
-        SubscribeToInputs();
+        //SubscribeToInputs();
     }
 
     private void OnDestroy()
@@ -92,6 +161,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void SubscribeToInputs()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         moveAction.performed += OnMove;
         moveAction.canceled += OnMove;
 
@@ -104,6 +177,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void UnsubscribeFromInputs()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         moveAction.performed -= OnMove;
         moveAction.canceled -= OnMove;
 
@@ -129,21 +206,25 @@ public class PlayerMovement : MonoBehaviour
         SetCapsuleVars();
         
         //Cursor Settings
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
         
         //Turn off Physics
         rb.linearDamping = 0;
         rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         
-        
     }
     
-    private void LateUpdate()
+    private void FixedUpdate()
     {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
         FindPlayerVelocity();
-        SetAnimationParameters();
+        //SetAnimationParameters();
+        SetMovementStateServerRPC(isMoving, isSliding);
         UpdateCamera();
         MovePlayer();
     }
@@ -168,6 +249,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context"></param>
     public void OnCameraMovement(InputAction.CallbackContext context)
     {
+
         //Gets the delta between the last 2 updates
         Vector2 delta = context.ReadValue<Vector2>();
 

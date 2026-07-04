@@ -1,9 +1,10 @@
-using Mono.Cecil;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System;
 using UnityEngine;
 
 //TODO: make this class an abstract parent when implementing enemy types
-public class Enemy : MonoBehaviour
+public class Enemy : NetworkBehaviour
 {
     #region SO Fields
     [SerializeField]
@@ -20,7 +21,11 @@ public class Enemy : MonoBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
 
-    private float currentHealth;
+    /// <summary>
+    /// The current health of the enemy, the syncvar allows this variable to be updated across
+    /// the network whenever it is changed so that all of the clients have the same value
+    /// </summary>
+    public readonly SyncVar<float> currentHealth = new();
 
     private GameObject heartCrystal;
 
@@ -28,18 +33,22 @@ public class Enemy : MonoBehaviour
 
     public event Action onEnemyKilled;
 
-    private void Awake()
+    public override void OnStartServer()
     {
+        heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
+
         enemyBrain = GetComponent<EnemyBrain>();
         enemyMovement = GetComponent<EnemyMovement>();
 
-        currentHealth = enemyHealth;
+        InitializeValues();
+
+        currentHealth.Value = enemyHealth;
     }
 
     /// <summary>
     /// Sets the initial values of the enemy based on the SO
     /// </summary>
-    public void InitializeValues(GameObject HeartCrystal)
+    public void InitializeValues()
     {
         //Strings
         enemyName = enemySO.EnemyName;
@@ -52,8 +61,6 @@ public class Enemy : MonoBehaviour
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
 
-        SetHeartCrystal(HeartCrystal);
-
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
         enemyBrain.Initialize(HeartCrystal);
@@ -62,19 +69,17 @@ public class Enemy : MonoBehaviour
     //TODO: Probably add an enum for proj types to easily trigger effects
     public void TakeDamage(float damage)
     {
+        if (!IsServerStarted)
+            return;
+
         Debug.Log($"{damage} damage dealt");
 
-        currentHealth -= damage;
+        currentHealth.Value -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth.Value <= 0)
         {
             Death();
         }
-    }
-
-    private void SetHeartCrystal(GameObject heartCrystal)
-    {
-        this.heartCrystal = heartCrystal;
     }
 
     private void Death()

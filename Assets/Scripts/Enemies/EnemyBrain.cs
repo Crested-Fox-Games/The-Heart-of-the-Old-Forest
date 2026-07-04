@@ -1,9 +1,10 @@
+using FishNet.Object;
 using UnityEngine;
 
 /// <summary>
 /// This script handles all the enemies decision making
 /// </summary>
-public class EnemyBrain : MonoBehaviour
+public class EnemyBrain : NetworkBehaviour
 {
     //TODO: This script will need to handle more complicated decision making later on.
 
@@ -44,6 +45,9 @@ public class EnemyBrain : MonoBehaviour
     private void SetTarget(GameObject target)
     {
         currentTarget = target;
+
+        if (!IsServerStarted)
+            return;
 
         //TODO: Will probably need to move this later
         enemyMovement.MovementTarget(currentTarget.transform.position);
