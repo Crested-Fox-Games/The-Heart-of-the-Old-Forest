@@ -29,6 +29,7 @@ public class UiManager : MonoBehaviour
     /// <param name="interactionText"></param>
     public void ShowInteractionPopup(string text)
     {
+        //TODO: Potentially make this able to display icons for use with other devices like controllers.
         interactText.text = text;
         interactText.gameObject.SetActive(true);
     }
