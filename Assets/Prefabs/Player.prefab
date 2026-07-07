@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1653671131147951644}
   - component: {fileID: 4513848973097859124}
   - component: {fileID: 5554828885100303472}
+  - component: {fileID: 3523095287178685474}
   - component: {fileID: 5157244053637599692}
   - component: {fileID: 4249959293906175344}
   - component: {fileID: 1680321782225394051}
@@ -250,6 +251,19 @@ MonoBehaviour:
   maxPivotRotation: 65
   defaultVelocity: 0.2
   cameraPrefab: {fileID: 181323723340778050, guid: a91c2b0284f63de4b8d4b3b3daf45fb4, type: 3}
+--- !u!114 &3523095287178685474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234ca988bf9a241428fdebc81d17604f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  popupText: {fileID: 0}
 --- !u!114 &5157244053637599692
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public enum ToolTier
 }
 
 //TODO: Add a node controller that handles node chunks and respawns them in a random spot in that area
-public class ResourceNode : NetworkBehaviour
+public class ResourceNode : NetworkBehaviour, IInteractable
 {
     #region SO Fields
     [SerializeField]
@@ -110,6 +110,11 @@ public class ResourceNode : NetworkBehaviour
         }
 
         return 0;
+    }
+
+    public void Interact()
+    {
+        //This will need to be some sort of check sent to the host to see if the player can mine the node
     }
 
     //TODO: Popup text that says what keybind to press to hit node (Maybe this needs to be a seperate class for this

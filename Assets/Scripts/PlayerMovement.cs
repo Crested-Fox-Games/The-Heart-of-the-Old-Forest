@@ -80,7 +80,6 @@ public class PlayerMovement : NetworkBehaviour
 
     #endregion
 
-
     #region Server Events
 
     /// <summary>
