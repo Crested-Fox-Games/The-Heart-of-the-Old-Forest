@@ -1,16 +1,44 @@
+using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// This class handles the ui updates
+/// </summary>
 public class UiManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static UiManager instance { get; private set; }
+
+    [SerializeField]
+    private TextMeshProUGUI interactText;
+
+    private void Awake()
     {
-        
+        if(instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Used to display the text for the interaction popup
+    /// </summary>
+    /// <param name="interactionText"></param>
+    public void ShowInteractionPopup(string text)
     {
-        
+        interactText.text = text;
+        interactText.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Used to hide the text for interaction popup
+    /// </summary>
+    public void HideInteractionPopup()
+    {
+        interactText.text = "";
+        interactText.gameObject.SetActive(false);
     }
 }

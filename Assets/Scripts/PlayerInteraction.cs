@@ -5,12 +5,6 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
     /// <summary>
-    /// A text box in the middle of the screen showing the keybind for interacting with objects
-    /// </summary>
-    [SerializeField]
-    private TextMeshProUGUI popupText;
-
-    /// <summary>
     /// A boolean used to check if the player is looking at something that can be interacted with
     /// </summary>
     private bool hoverInteracting = false;
@@ -22,8 +16,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private InputAction interactAction;
 
-    private GameObject currentInteractHover = null;
+    private IInteractable currentInteractHover = null;
 
+    private Camera playerCam;
 
     private void Start()
     {
@@ -39,6 +34,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        if (playerCam == null)
+            return;
+
         CheckInteractableCollision();
     }
 
@@ -46,22 +44,37 @@ public class PlayerInteraction : MonoBehaviour
     {
         // Check if the player is looking at an interactable object
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 3f))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 3f))
         {
-            if (hit.transform.gameObject.TryGetComponent<IInteractable>(out IInteractable interactable))
+            Debug.Log(hit.transform.gameObject.name);
+            //Checks to see if the player is looking at an interactable object
+            currentInteractHover = hit.transform.GetComponentInParent<IInteractable>();
+
+            if (currentInteractHover != null)
             {
-                ShowInteractionPopup($"'{interactAction.GetBindingDisplayString()}'");
+                UiManager.instance.ShowInteractionPopup($"'{interactAction.GetBindingDisplayString()}'");
+                hoverInteracting = true;
             }
-            else
+            else //This will run if the player is looking at something that cant be interacted with
             {
-                HideInteractionPopup();
+                if(!hoverInteracting)
+                    return;
+
+                //This is here incase the player goes from looking at something interactable to something not interactable
+                //that way the popup will disappear
+                UiManager.instance.HideInteractionPopup();
+                hoverInteracting = false;
+                currentInteractHover = null;
             }
         }
         else
         {
+            if (!hoverInteracting)
+                return;
+
             hoverInteracting = false;
             currentInteractHover = null;
-            HideInteractionPopup();
+            UiManager.instance.HideInteractionPopup();
         }
     }
 
@@ -70,26 +83,16 @@ public class PlayerInteraction : MonoBehaviour
         if (!hoverInteracting)
             return;
 
-        currentInteractHover.GetComponent<IInteractable>().Interact();
+        currentInteractHover.Interact();
     }
 
     /// <summary>
-    /// Used to display the text for the interaction popup
+    /// Sets the camera for this script, called from PlayerMovement
     /// </summary>
-    /// <param name="interactionText"></param>
-    private void ShowInteractionPopup(string interactionText)
+    /// <param name="camera"></param>
+    public void SetCamera(Camera camera)
     {
-        popupText.text = interactionText;
-        popupText.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// Used to hide the text for interaction popup
-    /// </summary>
-    private void HideInteractionPopup()
-    {
-        popupText.text = "";
-        popupText.gameObject.SetActive(false);
+        playerCam = camera;
     }
 
 }
