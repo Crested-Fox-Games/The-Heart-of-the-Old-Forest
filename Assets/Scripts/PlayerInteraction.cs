@@ -1,6 +1,8 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -166,9 +168,24 @@ public class PlayerInteraction : NetworkBehaviour
         {
             resourceAmounts.Add(resourceType, amount);
         }
+    }
 
+    [ServerRpc]
+    public void DepositResources(NetworkObject resourceController)
+    {
+        //This will be where the player deposits their resources into the team stockpile
+        //This will need to be a server rpc that sends the resource amounts to the team stockpile
+        //Then clears the players resource amounts
+        var controller = resourceController.GetComponentInChildren<BaseResourceController>();
 
-        Debug.Log($"Player {Owner.ClientId} acquired {amount} {resourceType}. Total: {resourceAmounts[resourceType]}");
+        if (controller == null)
+            return;
+
+        foreach (var resource in resourceAmounts.ToList())
+        {
+            controller.AddResources(resource.Key, resource.Value);
+            resourceAmounts[resource.Key] = 0;
+        }
     }
 
     /// <summary>

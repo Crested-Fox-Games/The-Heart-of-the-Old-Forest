@@ -1,7 +1,8 @@
+using FishNet.Object;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseResourceController : MonoBehaviour
+public class BaseResourceController : NetworkBehaviour
 {
     //This script will handle all the resources that are collected by the players
 
@@ -17,11 +18,11 @@ public class BaseResourceController : MonoBehaviour
         //TODO: Once player created, add this function to take the resources from them 
         //Player player;
 
-
-        //if (other.TryGetComponent<PlayerInteraction>(out PlayerInteraction player))
-        //{
-        //    player.CollectResources();
-        //}
+        //Handles the player collision interaction
+        if (other.TryGetComponent<PlayerInteraction>(out PlayerInteraction player))
+        {
+            player.DepositResources(this);
+        }
 
     }
 
@@ -30,11 +31,17 @@ public class BaseResourceController : MonoBehaviour
     /// </summary>
     /// <param name="resourceType"></param>
     /// <param name="amount"></param>
-    private void AddResources(ResourceType resourceType, int amount)
+    public void AddResources(ResourceType resourceType, int amount)
     {
         //Adds resources to the stockpile
-        //NOTE: this should automatically add new fields to the dictionary if they dont exist already
-        resourceAmounts[resourceType] += amount;
+        if (resourceAmounts.TryGetValue(resourceType, out var current))
+        {
+            resourceAmounts[resourceType] = amount + current;
+        }
+        else
+        {
+            resourceAmounts.Add(resourceType, amount);
+        }
     }
 
     /// <summary>
