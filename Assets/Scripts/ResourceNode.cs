@@ -64,25 +64,21 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     /// Checks if the node is breakable with the current tool
     /// </summary>
     /// <param name="equippedToolTier">The players tool tier</param>
-    /// <param name="resourcesGained">Sends the amount of resources earnt to the player</param>
     /// <returns>True for player damaging node, false for tool too weak</returns>
-    public bool Breakable(ToolTier equippedToolTier, out int resourcesGained)
+    public bool Breakable(ToolTier equippedToolTier)
     {
         //Return early if the resource is depleted
         if(depleted)
         {
-            resourcesGained = 0;
             return false;
         }
 
         if(equippedToolTier >= toolTierRequired)
         {
-            resourcesGained = DamageNode();
             return true;
         }
         else
         {
-            resourcesGained = 0;
             return false;
         }
     }
@@ -93,6 +89,9 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     /// <returns>Returns the amount of resources the player gains</returns>
     private int DamageNode()
     {
+        if(depleted)
+            return 0;
+
         //Reduces the durability left on the resource
         currentResourceDurability--;
 
@@ -104,18 +103,15 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
             //Disables hitting the node
             depleted = true;
-
-            //Returns the resources when node broken
-            return resourceAmountDropped;
         }
 
-        return 0;
+        //Returns the resources when node broken
+        return resourceAmountDropped;
     }
 
     public void Interact(NetworkObject player)
     {
-        //This will need to be some sort of check sent to the host to see if the player can mine the node
-        Debug.Log("Interacted with node");
+        player.GetComponent<PlayerInteraction>().AcquireResources(resourceType, DamageNode());
     }
 
     public bool CanInteract(NetworkObject player)

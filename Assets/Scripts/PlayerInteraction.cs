@@ -1,4 +1,6 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +30,12 @@ public class PlayerInteraction : NetworkBehaviour
 
     [SerializeField]
     private float interactDistance = 5f;
+
+    /// <summary>
+    /// The resources the player has on hand
+    /// <para>The resource type is the key, the int is the amount of that resource</para>
+    /// </summary>
+    private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
 
     private void Start()
     {
@@ -140,6 +148,27 @@ public class PlayerInteraction : NetworkBehaviour
 
         interactable.Interact(this);
         
+    }
+
+    /// <summary>
+    /// This is called by the resource node when the player collects a resource
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <param name="amount"></param>
+    [ServerRpc]
+    public void AcquireResources(ResourceType resourceType, int amount)
+    {
+        if(resourceAmounts.TryGetValue(resourceType, out var current))
+        {
+            resourceAmounts[resourceType] = amount + current;
+        }
+        else
+        {
+            resourceAmounts.Add(resourceType, amount);
+        }
+
+
+        Debug.Log($"Player {Owner.ClientId} acquired {amount} {resourceType}. Total: {resourceAmounts[resourceType]}");
     }
 
     /// <summary>

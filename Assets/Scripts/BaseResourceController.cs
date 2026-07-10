@@ -17,12 +17,12 @@ public class BaseResourceController : MonoBehaviour
         //TODO: Once player created, add this function to take the resources from them 
         //Player player;
 
-        /*
-         * if(other.TryGetComponent<player>(out player) != null)
-         * {
-         *      player.CollectResources()
-         * }
-         */
+
+        //if (other.TryGetComponent<PlayerInteraction>(out PlayerInteraction player))
+        //{
+        //    player.CollectResources();
+        //}
+
     }
 
     /// <summary>
