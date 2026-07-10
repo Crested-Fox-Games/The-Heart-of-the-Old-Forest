@@ -1,8 +1,9 @@
+using FishNet.Object;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : NetworkBehaviour
 {
     /// <summary>
     /// A boolean used to check if the player is looking at something that can be interacted with
@@ -16,12 +17,17 @@ public class PlayerInteraction : MonoBehaviour
 
     private InputAction interactAction;
 
-    //Stores the device type that was last used, e.g. kbm, controller, etc
+    /// <summary>
+    /// Stores the device type that was last used, e.g. kbm, controller, etc
+    /// </summary>
     private InputDevice lastUsedInputDevice;
 
     private IInteractable currentInteractHover = null;
 
     private Camera playerCam;
+
+    [SerializeField]
+    private float interactDistance = 5f;
 
     private void Start()
     {
@@ -55,13 +61,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         // Check if the player is looking at an interactable object
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 5f))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance))
         {
-            //Checks to see if the player is looking at an interactable object
+            //Checks to see if the player is looking at an interactable object(In parent checks up the hierarchy for the object)
             currentInteractHover = hit.transform.GetComponentInParent<IInteractable>();
 
             if (currentInteractHover != null)
             {
+                //This gets the input for the interact action based on the last input device detected
                 UiManager.instance.ShowInteractionPopup($"'{interactAction.GetBindingDisplayString(group: GetCurrentBindingGroup())}'");
                 hoverInteracting = true;
             }
@@ -98,7 +105,36 @@ public class PlayerInteraction : MonoBehaviour
         if (!hoverInteracting)
             return;
 
-        currentInteractHover.Interact();
+        //Gets the network object of the interactable object
+        NetworkObject networkObject = (currentInteractHover as MonoBehaviour).GetComponent<NetworkObject>();
+
+        if(networkObject == null)
+            return;
+
+        InteractServerRPC(networkObject);
+    }
+
+    /// <summary>
+    /// This function is called when a player interacts with an object.
+    /// It will only run on the server, but each client is able to call it
+    /// </summary>
+    /// <param name="target"></param>
+    [ServerRpc]
+    private void InteractServerRPC(NetworkObject target)
+    {
+        //Ensures the object is valid
+        if(target == null)
+            return;
+
+        //Ensures the object is still interactable
+        if (!target.TryGetComponent<IInteractable>(out var interactable))
+            return;
+
+        //Ensures the player is still within range of the object
+        if (Vector3.Distance(playerCam.transform.position, target.transform.position) > interactDistance)
+            return;
+
+        interactable.Interact(this);
     }
 
     /// <summary>
@@ -121,6 +157,7 @@ public class PlayerInteraction : MonoBehaviour
     /// <returns></returns>
     private string GetCurrentBindingGroup()
     {
+        //If we want to add support for other input devices, they just need to be added as an else if below gamepad
         if(lastUsedInputDevice is Gamepad)
             return "Gamepad";
 

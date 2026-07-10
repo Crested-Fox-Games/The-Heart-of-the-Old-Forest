@@ -112,12 +112,18 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         return 0;
     }
 
-    public void Interact()
+    public void Interact(NetworkObject player)
     {
         //This will need to be some sort of check sent to the host to see if the player can mine the node
+        Debug.Log("Interacted with node");
     }
 
-    //TODO: Popup text that says what keybind to press to hit node (Maybe this needs to be a seperate class for this
-    //so that we can use it for other interactables
+    public bool CanInteract(NetworkObject player)
+    {
+        //This will need to be some sort of check sent to the host to see if the player can interact with the node
+
+        //TODO: Will need to add in any other checks, like player tool tier 
+        return !depleted;
+    }
 
 }
