@@ -33,6 +33,14 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     private bool depleted = false;
 
+    /// <summary>
+    /// The time it takes for the node to respawn after being depleted
+    /// </summary>
+    private float respawnTime = 5f;
+
+    [SerializeField]
+    private GameObject model;
+
     private void Start()
     {
         InitializeValues();
@@ -99,10 +107,13 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         if (currentResourceDurability <= 0)
         {
             //TODO: Show a used resource node, maybe have multiple stages
-            gameObject.SetActive(false);
+            model.SetActive(false);
 
             //Disables hitting the node
             depleted = true;
+
+            //This shouldnt need a validation check since this function shouldnt run once the node is depleted
+            StartCoroutine(NodeRespawn());
         }
 
         //Returns the resources when node broken
@@ -122,4 +133,18 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         return !depleted;
     }
 
+    /// <summary>
+    /// Handles respawning the node after it has been depleted
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator NodeRespawn()
+    { //TODO: This may need to be put into a node controller that handles respawning nodes in an area
+        
+        yield return new WaitForSeconds(respawnTime);
+
+        //Resets the node values
+        currentResourceDurability = resourceDurability;
+        depleted = false;
+        model.SetActive(true);
+    }
 }

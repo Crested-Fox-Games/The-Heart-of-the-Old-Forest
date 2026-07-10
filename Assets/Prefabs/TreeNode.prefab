@@ -131,6 +131,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1415233867076043021}
   _networkObjectCache: {fileID: 0}
   resourceSO: {fileID: 11400000, guid: 253ec946bd9eea04e9a42732604ba4d4, type: 2}
+  model: {fileID: 6863421217929929154}
 --- !u!114 &1415233867076043021
 MonoBehaviour:
   m_ObjectHideFlags: 0
