@@ -131,10 +131,15 @@ public class PlayerInteraction : NetworkBehaviour
             return;
 
         //Ensures the player is still within range of the object
-        if (Vector3.Distance(playerCam.transform.position, target.transform.position) > interactDistance)
+        if (Vector3.Distance(transform.position, target.transform.position) > interactDistance)
+            return;
+
+        //Does a final check to ensure if the player meets the conditions to interact with the object
+        if (!interactable.CanInteract(this))
             return;
 
         interactable.Interact(this);
+        
     }
 
     /// <summary>
