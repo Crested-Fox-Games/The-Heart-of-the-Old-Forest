@@ -15,6 +15,28 @@ public class PlayerInteraction : NetworkBehaviour
     private bool hoverInteracting = false;
 
     /// <summary>
+    /// A boolean used to see if the player is holding down the interact button
+    /// </summary>
+    private bool interactHeld = false;
+
+    /// <summary>
+    /// The distance from the player to the interactable that the player can interact within
+    /// </summary>
+    [SerializeField]
+    private float interactDistance = 5f;
+
+    /// <summary>
+    /// The rate at which the player interacts with objects
+    /// </summary>
+    [SerializeField]
+    private float interactRate = 0.5f;
+
+    /// <summary>
+    /// The time the player interacts at
+    /// </summary>
+    private float nextInteractTime;
+
+    /// <summary>
     /// The action map for all of the player inputs
     /// </summary>
     private InputActionMap playerMap;
@@ -29,9 +51,6 @@ public class PlayerInteraction : NetworkBehaviour
     private IInteractable currentInteractHover = null;
 
     private Camera playerCam;
-
-    [SerializeField]
-    private float interactDistance = 5f;
 
     /// <summary>
     /// The resources the player has on hand
@@ -53,15 +72,32 @@ public class PlayerInteraction : NetworkBehaviour
         interactAction = playerMap.FindAction("Interact");
 
         //Subscribes to the interact input
-        interactAction.performed += HandleInteract;
+        interactAction.started += HandleInteractStarted;
+        interactAction.canceled += HandleInteractCancelled;
+
     }
 
     private void Update()
     {
-        if (playerCam == null)
+        CheckInteractableCollision();
+
+        CheckInteractLoop();
+    }
+
+    /// <summary>
+    /// A function that checks if the player is holding down the interact button
+    /// </summary>
+    private void CheckInteractLoop()
+    {
+        if (!interactHeld)
             return;
 
-        CheckInteractableCollision();
+        if (Time.time < nextInteractTime)
+            return;
+
+        nextInteractTime = Time.time + interactRate;
+
+        TryInteract();
     }
 
     /// <summary>
@@ -69,6 +105,9 @@ public class PlayerInteraction : NetworkBehaviour
     /// </summary>
     private void CheckInteractableCollision()
     {
+        if (playerCam == null)
+            return;
+
         // Check if the player is looking at an interactable object
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance))
@@ -79,7 +118,7 @@ public class PlayerInteraction : NetworkBehaviour
             if (currentInteractHover != null)
             {
                 //This gets the input for the interact action based on the last input device detected
-                UiManager.instance.ShowInteractionPopup($"'{interactAction.GetBindingDisplayString(group: GetCurrentBindingGroup())}'");
+                UiManager.Instance.ShowInteractionPopup($"'{interactAction.GetBindingDisplayString(group: GetCurrentBindingGroup())}'");
                 hoverInteracting = true;
             }
             else //This will run if the player is looking at something that cant be interacted with
@@ -89,7 +128,7 @@ public class PlayerInteraction : NetworkBehaviour
 
                 //This is here incase the player goes from looking at something interactable to something not interactable
                 //that way the popup will disappear
-                UiManager.instance.HideInteractionPopup();
+                UiManager.Instance.HideInteractionPopup();
                 hoverInteracting = false;
                 currentInteractHover = null;
             }
@@ -101,8 +140,21 @@ public class PlayerInteraction : NetworkBehaviour
 
             hoverInteracting = false;
             currentInteractHover = null;
-            UiManager.instance.HideInteractionPopup();
+            UiManager.Instance.HideInteractionPopup();
         }
+    }
+
+    
+    private void HandleInteractStarted(InputAction.CallbackContext context)
+    {
+        interactHeld = true;
+
+        nextInteractTime = Time.time + interactRate;
+    }
+
+    private void HandleInteractCancelled(InputAction.CallbackContext context)
+    {
+        interactHeld = false;
     }
 
     /// <summary>
@@ -110,7 +162,7 @@ public class PlayerInteraction : NetworkBehaviour
     /// for most objects this should include a validation check with the host.
     /// </summary>
     /// <param name="context"></param>
-    private void HandleInteract(InputAction.CallbackContext context)
+    private void TryInteract()
     {
         if (!hoverInteracting)
             return;
@@ -118,7 +170,7 @@ public class PlayerInteraction : NetworkBehaviour
         //Gets the network object of the interactable object
         NetworkObject networkObject = (currentInteractHover as MonoBehaviour).GetComponent<NetworkObject>();
 
-        if(networkObject == null)
+        if (networkObject == null)
             return;
 
         InteractServerRPC(networkObject);
@@ -168,6 +220,8 @@ public class PlayerInteraction : NetworkBehaviour
         {
             resourceAmounts.Add(resourceType, amount);
         }
+
+        UiManager.Instance.UpdatePlayerResourceUi(resourceAmounts);
     }
 
     [ServerRpc]
@@ -186,6 +240,8 @@ public class PlayerInteraction : NetworkBehaviour
             controller.AddResources(resource.Key, resource.Value);
             resourceAmounts[resource.Key] = 0;
         }
+
+        UiManager.Instance.UpdatePlayerResourceUi(resourceAmounts);
     }
 
     /// <summary>

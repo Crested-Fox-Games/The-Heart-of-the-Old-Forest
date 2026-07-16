@@ -1,3 +1,4 @@
+using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 
@@ -6,20 +7,29 @@ using UnityEngine;
 /// </summary>
 public class UiManager : MonoBehaviour
 {
-    public static UiManager instance { get; private set; }
+    public static UiManager Instance { get; private set; }
 
+    /// <summary>
+    /// The text box used for the interaction popup
+    /// </summary>
     [SerializeField]
     private TextMeshProUGUI interactText;
 
+    /// <summary>
+    /// The text box used for the resource display
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI resourceText;
+
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if(Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
     }
 
@@ -41,5 +51,16 @@ public class UiManager : MonoBehaviour
     {
         interactText.text = "";
         interactText.gameObject.SetActive(false);
+    }
+
+    public void UpdatePlayerResourceUi(SyncDictionary<ResourceType, int> resourceAmounts)
+    {
+        string playerResources = "";
+        foreach (var resource in resourceAmounts)
+        {
+            playerResources += $"{resource.Key}: {resource.Value}\n";
+        }
+
+        resourceText.text = playerResources;
     }
 }
