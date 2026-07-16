@@ -80,7 +80,6 @@ public class PlayerMovement : NetworkBehaviour
 
     #endregion
 
-
     #region Server Events
 
     /// <summary>
@@ -96,6 +95,8 @@ public class PlayerMovement : NetworkBehaviour
 
             //Create the camera at the pivot point
             Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
+            
+            GetComponent<PlayerInteraction>().SetCamera(cam);
         }
 
         IsMoving.OnChange += OnMovingChanged;
@@ -206,8 +207,8 @@ public class PlayerMovement : NetworkBehaviour
         SetCapsuleVars();
         
         //Cursor Settings
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         
         //Turn off Physics
         rb.linearDamping = 0;

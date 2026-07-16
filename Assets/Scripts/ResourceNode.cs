@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public enum ToolTier
 }
 
 //TODO: Add a node controller that handles node chunks and respawns them in a random spot in that area
-public class ResourceNode : MonoBehaviour
+public class ResourceNode : NetworkBehaviour, IInteractable
 {
     #region SO Fields
     [SerializeField]
@@ -31,6 +32,14 @@ public class ResourceNode : MonoBehaviour
     private float currentResourceDurability = 0;
 
     private bool depleted = false;
+
+    /// <summary>
+    /// The time it takes for the node to respawn after being depleted
+    /// </summary>
+    private float respawnTime = 5f;
+
+    [SerializeField]
+    private GameObject model;
 
     private void Start()
     {
@@ -63,25 +72,21 @@ public class ResourceNode : MonoBehaviour
     /// Checks if the node is breakable with the current tool
     /// </summary>
     /// <param name="equippedToolTier">The players tool tier</param>
-    /// <param name="resourcesGained">Sends the amount of resources earnt to the player</param>
     /// <returns>True for player damaging node, false for tool too weak</returns>
-    public bool Breakable(ToolTier equippedToolTier, out int resourcesGained)
+    public bool Breakable(ToolTier equippedToolTier)
     {
         //Return early if the resource is depleted
         if(depleted)
         {
-            resourcesGained = 0;
             return false;
         }
 
         if(equippedToolTier >= toolTierRequired)
         {
-            resourcesGained = DamageNode();
             return true;
         }
         else
         {
-            resourcesGained = 0;
             return false;
         }
     }
@@ -92,6 +97,9 @@ public class ResourceNode : MonoBehaviour
     /// <returns>Returns the amount of resources the player gains</returns>
     private int DamageNode()
     {
+        if(depleted)
+            return 0;
+
         //Reduces the durability left on the resource
         currentResourceDurability--;
 
@@ -99,16 +107,44 @@ public class ResourceNode : MonoBehaviour
         if (currentResourceDurability <= 0)
         {
             //TODO: Show a used resource node, maybe have multiple stages
-            gameObject.SetActive(false);
+            model.SetActive(false);
 
             //Disables hitting the node
             depleted = true;
 
-            //Returns the resources when node broken
-            return resourceAmountDropped;
+            //This shouldnt need a validation check since this function shouldnt run once the node is depleted
+            StartCoroutine(NodeRespawn());
         }
 
-        return 0;
+        //Returns the resources when node broken
+        return resourceAmountDropped;
     }
 
+    public void Interact(NetworkObject player)
+    {
+        player.GetComponent<PlayerInteraction>().AcquireResources(resourceType, DamageNode());
+    }
+
+    public bool CanInteract(NetworkObject player)
+    {
+        //This will need to be some sort of check sent to the host to see if the player can interact with the node
+
+        //TODO: Will need to add in any other checks, like player tool tier 
+        return !depleted;
+    }
+
+    /// <summary>
+    /// Handles respawning the node after it has been depleted
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator NodeRespawn()
+    { //TODO: This may need to be put into a node controller that handles respawning nodes in an area
+        
+        yield return new WaitForSeconds(respawnTime);
+
+        //Resets the node values
+        currentResourceDurability = resourceDurability;
+        depleted = false;
+        model.SetActive(true);
+    }
 }
