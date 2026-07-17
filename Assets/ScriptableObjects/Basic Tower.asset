@@ -20,3 +20,6 @@ MonoBehaviour:
   attackCooldown: 5
   projectile: {fileID: 3723794516530627890, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   displayObject: {fileID: 0}
+  requiredResources:
+  - resource: {fileID: 11400000, guid: 253ec946bd9eea04e9a42732604ba4d4, type: 2}
+    cost: 10

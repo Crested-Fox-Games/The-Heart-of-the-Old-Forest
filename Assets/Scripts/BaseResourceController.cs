@@ -5,12 +5,25 @@ using UnityEngine;
 public class BaseResourceController : NetworkBehaviour
 {
     //This script will handle all the resources that are collected by the players
+    public static BaseResourceController Instance { get; private set; }
+
 
     /// <summary>
     /// The resources the team will have access to 
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
     private Dictionary<ResourceType, int> resourceAmounts = new Dictionary<ResourceType, int>();
+
+    private void Awake()
+    {
+        //Singleton Setup
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     //This will take all of the resources the players have collected and put it into a team storage
     private void OnTriggerEnter(Collider other)

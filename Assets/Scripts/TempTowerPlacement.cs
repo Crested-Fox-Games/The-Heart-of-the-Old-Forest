@@ -4,7 +4,6 @@ using UnityEngine;
 public class TempTowerPlacement : MonoBehaviour, IInteractable
 {
 
-
     public bool CanInteract(NetworkObject player)
     {
         throw new System.NotImplementedException();
@@ -14,8 +13,16 @@ public class TempTowerPlacement : MonoBehaviour, IInteractable
 
     public void Interact(NetworkObject player)
     {
-        throw new System.NotImplementedException();
-
         //TODO: Bring up the tower placement UI
+        UiManager.Instance.ShowTowerPlacementUi();
+    }
+
+    /// <summary>
+    /// The function called when the player selects a tower from the tower placement UI
+    /// </summary>
+    /// <param name="towerSO"></param>
+    public void PlaceTower(TowerSO towerSO)
+    {
+
     }
 }

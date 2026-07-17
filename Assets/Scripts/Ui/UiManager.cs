@@ -21,6 +21,12 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI resourceText;
 
+    /// <summary>
+    /// The ui panel for the tower placement ui
+    /// </summary>
+    [SerializeField]
+    private GameObject tmpTowerPlacementUi;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -53,6 +59,26 @@ public class UiManager : MonoBehaviour
         interactText.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Used to show the tower placement ui
+    /// </summary>
+    public void ShowTowerPlacementUi()
+    {
+        tmpTowerPlacementUi.SetActive(true);
+    }
+
+    /// <summary>
+    /// Used to hide the tower placement ui
+    /// </summary>
+    public void HideTowerPlacementUi()
+    {
+        tmpTowerPlacementUi.SetActive(false);
+    }
+
+    /// <summary>
+    /// Used to update the player's resource display
+    /// </summary>
+    /// <param name="resourceAmounts"></param>
     public void UpdatePlayerResourceUi(SyncDictionary<ResourceType, int> resourceAmounts)
     {
         string playerResources = "";

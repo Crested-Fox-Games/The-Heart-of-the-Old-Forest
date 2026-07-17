@@ -1,4 +1,16 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+
+/// <summary>
+/// A class used instead of a dictionary in order to be able to fill it in while working in the inspector
+/// </summary>
+[System.Serializable]
+public class ResourceCost
+{
+    public ResourceType resource;
+    public int cost;
+}
 
 [CreateAssetMenu(fileName = "TowerSO", menuName = "Towers/TowerSO")]
 public class TowerSO : ScriptableObject
@@ -11,6 +23,9 @@ public class TowerSO : ScriptableObject
 
     [SerializeField]
     private GameObject projectile, displayObject;
+
+    [SerializeField]
+    private List<ResourceCost> requiredResources;
 
     /// <summary>
     /// The name of the tower
@@ -51,4 +66,9 @@ public class TowerSO : ScriptableObject
     /// For placing into world, shows an outline
     /// </summary>
     public GameObject DisplayObject => displayObject;
+
+    /// <summary>
+    /// A dictionary containing the required resources and the amounts required
+    /// </summary>
+    public List<ResourceCost> RequiredResources => requiredResources;
 }
