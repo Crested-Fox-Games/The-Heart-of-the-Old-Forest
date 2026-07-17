@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6603023206854913742
+--- !u!1 &6222138539149351730
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4017869584924142205}
-  - component: {fileID: 6241486696832469597}
-  - component: {fileID: 6170062832816284661}
-  - component: {fileID: 1378737288686831187}
-  - component: {fileID: 3307655043875426254}
+  - component: {fileID: 5213570614639808204}
   m_Layer: 0
   m_Name: TowerSlot
   m_TagString: Untagged
@@ -20,36 +16,72 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4017869584924142205
+--- !u!4 &5213570614639808204
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603023206854913742}
+  m_GameObject: {fileID: 6222138539149351730}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.1, y: 2, z: -21.83}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2395425094182241470}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8826797771150315741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 6603023206854913742, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2395425094182241470}
+  - component: {fileID: 8730085204381808606}
+  - component: {fileID: 6786779673589210402}
+  - component: {fileID: 7627686261489176890}
+  - component: {fileID: 7581236093087802467}
+  m_Layer: 0
+  m_Name: TowerSlotPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2395425094182241470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 4017869584924142205, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8826797771150315741}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: -1.5599995, y: 2, z: 22.45}
   m_LocalScale: {x: 2, y: 4, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6241486696832469597
+  m_Father: {fileID: 5213570614639808204}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!33 &8730085204381808606
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6241486696832469597, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603023206854913742}
+  m_GameObject: {fileID: 8826797771150315741}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6170062832816284661
+--- !u!23 &6786779673589210402
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6170062832816284661, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603023206854913742}
+  m_GameObject: {fileID: 8826797771150315741}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -92,13 +124,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1378737288686831187
+--- !u!65 &7627686261489176890
 BoxCollider:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1378737288686831187, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603023206854913742}
+  m_GameObject: {fileID: 8826797771150315741}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -113,15 +145,76 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3307655043875426254
+--- !u!114 &7581236093087802467
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3307655043875426254, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+  m_PrefabInstance: {fileID: 1656222364145675971}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603023206854913742}
+  m_GameObject: {fileID: 8826797771150315741}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1814dcc7168278e4da50f874897e7f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TempTowerPlacement
+--- !u!1001 &1656222364145675971
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5213570614639808204}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: -1.5599992
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 22.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.y
+      value: -0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Name
+      value: TowerSlotPrefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 0}
