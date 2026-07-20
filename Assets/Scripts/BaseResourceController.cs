@@ -85,16 +85,10 @@ public class BaseResourceController : NetworkBehaviour
     /// <returns></returns>
     public bool CheckEnoughResources(ResourceType resourceType, int amount)
     {
-        //Checks the dictionary to see if the team has enough resources required
-        if (amount > resourceAmounts[resourceType])
-        {
-            return true;
-        }
-        else
-        {
+        if(!resourceAmounts.TryGetValue(resourceType, out var current))
             return false;
-        }
-    }
 
-    //TODO: add some sort of ui that displays resources, and a function to update that
+        //Checks the dictionary to see if the team has enough resources required
+        return current >= amount;
+    }
 }

@@ -157,6 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1814dcc7168278e4da50f874897e7f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TempTowerPlacement
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
