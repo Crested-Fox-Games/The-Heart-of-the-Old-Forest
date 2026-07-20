@@ -21,32 +21,16 @@ public class TowerPlacementUi : NetworkBehaviour
     /// </summary>
     /// <param name="towerSO"></param>
     [ServerRpc]
-    private void SelectTower(TowerSO towerSO)
+    public void SelectTower(TowerSO towerSO)
     {
-        if (CanAffordTower(towerSO))
+        if (BaseResourceController.Instance.RemoveResources(towerSO.RequiredResources))
         {
             //TODO: Tell TempTowerPlacement to spawn this tower
 
+
             //The tower can be placed so we close the ui for tower placement
-            //UiManager.Instance.HideTowerPlacementUi();
-        }
-    }
-
-    /// <summary>
-    /// This will check each resource and compare it with the bases resources, if none of them can be afforded, then it returns false
-    /// </summary>
-    /// <param name="tower"></param>
-    /// <returns></returns>
-    private bool CanAffordTower(TowerSO tower)
-    {
-        for (int i = 0; i < tower.RequiredResources.Count; i++)
-        {
-            if (!BaseResourceController.Instance.CheckEnoughResources(tower.RequiredResources[i].resource, tower.RequiredResources[i].cost))
-            {
-                return false; 
-            }
+            UiManager.Instance.HideTowerPlacementUi();
         }
 
-        return true;
     }
 }

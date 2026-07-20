@@ -63,7 +63,7 @@ public class BaseResourceController : NetworkBehaviour
     /// <param name="resourceType"></param>
     /// <param name="amount"></param>
     /// <returns></returns>
-    private bool RemoveResources(ResourceType resourceType, int amount)
+    public bool RemoveResources(ResourceType resourceType, int amount)
     {
         //Runs a check to ensure there are enough resources, then removes the resources if theres enough
         if (CheckEnoughResources(resourceType, amount))
@@ -75,6 +75,34 @@ public class BaseResourceController : NetworkBehaviour
         {
             return false;
         }
+    }
+
+    /// <summary>
+    /// An overload for the remove resources function to be used with a list, this way we centralise the logic and make it 
+    /// easier to remove multiple resources at once
+    /// </summary>
+    /// <param name="resources"></param>
+    /// <returns></returns>
+    public bool RemoveResources(List<ResourceCost> resources)
+    {
+        //First we ensure we have enough resources
+        foreach(ResourceCost resource in resources)
+        {
+            if(CheckEnoughResources(resource.resource, resource.cost))
+            {
+                //This will tell the function that it failed to remove the resources
+                return false;
+            }
+        }
+
+        //Second we remove the actual resources
+        foreach(ResourceCost resource in resources)
+        {
+            RemoveResources(resource.resource, resource.cost);
+        }
+
+        //Third we tell the function it was successful
+        return true;
     }
 
     /// <summary>

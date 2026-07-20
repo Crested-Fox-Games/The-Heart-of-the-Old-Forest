@@ -20,8 +20,12 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField]
     private Image towerImage;
 
-    private void Awake()
+    private TowerPlacementUi towerPlacementUi;
+
+    public void Initialize(TowerPlacementUi tpUi)
     {
+        towerPlacementUi = tpUi;
+
         towerName.text = towerSO.TowerName;
 
         //TODO: add an image field
@@ -56,5 +60,10 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         //Make white when we stop hovering over the tower
         towerSlotPanel.color = Color.white;
+    }
+
+    public void OnClick()
+    {
+        towerPlacementUi.SelectTower(towerSO);
     }
 }
