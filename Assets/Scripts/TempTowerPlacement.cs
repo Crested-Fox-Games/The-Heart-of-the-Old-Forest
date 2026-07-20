@@ -1,19 +1,18 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class TempTowerPlacement : MonoBehaviour, IInteractable
+public class TempTowerPlacement : NetworkBehaviour, IInteractable
 {
 
     public bool CanInteract(NetworkObject player)
     {
-        throw new System.NotImplementedException();
-
-        //Check if tower placement UI is already open, also check if player is close enough
+        //TODO: Check if tower placement UI is already open, also check if player is close enough
+        return true;
     }
 
     public void Interact(NetworkObject player)
     {
-        //TODO: Bring up the tower placement UI
+        //Brings up the tower placement UI
         UiManager.Instance.ShowTowerPlacementUi();
     }
 

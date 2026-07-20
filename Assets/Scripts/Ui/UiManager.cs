@@ -1,6 +1,7 @@
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// This class handles the ui updates
@@ -39,6 +40,29 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    private void UiElementOpened()
+    {
+        //Enable the cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        //Disables the player map, stopping all gameplay inputs and activating ui inputs
+        InputSystem.actions.FindActionMap("Player").Disable();
+
+        //Hides the interaction display so that it doesnt appear behind any ui elements and look off
+        HideInteractionPopup();
+    }
+
+    private void UiElementClosed()
+    {
+        //Disable the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        //Enables the player map
+        InputSystem.actions.FindActionMap("Player").Enable();
+    }
+
     /// <summary>
     /// Used to display the text for the interaction popup
     /// </summary>
@@ -65,6 +89,7 @@ public class UiManager : MonoBehaviour
     public void ShowTowerPlacementUi()
     {
         tmpTowerPlacementUi.SetActive(true);
+        UiElementOpened();
     }
 
     /// <summary>
@@ -73,6 +98,7 @@ public class UiManager : MonoBehaviour
     public void HideTowerPlacementUi()
     {
         tmpTowerPlacementUi.SetActive(false);
+        UiElementClosed();
     }
 
     /// <summary>
