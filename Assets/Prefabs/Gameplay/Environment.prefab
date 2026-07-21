@@ -2572,7 +2572,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 7b512794803494c4e83f73959f58c13d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: aab73981e46ae51439612f7e5a7efc85, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &5303012736484014102
 GameObject:
@@ -3075,6 +3075,7 @@ MonoBehaviour:
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
+  spawnDistFromBase: 125
 --- !u!1 &7290279046768206315
 GameObject:
   m_ObjectHideFlags: 0
@@ -5239,6 +5240,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6183998624730672084}
     m_Modifications:
+    - target: {fileID: -4918060688144138003, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 730188329025740137, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 2303001875477162613}
+    - target: {fileID: 730188329025740137, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2007012230489260593, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5309,6 +5322,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6183998624730672084}
     m_Modifications:
+    - target: {fileID: -4918060688144138003, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 730188329025740137, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 2303001875477162613}
+    - target: {fileID: 730188329025740137, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5982852355762230012, guid: 34c6078de487bb14ab742a603a3b80fd, type: 3}
       propertyPath: m_Name
       value: TowerSlot

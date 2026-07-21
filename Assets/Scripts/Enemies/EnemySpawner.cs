@@ -65,6 +65,12 @@ public class EnemySpawner : NetworkBehaviour
     private float baseSpawnInterval = 5f;
 
     /// <summary>
+    /// The distance the enemies will spawn from the base
+    /// </summary>
+    [SerializeField]
+    private float spawnDistFromBase = 100f;
+
+    /// <summary>
     /// The current amount of enemies that have been spawned
     /// </summary>
     private int spawnCount = 0;
@@ -218,8 +224,6 @@ public class EnemySpawner : NetworkBehaviour
 
     private Vector3 GetSpawnPosition(float spawnRadius, int direction)
     {
-        //TODO: change this later
-        float distance = 25f;
 
         Vector3 cardinalPos;
 
@@ -227,16 +231,16 @@ public class EnemySpawner : NetworkBehaviour
         switch (direction)
         {
             case 0: //North
-                cardinalPos = new Vector3(0, 0, distance);
+                cardinalPos = new Vector3(0, 0, spawnDistFromBase);
                 break;
             case 1: //East
-                cardinalPos = new Vector3(distance, 0, 0);
+                cardinalPos = new Vector3(spawnDistFromBase, 0, 0);
                 break;
             case 2: //South
-                cardinalPos = new Vector3(0, 0, -distance);
+                cardinalPos = new Vector3(0, 0, -spawnDistFromBase);
                 break;
             case 3: //West
-                cardinalPos = new Vector3(-distance, 0, 0);
+                cardinalPos = new Vector3(-spawnDistFromBase, 0, 0);
                 break;
             default:
                 return Vector3.zero;
