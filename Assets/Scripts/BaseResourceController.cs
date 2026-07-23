@@ -88,7 +88,7 @@ public class BaseResourceController : NetworkBehaviour
         //First we ensure we have enough resources
         foreach(ResourceCost resource in resources)
         {
-            if(CheckEnoughResources(resource.resource, resource.cost))
+            if(!CheckEnoughResources(resource.resource, resource.cost))
             {
                 //This will tell the function that it failed to remove the resources
                 return false;
@@ -113,6 +113,7 @@ public class BaseResourceController : NetworkBehaviour
     /// <returns></returns>
     public bool CheckEnoughResources(ResourceType resourceType, int amount)
     {
+        Debug.Log($"Resource: {resourceType} Have: {resourceAmounts[resourceType]} Need: {amount}");
         if(!resourceAmounts.TryGetValue(resourceType, out var current))
             return false;
 

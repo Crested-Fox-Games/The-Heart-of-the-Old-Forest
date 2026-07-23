@@ -41,10 +41,17 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     /// <param name="towerSO"></param>
     public void PlaceTower(TowerSO towerSO)
     {
-        towerSlotPrefab.SetActive(false);
+        //TODO: Figure out how to network this
+        if (BaseResourceController.Instance.RemoveResources(towerSO.RequiredResources))
+        {
+            towerSlotPrefab.SetActive(false);
 
-        GameObject spawnedTower = Instantiate(towerSO.TowerPrefab, transform.position, transform.rotation);
+            GameObject spawnedTower = Instantiate(towerSO.TowerPrefab, transform.position, transform.rotation);
 
-        spawnedTower.transform.parent = this.transform;
+            spawnedTower.transform.parent = this.transform;
+
+            //The tower can be placed so we close the ui for tower placement
+            UiManager.Instance.HideTowerPlacementUi();
+        }
     }
 }
