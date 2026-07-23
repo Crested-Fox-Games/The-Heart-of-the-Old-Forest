@@ -178,6 +178,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8705945558457834926}
   _networkObjectCache: {fileID: 0}
+  towerSlotPrefab: {fileID: 3378510940877890086}
 --- !u!114 &8705945558457834926
 MonoBehaviour:
   m_ObjectHideFlags: 0

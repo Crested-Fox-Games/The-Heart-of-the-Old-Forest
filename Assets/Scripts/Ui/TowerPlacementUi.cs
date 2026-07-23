@@ -17,6 +17,9 @@ public class TowerPlacementUi : NetworkBehaviour
     /// </summary>
     private GameObject currentTowerSlot;
 
+    [SerializeField]
+    private GameObject towerDisplayPanel;
+
     /// <summary>
     /// The SOs for the towers themselves
     /// </summary>
@@ -32,6 +35,19 @@ public class TowerPlacementUi : NetworkBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void OnEnable()
+    {
+        //Destroy children and spawn in new slots for each SO
+
+        //Spawn them back in to ensure that they are all there
+        foreach (var tower in towerSOs)
+        {
+            var slot = Instantiate(towerSlotPrefab, parent: towerDisplayPanel.transform);
+
+            slot.GetComponent<TowerSlot>().Initialize(this, tower);
         }
     }
 

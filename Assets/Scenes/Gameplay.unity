@@ -415,6 +415,22 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2251105730303669840, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 155.1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251105730303669840, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.69995
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485461960182736440, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 78.1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485461960182736440, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -121.400024
+      objectReference: {fileID: 0}
     - target: {fileID: 8987464460459311553, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: sceneLight
       value: 
@@ -455,6 +471,14 @@ PrefabInstance:
     - target: {fileID: 1117221470677103280, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577620872032551971, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: SceneId
+      value: 3967770074
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577620872032551971, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1909041459972311432, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
       propertyPath: m_AnchorMax.x

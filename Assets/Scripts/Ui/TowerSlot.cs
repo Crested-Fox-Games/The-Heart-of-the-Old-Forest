@@ -22,8 +22,10 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private TowerPlacementUi towerPlacementUi;
 
-    public void Initialize(TowerPlacementUi tpUi)
+    public void Initialize(TowerPlacementUi tpUi, TowerSO so)
     {
+        towerSO = so;
+
         towerPlacementUi = tpUi;
 
         towerName.text = towerSO.TowerName;
