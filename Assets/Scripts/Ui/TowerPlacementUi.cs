@@ -15,7 +15,7 @@ public class TowerPlacementUi : MonoBehaviour
     /// <summary>
     /// The object that calls the ui 
     /// </summary>
-    private GameObject currentTowerSlot;
+    private NetworkObject currentTowerSlot;
 
     [SerializeField]
     private GameObject towerDisplayPanel;
@@ -61,12 +61,11 @@ public class TowerPlacementUi : MonoBehaviour
     /// <param name="towerSO"></param>
     public void SelectTower(TowerSO towerSO)
     {
-        //Tell TempTowerPlacement to spawn this tower
-        currentTowerSlot.GetComponent<TempTowerPlacement>().PlaceTower(towerSO);
-
+        //Tell the player to spawn this tower
+        PlayerRPCHandler.Instance.CallPlaceTower(currentTowerSlot, towerSO.TowerName);
     }
 
-    public void SetCurrentSlot(GameObject currentTower)
+    public void SetCurrentSlot(NetworkObject currentTower)
     {
         currentTowerSlot = currentTower;
     }

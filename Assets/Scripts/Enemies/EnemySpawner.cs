@@ -85,9 +85,9 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     public override void OnStartServer()
     {
-            //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
-            timeManager.OnNightStart += NightStarted;
-            timeManager.OnNightEnd += NightEnded;
+        //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
+        timeManager.OnNightStart += NightStarted;
+        timeManager.OnNightEnd += NightEnded;
     }
 
     /// <summary>
@@ -95,9 +95,9 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     public override void OnStopServer()
     {
-            //This unsubscribes the functions to the time manager so that they dont fire anymore
-            timeManager.OnNightStart -= NightStarted;
-            timeManager.OnNightEnd -= NightEnded;
+        //This unsubscribes the functions to the time manager so that they dont fire anymore
+        timeManager.OnNightStart -= NightStarted;
+        timeManager.OnNightEnd -= NightEnded;
     }
 
     /// <summary>

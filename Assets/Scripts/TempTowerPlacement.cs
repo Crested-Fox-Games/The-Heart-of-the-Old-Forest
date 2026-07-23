@@ -32,7 +32,7 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     {
         //Brings up the tower placement UI
         UiManager.Instance.ShowTowerPlacementUi();
-        TowerPlacementUi.Instance.SetCurrentSlot(gameObject);
+        TowerPlacementUi.Instance.SetCurrentSlot(this);
     }
 
     /// <summary>
@@ -41,7 +41,6 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     /// <param name="towerSO"></param>
     public void PlaceTower(TowerSO towerSO)
     {
-        //TODO: Figure out how to network this
         if (BaseResourceController.Instance.RemoveResources(towerSO.RequiredResources))
         {
             towerSlotPrefab.SetActive(false);

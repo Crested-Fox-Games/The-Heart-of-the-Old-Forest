@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class BaseResourceController : NetworkBehaviour
     /// The resources the team will have access to 
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
-    private Dictionary<ResourceType, int> resourceAmounts = new Dictionary<ResourceType, int>();
+    private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
 
     private void Awake()
     {
