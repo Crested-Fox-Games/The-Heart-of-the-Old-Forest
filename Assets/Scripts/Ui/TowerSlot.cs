@@ -35,7 +35,7 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         foreach(var resource in towerSO.RequiredResources)
         {
-            resourceString += $"{resource.resource.ToString()}: {resource.cost.ToString()}\n";
+            resourceString += $"{resource.resource.ToString()}: {resource.cost}\n";
         }
 
         resourceText.text = resourceString;

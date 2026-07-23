@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class TempTowerPlacement : NetworkBehaviour, IInteractable
 {
+    /// <summary>
+    /// The prefab that is shown for the broken/placehold tower
+    /// </summary>
+    [SerializeField]
+    private GameObject towerSlotPrefab;
 
     public bool CanInteract(NetworkObject player)
     {
@@ -22,6 +27,10 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     /// <param name="towerSO"></param>
     public void PlaceTower(TowerSO towerSO)
     {
+        towerSlotPrefab.SetActive(false);
 
+        GameObject spawnedTower = Instantiate(towerSO.TowerPrefab, transform.position, transform.rotation);
+
+        spawnedTower.transform.parent = this.transform;
     }
 }
