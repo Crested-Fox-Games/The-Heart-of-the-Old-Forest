@@ -96,6 +96,8 @@ public class EnemySpawner : NetworkBehaviour
         //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
         timeManager.OnNightStart += NightStarted;
         timeManager.OnNightEnd += NightEnded;
+
+
     }
 
     /// <summary>
@@ -125,9 +127,28 @@ public class EnemySpawner : NetworkBehaviour
         {
             StopCoroutine(spawnCoroutine);
             spawnCoroutine = null;
+
+            KillRemainingEnemies();
         }
 
         //TODO: decide if all the enemies die once day hits, to encourage day exploration instead of wasting time killing leftover enemies
+    }
+
+    /// <summary>
+    /// A function that tells all remaining enemies that they should die off due to daytime
+    /// </summary>
+    private void KillRemainingEnemies()
+    {
+        Enemy[] enemies = GetComponentsInChildren<Enemy>();
+
+        foreach(Enemy enemy in enemies)
+        {
+            //NOTE: Probably dont want bosses to die here if we add them
+            if(enemy.gameObject.activeSelf)
+            {
+                enemy.GameDeath();
+            }
+        }
     }
 
     /// <summary>
