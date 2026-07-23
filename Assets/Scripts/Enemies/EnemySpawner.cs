@@ -23,7 +23,7 @@ public class EnemyCluster
     /// <summary>
     /// The list of enemies in the cluster
     /// </summary>
-    public List<GameObject> enemies = new();
+    public List<EnemySO> enemies = new();
 
     /// <summary>
     /// The direction that the cluster will spawn in
@@ -42,7 +42,7 @@ public class EnemySpawner : NetworkBehaviour
     /// The list of currently unlocked enemies that can be spawned.
     /// </summary>
     [SerializeField]
-    private List<GameObject> unlockedEnemies;
+    private List<EnemySO> unlockedEnemies;
 
     [SerializeField]
     private TimeManager timeManager;
@@ -52,6 +52,8 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private GameObject HeartCrystal;
+
+    
 
     /// <summary>
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
@@ -79,6 +81,12 @@ public class EnemySpawner : NetworkBehaviour
     /// The max amount of enemies that can be spawned at once
     /// </summary>
     private int maxSpawnCount = 100;
+
+    /// <summary>
+    /// The pool of despawned enemies that can be pulled from when spawning new enemies
+    /// </summary>
+    [SerializeField]
+    private Dictionary<EnemySO, Queue<Enemy>> pools = new();
 
     /// <summary>
     /// This is called when the server starts running
@@ -147,7 +155,7 @@ public class EnemySpawner : NetworkBehaviour
         //Creates a cluser of random enemies
         EnemyCluster cluster = GetRandomCluster();
 
-        foreach (GameObject enemy in cluster.enemies)
+        foreach (EnemySO enemy in cluster.enemies)
         {
             SpawnEnemy(enemy, cluster.radius, cluster.direction);
         }
@@ -181,7 +189,7 @@ public class EnemySpawner : NetworkBehaviour
             int randomIndex = Random.Range(0, unlockedEnemies.Count);
 
             //The weight of the current enemy
-            float enemyWeight = unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySO.EnemySpawnWeight;
+            float enemyWeight = unlockedEnemies[randomIndex].EnemySpawnWeight;
 
             if(enemyWeight <= 0)
             {
@@ -201,7 +209,7 @@ public class EnemySpawner : NetworkBehaviour
     /// <summary>
     /// Used for the spawning of the individual enemies
     /// </summary>
-    private void SpawnEnemy(GameObject enemyPrefab, float spawnRadius, int direction)
+    private void SpawnEnemy(EnemySO enemySO, float spawnRadius, int direction)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
@@ -210,7 +218,7 @@ public class EnemySpawner : NetworkBehaviour
         Vector3 pos = GetSpawnPosition(spawnRadius, direction);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
-        currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+        currentEnemy = CheckEnemyPool(enemySO, pos);
 
         //Increment spawn count
         spawnCount++;
@@ -220,6 +228,39 @@ public class EnemySpawner : NetworkBehaviour
 
         //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
         currentEnemy.onEnemyKilled += () => spawnCount--;
+    }
+
+    /// <summary>
+    /// Used for getting enemies from a despawn pool, rather than destroying and remaking them
+    /// </summary>
+    /// <param name="enemySO"></param>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    private Enemy CheckEnemyPool(EnemySO enemySO, Vector3 pos)
+    {
+        //If the enemy hasnt been spawned yet, its SO gets added to the dictionary so that we can put it in the pool
+        if (!pools.ContainsKey(enemySO))
+        {
+            pools.Add(enemySO, new Queue<Enemy>());
+        }
+
+        Queue<Enemy> enemyQueue = pools[enemySO];
+
+            //If an enemy in the despawn pool is one we need, we grab it
+            if(enemyQueue.Count > 0)
+            { 
+                Enemy enemy = enemyQueue.Dequeue();
+                //Reset the enemy
+                enemy.InitializeValues();
+                enemy.currentHealth.Value = enemy.EnemySO.EnemyHealth;
+
+                enemy.transform.position = pos;
+                enemy.gameObject.SetActive(true);
+
+                return enemy; 
+            }
+
+        return Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
     }
 
     private Vector3 GetSpawnPosition(float spawnRadius, int direction)
@@ -265,6 +306,20 @@ public class EnemySpawner : NetworkBehaviour
     {
         return new Vector3(0, enemy.GetComponentInChildren<Renderer>().bounds.size.y / 2f, 0);
     }
+
+    /// <summary>
+    /// Returns the enemy to the pool
+    /// </summary>
+    /// <param name="enemy"></param>
+    public void ReturnEnemy(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+
+        //Put it into the pool
+        pools[enemy.EnemySO].Enqueue(enemy);
+    }
+
+    
 
     //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
     //This might need to be a whole class that handles progression

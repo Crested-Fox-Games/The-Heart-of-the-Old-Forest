@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
+using System.Collections;
 using UnityEngine;
 
 //TODO: make this class an abstract parent when implementing enemy types
@@ -20,6 +21,7 @@ public class Enemy : NetworkBehaviour
     //References
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
+    private EnemySpawner enemySpawner;
 
     /// <summary>
     /// The current health of the enemy, the syncvar allows this variable to be updated across
@@ -36,6 +38,7 @@ public class Enemy : NetworkBehaviour
     public override void OnStartServer()
     {
         heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
+        enemySpawner = FindFirstObjectByType<EnemySpawner>();
 
         enemyBrain = GetComponent<EnemyBrain>();
         enemyMovement = GetComponent<EnemyMovement>();
@@ -86,7 +89,10 @@ public class Enemy : NetworkBehaviour
     {
         onEnemyKilled?.Invoke();
 
-        //TODO: add death functionality
+        //TODO: add any rewards for enemies being killed
+
+        ServerManager.Despawn(gameObject);
+        
     }
 
     /// <summary>
@@ -94,6 +100,25 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public void GameDeath()
     {
-        //TODO: Check with design team if this is needed
+        StartCoroutine(SlowDeath());
     }
+
+    private IEnumerator SlowDeath()
+    {
+        float startEnemyHealth = currentHealth.Value;
+        while (currentHealth.Value > 0f)
+        {
+            //Reduces the enemies health by 10% of what it was at the start of day.
+            currentHealth.Value -= startEnemyHealth / 10;
+
+            //Waits 1 second to do more damage
+            yield return new WaitForSeconds(1f);
+        }
+
+        onEnemyKilled?.Invoke();
+
+        //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
+        ServerManager.Despawn(gameObject);
+    }
+
 }
