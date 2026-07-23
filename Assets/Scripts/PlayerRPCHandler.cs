@@ -26,6 +26,7 @@ public class PlayerRPCHandler : NetworkBehaviour
     [ServerRpc]
     public void CallPlaceTower(NetworkObject currentTowerSlot, string towerName)
     {
+        //NOTE: If the folder structure changes and this isnt changed, it will break
         //Loads the resources because the network isnt serializing the SO's 
         TowerSO towerSO = Resources.LoadAll<TowerSO>("ScriptableObjects")
             .FirstOrDefault(s => s.TowerName == towerName);
