@@ -22,7 +22,7 @@ public class TowerSO : ScriptableObject
     private float attackRange, towerHealth, towerDamage, attackCooldown;
 
     [SerializeField]
-    private GameObject projectile, displayObject;
+    private GameObject projectile, displayObject, towerPrefab;
 
     [SerializeField]
     private List<ResourceCost> requiredResources;
@@ -66,6 +66,11 @@ public class TowerSO : ScriptableObject
     /// For placing into world, shows an outline
     /// </summary>
     public GameObject DisplayObject => displayObject;
+
+    /// <summary>
+    /// The prefab for the tower so that it can be spawned in by the spawning systems
+    /// </summary>
+    public GameObject TowerPrefab => towerPrefab;
 
     /// <summary>
     /// A dictionary containing the required resources and the amounts required
