@@ -220,6 +220,8 @@ public class EnemySpawner : NetworkBehaviour
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = CheckEnemyPool(enemySO, pos);
 
+        currentEnemy.transform.parent = transform;
+
         //Increment spawn count
         spawnCount++;
 
