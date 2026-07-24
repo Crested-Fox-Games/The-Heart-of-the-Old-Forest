@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections;
 using UnityEngine;
 
 public class HeartCrystal : NetworkBehaviour

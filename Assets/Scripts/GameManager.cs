@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,5 +34,12 @@ public class GameManager : MonoBehaviour
         //TODO: Decide if this takes the players back to the main menu or to a lobby with the current players
 
         OnGameOver?.Invoke();
+
+        //Disables the player map, stopping all gameplay inputs and activating ui inputs
+        InputSystem.actions.FindActionMap("Player").Disable();
+
+        //Enable the cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }
