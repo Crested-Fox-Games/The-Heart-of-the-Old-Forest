@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 748fc758e0b4ac84a8c3ae06a610c1f6, type: 3}
-  m_Name: Basic Tower
+  m_Name: Archer Tower
   m_EditorClassIdentifier: Assembly-CSharp::TowerSO
-  towerName: Test
-  towerDescription: A tower for early testing
-  attackRange: 4
+  towerName: Archer Tower
+  towerDescription: Shoots arrows
+  attackRange: 10
   towerHealth: 20
   towerDamage: 5
   attackCooldown: 5

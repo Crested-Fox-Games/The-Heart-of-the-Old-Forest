@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,11 @@ public abstract class Tower : NetworkBehaviour
 
     protected bool stunned = false;
 
+    /// <summary>
+    /// The current health of the tower
+    /// </summary>
+    protected readonly SyncVar<float> currentHealth = new();
+
     protected Coroutine attackCoroutine;
 
     private void Start()
@@ -32,6 +38,8 @@ public abstract class Tower : NetworkBehaviour
 
         SphereCollider col = gameObject.AddComponent<SphereCollider>();
         col.radius = attackRange;
+
+        currentHealth.Value = towerHealth;
     }
 
     /// <summary>
@@ -52,8 +60,16 @@ public abstract class Tower : NetworkBehaviour
         //GameObjects
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
- 
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHealth.Value -= damage;
+
+        if (currentHealth.Value < 0)
+        {
+            //Tower dies
+        }
+    }
     
 }

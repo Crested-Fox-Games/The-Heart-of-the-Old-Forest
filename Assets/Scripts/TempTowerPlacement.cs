@@ -10,6 +10,11 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     [SerializeField]
     private GameObject towerSlotPrefab;
 
+    /// <summary>
+    /// The currently spawned tower
+    /// </summary>
+    private GameObject spawnedTower;
+
     public bool CanInteract(NetworkObject player)
     {
         //TODO: Check if tower placement UI is already open, also check if player is close enough
@@ -45,12 +50,24 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
         {
             towerSlotPrefab.SetActive(false);
 
-            GameObject spawnedTower = Instantiate(towerSO.TowerPrefab, transform.position, transform.rotation);
+            spawnedTower = Instantiate(towerSO.TowerPrefab, transform.position, transform.rotation);
 
             spawnedTower.transform.parent = this.transform;
+
+            ServerManager.Spawn(spawnedTower);
 
             //The tower can be placed so we close the ui for tower placement
             UiManager.Instance.HideTowerPlacementUi();
         }
+    }
+
+    public void TowerDied()
+    {
+        //TODO: Might want a way to repair it when its in this state
+        
+        //TODO: Need to create some sort of broken form 
+        spawnedTower.SetActive(false);
+
+        towerSlotPrefab.SetActive(true);
     }
 }
