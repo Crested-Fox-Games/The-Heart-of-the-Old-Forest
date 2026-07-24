@@ -36,8 +36,10 @@ public abstract class Tower : NetworkBehaviour
     {
         InitializeValues();
 
+        //Creates the sphere around the tower that they can attack in
         SphereCollider col = gameObject.AddComponent<SphereCollider>();
         col.radius = attackRange;
+        col.isTrigger = true;
 
         currentHealth.Value = towerHealth;
     }

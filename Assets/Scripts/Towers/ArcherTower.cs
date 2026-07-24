@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ArcherTower : Tower
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
@@ -18,11 +18,12 @@ public class ArcherTower : Tower
             {
                 targets.Add(collision.gameObject);
             }
+            Debug.Log($"Starting attack on {targetEnemy}");
             StartAttack();
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {

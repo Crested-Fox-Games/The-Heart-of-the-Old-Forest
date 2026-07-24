@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerSO
   towerName: Archer Tower
   towerDescription: Shoots arrows
-  attackRange: 10
+  attackRange: 5
   towerHealth: 20
   towerDamage: 5
   attackCooldown: 5
