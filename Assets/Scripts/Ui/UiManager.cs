@@ -28,6 +28,12 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private GameObject tmpTowerPlacementUi;
 
+    /// <summary>
+    /// The panel that holds the functionality for the game over
+    /// </summary>
+    [SerializeField]
+    private GameObject gameOverPanel;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -38,6 +44,8 @@ public class UiManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        GameManager.Instance.OnGameOver += OpenGameOverScreen;
     }
 
     private void UiElementOpened()
@@ -115,4 +123,10 @@ public class UiManager : MonoBehaviour
 
         resourceText.text = playerResources;
     }
+
+    public void OpenGameOverScreen()
+    {
+        gameOverPanel.SetActive(true);
+    }
+
 }
