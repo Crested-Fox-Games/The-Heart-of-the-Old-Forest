@@ -61,12 +61,14 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
         }
     }
 
-    public void TowerDied()
+    /// <summary>
+    /// This function will be for when the player destroys the tower to place a new one
+    /// </summary>
+    public void TowerDestroyed()
     {
-        //TODO: Might want a way to repair it when its in this state
-        
-        //TODO: Need to create some sort of broken form 
-        spawnedTower.SetActive(false);
+        //Gets rid of the tower
+        ServerManager.Despawn(spawnedTower);
+        Destroy(spawnedTower);
 
         towerSlotPrefab.SetActive(true);
     }
