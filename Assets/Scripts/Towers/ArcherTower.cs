@@ -27,6 +27,12 @@ public class ArcherTower : Tower
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
+            if (collision.gameObject != targetEnemy)
+            {
+                targets.Remove(collision.gameObject);
+                return;
+            }
+
             if (targetEnemy != null) //If we are targetting something
             {
                 if (targets.Count <= 0) //If theres no other targets in range.
@@ -79,14 +85,24 @@ public class ArcherTower : Tower
             //Checks if the target enemy has been killed, and if so, adds a new target from the list
             if (targetEnemy == null && targets.Count > 0)
             {
-                targetEnemy = targets[0];
-                targets.RemoveAt(0);
+                while(targets.Count > 0)
+                {
+                    targetEnemy = targets[0];
+                    targets.RemoveAt(0);
+
+                    if (targetEnemy != null)
+                        break;
+                }
+                
             }
-            else if (targetEnemy == null)
+            
+            if (targetEnemy == null)
             {
                 //Ends the ienumerator as there are no targets to hit
                 break;
             }
         }
+
+        attackCoroutine = null;
     }
 }
