@@ -24,6 +24,11 @@ public class MenuUiManager : MonoBehaviour
         onlinePanel.SetActive(true);
     }
 
+    public void CloseOnlinePanel()
+    {
+        onlinePanel.SetActive(false);
+    }
+
     public void OpenBrowserPanel()
     {
         browserPanel.SetActive(true);
@@ -35,4 +40,6 @@ public class MenuUiManager : MonoBehaviour
         lobbyPanel.SetActive(true);
         browserPanel.SetActive(false);
     }
+
+    
 }

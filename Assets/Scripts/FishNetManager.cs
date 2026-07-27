@@ -1,3 +1,4 @@
+using FishNet;
 using UnityEngine;
 
 public class FishNetManager : MonoBehaviour
@@ -14,5 +15,17 @@ public class FishNetManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    public void StartHost()
+    {
+        InstanceFinder.ServerManager.StartConnection();
+
+        InstanceFinder.ClientManager.StartConnection();
+    }
+
+    public void JoinGame(string ip)
+    {
+        InstanceFinder.ClientManager.StartConnection(ip);
     }
 }
