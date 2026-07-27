@@ -64,7 +64,7 @@ public class LobbyApi : MonoBehaviour
             yield break;
         }
 
-        LobbyData[] lobby = JsonHelper.FromJson<LobbyData>(request.downloadHandler.text);
+        LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 
         LobbyManager.Instance.UpdateLobby(lobby);
     }

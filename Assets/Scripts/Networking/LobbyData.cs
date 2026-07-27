@@ -17,4 +17,6 @@ public class LobbyData
     public int maxPlayers;
 
     public bool inGame;
+
+    public LobbyPlayerData[] players;
 }
