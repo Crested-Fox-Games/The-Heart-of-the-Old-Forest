@@ -1,4 +1,5 @@
 using FishNet;
+using FishNet.Transporting;
 using System;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class FishNetManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
     }
 
     public void StartHost()
@@ -31,8 +34,21 @@ public class FishNetManager : MonoBehaviour
     public void ConnectToHost(string ip)
     {
         Debug.Log($"Joining game on ip {ip}");
+
         InstanceFinder.ClientManager.StartConnection(ip);
 
-        OnConnected?.Invoke();
+    }
+
+    private void OnClientConnectionState(ClientConnectionStateArgs args)
+    {
+        if(args.ConnectionState == LocalConnectionState.Started)
+        {
+            OnConnected?.Invoke();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
 }

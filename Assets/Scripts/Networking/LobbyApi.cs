@@ -128,7 +128,12 @@ public class LobbyApi : MonoBehaviour
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
 
+        byte[] body = System.Text.Encoding.UTF8.GetBytes("{}");
+
+        request.uploadHandler = new UploadHandlerRaw(body);
         request.downloadHandler = new DownloadHandlerBuffer();
+
+        request.SetRequestHeader("Content-Type", "application/json");
 
         yield return request.SendWebRequest();
 
