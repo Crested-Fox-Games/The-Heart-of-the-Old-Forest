@@ -11,6 +11,7 @@ public class LobbyApi : MonoBehaviour
     /// <summary>
     /// this stores the address of the api
     /// </summary>
+    [SerializeField]
     private const string BaseURL = "http://localhost:5038/Lobby";
 
     /// <summary>
@@ -22,7 +23,6 @@ public class LobbyApi : MonoBehaviour
     private void Start()
     {
         //StartCoroutine(CreateLobby("Rax Lobby"));
-        
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class LobbyApi : MonoBehaviour
         CreateLobbyRequest lobbyRequest = new CreateLobbyRequest()
         {
             name = lobbyName,
-            hostIp = "127.0.0.1",
+            hostIp = NetworkUtility.GetLocalIpAddress(),
             maxPlayers = 4
         };
 
