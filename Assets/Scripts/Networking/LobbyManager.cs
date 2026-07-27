@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
@@ -21,6 +22,15 @@ public class LobbyManager : MonoBehaviour
     /// Lets other systems know we joined a lobby
     /// </summary>
     public event Action<LobbyData> OnLobbyJoined;
+
+    /// <summary>
+    /// This will ask the server for updates on the lobby every few seconds
+    /// </summary>
+    private Coroutine lobbyPollingRoutine;
+
+    public LobbyData CurrentLobby {  get; private set; }
+
+    public event Action<LobbyData> OnLobbyUpdated;
 
     private void Awake()
     {
@@ -58,6 +68,10 @@ public class LobbyManager : MonoBehaviour
 
     private void HandleLobbyJoined(LobbyData lobby)
     {
+        CurrentLobby = lobby;
+
+        StartLobbyPolling(lobby.id);
+
         OnLobbyJoined?.Invoke(lobby);
     }
 
@@ -70,4 +84,47 @@ public class LobbyManager : MonoBehaviour
     {
         StartCoroutine(lobbyApi.JoinLobby(lobby.id, HandleLobbyJoined));
     }
+
+    public void LeaveLobby()
+    {
+        StopLobbyPolling();
+    }
+
+    public void UpdateLobby(LobbyData lobby)
+    {
+        CurrentLobby = lobby;
+
+        OnLobbyUpdated?.Invoke(CurrentLobby);
+    }
+
+    public void StartLobbyPolling(string lobbyId)
+    {
+        if(lobbyPollingRoutine != null)
+        {
+            StopCoroutine(lobbyPollingRoutine);
+        }
+
+        lobbyPollingRoutine = StartCoroutine(PollLobby(lobbyId));
+    }
+
+    public void StopLobbyPolling()
+    {
+        if(lobbyPollingRoutine != null)
+        {
+            StopCoroutine(lobbyPollingRoutine);
+            lobbyPollingRoutine = null;
+        }
+    }
+
+    private IEnumerator PollLobby(string lobbyId)
+    {
+        while (true)
+        {
+            yield return StartCoroutine(lobbyApi.GetLobby(lobbyId));
+
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
+
 }

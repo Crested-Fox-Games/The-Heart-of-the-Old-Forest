@@ -50,6 +50,25 @@ public class LobbyApi : MonoBehaviour
         OnLobbiesReceived?.Invoke(lobbies);
     }
 
+    public IEnumerator GetLobby(string lobbyId)
+    {
+        string url = $"{BaseURL}/{lobbyId}";
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+
+        yield return request.SendWebRequest();
+
+        if(request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            yield break;
+        }
+
+        LobbyData[] lobby = JsonHelper.FromJson<LobbyData>(request.downloadHandler.text);
+
+        LobbyManager.Instance.UpdateLobby(lobby);
+    }
+
     /// <summary>
     /// This function lets us ask the server to create a lobby for us
     /// </summary>
