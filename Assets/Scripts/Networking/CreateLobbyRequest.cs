@@ -9,4 +9,5 @@ public class CreateLobbyRequest
     public string name;
     public string hostIp;
     public int maxPlayers;
+    public string playerName;
 }

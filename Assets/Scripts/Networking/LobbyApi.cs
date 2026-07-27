@@ -81,7 +81,8 @@ public class LobbyApi : MonoBehaviour
         {
             name = lobbyName,
             hostIp = NetworkUtility.GetLocalIpAddress(),
-            maxPlayers = 4
+            maxPlayers = 4,
+            playerName = PlayerPrefs.GetString("PlayerName")
         };
 
         //Converts the lobbyrequest above to json
@@ -126,9 +127,16 @@ public class LobbyApi : MonoBehaviour
     {
         string url = $"{BaseURL}/{lobbyId}/join";
 
+        JoinLobbyRequest joinRequest = new JoinLobbyRequest()
+        {
+            playerName = PlayerPrefs.GetString("PlayerName", "Player")
+        };
+
+        string json = JsonUtility.ToJson(joinRequest);
+
         UnityWebRequest request = new UnityWebRequest(url, "POST");
 
-        byte[] body = System.Text.Encoding.UTF8.GetBytes("{}");
+        byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
 
         request.uploadHandler = new UploadHandlerRaw(body);
         request.downloadHandler = new DownloadHandlerBuffer();

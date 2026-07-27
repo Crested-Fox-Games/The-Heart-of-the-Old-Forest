@@ -43,5 +43,9 @@ public class MenuUiManager : MonoBehaviour
         browserPanel.SetActive(false);
     }
 
-    
+    public void UpdatePlayerName(string playerName)
+    {
+        PlayerPrefs.SetString("PlayerName", playerName);
+        PlayerPrefs.Save();
+    }
 }
