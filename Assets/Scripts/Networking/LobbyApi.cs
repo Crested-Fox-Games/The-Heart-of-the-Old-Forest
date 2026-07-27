@@ -16,6 +16,7 @@ public class LobbyApi : MonoBehaviour
     private void Start()
     {
         StartCoroutine(CreateLobby("Rax Lobby"));
+        
     }
 
     /// <summary>
@@ -37,8 +38,14 @@ public class LobbyApi : MonoBehaviour
             yield break;
         }
 
-        //Prints the request as a string
-        Debug.Log(request.downloadHandler.text);
+        //Gets a list of lobbies using the JsonHelper class
+        LobbyData[] lobbies = JsonHelper.FromJson<LobbyData>(request.downloadHandler.text);
+
+        //Prints the existing lobbies
+        foreach (LobbyData lobbyData in lobbies)
+        {
+            Debug.Log($"Lobby: {lobbyData.name} Players: {lobbyData.currentPlayers}/{lobbyData.maxPlayers}");
+        }
     }
 
     /// <summary>
@@ -86,7 +93,11 @@ public class LobbyApi : MonoBehaviour
             yield break;
         }
 
-        //Prints the request as a string
-        Debug.Log(request.downloadHandler.text);
+
+        LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
+
+        Debug.Log($"Created lobby: {lobby.name}");
+
+        StartCoroutine(GetLobbies());
     }
 }
