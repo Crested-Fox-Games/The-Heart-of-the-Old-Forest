@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 /// <summary>
 /// This class handles communicating between unity and the program/site that is storing the data on the lobbies
@@ -11,6 +12,11 @@ public class LobbyApi : MonoBehaviour
     /// this stores the address of the api
     /// </summary>
     private const string BaseURL = "http://localhost:5038/Lobby";
+
+    /// <summary>
+    /// An event for when the lobbies are received from the server
+    /// </summary>
+    public event Action<LobbyData[]> OnLobbiesReceived;
 
     //Temp
     private void Start()
@@ -41,11 +47,7 @@ public class LobbyApi : MonoBehaviour
         //Gets a list of lobbies using the JsonHelper class
         LobbyData[] lobbies = JsonHelper.FromJson<LobbyData>(request.downloadHandler.text);
 
-        //Prints the existing lobbies
-        foreach (LobbyData lobbyData in lobbies)
-        {
-            Debug.Log($"Lobby: {lobbyData.name} Players: {lobbyData.currentPlayers}/{lobbyData.maxPlayers}");
-        }
+        OnLobbiesReceived?.Invoke(lobbies);
     }
 
     /// <summary>
@@ -97,7 +99,5 @@ public class LobbyApi : MonoBehaviour
         LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 
         Debug.Log($"Created lobby: {lobby.name}");
-
-        StartCoroutine(GetLobbies());
     }
 }
