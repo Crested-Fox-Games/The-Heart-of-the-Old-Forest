@@ -2,30 +2,58 @@ using UnityEngine;
 
 public class LobbyBrowserUI : MonoBehaviour
 {
-    private LobbyApi lobbyApi;
+    [SerializeField]
+    private Transform lobbyListParent;
 
-    private void Start()
+    [SerializeField]
+    private LobbyEntryUI lobbyEntryPrefab;
+
+    private void Awake()
     {
-        lobbyApi = FindFirstObjectByType<LobbyApi>();
-
-        lobbyApi.OnLobbiesReceived += DisplayLobbies;
+        LobbyManager.Instance.OnLobbiesUpdated += DisplayLobbies;
+        LobbyManager.Instance.OnLobbyJoined += JoinedLobby;
     }
 
-    public void FindLobbies()
+    /// <summary>
+    /// Tells the lobby manager we want to look for games
+    /// </summary>
+    public void FindGames()
     {
-        StartCoroutine(lobbyApi.GetLobbies());
+        LobbyManager.Instance.RefreshLobbies();
     }
 
+    /// <summary>
+    /// Shows the lobbies in the browser
+    /// </summary>
+    /// <param name="lobbies"></param>
     private void DisplayLobbies(LobbyData[] lobbies)
     {
+        ClearLobbyList();
+
         foreach (LobbyData lobby in lobbies)
         {
-            Debug.Log($"{lobby.name} {lobby.currentPlayers}/{lobby.maxPlayers}");
+            LobbyEntryUI entry = Instantiate(lobbyEntryPrefab, lobbyListParent);
+
+            entry.Setup(lobby);
+        }
+    }
+
+    private void ClearLobbyList()
+    {
+        foreach(Transform child in lobbyListParent)
+        {
+            Destroy(child.gameObject);
         }
     }
 
     private void OnDestroy()
     {
-        lobbyApi.OnLobbiesReceived -= DisplayLobbies;
+        if(LobbyManager.Instance != null)
+            LobbyManager.Instance.OnLobbiesUpdated -= DisplayLobbies;
+    }
+
+    private void JoinedLobby(LobbyData lobby)
+    {
+
     }
 }

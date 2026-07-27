@@ -21,7 +21,7 @@ public class LobbyApi : MonoBehaviour
     //Temp
     private void Start()
     {
-        StartCoroutine(CreateLobby("Rax Lobby"));
+        //StartCoroutine(CreateLobby("Rax Lobby"));
         
     }
 
@@ -99,5 +99,26 @@ public class LobbyApi : MonoBehaviour
         LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 
         Debug.Log($"Created lobby: {lobby.name}");
+    }
+
+    public IEnumerator JoinLobby(string lobbyId, Action<LobbyData> callback)
+    {
+        string url = $"{BaseURL}/{lobbyId}/join";
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            yield break;
+        }
+
+        LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
+
+        callback?.Invoke(lobby);
     }
 }
