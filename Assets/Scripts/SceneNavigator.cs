@@ -1,3 +1,4 @@
+using FishNet;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +26,10 @@ public class SceneNavigator : MonoBehaviour
     public void StartSinglePlayer()
     {
         SceneManager.LoadScene("Gameplay");
+
+        InstanceFinder.ServerManager.StartConnection();
+
+        InstanceFinder.ClientManager.StartConnection();
     }
 
     //Need to figure out how to do fishnet scene stuff here for the main menu
