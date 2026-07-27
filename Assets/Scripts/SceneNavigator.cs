@@ -22,5 +22,10 @@ public class SceneNavigator : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void StartSinglePlayer()
+    {
+        SceneManager.LoadScene("Gameplay");
+    }
+
     //Need to figure out how to do fishnet scene stuff here for the main menu
 }
