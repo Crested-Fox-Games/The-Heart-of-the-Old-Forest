@@ -74,7 +74,7 @@ public class LobbyApi : MonoBehaviour
     /// </summary>
     /// <param name="lobbyName"></param>
     /// <returns></returns>
-    public IEnumerator CreateLobby(string lobbyName)
+    public IEnumerator CreateLobby(string lobbyName, Action<LobbyData> callback)
     {
         //Creates an object with the data that the server needs 
         CreateLobbyRequest lobbyRequest = new CreateLobbyRequest()
@@ -118,6 +118,8 @@ public class LobbyApi : MonoBehaviour
         LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 
         Debug.Log($"Created lobby: {lobby.name}");
+
+        callback?.Invoke(lobby);
     }
 
     public IEnumerator JoinLobby(string lobbyId, Action<LobbyData> callback)

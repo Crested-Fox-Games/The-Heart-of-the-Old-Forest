@@ -72,12 +72,25 @@ public class LobbyManager : MonoBehaviour
 
         StartLobbyPolling(lobby.id);
 
-        OnLobbyJoined?.Invoke(lobby);
+        FishNetManager.Instance.OnConnected += HandleFishNetConnected;
+
+        FishNetManager.Instance.ConnectToHost(lobby.hostIp);
     }
 
     private void OnDestroy()
     {
-        lobbyApi.OnLobbiesReceived -= HandleLobbiesReceived;
+        if(lobbyApi != null)
+            lobbyApi.OnLobbiesReceived -= HandleLobbiesReceived;
+
+        if(FishNetManager.Instance != null)
+            FishNetManager.Instance.OnConnected -= HandleFishNetConnected;
+    }
+
+    private void HandleFishNetConnected()
+    {
+        FishNetManager.Instance.OnConnected -= HandleFishNetConnected;
+
+        OnLobbyJoined?.Invoke(CurrentLobby);
     }
 
     public void JoinLobby(LobbyData lobby)
@@ -95,6 +108,29 @@ public class LobbyManager : MonoBehaviour
         CurrentLobby = lobby;
 
         OnLobbyUpdated?.Invoke(CurrentLobby);
+    }
+
+    public void HostLobby()
+    {
+        FishNetManager.Instance.StartHost();
+
+        StartCoroutine(CreateHostLobby());
+    }
+
+    private IEnumerator CreateHostLobby()
+    {
+        yield return StartCoroutine(lobbyApi.CreateLobby("Temporary Lobby Name", HandleLobbyCreated));
+    }
+
+    private void HandleLobbyCreated(LobbyData lobby)
+    {
+        CurrentLobby = lobby;
+
+        StartLobbyPolling(CurrentLobby.id);
+
+        OnLobbyJoined?.Invoke(CurrentLobby);
+
+        MenuUiManager.Instance.OpenLobbyPanel();
     }
 
     public void StartLobbyPolling(string lobbyId)

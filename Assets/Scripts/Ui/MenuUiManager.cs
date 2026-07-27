@@ -31,12 +31,14 @@ public class MenuUiManager : MonoBehaviour
 
     public void OpenBrowserPanel()
     {
+        OpenOnlinePanel();
         browserPanel.SetActive(true);
         lobbyPanel.SetActive(false);
     }
 
     public void OpenLobbyPanel()
     {
+        OpenOnlinePanel();
         lobbyPanel.SetActive(true);
         browserPanel.SetActive(false);
     }

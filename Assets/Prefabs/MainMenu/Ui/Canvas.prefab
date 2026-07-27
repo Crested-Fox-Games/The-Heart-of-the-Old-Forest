@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 637882014101114109}
   - component: {fileID: 341117366608741548}
+  - component: {fileID: 1409791777256444422}
   m_Layer: 5
   m_Name: Online
   m_TagString: Untagged
@@ -51,6 +52,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyBrowserUI
   lobbyListParent: {fileID: 1785535348619504401}
   lobbyEntryPrefab: {fileID: 7775238213839912694, guid: 2f054cfdb7d4e7e439618375c3723a50, type: 3}
+--- !u!114 &1409791777256444422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162560858658516282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cff3a5ef6bb088e4384a49d698fe7626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyRoomUI
+  playerListParent: {fileID: 4990920794339843179}
+  playerEntryPrefab: {fileID: 1005599932671902075, guid: 64d1ac835ff132f44999d20bc4d4896d, type: 3}
 --- !u!1 &1297240181777781140
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1438784603860097981
 RectTransform:
   m_ObjectHideFlags: 0
@@ -852,7 +867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5097570987466898859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2569,7 +2584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuUiManager
   onlinePanel: {fileID: 162560858658516282}
-  browserPanel: {fileID: 162560858658516282}
+  browserPanel: {fileID: 3561587878983759172}
   lobbyPanel: {fileID: 3800921467740913638}
 --- !u!1 &8520982596704267981
 GameObject:

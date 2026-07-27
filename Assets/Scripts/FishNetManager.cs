@@ -1,15 +1,18 @@
 using FishNet;
+using System;
 using UnityEngine;
 
 public class FishNetManager : MonoBehaviour
 {
     public static FishNetManager Instance { get; private set; }
 
+    public event Action OnConnected;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -25,9 +28,11 @@ public class FishNetManager : MonoBehaviour
         InstanceFinder.ClientManager.StartConnection();
     }
 
-    public void JoinGame(string ip)
+    public void ConnectToHost(string ip)
     {
         Debug.Log($"Joining game on ip {ip}");
         InstanceFinder.ClientManager.StartConnection(ip);
+
+        OnConnected?.Invoke();
     }
 }

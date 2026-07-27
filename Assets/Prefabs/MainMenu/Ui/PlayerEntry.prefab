@@ -423,6 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1290022779935923153}
   - component: {fileID: 6739261031208379892}
+  - component: {fileID: 1005599932671902075}
   m_Layer: 5
   m_Name: PlayerEntry
   m_TagString: Untagged
@@ -478,3 +479,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1005599932671902075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9141976127954990073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c9e3c2fdb7b4041bc03e1fbd6a58f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEntryUI
+  playerNameText: {fileID: 5270797739785806180}
+  hostText: {fileID: 9089764721974115062}
+  readyText: {fileID: 5977483513208631422}

@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class LobbyBrowserUI : MonoBehaviour
@@ -54,6 +56,8 @@ public class LobbyBrowserUI : MonoBehaviour
 
     private void JoinedLobby(LobbyData lobby)
     {
-
+        //Hide Browser & Show Lobby Room
+        MenuUiManager.Instance.OpenLobbyPanel();
     }
+
 }
