@@ -20,3 +20,7 @@ MonoBehaviour:
   attackCooldown: 5
   projectile: {fileID: 3723794516530627890, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   displayObject: {fileID: 0}
+  towerPrefab: {fileID: 7829146077412672749, guid: 825707b6501974e43954d0e456274cc6, type: 3}
+  requiredResources:
+  - resource: 0
+    cost: 10

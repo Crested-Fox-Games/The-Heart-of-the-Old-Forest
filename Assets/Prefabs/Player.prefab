@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 5157244053637599692}
   - component: {fileID: 4249959293906175344}
   - component: {fileID: 1680321782225394051}
+  - component: {fileID: 5854695226715694454}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -267,6 +268,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   interactDistance: 5
+  interactRate: 0.5
 --- !u!114 &5157244053637599692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +391,18 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &5854695226715694454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea130477043888c4689d9ccdb267a4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRPCHandler
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0

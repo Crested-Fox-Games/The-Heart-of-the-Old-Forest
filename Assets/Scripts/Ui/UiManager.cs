@@ -1,6 +1,7 @@
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// This class handles the ui updates
@@ -21,6 +22,12 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI resourceText;
 
+    /// <summary>
+    /// The ui panel for the tower placement ui
+    /// </summary>
+    [SerializeField]
+    private GameObject tmpTowerPlacementUi;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -31,6 +38,29 @@ public class UiManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void UiElementOpened()
+    {
+        //Enable the cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        //Disables the player map, stopping all gameplay inputs and activating ui inputs
+        InputSystem.actions.FindActionMap("Player").Disable();
+
+        //Hides the interaction display so that it doesnt appear behind any ui elements and look off
+        HideInteractionPopup();
+    }
+
+    private void UiElementClosed()
+    {
+        //Disable the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        //Enables the player map
+        InputSystem.actions.FindActionMap("Player").Enable();
     }
 
     /// <summary>
@@ -53,6 +83,28 @@ public class UiManager : MonoBehaviour
         interactText.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Used to show the tower placement ui
+    /// </summary>
+    public void ShowTowerPlacementUi()
+    {
+        tmpTowerPlacementUi.SetActive(true);
+        UiElementOpened();
+    }
+
+    /// <summary>
+    /// Used to hide the tower placement ui
+    /// </summary>
+    public void HideTowerPlacementUi()
+    {
+        tmpTowerPlacementUi.SetActive(false);
+        UiElementClosed();
+    }
+
+    /// <summary>
+    /// Used to update the player's resource display
+    /// </summary>
+    /// <param name="resourceAmounts"></param>
     public void UpdatePlayerResourceUi(SyncDictionary<ResourceType, int> resourceAmounts)
     {
         string playerResources = "";

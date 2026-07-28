@@ -1,16 +1,30 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseResourceController : NetworkBehaviour
 {
     //This script will handle all the resources that are collected by the players
+    public static BaseResourceController Instance { get; private set; }
+
 
     /// <summary>
     /// The resources the team will have access to 
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
-    private Dictionary<ResourceType, int> resourceAmounts = new Dictionary<ResourceType, int>();
+    private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
+
+    private void Awake()
+    {
+        //Singleton Setup
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     //This will take all of the resources the players have collected and put it into a team storage
     private void OnTriggerEnter(Collider other)
@@ -50,7 +64,7 @@ public class BaseResourceController : NetworkBehaviour
     /// <param name="resourceType"></param>
     /// <param name="amount"></param>
     /// <returns></returns>
-    private bool RemoveResources(ResourceType resourceType, int amount)
+    public bool RemoveResources(ResourceType resourceType, int amount)
     {
         //Runs a check to ensure there are enough resources, then removes the resources if theres enough
         if (CheckEnoughResources(resourceType, amount))
@@ -65,6 +79,34 @@ public class BaseResourceController : NetworkBehaviour
     }
 
     /// <summary>
+    /// An overload for the remove resources function to be used with a list, this way we centralise the logic and make it 
+    /// easier to remove multiple resources at once
+    /// </summary>
+    /// <param name="resources"></param>
+    /// <returns></returns>
+    public bool RemoveResources(List<ResourceCost> resources)
+    {
+        //First we ensure we have enough resources
+        foreach(ResourceCost resource in resources)
+        {
+            if(!CheckEnoughResources(resource.resource, resource.cost))
+            {
+                //This will tell the function that it failed to remove the resources
+                return false;
+            }
+        }
+
+        //Second we remove the actual resources
+        foreach(ResourceCost resource in resources)
+        {
+            RemoveResources(resource.resource, resource.cost);
+        }
+
+        //Third we tell the function it was successful
+        return true;
+    }
+
+    /// <summary>
     /// The check for if the controller has enough resources
     /// </summary>
     /// <param name="resourceType"></param>
@@ -72,16 +114,11 @@ public class BaseResourceController : NetworkBehaviour
     /// <returns></returns>
     public bool CheckEnoughResources(ResourceType resourceType, int amount)
     {
-        //Checks the dictionary to see if the team has enough resources required
-        if (amount > resourceAmounts[resourceType])
-        {
-            return true;
-        }
-        else
-        {
+        Debug.Log($"Resource: {resourceType} Have: {resourceAmounts[resourceType]} Need: {amount}");
+        if(!resourceAmounts.TryGetValue(resourceType, out var current))
             return false;
-        }
-    }
 
-    //TODO: add some sort of ui that displays resources, and a function to update that
+        //Checks the dictionary to see if the team has enough resources required
+        return current >= amount;
+    }
 }
