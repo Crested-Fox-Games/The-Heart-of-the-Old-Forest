@@ -10,6 +10,8 @@ public class LobbyApi : MonoBehaviour
 {
     /// <summary>
     /// this stores the address of the api
+    /// Home: http://localhost:5038/Lobby
+    /// Uni: 
     /// </summary>
     [SerializeField]
     private const string BaseURL = "http://localhost:5038/Lobby";
@@ -115,12 +117,11 @@ public class LobbyApi : MonoBehaviour
             yield break;
         }
 
+        LobbyResponse response = JsonUtility.FromJson<LobbyResponse>(request.downloadHandler.text);
 
-        LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
+        LobbyManager.Instance.SetPlayerId(response.playerId);
 
-        Debug.Log($"Created lobby: {lobby.name}");
-
-        callback?.Invoke(lobby);
+        callback?.Invoke(response.lobby);
     }
 
     public IEnumerator JoinLobby(string lobbyId, Action<LobbyData> callback)
@@ -150,6 +151,43 @@ public class LobbyApi : MonoBehaviour
             Debug.LogError(request.error);
             yield break;
         }
+
+        LobbyResponse response = JsonUtility.FromJson<LobbyResponse>(request.downloadHandler.text);
+
+        LobbyManager.Instance.SetPlayerId(response.playerId);
+
+        callback?.Invoke(response.lobby);
+    }
+
+    public IEnumerator SetReady(bool isReady, Action<LobbyData> callback)
+    {
+        string url = $"{BaseURL}/{LobbyManager.Instance.CurrentLobby.id}/ready";
+
+        ReadyRequest ready = new ReadyRequest()
+        {
+            playerId = LobbyManager.Instance.LocalPlayerId,
+            isReady = isReady,
+        };
+
+        string json = JsonUtility.ToJson(ready);
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+
+        byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
+
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            yield break;
+        }
+        Debug.Log(request.downloadHandler.text);
 
         LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 

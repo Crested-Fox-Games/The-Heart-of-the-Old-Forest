@@ -30,6 +30,8 @@ public class LobbyManager : MonoBehaviour
 
     public LobbyData CurrentLobby {  get; private set; }
 
+    public string LocalPlayerId { get; private set; }
+
     public event Action<LobbyData> OnLobbyUpdated;
 
     private void Awake()
@@ -135,7 +137,7 @@ public class LobbyManager : MonoBehaviour
 
     public void StartLobbyPolling(string lobbyId)
     {
-        if(lobbyPollingRoutine != null)
+        if (lobbyPollingRoutine != null)
         {
             StopCoroutine(lobbyPollingRoutine);
         }
@@ -162,5 +164,20 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public void SetReady(bool ready)
+    {
+        StartCoroutine(lobbyApi.SetReady(ready, HandleLobbyUpdated));
+    }
 
+    private void HandleLobbyUpdated(LobbyData lobby)
+    {
+        CurrentLobby = lobby;
+
+        OnLobbyUpdated?.Invoke(CurrentLobby);
+    }
+
+    public void SetPlayerId(string playerId)
+    {
+        LocalPlayerId = playerId;
+    }
 }
