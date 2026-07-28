@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections;
 using UnityEngine;
 
 public class HeartCrystal : NetworkBehaviour
@@ -26,9 +27,10 @@ public class HeartCrystal : NetworkBehaviour
 
         currentHealth.Value -= damage;
 
-        if(currentHealth.Value < 0)
+        if(currentHealth.Value <= 0)
         {
             //Run some sort of game over function
+            GameManager.Instance.GameOver();
         }
     }
 
