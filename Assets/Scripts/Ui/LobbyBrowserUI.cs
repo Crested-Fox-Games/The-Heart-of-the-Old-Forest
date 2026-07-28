@@ -10,7 +10,7 @@ public class LobbyBrowserUI : MonoBehaviour
     [SerializeField]
     private LobbyEntryUI lobbyEntryPrefab;
 
-    private void Awake()
+    private void Start()
     {
         LobbyManager.Instance.OnLobbiesUpdated += DisplayLobbies;
         LobbyManager.Instance.OnLobbyJoined += JoinedLobby;
