@@ -10,12 +10,9 @@ public class LobbyApi : MonoBehaviour
 {
     /// <summary>
     /// this stores the address of the api
-    /// Home: http://localhost:5038/Lobby
-    /// Uni: http://10.134.10.100/Lobby Doesnt work
-    /// Mobile Hotspot: http://10.131.159.188/Lobby
     /// </summary>
     [SerializeField]
-    private const string BaseURL = "http://10.131.159.188/Lobby";
+    private const string BaseURL = "https://hotof-lobby-server.onrender.com/Lobby";
 
     /// <summary>
     /// An event for when the lobbies are received from the server
