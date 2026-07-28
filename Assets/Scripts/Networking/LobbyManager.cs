@@ -2,6 +2,7 @@ using FishNet;
 using FishNet.Managing.Scened;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
@@ -29,6 +30,8 @@ public class LobbyManager : MonoBehaviour
     /// This will ask the server for updates on the lobby every few seconds
     /// </summary>
     private Coroutine lobbyPollingRoutine;
+
+    private Coroutine heartbeatRoutine;
 
     public LobbyData CurrentLobby {  get; private set; }
 
@@ -132,6 +135,8 @@ public class LobbyManager : MonoBehaviour
     {
         CurrentLobby = lobby;
 
+        StartHeartbeat();
+
         StartLobbyPolling(CurrentLobby.id);
 
         OnLobbyJoined?.Invoke(CurrentLobby);
@@ -209,5 +214,33 @@ public class LobbyManager : MonoBehaviour
     public void StartGame()
     {
         StartCoroutine(lobbyApi.StartGame(HandleLobbyUpdated));
+    }
+
+    private bool IsLocalPlayerHost()
+    {
+        if(CurrentLobby == null)
+            return false;
+
+        LobbyPlayerData playerData = CurrentLobby.players.FirstOrDefault(p => p.id == LocalPlayerId);
+
+        return playerData != null && playerData.isHost;
+    }
+
+    public void StartHeartbeat()
+    {
+        if (!IsLocalPlayerHost())
+            return;
+
+        heartbeatRoutine = StartCoroutine(HeartbeatLoop());
+    }
+
+    private IEnumerator HeartbeatLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+
+            StartCoroutine(lobbyApi.SendHeartbeat(CurrentLobby.id));
+        }
     }
 }

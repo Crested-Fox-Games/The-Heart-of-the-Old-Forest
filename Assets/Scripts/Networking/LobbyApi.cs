@@ -213,4 +213,20 @@ public class LobbyApi : MonoBehaviour
 
         callback?.Invoke(lobby);
     }
+
+    public IEnumerator SendHeartbeat(string lobbyId)
+    {
+        string url = $"{BaseURL}/{lobbyId}/heartbeat";
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+        }
+    }
 }
