@@ -85,6 +85,7 @@ public class LobbyApi : MonoBehaviour
             playerName = PlayerPrefs.GetString("PlayerName")
         };
 
+        Debug.Log("Host Ip " + lobbyRequest.hostIp);
         //Converts the lobbyrequest above to json
         string json = JsonUtility.ToJson(lobbyRequest);
 
