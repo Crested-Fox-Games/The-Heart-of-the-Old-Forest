@@ -1,4 +1,5 @@
 using FishNet;
+using FishNet.Managing.Scened;
 using FishNet.Transporting;
 using System;
 using UnityEngine;
@@ -51,4 +52,6 @@ public class FishNetManager : MonoBehaviour
     {
         InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
+
+    
 }

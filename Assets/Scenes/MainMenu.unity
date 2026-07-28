@@ -663,25 +663,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1355049003170681281, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+    - target: {fileID: 1785535348619504401, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1355049003170681281, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 57429037}
-    - target: {fileID: 1355049003170681281, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetReady
+    - target: {fileID: 1785535348619504401, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1355049003170681281, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LobbyManager, Assembly-CSharp
+    - target: {fileID: 1785535348619504401, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1355049003170681281, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
+    - target: {fileID: 1785535348619504401, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2499073952309899523, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -691,6 +687,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1193038610}
+    - target: {fileID: 6906086996532409744, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 57429037}
+    - target: {fileID: 6906086996532409744, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906086996532409744, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7522102656126709483, guid: a8b4a99249579e2469366e86d08096f2, type: 3}
       propertyPath: m_Pivot.x
       value: 0

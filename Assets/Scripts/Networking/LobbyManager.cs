@@ -1,3 +1,5 @@
+using FishNet;
+using FishNet.Managing.Scened;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -33,6 +35,8 @@ public class LobbyManager : MonoBehaviour
     public string LocalPlayerId { get; private set; }
 
     public event Action<LobbyData> OnLobbyUpdated;
+
+    private bool gameStarted = false;
 
     private void Awake()
     {
@@ -121,7 +125,7 @@ public class LobbyManager : MonoBehaviour
 
     private IEnumerator CreateHostLobby()
     {
-        yield return StartCoroutine(lobbyApi.CreateLobby("Temporary Lobby Name", HandleLobbyCreated));
+        yield return StartCoroutine(lobbyApi.CreateLobby($"{PlayerPrefs.GetString("PlayerName", "Player")}'s lobby", HandleLobbyCreated));
     }
 
     private void HandleLobbyCreated(LobbyData lobby)
@@ -160,7 +164,9 @@ public class LobbyManager : MonoBehaviour
         {
             yield return StartCoroutine(lobbyApi.GetLobby(lobbyId));
 
-            yield return new WaitForSeconds(5f);
+            //This is the amount of time between updates on the server
+            //If we want realtime updates we need to change from polling to a response system
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -174,10 +180,34 @@ public class LobbyManager : MonoBehaviour
         CurrentLobby = lobby;
 
         OnLobbyUpdated?.Invoke(CurrentLobby);
+
+        if (CurrentLobby.inGame && !gameStarted)
+        {
+            //Run fishnet scene loading
+            gameStarted = true;
+            StartGameScene();
+        }
+    }
+
+    private void StartGameScene()
+    {
+        if (!InstanceFinder.IsServerStarted)
+            return;
+
+        SceneLoadData sceneLoadData = new SceneLoadData("Gameplay");
+
+        sceneLoadData.ReplaceScenes = ReplaceOption.All;
+
+        InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
     }
 
     public void SetPlayerId(string playerId)
     {
         LocalPlayerId = playerId;
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(lobbyApi.StartGame(HandleLobbyUpdated));
     }
 }

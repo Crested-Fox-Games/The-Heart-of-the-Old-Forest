@@ -187,7 +187,27 @@ public class LobbyApi : MonoBehaviour
             Debug.LogError(request.error);
             yield break;
         }
-        Debug.Log(request.downloadHandler.text);
+
+        LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
+
+        callback?.Invoke(lobby);
+    }
+
+    public IEnumerator StartGame(Action<LobbyData> callback)
+    {
+        string url = $"{BaseURL}/{LobbyManager.Instance.CurrentLobby.id}/start";
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+            yield break;
+        }
 
         LobbyData lobby = JsonUtility.FromJson<LobbyData>(request.downloadHandler.text);
 

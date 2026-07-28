@@ -19,6 +19,13 @@ public class MenuUiManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        onlinePanel.SetActive(false);
+        browserPanel.SetActive(true);
+        lobbyPanel.SetActive(false);
+    }
+
     public void OpenOnlinePanel()
     {
         onlinePanel.SetActive(true);
