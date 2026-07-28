@@ -1,64 +1,15 @@
-using NUnit.Framework;
+using GameKit.Dependencies.Utilities.ObjectPooling.Examples;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class Tower : MonoBehaviour
+public class ArcherTower : Tower
 {
-    #region SO Fields
-    [SerializeField]
-    private TowerSO towerSO;
-
-    private string towerName, towerDescription;
-
-    private float attackRange, towerDamage, towerHealth, attackCooldown;
-
-    private GameObject projectile, displayObject;
-
-    #endregion
-
-    private GameObject targetEnemy;
-
-    private List<GameObject> targets = new List<GameObject>();
-
-    private bool stunned = false;
-
-    private Coroutine attackCoroutine;
-
-    private void Start()
-    {
-        InitializeValues();
-
-        SphereCollider col = gameObject.AddComponent<SphereCollider>();
-        col.radius = attackRange;
-    }
-
-    /// <summary>
-    /// Sets the initial values of the tower based on the SO
-    /// </summary>
-    private void InitializeValues()
-    {
-        //String
-        towerName = towerSO.TowerName;
-        towerDescription = towerSO.TowerDescription;
-
-        //Float
-        attackRange = towerSO.AttackRange;
-        towerDamage = towerSO.TowerDamage;
-        towerHealth = towerSO.TowerHealth;
-        attackCooldown = towerSO.AttackCooldown;
-
-        //GameObjects
-        projectile = towerSO.Projectile;
-        displayObject = towerSO.DisplayObject;
- 
-    }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
-            if(targetEnemy == null) //If we're not targeting an enemy, start targeting them.
+            if (targetEnemy == null) //If we're not targeting an enemy, start targeting them.
             {
                 targetEnemy = collision.gameObject;
                 Debug.Log("Setting target");
@@ -67,15 +18,22 @@ public class Tower : MonoBehaviour
             {
                 targets.Add(collision.gameObject);
             }
+            Debug.Log($"Starting attack on {targetEnemy}");
             StartAttack();
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
-            if(targetEnemy != null) //If we are targetting something
+            if (collision.gameObject != targetEnemy)
+            {
+                targets.Remove(collision.gameObject);
+                return;
+            }
+
+            if (targetEnemy != null) //If we are targetting something
             {
                 if (targets.Count <= 0) //If theres no other targets in range.
                 {
@@ -93,7 +51,7 @@ public class Tower : MonoBehaviour
 
     private void StartAttack()
     {
-        if(attackCoroutine == null) //If the attack coroutine isnt running, start it.
+        if (attackCoroutine == null) //If the attack coroutine isnt running, start it.
         {
             attackCoroutine = StartCoroutine(AttackLoop());
         }
@@ -104,7 +62,7 @@ public class Tower : MonoBehaviour
         //Checks to ensure there is a target to hit
         while (targetEnemy != null)
         {
-            if(stunned) //TODO: add some sort of stun time.
+            if (stunned) //TODO: add some sort of stun time.
             {
                 yield return new WaitForSeconds(3f);
                 continue;
@@ -127,14 +85,24 @@ public class Tower : MonoBehaviour
             //Checks if the target enemy has been killed, and if so, adds a new target from the list
             if (targetEnemy == null && targets.Count > 0)
             {
-                targetEnemy = targets[0];
-                targets.RemoveAt(0);
+                while(targets.Count > 0)
+                {
+                    targetEnemy = targets[0];
+                    targets.RemoveAt(0);
+
+                    if (targetEnemy != null)
+                        break;
+                }
+                
             }
-            else if (targetEnemy == null)
+            
+            if (targetEnemy == null)
             {
                 //Ends the ienumerator as there are no targets to hit
                 break;
             }
         }
+
+        attackCoroutine = null;
     }
 }

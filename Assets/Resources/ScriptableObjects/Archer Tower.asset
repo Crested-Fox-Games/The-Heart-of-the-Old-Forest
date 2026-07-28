@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 748fc758e0b4ac84a8c3ae06a610c1f6, type: 3}
-  m_Name: Basic Tower
+  m_Name: Archer Tower
   m_EditorClassIdentifier: Assembly-CSharp::TowerSO
-  towerName: Test
-  towerDescription: A tower for early testing
-  attackRange: 4
+  towerName: Archer Tower
+  towerDescription: Shoots arrows
+  attackRange: 5
   towerHealth: 20
   towerDamage: 5
-  attackCooldown: 5
+  attackCooldown: 0.5
   projectile: {fileID: 3723794516530627890, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   displayObject: {fileID: 0}
   towerPrefab: {fileID: 7829146077412672749, guid: 825707b6501974e43954d0e456274cc6, type: 3}
