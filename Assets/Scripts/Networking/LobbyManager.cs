@@ -31,8 +31,14 @@ public class LobbyManager : MonoBehaviour
     /// </summary>
     private Coroutine lobbyPollingRoutine;
 
+    /// <summary>
+    /// The coroutine for telling the server that this lobby is still alive
+    /// </summary>
     private Coroutine heartbeatRoutine;
 
+    /// <summary>
+    /// Stores the details of the current lobby
+    /// </summary>
     public LobbyData CurrentLobby {  get; private set; }
 
     public string LocalPlayerId { get; private set; }

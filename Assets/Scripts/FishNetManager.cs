@@ -24,6 +24,9 @@ public class FishNetManager : MonoBehaviour
         InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
     }
 
+    /// <summary>
+    /// Starts up the fishnet server for the host
+    /// </summary>
     public void StartHost()
     {
         InstanceFinder.ServerManager.StartConnection();
@@ -31,11 +34,19 @@ public class FishNetManager : MonoBehaviour
         InstanceFinder.ClientManager.StartConnection();
     }
 
+    /// <summary>
+    /// Connects the client to the host via the ip address
+    /// </summary>
+    /// <param name="ip"></param>
     public void ConnectToHost(string ip)
     {
         InstanceFinder.ClientManager.StartConnection(ip);
     }
 
+    /// <summary>
+    /// Runs when the clients connection state is updated
+    /// </summary>
+    /// <param name="args"></param>
     private void OnClientConnectionState(ClientConnectionStateArgs args)
     {
         if(args.ConnectionState == LocalConnectionState.Started)
@@ -46,6 +57,7 @@ public class FishNetManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        //Unsubscribes when the object is destroyed
         InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
 }

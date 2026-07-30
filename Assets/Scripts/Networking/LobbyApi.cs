@@ -10,6 +10,7 @@ public class LobbyApi : MonoBehaviour
 {
     /// <summary>
     /// this stores the address of the api
+    /// This is currently hosted on a website as of 29/7/26
     /// </summary>
     [SerializeField]
     private const string BaseURL = "https://hotof-lobby-server.onrender.com/Lobby";
@@ -47,13 +48,21 @@ public class LobbyApi : MonoBehaviour
         //Gets a list of lobbies using the JsonHelper class
         LobbyData[] lobbies = JsonHelper.FromJson<LobbyData>(request.downloadHandler.text);
 
+        //Fires the event for when the lobbies have been recieved
         OnLobbiesReceived?.Invoke(lobbies);
     }
 
+    /// <summary>
+    /// Function to get a specific lobby from its unique guid
+    /// </summary>
+    /// <param name="lobbyId"></param>
+    /// <returns></returns>
     public IEnumerator GetLobby(string lobbyId)
     {
+        //Gets the url for the lobby
         string url = $"{BaseURL}/{lobbyId}";
 
+        //This creates the GET request using the url
         UnityWebRequest request = UnityWebRequest.Get(url);
 
         yield return request.SendWebRequest();
@@ -125,6 +134,7 @@ public class LobbyApi : MonoBehaviour
 
     public IEnumerator JoinLobby(string lobbyId, Action<LobbyData> callback)
     {
+        //Gets the url for the lobby with the name of the function on the server api
         string url = $"{BaseURL}/{lobbyId}/join";
 
         JoinLobbyRequest joinRequest = new JoinLobbyRequest()
@@ -143,6 +153,7 @@ public class LobbyApi : MonoBehaviour
 
         request.SetRequestHeader("Content-Type", "application/json");
 
+        //This sends the request, then the coroutine pauses until it gets a response
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
@@ -160,6 +171,7 @@ public class LobbyApi : MonoBehaviour
 
     public IEnumerator SetReady(bool isReady, Action<LobbyData> callback)
     {
+        //Gets the url for the lobby with the name of the function on the server api
         string url = $"{BaseURL}/{LobbyManager.Instance.CurrentLobby.id}/ready";
 
         ReadyRequest ready = new ReadyRequest()
@@ -179,6 +191,7 @@ public class LobbyApi : MonoBehaviour
 
         request.SetRequestHeader("Content-Type", "application/json");
 
+        //This sends the request, then the coroutine pauses until it gets a response
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
@@ -194,12 +207,14 @@ public class LobbyApi : MonoBehaviour
 
     public IEnumerator StartGame(Action<LobbyData> callback)
     {
+        //Gets the url for the lobby with the name of the function on the server api
         string url = $"{BaseURL}/{LobbyManager.Instance.CurrentLobby.id}/start";
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
 
         request.downloadHandler = new DownloadHandlerBuffer();
 
+        //This sends the request, then the coroutine pauses until it gets a response
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)
@@ -215,12 +230,14 @@ public class LobbyApi : MonoBehaviour
 
     public IEnumerator SendHeartbeat(string lobbyId)
     {
+        //Gets the url for the lobby with the name of the function on the server api
         string url = $"{BaseURL}/{lobbyId}/heartbeat";
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
 
         request.downloadHandler = new DownloadHandlerBuffer();
 
+        //This sends the request, then the coroutine pauses until it gets a response
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)

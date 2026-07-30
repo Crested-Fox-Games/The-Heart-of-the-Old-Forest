@@ -3,6 +3,10 @@ using System.Net.Sockets;
 
 public static class NetworkUtility
 {
+    /// <summary>
+    /// Gets the local ip address of the client
+    /// </summary>
+    /// <returns></returns>
     public static string GetLocalIpAddress()
     {
         string localIP = "127.0.0.1";
