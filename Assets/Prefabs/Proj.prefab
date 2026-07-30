@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4443693900981695326}
   - component: {fileID: 3451498371024118729}
   - component: {fileID: 3428635581005589706}
+  - component: {fileID: -2499425587572573096}
   m_Layer: 0
   m_Name: Proj
   m_TagString: Untagged
@@ -125,4 +126,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b765b03b6c450ec409c0253b0a43681a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  projSpeed: 1
+  projSpeed: 15
+--- !u!54 &-2499425587572573096
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723794516530627890}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0

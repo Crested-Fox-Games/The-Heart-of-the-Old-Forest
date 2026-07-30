@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class BaseResourceController : NetworkBehaviour
     /// The resources the team will have access to 
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
-    private Dictionary<ResourceType, int> resourceAmounts = new Dictionary<ResourceType, int>();
+    private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
 
     private void Awake()
     {
@@ -88,7 +89,7 @@ public class BaseResourceController : NetworkBehaviour
         //First we ensure we have enough resources
         foreach(ResourceCost resource in resources)
         {
-            if(CheckEnoughResources(resource.resource, resource.cost))
+            if(!CheckEnoughResources(resource.resource, resource.cost))
             {
                 //This will tell the function that it failed to remove the resources
                 return false;
@@ -113,6 +114,7 @@ public class BaseResourceController : NetworkBehaviour
     /// <returns></returns>
     public bool CheckEnoughResources(ResourceType resourceType, int amount)
     {
+        Debug.Log($"Resource: {resourceType} Have: {resourceAmounts[resourceType]} Need: {amount}");
         if(!resourceAmounts.TryGetValue(resourceType, out var current))
             return false;
 

@@ -21,3 +21,4 @@ MonoBehaviour:
   enemyRange: 5
   enemySpawnWeight: 10
   projectile: {fileID: 0}
+  enemyPrefab: {fileID: 4319076105005162707, guid: 04fcf8afe41bdf44cb6ca06a1394242c, type: 3}

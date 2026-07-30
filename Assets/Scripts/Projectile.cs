@@ -12,11 +12,16 @@ public class Projectile : MonoBehaviour
 
     private Enemy hitEnemy;
 
+    private Vector3 direction;
+
+    private float projectileMaxTime = 5f;
+
     public void InitializeProjectile(GameObject targetedEnemy, float projectileDamage)
     {
         targetEnemy = targetedEnemy;
         projDamage = projectileDamage;
 
+        direction = (targetEnemy.transform.position - transform.position).normalized;
         StartCoroutine(MoveToTarget());
     }
 
@@ -37,17 +42,20 @@ public class Projectile : MonoBehaviour
     //TODO: Determine if it moves to the enemy or if it moves to where the enemy was/will be
     private IEnumerator MoveToTarget()
     {
-        while(Vector3.Distance(transform.position, targetEnemy.transform.position) > 0.1f) //TODO: Determine if theres a check, or if the proj just travels until it hits target.
+        float timer = 0;
+        //TODO: Determine if theres a check, or if the proj just travels until it hits target.
+        while (timer < projectileMaxTime) 
         {
-            if (targetEnemy != null)
-            {
-                //Move the projectile towards the enemy
-                transform.position = Vector3.MoveTowards(transform.position,
-                    targetEnemy.transform.position,
-                    projSpeed * Time.deltaTime);
+            timer += Time.deltaTime;
 
-                yield return null;
-            }
+            //Move the projectile towards the enemy
+            transform.position += direction * projSpeed * Time.deltaTime;
+
+            yield return null;
         }
+
+        //TODO: This will probably need to be changed for optimization
+        //Destroy projectile.
+        Destroy(gameObject);
     }
 }

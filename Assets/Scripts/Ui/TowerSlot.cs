@@ -22,8 +22,10 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private TowerPlacementUi towerPlacementUi;
 
-    public void Initialize(TowerPlacementUi tpUi)
+    public void Initialize(TowerPlacementUi tpUi, TowerSO so)
     {
+        towerSO = so;
+
         towerPlacementUi = tpUi;
 
         towerName.text = towerSO.TowerName;
@@ -35,7 +37,7 @@ public class TowerSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         foreach(var resource in towerSO.RequiredResources)
         {
-            resourceString += $"{resource.resource.ToString()}: {resource.cost.ToString()}\n";
+            resourceString += $"{resource.resource.ToString()}: {resource.cost}\n";
         }
 
         resourceText.text = resourceString;
