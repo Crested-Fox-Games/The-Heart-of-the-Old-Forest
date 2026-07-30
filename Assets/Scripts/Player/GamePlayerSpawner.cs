@@ -2,7 +2,11 @@ using FishNet;
 using FishNet.Component.Spawning;
 using FishNet.Connection;
 using FishNet.Managing;
+using FishNet.Managing.Scened;
+using FishNet.Managing.Server;
 using FishNet.Object;
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class GamePlayerSpawner : MonoBehaviour
@@ -15,14 +19,43 @@ public class GamePlayerSpawner : MonoBehaviour
 
     private void Start()
     {
+    #if UNITY_EDITOR
+        StartCoroutine(InSceneStartup());
+
+    #endif
+
         if (!InstanceFinder.IsServerStarted)
             return;
 
         SpawnPlayers();
     }
 
+    private IEnumerator InSceneStartup()
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            yield return InstanceFinder.ServerManager.StartConnection();
+
+            yield return InstanceFinder.ClientManager.StartConnection();
+
+            InstanceFinder.SceneManager.LoadGlobalScenes(new SceneLoadData("Gameplay"));
+        }
+
+        while(!InstanceFinder.IsServerStarted)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        SpawnPlayers();
+    }
+
+
+
     private void SpawnPlayers()
     {
+        Debug.Log("spawning player");
         int spawnIndex = 0;
 
         foreach (NetworkConnection connection in InstanceFinder.ServerManager.Clients.Values)

@@ -26,7 +26,6 @@ public class FishNetManager : MonoBehaviour
 
     public void StartHost()
     {
-        Debug.Log("StartingHost");
         InstanceFinder.ServerManager.StartConnection();
 
         InstanceFinder.ClientManager.StartConnection();
@@ -34,10 +33,7 @@ public class FishNetManager : MonoBehaviour
 
     public void ConnectToHost(string ip)
     {
-        Debug.Log($"Joining game on ip {ip}");
-
         InstanceFinder.ClientManager.StartConnection(ip);
-
     }
 
     private void OnClientConnectionState(ClientConnectionStateArgs args)
@@ -52,6 +48,4 @@ public class FishNetManager : MonoBehaviour
     {
         InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
-
-    
 }
