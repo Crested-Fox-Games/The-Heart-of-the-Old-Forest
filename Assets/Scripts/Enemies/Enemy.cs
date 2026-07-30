@@ -12,7 +12,7 @@ public class Enemy : NetworkBehaviour
     private EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
 
     public EnemySO EnemySO => enemySO;
 

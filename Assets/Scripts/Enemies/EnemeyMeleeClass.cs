@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class EnemeyMeleeClass : Enemy
 {
+    ITargetable targetable;
 
-    //TODO 
-    //Enemy target nearest priority target
-    //
+    private void Target()
+    {
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        
+        targetable.TakeDamage(enemyDamage);
     }
 }
