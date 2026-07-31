@@ -249,8 +249,8 @@ public class EnemySpawner : NetworkBehaviour
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
 
-        //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
-        currentEnemy.onEnemyKilled += () => spawnCount--;
+        //Subscribe to enemy death event 
+        currentEnemy.onEnemyKilled += ReturnEnemy;
     }
 
     /// <summary>
@@ -337,6 +337,11 @@ public class EnemySpawner : NetworkBehaviour
     public void ReturnEnemy(Enemy enemy)
     {
         enemy.gameObject.SetActive(false);
+
+        spawnCount--;
+
+        //Unsubscribe from event to avoid duplication
+        enemy.onEnemyKilled -= ReturnEnemy;
 
         //Put it into the pool
         pools[enemy.EnemySO].Enqueue(enemy);
