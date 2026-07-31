@@ -1,7 +1,9 @@
+using FishNet.Managing.Server;
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
     private GameObject targetEnemy;
 
@@ -36,7 +38,6 @@ public class Projectile : MonoBehaviour
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 
-
             HandleProjectileFinished();
         }
     }
@@ -48,6 +49,7 @@ public class Projectile : MonoBehaviour
     {
         gameObject.SetActive(false);
 
+        ServerManager.Despawn(gameObject);
 
         towerParent.AddToPool(this);
     }
