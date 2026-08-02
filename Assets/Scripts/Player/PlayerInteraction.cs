@@ -41,6 +41,8 @@ public class PlayerInteraction : NetworkBehaviour
     /// </summary>
     private InputActionMap playerMap;
 
+    private InputAction interactAction;
+
     /// <summary>
     /// Stores the device type that was last used, e.g. kbm, controller, etc
     /// </summary>
@@ -62,6 +64,9 @@ public class PlayerInteraction : NetworkBehaviour
 
         //Gets the players action map
         playerMap = InputSystem.actions.FindActionMap("Player");
+
+        //Finds the different player inputs
+        interactAction = playerMap.FindAction("Interact");
 
         //This fires whenever any action on the player map is triggered
         playerMap.actionTriggered += UpdateInputDevice;
