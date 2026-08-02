@@ -32,6 +32,8 @@ public abstract class Tower : NetworkBehaviour
 
     protected Coroutine attackCoroutine;
 
+    
+
     private void Start()
     {
         InitializeValues();
@@ -80,5 +82,6 @@ public abstract class Tower : NetworkBehaviour
             towerPlacement.TowerDestroyed();
         }
     }
+
     
 }

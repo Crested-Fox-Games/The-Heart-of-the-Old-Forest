@@ -1,10 +1,17 @@
 using GameKit.Dependencies.Utilities.ObjectPooling.Examples;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class ArcherTower : Tower
 {
+    /// <summary>
+    /// The pool of projectiles the tower can use, if theres none in queue it spawns a new one
+    /// </summary>
+    [SerializeField]
+    private Queue<Projectile> pool = new();
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
@@ -69,8 +76,8 @@ public class ArcherTower : Tower
             }
 
             //Spawn projectile with stats
-            //TODO: For optimization turn projs off and on instead of destroying
-            GameObject proj = Instantiate(projectile);
+            //For optimization turn projs off and on instead of destroying
+            GameObject proj = CheckPool().gameObject;
 
             //Set the position to the towers location
             proj.transform.position = transform.position;
@@ -104,5 +111,25 @@ public class ArcherTower : Tower
         }
 
         attackCoroutine = null;
+    }
+
+    public void AddToPool(Projectile projectile)
+    {
+        pool.Enqueue(projectile);
+    }
+
+    public Projectile CheckPool()
+    {
+        //If an enemy in the despawn pool is one we need, we grab it
+        if (pool.Count > 0)
+        {
+            Projectile proj = pool.Dequeue();
+
+            proj.gameObject.SetActive(true);
+
+            return proj;
+        }
+
+        return Instantiate(projectile, transform.position, transform.rotation).GetComponent<Projectile>();
     }
 }

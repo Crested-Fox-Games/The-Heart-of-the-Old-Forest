@@ -1,7 +1,9 @@
+using FishNet.Managing.Server;
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
     private GameObject targetEnemy;
 
@@ -16,10 +18,13 @@ public class Projectile : MonoBehaviour
 
     private float projectileMaxTime = 5f;
 
-    public void InitializeProjectile(GameObject targetedEnemy, float projectileDamage)
+    private ArcherTower towerParent;
+
+    public void InitializeProjectile(GameObject targetedEnemy, float projectileDamage, ArcherTower tower)
     {
         targetEnemy = targetedEnemy;
         projDamage = projectileDamage;
+        towerParent = tower;
 
         direction = (targetEnemy.transform.position - transform.position).normalized;
         StartCoroutine(MoveToTarget());
@@ -33,10 +38,20 @@ public class Projectile : MonoBehaviour
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 
-            //TODO: This will probably need to be changed for optimization
-            //Destroy projectile.
-            Destroy(gameObject);
+            HandleProjectileFinished();
         }
+    }
+
+    /// <summary>
+    /// Handles what happens when the projectile hits its target or times out
+    /// </summary>
+    private void HandleProjectileFinished()
+    {
+        gameObject.SetActive(false);
+
+        ServerManager.Despawn(gameObject);
+
+        towerParent.AddToPool(this);
     }
 
     //TODO: Determine if it moves to the enemy or if it moves to where the enemy was/will be
@@ -54,8 +69,6 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        //TODO: This will probably need to be changed for optimization
-        //Destroy projectile.
-        Destroy(gameObject);
+       HandleProjectileFinished();
     }
 }
