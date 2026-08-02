@@ -1,18 +1,30 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RabbitBasicAttack : Ability
 {
-    public RabbitBasicAttack(PlayerAbilities player) : base(player)
+    private Projectile projectile;
+
+    private float damage = 10f;
+
+    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData, Projectile projectile) : base(player, abilityData)
     {
+        this.projectile = projectile;
     }
 
-    protected override void Activate()
+
+    protected override void Activate(Vector3 direction)
     {
+        Debug.Log("Basic Attack Activated");
         // Implementation for the basic attack activation
 
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
 
         //Spawn Projectile that fires in the direction the player is aiming at
-        //TODO: decide how this will actually work due to third person camera
+        Projectile proj = Object.Instantiate(projectile, owner.transform.position, owner.transform.rotation).GetComponent<Projectile>();
+
+        proj.InitializeProjectile(direction, damage, owner);
     }
+
+    
 }

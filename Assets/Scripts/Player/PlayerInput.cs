@@ -10,11 +10,17 @@ public class PlayerInput : MonoBehaviour
 
     private InputAction interactAction;
 
+    private InputAction basicAttackAction;
+
     private PlayerInteraction playerInteraction;
+
+    private PlayerAbilities playerAbilities;
 
     private void Start()
     {
+        //Gets references to the other scripts
         playerInteraction = GetComponent<PlayerInteraction>();
+        playerAbilities = GetComponent<PlayerAbilities>();
 
         //Gets the players action map
         playerMap = InputSystem.actions.FindActionMap("Player");
@@ -26,9 +32,14 @@ public class PlayerInput : MonoBehaviour
     {
         //Finds the different player inputs
         interactAction = playerMap.FindAction("Interact");
+        basicAttackAction = playerMap.FindAction("BasicAttack");
 
         //Subscribes to the interact input
         interactAction.started += playerInteraction.HandleInteractStarted;
         interactAction.canceled += playerInteraction.HandleInteractCancelled;
+        
+        //Subscribes to the basic attack input
+        basicAttackAction.started += playerAbilities.TryUseBasicAttack;
+
     }
 }

@@ -17,9 +17,14 @@ public abstract class Ability
     /// </summary>
     private float cooldownRemaining;
 
-    public Ability(PlayerAbilities player)
+    public float CooldownRemaining => cooldownRemaining;
+
+    public AbilitySO AbilitySO => abilitySO;
+
+    public Ability(PlayerAbilities player, AbilitySO abilityData)
     {
         owner = player;
+        abilitySO = abilityData;
     }
 
     /// <summary>
@@ -45,10 +50,33 @@ public abstract class Ability
     }
 
     /// <summary>
+    /// Check to see if we are able to use the ability
+    /// Overload that allows for a direction to be passed in
+    /// </summary>
+    public void UseAbility(Vector3 direction)
+    {
+        Activate();
+
+        cooldownRemaining = abilitySO.Cooldown;
+    }
+
+    /// <summary>
     /// This method is delcared in the children that inherit from this class.
     /// This way we can create any ability we want from it.
     /// </summary>
-    protected abstract void Activate();
+    protected virtual void Activate()
+    {
+
+    }
+
+    /// <summary>
+    /// An overridable method for abilities that need to know a direction
+    /// </summary>
+    /// <param name="aimDirection"></param>
+    protected virtual void Activate(Vector3 direction)
+    {
+        Activate();
+    }
 
     /// <summary>
     /// Ticks down the cooldown for the ability

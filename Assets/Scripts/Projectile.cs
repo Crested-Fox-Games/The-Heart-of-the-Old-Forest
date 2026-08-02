@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : NetworkBehaviour
 {
-    private Transform targetPosition;
+    private Vector3 targetPosition;
 
     [SerializeField]
     private float projSpeed;
@@ -20,13 +20,26 @@ public class Projectile : NetworkBehaviour
 
     private ArcherTower towerParent;
 
-    public void InitializeProjectile(Transform target, float projectileDamage, ArcherTower tower)
+    //TODO: figure out if we need this/how to implement it properly
+    private PlayerAbilities player;
+
+    public void InitializeProjectile(Vector3 target, float projectileDamage, ArcherTower tower)
     {
         targetPosition = target;
         projDamage = projectileDamage;
         towerParent = tower;
 
-        direction = (targetPosition.position - transform.position).normalized;
+        direction = (targetPosition - transform.position).normalized;
+        StartCoroutine(MoveToTarget());
+    }
+
+    public void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
+    {
+        targetPosition = target;
+        projDamage = projectileDamage;
+        this.player = player;
+
+        direction = (targetPosition - transform.position).normalized;
         StartCoroutine(MoveToTarget());
     }
 
@@ -54,11 +67,10 @@ public class Projectile : NetworkBehaviour
         towerParent.AddToPool(this);
     }
 
-    //TODO: Determine if it moves to the enemy or if it moves to where the enemy was/will be
     private IEnumerator MoveToTarget()
     {
         float timer = 0;
-        //TODO: Determine if theres a check, or if the proj just travels until it hits target.
+
         while (timer < projectileMaxTime) 
         {
             timer += Time.deltaTime;

@@ -432,6 +432,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca08de1354b8d04daf7bdd91efffaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5157244053637599692}
+  _networkObjectCache: {fileID: 0}
+  basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  firstAbilitySO: {fileID: 0}
+  secondAbilitySO: {fileID: 0}
+  projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,6 +11,9 @@ public class AbilitySO : ScriptableObject
     
     [SerializeField]
     private float cooldown, castTime;
+
+    [SerializeField]
+    private bool needDirection;
     
     /// <summary>
     /// The name of the ability
@@ -31,4 +34,9 @@ public class AbilitySO : ScriptableObject
     /// The amount of time it takes this ability to finish activating
     /// </summary>
     public float CastTime => castTime;
+
+    /// <summary>
+    /// Returns whether or not this ability needs a direction to be used
+    /// </summary>
+    public bool NeedDirection => needDirection;
 }
