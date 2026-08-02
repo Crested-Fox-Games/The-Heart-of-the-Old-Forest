@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : NetworkBehaviour
 {
-    private GameObject targetEnemy;
+    private Transform targetPosition;
 
     [SerializeField]
     private float projSpeed;
@@ -20,13 +20,13 @@ public class Projectile : NetworkBehaviour
 
     private ArcherTower towerParent;
 
-    public void InitializeProjectile(GameObject targetedEnemy, float projectileDamage, ArcherTower tower)
+    public void InitializeProjectile(Transform target, float projectileDamage, ArcherTower tower)
     {
-        targetEnemy = targetedEnemy;
+        targetPosition = target;
         projDamage = projectileDamage;
         towerParent = tower;
 
-        direction = (targetEnemy.transform.position - transform.position).normalized;
+        direction = (targetPosition.position - transform.position).normalized;
         StartCoroutine(MoveToTarget());
     }
 

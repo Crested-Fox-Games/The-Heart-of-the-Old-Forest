@@ -83,7 +83,7 @@ public class ArcherTower : Tower
             proj.transform.position = transform.position;
 
             //Initialize the projectile
-            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy, towerDamage);
+            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform, towerDamage, this);
 
             //Activate cooldown
             yield return new WaitForSeconds(attackCooldown);
