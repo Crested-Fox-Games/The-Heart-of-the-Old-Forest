@@ -17,21 +17,28 @@ public abstract class Ability
     /// </summary>
     private float cooldownRemaining;
 
+    public Ability(PlayerAbilities player)
+    {
+        owner = player;
+    }
+
     /// <summary>
-    /// Variable that uses a lambda expression to see if the ability is on cooldown
+    /// Function to see if the ability is available to use
     /// </summary>
-    public bool canUseAbility => cooldownRemaining <= 0;
+    public bool CanUseAbility()
+    {
+        if(cooldownRemaining > 0)
+            return false;
+
+
+        return true;
+    }
 
     /// <summary>
     /// Check to see if we are able to use the ability
     /// </summary>
-    public void TryUse()
+    public void UseAbility()
     {
-        if(!canUseAbility)
-        {
-            return;
-        }
-
         Activate();
 
         cooldownRemaining = abilitySO.Cooldown;

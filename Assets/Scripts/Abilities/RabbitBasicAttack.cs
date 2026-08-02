@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class RabbitBasicAttack : Ability
 {
+    public RabbitBasicAttack(PlayerAbilities player) : base(player)
+    {
+    }
+
     protected override void Activate()
     {
         // Implementation for the basic attack activation
