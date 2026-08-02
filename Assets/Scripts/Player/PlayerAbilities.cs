@@ -24,6 +24,11 @@ public class PlayerAbilities : NetworkBehaviour
     private readonly SyncVar<float> basicAttackCooldownRemaining = new SyncVar<float>();
 
     /// <summary>
+    /// The pool of projectiles the tower can use, if theres none in queue it spawns a new one
+    /// </summary>
+    private Queue<Projectile> pool = new();
+
+    /// <summary>
     /// This is the projectile for the player basic attack.
     /// This will probably need to be changed later for when we have multiple different characters
     /// </summary>
@@ -50,10 +55,15 @@ public class PlayerAbilities : NetworkBehaviour
 
     private void TryUseAbility(AbilitySlot abilitySlot)
     {
+       
         if(GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
+        {
             UseAbility(abilitySlot, GetAimPoint());
-
-        UseAbility(abilitySlot);
+        }
+        else
+        {
+            UseAbility(abilitySlot);
+        }
     }
 
 
@@ -93,7 +103,6 @@ public class PlayerAbilities : NetworkBehaviour
 
     public void TryUseBasicAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("Trying to use basic attack");
         TryUseAbility(AbilitySlot.BasicAttack);
     }
 
@@ -138,5 +147,35 @@ public class PlayerAbilities : NetworkBehaviour
         }
 
         return ray.origin + ray.direction * 100f; // Default to a point 100 units away if nothing is hit
+    }
+
+    public void SpawnProjectile(GameObject projectilePrefab, Vector3 target, float damage)
+    {
+        // Spawns the projectile on the server
+        Projectile newProjectile = CheckPool();
+
+        newProjectile.InitializeProjectile(target, damage, this);
+
+        Spawn(newProjectile.gameObject);
+    }
+
+    public void AddToPool(Projectile projectile)
+    {
+        pool.Enqueue(projectile);
+    }
+
+    public Projectile CheckPool()
+    {
+        //If an enemy in the despawn pool is one we need, we grab it
+        if (pool.Count > 0)
+        {
+            Projectile proj = pool.Dequeue();
+
+            proj.gameObject.SetActive(true);
+
+            return proj;
+        }
+
+        return Instantiate(projectile, transform.position, transform.rotation).GetComponent<Projectile>();
     }
 }

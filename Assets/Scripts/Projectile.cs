@@ -64,7 +64,14 @@ public class Projectile : NetworkBehaviour
 
         ServerManager.Despawn(gameObject);
 
-        towerParent.AddToPool(this);
+        if (towerParent != null)
+        {
+            towerParent.AddToPool(this);
+        }
+        else if (player != null)
+        {
+            player.AddToPool(this);
+        }
     }
 
     private IEnumerator MoveToTarget()

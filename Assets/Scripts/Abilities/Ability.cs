@@ -15,7 +15,7 @@ public abstract class Ability
     /// <summary>
     /// Stores the cooldown for the current player
     /// </summary>
-    private float cooldownRemaining;
+    private float cooldownRemaining = 0f;
 
     public float CooldownRemaining => cooldownRemaining;
 
@@ -55,7 +55,7 @@ public abstract class Ability
     /// </summary>
     public void UseAbility(Vector3 direction)
     {
-        Activate();
+        Activate(direction);
 
         cooldownRemaining = abilitySO.Cooldown;
     }

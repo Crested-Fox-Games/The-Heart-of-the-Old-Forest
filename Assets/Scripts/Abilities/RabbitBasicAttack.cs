@@ -1,3 +1,4 @@
+using FishNet.Managing.Server;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,9 +22,9 @@ public class RabbitBasicAttack : Ability
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
 
         //Spawn Projectile that fires in the direction the player is aiming at
-        Projectile proj = Object.Instantiate(projectile, owner.transform.position, owner.transform.rotation).GetComponent<Projectile>();
+        
+        owner.GetComponent<PlayerAbilities>().SpawnProjectile(projectile.gameObject, direction, damage);
 
-        proj.InitializeProjectile(direction, damage, owner);
     }
 
     

@@ -9,7 +9,6 @@ public class ArcherTower : Tower
     /// <summary>
     /// The pool of projectiles the tower can use, if theres none in queue it spawns a new one
     /// </summary>
-    [SerializeField]
     private Queue<Projectile> pool = new();
 
     private void OnTriggerEnter(Collider collision)

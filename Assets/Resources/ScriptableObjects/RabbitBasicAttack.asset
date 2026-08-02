@@ -16,3 +16,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   cooldown: 0.5
   castTime: 0.5
+  needDirection: 1
