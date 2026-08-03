@@ -35,6 +35,9 @@ public class PlayerAbilities : NetworkBehaviour
     [SerializeField]
     private Projectile projectile;
 
+    [SerializeField]
+    private Transform firingPosition;
+
     private void Awake()
     {
         basicAttack = new RabbitBasicAttack(this, basicAttackSO, projectile);
@@ -176,6 +179,6 @@ public class PlayerAbilities : NetworkBehaviour
             return proj;
         }
 
-        return Instantiate(projectile, transform.position, transform.rotation).GetComponent<Projectile>();
+        return Instantiate(projectile, firingPosition.position, transform.rotation).GetComponent<Projectile>();
     }
 }

@@ -439,6 +439,7 @@ MonoBehaviour:
   firstAbilitySO: {fileID: 0}
   secondAbilitySO: {fileID: 0}
   projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
+  firingPosition: {fileID: 1286192359782629347}
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -593,6 +594,11 @@ PrefabInstance:
       addedObject: {fileID: 1377035001856247393}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6724f786561106f42ada5e813490107b, type: 3}
+--- !u!4 &1286192359782629347 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8447082967072642302, guid: 6724f786561106f42ada5e813490107b, type: 3}
+  m_PrefabInstance: {fileID: 7269768670513212189}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7163486942947527926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6724f786561106f42ada5e813490107b, type: 3}
