@@ -6,11 +6,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ArcherTower : Tower
 {
-    /// <summary>
-    /// The pool of projectiles the tower can use, if theres none in queue it spawns a new one
-    /// </summary>
-    private Queue<Projectile> pool = new();
-
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
@@ -76,13 +71,12 @@ public class ArcherTower : Tower
 
             //Spawn projectile with stats
             //For optimization turn projs off and on instead of destroying
-            GameObject proj = CheckPool().gameObject;
-
-            //Set the position to the towers location
-            proj.transform.position = transform.position;
+            GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
 
             //Initialize the projectile
             proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform.position, towerDamage, this);
+
+            Spawn(proj);
 
             //Activate cooldown
             yield return new WaitForSeconds(attackCooldown);
@@ -110,25 +104,5 @@ public class ArcherTower : Tower
         }
 
         attackCoroutine = null;
-    }
-
-    public void AddToPool(Projectile projectile)
-    {
-        pool.Enqueue(projectile);
-    }
-
-    public Projectile CheckPool()
-    {
-        //If an enemy in the despawn pool is one we need, we grab it
-        if (pool.Count > 0)
-        {
-            Projectile proj = pool.Dequeue();
-
-            proj.gameObject.SetActive(true);
-
-            return proj;
-        }
-
-        return Instantiate(projectile, transform.position, transform.rotation).GetComponent<Projectile>();
     }
 }
