@@ -44,7 +44,10 @@ public class UiManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
 
+    private void Start()
+    {
         GameManager.Instance.OnGameOver += OpenGameOverScreen;
     }
 

@@ -60,18 +60,7 @@ public class Projectile : NetworkBehaviour
     /// </summary>
     private void HandleProjectileFinished()
     {
-        if (towerParent != null)
-        {
-            towerParent.AddToPool(this);
-        }
-        else if (player != null)
-        {
-            player.AddToPool(this);
-        }
-
         ServerManager.Despawn(gameObject);
-
-        gameObject.SetActive(false);
     }
 
     private IEnumerator MoveToTarget()
