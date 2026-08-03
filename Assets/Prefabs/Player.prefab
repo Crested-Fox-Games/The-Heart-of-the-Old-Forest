@@ -440,6 +440,9 @@ MonoBehaviour:
   secondAbilitySO: {fileID: 0}
   projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   firingPosition: {fileID: 1286192359782629347}
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0

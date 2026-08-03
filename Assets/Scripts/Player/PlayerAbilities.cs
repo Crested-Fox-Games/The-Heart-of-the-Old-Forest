@@ -33,6 +33,9 @@ public class PlayerAbilities : NetworkBehaviour
     [SerializeField]
     private Transform firingPosition;
 
+    [SerializeField]
+    private LayerMask aimMask;
+
     private void Awake()
     {
         basicAttack = new RabbitBasicAttack(this, basicAttackSO, projectile);
@@ -139,7 +142,7 @@ public class PlayerAbilities : NetworkBehaviour
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, aimMask, QueryTriggerInteraction.Ignore))
         {
             return hit.point;
         }
