@@ -117,6 +117,9 @@ InitTestScene*.unity*
 # If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
 # Log files can be ignored.
 fmod_editor.log
+Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/CodeBoost/CodeBoost.csproj.meta
+ProjectSettings/ShaderGraphSettings.asset
+Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln.meta
 Assets/DefaultPrefabObjects.asset
 Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln.meta
 Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/CodeBoost/CodeBoost.csproj.meta

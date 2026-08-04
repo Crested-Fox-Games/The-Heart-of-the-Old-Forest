@@ -3261,7 +3261,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
-  enemyPool: {fileID: 0}
   baseSpawnInterval: 5
   spawnDistFromBase: 125
 --- !u!1 &7290279046768206315
@@ -5082,6 +5081,10 @@ PrefabInstance:
     - target: {fileID: 5303998380599133080, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
       propertyPath: _componentIndexCache
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788280675705481506, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
+      propertyPath: _enablePrediction
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5788280675705481506, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
       propertyPath: WasActiveDuringEdit

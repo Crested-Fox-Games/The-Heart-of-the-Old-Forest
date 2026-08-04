@@ -22,9 +22,9 @@ public class DevController : MonoBehaviour
     #if UNITY_EDITOR || DEVELOPMENT_BUILD
         devMap.Enable();
 
-            skipToNight = devMap.FindAction("SkipToNight");
-            skipToNight.performed += ctx => SkipToNight();
-        #endif
+        skipToNight = devMap.FindAction("SkipToNight");
+        skipToNight.performed += ctx => SkipToNight();
+    #endif
     }
 
     /// <summary>

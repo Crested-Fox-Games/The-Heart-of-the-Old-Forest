@@ -62,7 +62,7 @@ public class TowerPlacementUi : MonoBehaviour
     public void SelectTower(TowerSO towerSO)
     {
         //Tell the player to spawn this tower
-        PlayerRPCHandler.Instance.CallPlaceTower(currentTowerSlot, towerSO.TowerName);
+        PlayerRPCHandler.LocalInstance.CallPlaceTower(currentTowerSlot, towerSO.TowerName);
     }
 
     public void SetCurrentSlot(NetworkObject currentTower)
