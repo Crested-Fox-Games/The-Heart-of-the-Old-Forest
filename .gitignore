@@ -120,5 +120,8 @@ fmod_editor.log
 Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/CodeBoost/CodeBoost.csproj.meta
 ProjectSettings/ShaderGraphSettings.asset
 Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln.meta
+Assets/DefaultPrefabObjects.asset
+Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln.meta
+Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/CodeBoost/CodeBoost.csproj.meta
 Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/SynapseSocket.csproj.meta
 Assets/FishNet/Runtime/Transporting/Transports/Tugboat/LiteNetLib/LiteNetLib.csproj.meta
