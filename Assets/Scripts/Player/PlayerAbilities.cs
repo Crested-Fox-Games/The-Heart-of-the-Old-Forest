@@ -152,8 +152,11 @@ public class PlayerAbilities : NetworkBehaviour
 
     public void SpawnProjectile(GameObject projectilePrefab, Vector3 target, float damage)
     {
+        Vector3 dir = (target - firingPosition.position).normalized;
+        Quaternion projRotation = Quaternion.LookRotation(dir);
+
         // Spawns the projectile on the server
-        Projectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, transform.rotation).GetComponent<Projectile>();
+        Projectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<Projectile>();
 
         newProjectile.InitializeProjectile(target, damage, this);
 
