@@ -135,31 +135,50 @@ public class PlayerAbilities : NetworkBehaviour
         };
     }
 
+    /// <summary>
+    /// Gets the point at which the player is aiming at
+    /// </summary>
+    /// <returns></returns>
     private Vector3 GetAimPoint()
     {
         //Gets the players camera
         Camera playerCamera = GetComponentInChildren<Camera>();
 
+        //Creates a ray from the cameras position in the forward direction
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
+        //Checks to see if the ray hits anything in the aimMask layer (ignoring triggers)
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, aimMask, QueryTriggerInteraction.Ignore))
         {
+            //Returns the point at which the ray hit something
             return hit.point;
         }
 
-        return ray.origin + ray.direction * 100f; // Default to a point 100 units away if nothing is hit
+        //returns a point 100 units away in the direction the player is aiming if nothing is hit
+        return ray.origin + ray.direction * 100f;
     }
 
+    /// <summary>
+    /// Handles spawning projectiles for player abilities
+    /// </summary>
+    /// <param name="projectilePrefab"></param>
+    /// <param name="target"></param>
+    /// <param name="damage"></param>
     public void SpawnProjectile(GameObject projectilePrefab, Vector3 target, float damage)
     {
+        //Gets the direction the projectile should be facing
         Vector3 dir = (target - firingPosition.position).normalized;
+
+        //Creates a rotation for the projectile to face the target
         Quaternion projRotation = Quaternion.LookRotation(dir);
 
         // Spawns the projectile on the server
         Projectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<Projectile>();
 
-        newProjectile.InitializeProjectile(target, damage, this);
+        //Initializes the projectiles values
+        newProjectile.InitializeProjectile(target, damage);
 
+        //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
     }
 

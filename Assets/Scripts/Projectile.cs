@@ -18,26 +18,16 @@ public class Projectile : NetworkBehaviour
 
     private float projectileMaxTime = 5f;
 
-    private ArcherTower towerParent;
-
-    //TODO: figure out if we need this/how to implement it properly
-    private PlayerAbilities player;
-
-    public void InitializeProjectile(Vector3 target, float projectileDamage, ArcherTower tower)
+    /// <summary>
+    /// Initializes the projectiles initial values
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="projectileDamage"></param>
+    /// <param name="tower"></param>
+    public void InitializeProjectile(Vector3 target, float projectileDamage)
     {
         targetPosition = target;
         projDamage = projectileDamage;
-        towerParent = tower;
-
-        direction = (targetPosition - transform.position).normalized;
-        StartCoroutine(MoveToTarget());
-    }
-
-    public void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
-    {
-        targetPosition = target;
-        projDamage = projectileDamage;
-        this.player = player;
 
         direction = (targetPosition - transform.position).normalized;
         StartCoroutine(MoveToTarget());
