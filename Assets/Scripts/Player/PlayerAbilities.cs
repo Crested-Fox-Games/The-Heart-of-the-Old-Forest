@@ -56,8 +56,10 @@ public class PlayerAbilities : NetworkBehaviour
 
     private void TryUseAbility(AbilitySlot abilitySlot)
     {
-       
-        if(GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
+       if(!IsOwner)
+            return;
+
+        if (GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
         {
             UseAbility(abilitySlot, GetAimPoint());
         }
