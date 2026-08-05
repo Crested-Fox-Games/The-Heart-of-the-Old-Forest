@@ -1,5 +1,6 @@
 using GameKit.Dependencies.Utilities.ObjectPooling.Examples;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -69,14 +70,13 @@ public class ArcherTower : Tower
             }
 
             //Spawn projectile with stats
-            //TODO: For optimization turn projs off and on instead of destroying
-            GameObject proj = Instantiate(projectile);
-
-            //Set the position to the towers location
-            proj.transform.position = transform.position;
+            //For optimization turn projs off and on instead of destroying
+            GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
 
             //Initialize the projectile
-            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy, towerDamage);
+            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform.position, towerDamage);
+
+            Spawn(proj);
 
             //Activate cooldown
             yield return new WaitForSeconds(attackCooldown);

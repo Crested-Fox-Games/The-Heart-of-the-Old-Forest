@@ -82,11 +82,6 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     private int maxSpawnCount = 100;
 
-    /// <summary>
-    /// The pool of despawned enemies that can be pulled from when spawning new enemies
-    /// </summary>
-    [SerializeField]
-    private Dictionary<EnemySO, Queue<Enemy>> pools = new();
 
     /// <summary>
     /// This is called when the server starts running
@@ -239,7 +234,10 @@ public class EnemySpawner : NetworkBehaviour
         Vector3 pos = GetSpawnPosition(spawnRadius, direction);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
-        currentEnemy = CheckEnemyPool(enemySO, pos);
+        currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+
+        currentEnemy.InitializeValues();
+        currentEnemy.currentHealth.Value = currentEnemy.EnemySO.EnemyHealth;
 
         currentEnemy.transform.parent = transform;
 
@@ -249,41 +247,8 @@ public class EnemySpawner : NetworkBehaviour
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
 
-        //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
-        currentEnemy.onEnemyKilled += () => spawnCount--;
-    }
-
-    /// <summary>
-    /// Used for getting enemies from a despawn pool, rather than destroying and remaking them
-    /// </summary>
-    /// <param name="enemySO"></param>
-    /// <param name="pos"></param>
-    /// <returns></returns>
-    private Enemy CheckEnemyPool(EnemySO enemySO, Vector3 pos)
-    {
-        //If the enemy hasnt been spawned yet, its SO gets added to the dictionary so that we can put it in the pool
-        if (!pools.ContainsKey(enemySO))
-        {
-            pools.Add(enemySO, new Queue<Enemy>());
-        }
-
-        Queue<Enemy> enemyQueue = pools[enemySO];
-
-            //If an enemy in the despawn pool is one we need, we grab it
-            if(enemyQueue.Count > 0)
-            { 
-                Enemy enemy = enemyQueue.Dequeue();
-                //Reset the enemy
-                enemy.InitializeValues();
-                enemy.currentHealth.Value = enemy.EnemySO.EnemyHealth;
-
-                enemy.transform.position = pos;
-                enemy.gameObject.SetActive(true);
-
-                return enemy; 
-            }
-
-        return Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+        //Subscribe to enemy death event 
+        currentEnemy.onEnemyKilled += ReturnEnemy;
     }
 
     private Vector3 GetSpawnPosition(float spawnRadius, int direction)
@@ -336,10 +301,10 @@ public class EnemySpawner : NetworkBehaviour
     /// <param name="enemy"></param>
     public void ReturnEnemy(Enemy enemy)
     {
-        enemy.gameObject.SetActive(false);
+        spawnCount--;
 
-        //Put it into the pool
-        pools[enemy.EnemySO].Enqueue(enemy);
+        //Unsubscribe from event to avoid duplication
+        enemy.onEnemyKilled -= ReturnEnemy;
     }
 
     

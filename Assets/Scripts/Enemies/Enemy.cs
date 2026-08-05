@@ -33,7 +33,7 @@ public class Enemy : NetworkBehaviour
 
     public GameObject HeartCrystal => heartCrystal;
 
-    public event Action onEnemyKilled;
+    public event Action<Enemy> onEnemyKilled;
 
     public override void OnStartServer()
     {
@@ -87,7 +87,7 @@ public class Enemy : NetworkBehaviour
 
     private void Death()
     {
-        onEnemyKilled?.Invoke();
+        onEnemyKilled?.Invoke(this);
 
         //TODO: add any rewards for enemies being killed
 
@@ -115,7 +115,7 @@ public class Enemy : NetworkBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        onEnemyKilled?.Invoke();
+        onEnemyKilled?.Invoke(this);
 
         //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
         ServerManager.Despawn(gameObject);

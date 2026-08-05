@@ -65,16 +65,11 @@ public class PlayerInteraction : NetworkBehaviour
         //Gets the players action map
         playerMap = InputSystem.actions.FindActionMap("Player");
 
-        //This fires whenever any action on the player map is triggered
-        playerMap.actionTriggered += UpdateInputDevice;
-
         //Finds the different player inputs
         interactAction = playerMap.FindAction("Interact");
 
-        //Subscribes to the interact input
-        interactAction.started += HandleInteractStarted;
-        interactAction.canceled += HandleInteractCancelled;
-
+        //This fires whenever any action on the player map is triggered
+        playerMap.actionTriggered += UpdateInputDevice;
     }
 
     private void Update()
@@ -145,14 +140,14 @@ public class PlayerInteraction : NetworkBehaviour
     }
 
     
-    private void HandleInteractStarted(InputAction.CallbackContext context)
+    public void HandleInteractStarted(InputAction.CallbackContext context)
     {
         interactHeld = true;
 
         nextInteractTime = Time.time + interactRate;
     }
 
-    private void HandleInteractCancelled(InputAction.CallbackContext context)
+    public void HandleInteractCancelled(InputAction.CallbackContext context)
     {
         interactHeld = false;
     }

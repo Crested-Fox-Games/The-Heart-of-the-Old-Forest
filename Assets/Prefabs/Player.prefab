@@ -108,6 +108,8 @@ GameObject:
   - component: {fileID: 4249959293906175344}
   - component: {fileID: 1680321782225394051}
   - component: {fileID: 5854695226715694454}
+  - component: {fileID: 1478582881670916179}
+  - component: {fileID: 5131311982947011687}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -403,6 +405,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea130477043888c4689d9ccdb267a4c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRPCHandler
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5157244053637599692}
+  _networkObjectCache: {fileID: 0}
+--- !u!114 &1478582881670916179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48881ac52c8dbd24193c48335c8d3389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInput
+--- !u!114 &5131311982947011687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca08de1354b8d04daf7bdd91efffaed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5157244053637599692}
+  _networkObjectCache: {fileID: 0}
+  basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  firstAbilitySO: {fileID: 0}
+  secondAbilitySO: {fileID: 0}
+  projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
+  firingPosition: {fileID: 1286192359782629347}
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -557,6 +597,11 @@ PrefabInstance:
       addedObject: {fileID: 1377035001856247393}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6724f786561106f42ada5e813490107b, type: 3}
+--- !u!4 &1286192359782629347 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8447082967072642302, guid: 6724f786561106f42ada5e813490107b, type: 3}
+  m_PrefabInstance: {fileID: 7269768670513212189}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7163486942947527926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6724f786561106f42ada5e813490107b, type: 3}
