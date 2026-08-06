@@ -118,6 +118,8 @@ GameObject:
   - component: {fileID: 5688498003654384934}
   - component: {fileID: 528511303266757582}
   - component: {fileID: 2890065866958668816}
+  - component: {fileID: 8888998821971030580}
+  - component: {fileID: 3528033041194989406}
   m_Layer: 0
   m_Name: BlightModel
   m_TagString: Untagged
@@ -173,7 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a12ceed87ffe78b44bc43fefad84d624, type: 2}
+  - {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -220,3 +222,29 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &8888998821971030580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6153315338577916489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fdc797d0a69fd242b656a13e23248a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlightNodeGrowth
+  growthDuration: 10
+--- !u!114 &3528033041194989406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6153315338577916489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fcff2f496055ad488da8864b6136e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RevealController
+  revealProgress: 0
