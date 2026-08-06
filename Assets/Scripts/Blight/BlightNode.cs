@@ -1,5 +1,6 @@
 using FishNet.Object;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class BlightNode : NetworkBehaviour, IInteractable
 {
@@ -23,6 +24,8 @@ public class BlightNode : NetworkBehaviour, IInteractable
             {
                 node.SetPreviousNode(previousBlightNode);
             }
+
+            Despawn(this);
         }
     }
 
@@ -48,12 +51,12 @@ public class BlightNode : NetworkBehaviour, IInteractable
     public void Interact(NetworkObject player)
     {
         //Handles what happens when the player clears the node
-        throw new System.NotImplementedException();
+        BlightCleared();
     }
 
     
     public bool CanInteract(NetworkObject player)
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 }
