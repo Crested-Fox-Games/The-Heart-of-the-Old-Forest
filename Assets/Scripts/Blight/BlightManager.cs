@@ -83,7 +83,7 @@ public class BlightManager : NetworkBehaviour
 
         //Get the direction from the selected node to the crystal
         Vector3 direction = (heartCrystal.transform.position - jumpNode.position).normalized;
-
+        Quaternion lookDirection = Quaternion.LookRotation(direction);
         //Reset Y so it doesnt go up
         direction.y = 0;
         //TODO: Give it a cone range it can spawn in, maybe min and max dist too
@@ -91,7 +91,7 @@ public class BlightManager : NetworkBehaviour
         //Gets the position the node will spawn at
         Vector3 targetPos = jumpNode.position + direction * 10;
 
-        BlightNode currentNode = Instantiate(blightPrefab, targetPos, transform.rotation);
+        BlightNode currentNode = Instantiate(blightPrefab, targetPos, lookDirection);
 
         Debug.Log(currentNode);
 
