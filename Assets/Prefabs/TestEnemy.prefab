@@ -166,7 +166,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: -4782274975291034526}
   _networkObjectCache: {fileID: 0}
-  enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
+  enemySO: {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
 --- !u!114 &5891020475566166705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +360,6 @@ GameObject:
   - component: {fileID: 5234779859807885945}
   - component: {fileID: 3984318929803958549}
   - component: {fileID: 4618038484678097311}
-  - component: {fileID: 2137255490828794875}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -464,22 +463,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6243298887914733182}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2137255490828794875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6243298887914733182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60e3fdeea636b9c4992e732e0230580b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: -4782274975291034526}
-  _networkObjectCache: {fileID: 0}
-  hitboxCollider: {fileID: 1391346198977652663}
 --- !u!1 &8519265023690461475
 GameObject:
   m_ObjectHideFlags: 0
