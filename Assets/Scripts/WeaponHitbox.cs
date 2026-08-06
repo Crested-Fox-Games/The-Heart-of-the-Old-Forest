@@ -3,7 +3,7 @@ using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponHitbox : NetworkBehaviour    
+public class WeaponHitbox : NetworkBehaviour
 {
     [SerializeField] private Collider hitboxCollider;
 
