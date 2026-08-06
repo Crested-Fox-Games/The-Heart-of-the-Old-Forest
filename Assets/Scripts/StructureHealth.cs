@@ -1,6 +1,8 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class StructureHealth : MonoBehaviour
+public class StructureHealth : NetworkBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
 

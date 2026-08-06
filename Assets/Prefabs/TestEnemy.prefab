@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4410074113113967562}
-  - component: {fileID: 3917366269359979098}
   - component: {fileID: 4517318000810210927}
   - component: {fileID: 1661301006545369798}
   - component: {fileID: 1391346198977652663}
@@ -35,19 +34,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3318186728017581420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3917366269359979098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3253929094771927441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60e3fdeea636b9c4992e732e0230580b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  hitboxCollider: {fileID: 1391346198977652663}
 --- !u!33 &4517318000810210927
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -141,6 +127,7 @@ GameObject:
   - component: {fileID: 4949231025753780754}
   - component: {fileID: -4782274975291034526}
   - component: {fileID: 5719036334742769400}
+  - component: {fileID: 5704865545065973529}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -180,7 +167,6 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -4782274975291034526}
   _networkObjectCache: {fileID: 0}
   enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
-  enemyData: {fileID: 0}
 --- !u!114 &5891020475566166705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +326,28 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!95 &5704865545065973529
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4319076105005162707}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d33158c1eba8660488c07ba9aafb16cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6243298887914733182
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +360,7 @@ GameObject:
   - component: {fileID: 5234779859807885945}
   - component: {fileID: 3984318929803958549}
   - component: {fileID: 4618038484678097311}
-  - component: {fileID: 4196184170490929561}
+  - component: {fileID: 2137255490828794875}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -456,28 +464,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6243298887914733182}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &4196184170490929561
-Animator:
-  serializedVersion: 7
+--- !u!114 &2137255490828794875
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6243298887914733182}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d33158c1eba8660488c07ba9aafb16cb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e3fdeea636b9c4992e732e0230580b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: -4782274975291034526}
+  _networkObjectCache: {fileID: 0}
+  hitboxCollider: {fileID: 1391346198977652663}
 --- !u!1 &8519265023690461475
 GameObject:
   m_ObjectHideFlags: 0
