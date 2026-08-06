@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7829146077412672749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 290.34332, y: 0.844, z: 494.43997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 4, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -145,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1f9c8bc7f71dd4585097d8f869e4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArcherTower
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 94530346737177422}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 94530346737177422}
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
 --- !u!114 &94530346737177422
 MonoBehaviour:
@@ -168,6 +168,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
+  - {fileID: 3207016213940213405}
   - {fileID: 7777220972260072720}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -179,7 +180,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584167217964343464
+  _initializedTimestamp: -8584156218662175670
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -219,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 94530346737177422}
   _networkObjectCache: {fileID: 94530346737177422}
 --- !u!54 &4092041596734983502

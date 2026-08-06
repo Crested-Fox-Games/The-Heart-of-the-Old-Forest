@@ -20,8 +20,12 @@ public class GamePlayerSpawner : MonoBehaviour
     private void Start()
     {
     #if UNITY_EDITOR
-        StartCoroutine(InSceneStartup());
-
+        if(!InstanceFinder.IsServerStarted && !InstanceFinder.IsClientStarted)
+        {
+            Debug.Log("Starting game from in scene");
+            StartCoroutine(InSceneStartup());
+            return;
+        }
     #endif
 
         if (!InstanceFinder.IsServerStarted)

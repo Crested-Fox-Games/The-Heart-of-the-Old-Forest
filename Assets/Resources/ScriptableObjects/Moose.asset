@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5445be317fa88fc48b8544ba0b58628d, type: 3}
+  m_Name: Moose
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySO
+  enemyName: Basic Enemy
+  enemyDescription: Enemy Ahhhh lookin ahhhhh
+  enemyHealth: 50
+  enemySpeed: 3
+  enemyDamage: 5
+  enemyAttackRate: 0
+  enemyRange: 5
+  enemySpawnWeight: 15
+  projectile: {fileID: 0}
+  enemyPrefab: {fileID: 4040599309909042413, guid: 353bfa35d6872994fbbdf3c0d7e1de0a, type: 3}

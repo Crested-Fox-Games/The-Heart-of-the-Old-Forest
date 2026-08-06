@@ -40,8 +40,8 @@ public class Enemy : NetworkBehaviour
         heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
 
-        enemyBrain = GetComponent<EnemyBrain>();
-        enemyMovement = GetComponent<EnemyMovement>();
+        enemyBrain = GetComponentInChildren<EnemyBrain>();
+        enemyMovement = GetComponentInChildren<EnemyMovement>();
 
         InitializeValues();
 
@@ -65,6 +65,7 @@ public class Enemy : NetworkBehaviour
         enemySpawnWeight = enemySO.EnemySpawnWeight;
 
         //Starts the initialization for the enemy scripts
+        
         enemyMovement.Initialize();
         enemyBrain.Initialize(HeartCrystal);
     }
@@ -88,8 +89,6 @@ public class Enemy : NetworkBehaviour
     private void Death()
     {
         onEnemyKilled?.Invoke(this);
-
-        //TODO: add any rewards for enemies being killed
 
         ServerManager.Despawn(gameObject);
         

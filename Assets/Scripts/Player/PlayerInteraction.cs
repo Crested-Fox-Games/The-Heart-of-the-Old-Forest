@@ -56,7 +56,7 @@ public class PlayerInteraction : NetworkBehaviour
     /// The resources the player has on hand
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
-    private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
+    public readonly SyncDictionary<ResourceType, int> resourceAmounts = new();
 
     private void Start()
     {
@@ -70,6 +70,22 @@ public class PlayerInteraction : NetworkBehaviour
 
         //This fires whenever any action on the player map is triggered
         playerMap.actionTriggered += UpdateInputDevice;
+    }
+
+    override public void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if(IsOwner)
+            resourceAmounts.OnChange += OnResourcedChanged;
+    }
+
+    override public void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if(IsOwner)
+            resourceAmounts.OnChange -= OnResourcedChanged;
     }
 
     private void Update()
@@ -185,15 +201,25 @@ public class PlayerInteraction : NetworkBehaviour
 
         //Ensures the object is still interactable
         if (!target.TryGetComponent<IInteractable>(out var interactable))
+        {
+            Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but it is no longer interactable");
             return;
+        }
+            
 
         //Ensures the player is still within range of the object
         if (Vector3.Distance(transform.position, target.transform.position) > interactDistance)
+        {
+            Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but they are too far away");
             return;
+        }
 
         //Does a final check to ensure if the player meets the conditions to interact with the object
         if (!interactable.CanInteract(this))
+        {
+            Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but they do not meet the conditions to interact");
             return;
+        }
 
         interactable.Interact(this);
         
@@ -204,7 +230,6 @@ public class PlayerInteraction : NetworkBehaviour
     /// </summary>
     /// <param name="resourceType"></param>
     /// <param name="amount"></param>
-    [ServerRpc]
     public void AcquireResources(ResourceType resourceType, int amount)
     {
         if(resourceAmounts.TryGetValue(resourceType, out var current))
@@ -215,8 +240,6 @@ public class PlayerInteraction : NetworkBehaviour
         {
             resourceAmounts.Add(resourceType, amount);
         }
-
-        UiManager.Instance.UpdatePlayerResourceUi(resourceAmounts);
     }
 
     [ServerRpc]
@@ -235,7 +258,12 @@ public class PlayerInteraction : NetworkBehaviour
             controller.AddResources(resource.Key, resource.Value);
             resourceAmounts[resource.Key] = 0;
         }
+    }
 
+    private void OnResourcedChanged(SyncDictionaryOperation op, ResourceType key, int value, bool asServer)
+    {
+
+        Debug.Log($"Player {Owner.ClientId} resource {key} changed to {value}");
         UiManager.Instance.UpdatePlayerResourceUi(resourceAmounts);
     }
 
