@@ -21,7 +21,6 @@ public class EnemyMovement : NetworkBehaviour
 
         agent.enabled = IsServerStarted;
 
-        Debug.Log($"IsServer: {IsServerStarted}, Agent enabled: {agent.enabled}");
     }
 
     private void Awake()

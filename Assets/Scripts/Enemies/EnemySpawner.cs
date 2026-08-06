@@ -240,7 +240,7 @@ public class EnemySpawner : NetworkBehaviour
         currentEnemy.InitializeValues();
         currentEnemy.currentHealth.Value = currentEnemy.EnemySO.EnemyHealth;
 
-        currentEnemy.transform.parent = transform;
+        currentEnemy.GetComponent<NetworkObject>().SetParent(this);
 
         //Increment spawn count
         spawnCount++;
