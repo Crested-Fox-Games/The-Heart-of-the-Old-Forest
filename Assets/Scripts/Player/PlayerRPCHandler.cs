@@ -9,17 +9,15 @@ using UnityEngine;
 /// </summary>
 public class PlayerRPCHandler : NetworkBehaviour
 {
-    public static PlayerRPCHandler Instance {  get; private set; }
+    public static PlayerRPCHandler LocalInstance {  get; private set; }
 
-    private void Awake()
+    public override void OnStartClient()
     {
-        if (Instance != null && Instance != this)
+        base.OnStartClient();
+
+        if(IsOwner)
         {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
+            LocalInstance = this;
         }
     }
 

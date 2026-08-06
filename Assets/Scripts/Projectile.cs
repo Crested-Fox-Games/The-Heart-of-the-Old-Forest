@@ -1,9 +1,11 @@
+using FishNet.Managing.Server;
+using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
-    private GameObject targetEnemy;
+    private Vector3 targetPosition;
 
     [SerializeField]
     private float projSpeed;
@@ -16,34 +18,46 @@ public class Projectile : MonoBehaviour
 
     private float projectileMaxTime = 5f;
 
-    public void InitializeProjectile(GameObject targetedEnemy, float projectileDamage)
+    /// <summary>
+    /// Initializes the projectiles initial values
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="projectileDamage"></param>
+    /// <param name="tower"></param>
+    public void InitializeProjectile(Vector3 target, float projectileDamage)
     {
-        targetEnemy = targetedEnemy;
+        targetPosition = target;
         projDamage = projectileDamage;
 
-        direction = (targetEnemy.transform.position - transform.position).normalized;
+        direction = (targetPosition - transform.position).normalized;
         StartCoroutine(MoveToTarget());
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent<Enemy>(out hitEnemy))
+        Enemy hitEnemy = other.GetComponentInParent<Enemy>();
+
+        if(hitEnemy != null)
         {
-            Debug.Log("Hit enemy");
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 
-            //TODO: This will probably need to be changed for optimization
-            //Destroy projectile.
-            Destroy(gameObject);
+            HandleProjectileFinished();
         }
     }
 
-    //TODO: Determine if it moves to the enemy or if it moves to where the enemy was/will be
+    /// <summary>
+    /// Handles what happens when the projectile hits its target or times out
+    /// </summary>
+    private void HandleProjectileFinished()
+    {
+        ServerManager.Despawn(gameObject);
+    }
+
     private IEnumerator MoveToTarget()
     {
         float timer = 0;
-        //TODO: Determine if theres a check, or if the proj just travels until it hits target.
+
         while (timer < projectileMaxTime) 
         {
             timer += Time.deltaTime;
@@ -54,8 +68,6 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        //TODO: This will probably need to be changed for optimization
-        //Destroy projectile.
-        Destroy(gameObject);
+       HandleProjectileFinished();
     }
 }
