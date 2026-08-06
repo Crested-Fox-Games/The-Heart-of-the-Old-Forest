@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 4040599309909042413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.47018, y: 0.01, z: 23.23744}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
   enemySO: {fileID: 11400000, guid: 1866893a7c2856b4582bcc768c9b71bf, type: 2}
 --- !u!114 &4320398274266217101
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
 --- !u!114 &9215826586628802106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
 --- !u!114 &5789222092721587934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +103,11 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 3522379357064511711}
+  - {fileID: 4320398274266217101}
+  - {fileID: 9215826586628802106}
+  - {fileID: 3960085857779098108}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -113,8 +117,8 @@ MonoBehaviour:
   _isGlobal: 0
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _defaultDespawnType: 1
+  _initializedTimestamp: -8584156215962416376
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -133,15 +137,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 4759820480202328297
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!114 &3960085857779098108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,9 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
   _componentConfiguration: 2
-  _synchronizeParent: 0
+  _synchronizeParent: 1
   _packing:
     Position: 1
     Rotation: 1
@@ -211,9 +215,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!195 &6443239186939704363
 NavMeshAgent:
@@ -251,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -259,23 +263,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.50008726
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.49991274
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.50008726
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.49991274
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -89.98
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b202ac2c23f9da94d8b5e2f13dbde0d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

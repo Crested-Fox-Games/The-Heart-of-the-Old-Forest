@@ -15,13 +15,13 @@ public class EnemyMovement : NetworkBehaviour
     /// <summary>
     /// Runs on the client side
     /// </summary>
-    public override void OnStartClient()
+    public override void OnStartNetwork()
     {
-        if(!IsServerStarted)
-        {
-            agent.enabled = false;
-            return;
-        }
+        base.OnStartNetwork();
+
+        agent.enabled = IsServerStarted;
+
+        Debug.Log($"IsServer: {IsServerStarted}, Agent enabled: {agent.enabled}");
     }
 
     private void Awake()
@@ -46,6 +46,7 @@ public class EnemyMovement : NetworkBehaviour
         agent.SetDestination(targetPos);
 
         //Move this to a proper location later
-        transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
+        if(agent.velocity.sqrMagnitude > 0.0001f)
+            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
     }
 }
