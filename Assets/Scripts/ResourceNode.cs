@@ -148,7 +148,21 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         //This will need to be some sort of check sent to the host to see if the player can interact with the node
 
         //TODO: Will need to add in any other checks, like player tool tier 
-        return !depleted && !isCorrupted.Value;
+        return !depleted.Value && !isCorrupted.Value;
+    }
+
+    private void OnDepletedChanged(bool oldValue, bool newValue, bool asServer)
+    {
+        if (newValue)
+        {
+            //Node is depleted
+            model.SetActive(false);
+        }
+        else
+        {
+            //Node is respawned
+            model.SetActive(true);
+        }
     }
 
     /// <summary>
