@@ -29,15 +29,11 @@ public class BaseResourceController : NetworkBehaviour
     //This will take all of the resources the players have collected and put it into a team storage
     private void OnTriggerEnter(Collider other)
     {
-        //TODO: Once player created, add this function to take the resources from them 
-        //Player player;
-
         //Handles the player collision interaction
         if (other.TryGetComponent<PlayerInteraction>(out PlayerInteraction player))
         {
             player.DepositResources(this);
         }
-
     }
 
     /// <summary>

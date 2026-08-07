@@ -35,9 +35,10 @@ public class Projectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent<Enemy>(out hitEnemy))
+        Enemy hitEnemy = other.GetComponentInParent<Enemy>();
+
+        if(hitEnemy != null)
         {
-            Debug.Log("Hit enemy");
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 

@@ -222,7 +222,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 1
-  _initializedTimestamp: -8584167205047214887
+  _initializedTimestamp: -8584156215962416376
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -241,12 +241,12 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16384431252896808769
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 0.81139004, y: 1.09, z: 4.1137}
+    Position: {x: 0.81139004, y: 1, z: 4.1137}
     Rotation: {x: -0, y: -0, z: -0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
@@ -266,7 +266,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -4782274975291034526}
   _networkObjectCache: {fileID: -4782274975291034526}
   _componentConfiguration: 2
-  _synchronizeParent: 0
+  _synchronizeParent: 1
   _packing:
     Position: 1
     Rotation: 1
@@ -321,5 +321,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 94
   m_CollisionDetection: 0

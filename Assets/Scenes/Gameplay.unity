@@ -391,6 +391,14 @@ PrefabInstance:
       value: 3942473692
       objectReference: {fileID: 0}
     - target: {fileID: 6487227808763173069, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_VoxelSize
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6487227808763173069, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -1372625422
+      objectReference: {fileID: 0}
+    - target: {fileID: 6487227808763173069, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: 6d158042067e174449723d9fcc70e143, type: 2}

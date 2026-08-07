@@ -32,7 +32,8 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     private float currentResourceDurability = 0;
 
-    private bool depleted = false;
+
+    public readonly SyncVar<bool> depleted = new();
 
     private readonly SyncVar<bool> isCorrupted = new();
 
@@ -48,6 +49,20 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     {
         InitializeValues();
         isCorrupted.Value = false;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        depleted.OnChange += OnDepletedChanged;
+    }
+
+    override public void OnStopClient()
+    {
+        base.OnStopClient();
+
+        depleted.OnChange -= OnDepletedChanged;
     }
 
     /// <summary>
@@ -69,6 +84,9 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
         //Ints
         resourceAmountDropped = resourceSO.ResourceAmountDropped;
+
+        //Bools
+        depleted.Value = false;
     }
 
     /// <summary>
@@ -79,7 +97,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     public bool Breakable(ToolTier equippedToolTier)
     {
         //Return early if the resource is depleted
-        if(depleted)
+        if(depleted.Value)
         {
             return false;
         }
@@ -100,7 +118,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     /// <returns>Returns the amount of resources the player gains</returns>
     private int DamageNode()
     {
-        if(depleted)
+        if(depleted.Value)
             return 0;
 
         //Reduces the durability left on the resource
@@ -109,11 +127,8 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         //Checks if the resource should be destroyed/disabled
         if (currentResourceDurability <= 0)
         {
-            //TODO: Show a used resource node, maybe have multiple stages
-            model.SetActive(false);
-
             //Disables hitting the node
-            depleted = true;
+            depleted.Value = true;
 
             //This shouldnt need a validation check since this function shouldnt run once the node is depleted
             StartCoroutine(NodeRespawn());
@@ -147,7 +162,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
         //Resets the node values
         currentResourceDurability = resourceDurability;
-        depleted = false;
+        depleted.Value = false;
         model.SetActive(true);
     }
 
