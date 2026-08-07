@@ -37,8 +37,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4869165312915180730}
-  - {fileID: 4837167991549545858}
-  - {fileID: 8976648919777783740}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2991820383993943965
@@ -56,7 +54,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 5789222092721587934}
   _networkObjectCache: {fileID: 0}
-  enemySO: {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
+  enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
 --- !u!114 &4320398274266217101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4869165312915180730}
   - component: {fileID: 3364953107752516641}
+  - component: {fileID: 3222692255647139217}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -272,7 +271,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4837167991549545858}
+  - {fileID: 8976648919777783740}
   m_Father: {fileID: 4143584893522777281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3364953107752516641
@@ -297,6 +298,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3222692255647139217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704688877477840521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227e2481178b5c846af8a0689f52dcdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewNetworkBehaviourTemplate
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5789222092721587934}
+  _networkObjectCache: {fileID: 0}
+  weaponHitbox: {fileID: 2978081649134900966}
 --- !u!1 &8200496097536796413
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +347,7 @@ Transform:
   m_LocalScale: {x: 0.56784, y: 0.95553386, z: 0.28815904}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4143584893522777281}
+  m_Father: {fileID: 4869165312915180730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6444201814011768118
 MeshFilter:
@@ -432,7 +449,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4143584893522777281}
+    m_TransformParent: {fileID: 4869165312915180730}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3d4d8eaed524ca74c8a6d319e9d3609d, type: 3}
       propertyPath: m_LocalPosition.x

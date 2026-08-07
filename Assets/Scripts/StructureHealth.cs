@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class StructureHealth : NetworkBehaviour
 {
+    //Max and current health of the structure
     [SerializeField] private float maxHealth = 100f;
 
-    private float currentHealth;
+    private readonly SyncVar<float> currentHealth;
 
-    private void Awake()
+    public override void OnStartServer()
     {
-        currentHealth = maxHealth;
+        //Initialises the health of the structure
+        currentHealth.Value = maxHealth;
     }
 
+
+    /// <summary>
+    /// Handles taking damage from sources such as enemies
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        if (!IsServerStarted)
+            return;
 
-        if (currentHealth < 0)
+        currentHealth.Value -= damage;
+        //Debug.Log("Structure has taken damage");
+        if (currentHealth.Value <= 0)
         {
-            //destroy object
+            //TODO destroy object, different logic for heart crystal
+            Debug.Log($"{gameObject.name} has been destroyed");
         }
     }
 }

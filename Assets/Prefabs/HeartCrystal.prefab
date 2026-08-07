@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 8654546755307349534}
   - component: {fileID: 1347123215649116283}
   - component: {fileID: 6310160447430228335}
+  - component: {fileID: 1768034666055563774}
   - component: {fileID: 4938967864148522903}
   - component: {fileID: 6852539084324569251}
   - component: {fileID: 5788280675705481506}
@@ -315,6 +316,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &1768034666055563774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8615484196015154986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5788280675705481506}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!114 &4938967864148522903
 MonoBehaviour:
   m_ObjectHideFlags: 0

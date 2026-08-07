@@ -1,21 +1,24 @@
 using UnityEngine;
 using FishNet.Object;
 
-public class NewNetworkBehaviourTemplate : NetworkBehaviour
+public class EnemyAnimationEvent : NetworkBehaviour
 {
-    private WeaponHitbox weaponHitbox;
+    //Reference to weaponHitbox script
+    [SerializeField] private WeaponHitbox weaponHitbox;
 
+    /// <summary>
+    /// Call weaponHitbox StartAttack function on animation event
+    /// </summary>
     public void CallStartAttack()
     {
-        weaponHitbox = GetComponent<WeaponHitbox>();
-
         weaponHitbox.StartAttack();
     }
 
+    /// <summary>
+    /// Call weaponHitbox EndAttack function on animation event
+    /// </summary>
     public void CallEndAttack()
     {
-        weaponHitbox = GetComponent<WeaponHitbox>();
-
         weaponHitbox.EndAttack();
     }
 }
