@@ -271,6 +271,9 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 5157244053637599692}
   interactDistance: 5
   interactRate: 0.5
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &5157244053637599692
 MonoBehaviour:
   m_ObjectHideFlags: 0
