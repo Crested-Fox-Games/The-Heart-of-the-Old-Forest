@@ -1,4 +1,5 @@
 using FishNet.Object;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -6,6 +7,17 @@ public class BlightNode : NetworkBehaviour, IInteractable
 {
     //TODO Add clearing the nodes
     private Transform nextBlightNode, previousBlightNode;
+
+    private List<ResourceNode> blightedNodes = new List<ResourceNode>();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent<ResourceNode>(out ResourceNode node))
+        {
+            //Corrupts nodes that are in its radius so that they cant be used
+            node.UpdateNodeCorruption(true);
+        }
+    }
 
     public void Initialize(Transform previous)
     {
@@ -23,6 +35,12 @@ public class BlightNode : NetworkBehaviour, IInteractable
             if(nextBlightNode.TryGetComponent<BlightNode>(out BlightNode node))
             {
                 node.SetPreviousNode(previousBlightNode);
+            }
+
+            //Uncorrupt each node
+            foreach (ResourceNode resource in blightedNodes)
+            {
+                resource.UpdateNodeCorruption(false);
             }
 
             Despawn(this);

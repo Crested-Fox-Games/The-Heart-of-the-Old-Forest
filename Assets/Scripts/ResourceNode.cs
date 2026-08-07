@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using UnityEngine;
 
@@ -33,6 +34,8 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     private bool depleted = false;
 
+    private readonly SyncVar<bool> isCorrupted = new();
+
     /// <summary>
     /// The time it takes for the node to respawn after being depleted
     /// </summary>
@@ -44,7 +47,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     private void Start()
     {
         InitializeValues();
-
+        isCorrupted.Value = false;
     }
 
     /// <summary>
@@ -130,7 +133,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         //This will need to be some sort of check sent to the host to see if the player can interact with the node
 
         //TODO: Will need to add in any other checks, like player tool tier 
-        return !depleted;
+        return !depleted && !isCorrupted.Value;
     }
 
     /// <summary>
@@ -146,5 +149,10 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         currentResourceDurability = resourceDurability;
         depleted = false;
         model.SetActive(true);
+    }
+
+    public void UpdateNodeCorruption(bool corruptionState)
+    {
+        isCorrupted.Value = corruptionState;
     }
 }
