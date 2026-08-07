@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc147300d860fe44c8304282fa9e0bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemeyMeleeClass
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
   enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
 --- !u!114 &4320398274266217101
 MonoBehaviour:
@@ -104,10 +104,12 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 0}
+  - {fileID: 2991820383993943965}
   - {fileID: 4320398274266217101}
   - {fileID: 9215826586628802106}
   - {fileID: 3960085857779098108}
+  - {fileID: 3222692255647139217}
+  - {fileID: 2978081649134900966}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -118,7 +120,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 1
-  _initializedTimestamp: -8584156016486302978
+  _initializedTimestamp: -8584155084691572016
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -310,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227e2481178b5c846af8a0689f52dcdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewNetworkBehaviourTemplate
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
   weaponHitbox: {fileID: 2978081649134900966}
 --- !u!1 &8200496097536796413
 GameObject:
@@ -439,9 +441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ccc55daf183454094f8ac0044fed98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHitbox
-  _componentIndexCache: 255
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 5789222092721587934}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5789222092721587934}
   hitboxCollider: {fileID: 6431361038394490377}
 --- !u!1001 &4948237549355018857
 PrefabInstance:

@@ -180,7 +180,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584156218662175670
+  _initializedTimestamp: -8584155084691572016
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
   <AssetPathHash>k__BackingField: 1282065819324540121
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 290.34332, y: 0.844, z: 494.43997}
+    Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 2, y: 4, z: 2}
     IsValid: 1

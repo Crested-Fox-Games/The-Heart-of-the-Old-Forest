@@ -7,7 +7,7 @@ public class StructureHealth : NetworkBehaviour
     //Max and current health of the structure
     [SerializeField] private float maxHealth = 100f;
 
-    private readonly SyncVar<float> currentHealth;
+    private readonly SyncVar<float> currentHealth = new();
 
     public override void OnStartServer()
     {
