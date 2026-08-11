@@ -9,6 +9,8 @@ public class StructureHealth : NetworkBehaviour, ITargetable
 
     private readonly SyncVar<float> currentHealth = new();
 
+    public Transform TargetTransform => transform;
+
     public override void OnStartServer()
     {
         //Initialises the health of the structure
@@ -30,22 +32,26 @@ public class StructureHealth : NetworkBehaviour, ITargetable
     /// Handles taking damage from sources such as enemies
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         if (!IsServerStarted)
-            return;
+            return true;
 
         currentHealth.Value -= damage;
         //Debug.Log("Structure has taken damage");
         if (currentHealth.Value <= 0)
         {
             Destroyed();
+            return false;
         }
+        return true;
     }
 
+    [ObserversRpc]
     public void Destroyed()
     {
         //TODO destroy object, different logic for heart crystal
         Debug.Log($"{gameObject.name} has been destroyed");
+        gameObject.SetActive(false);
     } 
 }

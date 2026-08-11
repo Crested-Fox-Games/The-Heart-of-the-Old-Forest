@@ -8,7 +8,7 @@ public class ArcherTower : Tower
 {
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>() != null)
+        if (collision.gameObject.GetComponentInParent<Enemy>() != null)
         {
             if (targetEnemy == null) //If we're not targeting an enemy, start targeting them.
             {

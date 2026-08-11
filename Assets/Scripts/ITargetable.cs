@@ -1,5 +1,3 @@
-using FishNet.Object;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public interface ITargetable
 {
+    Transform TargetTransform { get; }
 
     /// <summary>
     /// Checks if target is still active in the scene
@@ -24,5 +23,5 @@ public interface ITargetable
     /// Handles taking damage from enemies
     /// </summary>
     /// <param name="damage"></param>
-    void TakeDamage(float damage);
+    bool TakeDamage(float damage);
 }

@@ -74,7 +74,13 @@ public class WeaponHitbox : NetworkBehaviour
             return;
         }
 
-        target.TakeDamage(owner.EnemyDamage);
+        
+        if (!target.TakeDamage(owner.EnemyDamage))
+        {
+            EnemyBrain brain = GetComponentInParent<EnemyBrain>();
+
+            brain.ReevaluateTargets();
+        }
        
     }
 
@@ -86,5 +92,12 @@ public class WeaponHitbox : NetworkBehaviour
     private void OnTriggerStay(Collider other)
     {
         AttackTrigger(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        EnemyBrain brain = GetComponentInParent<EnemyBrain>();
+
+        brain.ReevaluateTargets();
     }
 }

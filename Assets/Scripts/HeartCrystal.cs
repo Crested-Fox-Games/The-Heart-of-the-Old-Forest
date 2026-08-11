@@ -10,6 +10,8 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
 
     public readonly SyncVar<float> currentHealth = new();
 
+    public Transform TargetTransform => transform;
+
     public override void OnStartServer()
     {
         //Initializes the health
@@ -30,10 +32,10 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
     /// This will handle taking damage from enemies
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         if (!IsServerStarted)
-            return;
+            return true;
 
         currentHealth.Value -= damage;
         Debug.Log($"{gameObject.name} has been damaged");
@@ -41,7 +43,9 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
         {
             //Run some sort of game over function
             GameManager.Instance.GameOver();
+            return false;
         }
+        return true;
     }
 
     //TODO: update some sort of in scene ui that displays a health bar

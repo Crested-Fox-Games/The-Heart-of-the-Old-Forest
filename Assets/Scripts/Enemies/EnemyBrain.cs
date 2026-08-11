@@ -15,9 +15,17 @@ public class EnemyBrain : NetworkBehaviour
     //References
     private Enemy enemy;
     private EnemyMovement enemyMovement;
+    private TargetDetector targetDetector;
+    private EnemyPathfinder enemyPathfinder;
 
     //For now this will just be the heart crystal
-    private GameObject currentTarget;
+    private ITargetable defaultTarget;
+    private ITargetable currentTarget;
+
+    private void Awake()
+    {
+        GetReferences();
+    }
 
     /// <summary>
     /// Gets the script references needed to run
@@ -26,6 +34,36 @@ public class EnemyBrain : NetworkBehaviour
     {
         enemy = GetComponent<Enemy>();
         enemyMovement = GetComponent<EnemyMovement>();
+        enemyPathfinder = GetComponent<EnemyPathfinder>();
+        targetDetector = GetComponentInChildren<TargetDetector>();
+    }
+
+    /// <summary>
+    /// Subscribe to on trigger enter and exit events in targetDetector
+    /// </summary>
+    private void OnEnable()
+    {
+        if (targetDetector == null)
+        {
+            return;
+        }
+
+        targetDetector.TargetEntered += OnTargetEntered;
+        targetDetector.TargetExited += OnTargetExited;
+    }
+
+    /// <summary>
+    /// Unsubscribe to on trigger enter and exit events in targetDetector
+    /// </summary>
+    private void OnDisable()
+    {
+        if (targetDetector == null)
+        {
+            return;
+        }
+
+        targetDetector.TargetEntered -= OnTargetEntered;
+        targetDetector.TargetExited -= OnTargetExited;
     }
 
     /// <summary>
@@ -34,15 +72,80 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="heartCrystal"></param>
     public void Initialize(GameObject heartCrystal)
     {
-        GetReferences();
-        SetTarget(heartCrystal);
+        ITargetable target = heartCrystal.GetComponent<ITargetable>();
+
+        if (target == null)
+        {
+            return;
+        }
+
+        defaultTarget = target;
+        SetTarget(defaultTarget);
+    }
+
+    /// <summary>
+    /// Evaluate potential targets when a new target enters enemy collider
+    /// </summary>
+    /// <param name="target"></param>
+    private void OnTargetEntered(ITargetable target)
+    {
+        Debug.Log($"EnemyBrain noticed a target entered: {target}");
+
+        ReevaluateTargets();
+    }
+
+    /// <summary>
+    /// Evaluate potential targets when an existing target exits enemy collider
+    /// </summary>
+    /// <param name="target"></param>
+    private void OnTargetExited(ITargetable target)
+    {
+        Debug.Log($"EnemyBrain noticed a target exited: {target}");
+
+        ReevaluateTargets();
+    }
+
+    /// <summary>
+    /// Set a new target for the enemy to attack
+    /// </summary>
+    public void ReevaluateTargets()
+    {
+        if (defaultTarget == null)
+        {
+            return;
+        }
+        
+        ITargetable obstruction = enemyPathfinder.FindDirectObstruction(defaultTarget);
+
+        if (obstruction != null)
+        {
+            SetTarget(obstruction);
+        }
+        else
+        {
+            SetTarget(defaultTarget);
+        }
+
+        //foreach (ITargetable target in targetDetector.NearbyTargets)
+        //{
+        //    if (!target.IsAlive())
+        //    {
+        //        continue;
+        //    }
+
+        //    if (!target.IsAttackable())
+        //    {
+        //        continue;
+        //    }
+        //    Debug.Log($"Valid target: {target}");
+        //}
     }
 
     /// <summary>
     /// Sets the current target of the enemy
     /// </summary>
     /// <param name="target"></param>
-    private void SetTarget(GameObject target)
+    private void SetTarget(ITargetable target)
     {
         currentTarget = target;
 
@@ -50,6 +153,6 @@ public class EnemyBrain : NetworkBehaviour
             return;
 
         //TODO: Will probably need to move this later
-        enemyMovement.MovementTarget(currentTarget.transform.position);
+        enemyMovement.MovementTarget(currentTarget.TargetTransform.position);
     }
 }
