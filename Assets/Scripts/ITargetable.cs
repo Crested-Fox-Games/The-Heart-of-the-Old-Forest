@@ -25,9 +25,4 @@ public interface ITargetable
     /// </summary>
     /// <param name="damage"></param>
     void TakeDamage(float damage);
-
-    /// <summary>
-    /// Object destroyed or set to inactive on death
-    /// </summary>
-    void Destroyed();
 }

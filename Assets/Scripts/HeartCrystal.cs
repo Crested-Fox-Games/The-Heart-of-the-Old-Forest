@@ -3,7 +3,7 @@ using FishNet.Object.Synchronizing;
 using System.Collections;
 using UnityEngine;
 
-public class HeartCrystal : NetworkBehaviour
+public class HeartCrystal : NetworkBehaviour, ITargetable
 {
     //The current and starting health
     private float startingHealth = 100f;
@@ -16,6 +16,16 @@ public class HeartCrystal : NetworkBehaviour
         currentHealth.Value = startingHealth;
     }
 
+    public bool IsAlive()
+    {
+        return currentHealth.Value > 0f;
+    }
+
+    public bool IsAttackable()
+    {
+        return IsAlive();
+    }
+
     /// <summary>
     /// This will handle taking damage from enemies
     /// </summary>
@@ -26,8 +36,8 @@ public class HeartCrystal : NetworkBehaviour
             return;
 
         currentHealth.Value -= damage;
-
-        if(currentHealth.Value <= 0)
+        Debug.Log($"{gameObject.name} has been damaged");
+        if (currentHealth.Value <= 0)
         {
             //Run some sort of game over function
             GameManager.Instance.GameOver();

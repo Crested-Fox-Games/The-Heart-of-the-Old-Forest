@@ -11,7 +11,7 @@ public class WeaponHitbox : NetworkBehaviour
 
     //HashSet 
     //Stores unique targets that are hit, similar to a list but can't add the same object twice
-    private HashSet<StructureHealth> hitTargets = new HashSet<StructureHealth>();
+    private HashSet<ITargetable> hitTargets = new HashSet<ITargetable>();
     //Used to access damage float
     private EnemyMeleeClass owner;
 
@@ -32,7 +32,7 @@ public class WeaponHitbox : NetworkBehaviour
     /// Enables attack during attack animation
     /// </summary>
     public void StartAttack()
-    {
+    {;
         attackActive = true;
         hitTargets.Clear();
         hitboxCollider.enabled = true;
@@ -48,7 +48,7 @@ public class WeaponHitbox : NetworkBehaviour
     }
 
     /// <summary>
-    /// Assigns damage to objects that contain the StructureHealth script while attack is active
+    /// Assigns damage to objects that implement ITargetable while the attack is active
     /// </summary>
     /// <param name="other"></param>
     private void AttackTrigger(Collider other)
@@ -61,20 +61,20 @@ public class WeaponHitbox : NetworkBehaviour
 
        
         //damage logic
-        StructureHealth health = other.GetComponent<StructureHealth>();
+        ITargetable target = other.GetComponent<ITargetable>();
 
-        if (health == null)
+        if (target == null)
         {
             return;
         }
 
         //hitTargets.Add returns a bool, if the object is already stored in the hashset, returns false and exits function
-        if (!hitTargets.Add(health))
+        if (!hitTargets.Add(target))
         {
             return;
         }
 
-        health.TakeDamage(owner.EnemyDamage);
+        target.TakeDamage(owner.EnemyDamage);
        
     }
 
