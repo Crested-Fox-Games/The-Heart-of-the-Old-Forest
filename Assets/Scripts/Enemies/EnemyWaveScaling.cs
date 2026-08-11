@@ -7,6 +7,15 @@ public static class EnemyWaveScaling
     //TODO: max enemy spawn amount based on nights and blight nodes cleared
     //TODO: spawn density based on nights and blight nodes cleared
 
+    /// <summary>
+    /// The factor that the day is multiplied by
+    /// </summary>
+    private static float healthFactor = 0.25f;
+
+    /// <summary>
+    /// The factor that the day is multiplied by
+    /// </summary>
+    private static float damageFactor = 0.25f;
 
     /// <summary>
     /// Calculate the enemies health based on different factors
@@ -16,12 +25,21 @@ public static class EnemyWaveScaling
     public static float EnemyHealthScaling(float baseHealth)
     {
         //Scale by x% each night
-        return baseHealth;
+        float scaledHealth = baseHealth * (1 + TimeManager.Instance.CurrentDay * healthFactor);
+
+        return scaledHealth;
     }
 
+    /// <summary>
+    /// Calculate the enemies damage based on different factors
+    /// </summary>
+    /// <param name="baseDamage"></param>
+    /// <returns></returns>
     public static float EnemyDamageScaling(float baseDamage)
     {
         //Scale by x% each night
-        return baseDamage;
+        float scaledDamage = baseDamage * (1 + TimeManager.Instance.CurrentDay * damageFactor);
+
+        return scaledDamage;
     }
 }
