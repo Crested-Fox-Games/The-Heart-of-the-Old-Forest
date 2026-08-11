@@ -35,6 +35,8 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     public readonly SyncVar<bool> depleted = new();
 
+    private readonly SyncVar<bool> isCorrupted = new();
+
     /// <summary>
     /// The time it takes for the node to respawn after being depleted
     /// </summary>
@@ -46,7 +48,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     private void Start()
     {
         InitializeValues();
-
+        isCorrupted.Value = false;
     }
 
     public override void OnStartClient()
@@ -146,7 +148,21 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         //This will need to be some sort of check sent to the host to see if the player can interact with the node
 
         //TODO: Will need to add in any other checks, like player tool tier 
-        return !depleted.Value;
+        return !depleted.Value && !isCorrupted.Value;
+    }
+
+    private void OnDepletedChanged(bool oldValue, bool newValue, bool asServer)
+    {
+        if (newValue)
+        {
+            //Node is depleted
+            model.SetActive(false);
+        }
+        else
+        {
+            //Node is respawned
+            model.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -164,17 +180,8 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         model.SetActive(true);
     }
 
-    private void OnDepletedChanged(bool oldValue, bool newValue, bool asServer)
+    public void UpdateNodeCorruption(bool corruptionState)
     {
-        if (newValue)
-        {
-            //Node is depleted
-            model.SetActive(false);
-        }
-        else
-        {
-            //Node is respawned
-            model.SetActive(true);
-        }
+        isCorrupted.Value = corruptionState;
     }
 }

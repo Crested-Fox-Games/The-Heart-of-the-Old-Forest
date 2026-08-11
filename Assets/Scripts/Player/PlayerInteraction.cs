@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerInteraction : NetworkBehaviour
 {
@@ -51,6 +52,9 @@ public class PlayerInteraction : NetworkBehaviour
     private IInteractable currentInteractHover = null;
 
     private Camera playerCam;
+
+    [SerializeField]
+    private LayerMask aimMask;
 
     /// <summary>
     /// The resources the player has on hand
@@ -121,7 +125,7 @@ public class PlayerInteraction : NetworkBehaviour
 
         // Check if the player is looking at an interactable object
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             //Checks to see if the player is looking at an interactable object(In parent checks up the hierarchy for the object)
             currentInteractHover = hit.transform.GetComponentInParent<IInteractable>();
