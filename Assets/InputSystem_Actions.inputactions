@@ -968,7 +968,7 @@
                 {
                     "name": "",
                     "id": "e7e8441e-7d26-411a-9539-92f54179fdda",
-                    "path": "<Keyboard>/numpad1",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",

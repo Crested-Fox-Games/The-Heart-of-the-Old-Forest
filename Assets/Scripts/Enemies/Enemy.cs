@@ -9,10 +9,10 @@ public class Enemy : NetworkBehaviour
 {
     #region SO Fields
     [SerializeField]
-    private EnemySO enemySO;
+    protected EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
 
     public EnemySO EnemySO => enemySO;
 
