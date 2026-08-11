@@ -21,4 +21,6 @@ public interface IInteractable
     /// <param name="player"></param>
     /// <returns></returns>
     bool CanInteract(NetworkObject player);
+
+    //TODO: Decide on if we want each interactable to have their own interact time
 }

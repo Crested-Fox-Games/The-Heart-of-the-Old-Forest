@@ -1,0 +1,162 @@
+using FishNet.Object;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BlightManager : NetworkBehaviour
+{
+    //TODO: Get nodes updating the forward nodes when they've been cleared, if theres one missing in between need to caluclate that
+
+    public static BlightManager Instance { get; private set; }
+
+    /// <summary>
+    /// The starting positions that the nodes can spawn from
+    /// </summary>
+    [SerializeField]
+    private List<Transform> startingPoints = new List<Transform>();
+
+    /// <summary>
+    /// The current forwardmost node positions
+    /// </summary>
+    private List<Transform> currentForwardNodes = new List<Transform>();
+
+    private HeartCrystal heartCrystal;
+
+    [SerializeField]
+    private BlightNode blightPrefab;
+
+    /// <summary>
+    /// The range on either side of the direction for the node to spawn at. (45 means a total of 90 degree cone)
+    /// </summary>
+    [SerializeField]
+    private float spawnConeRange = 45f;
+
+    /// <summary>
+    /// The distance range the nodes can move forward towards the node by
+    /// </summary>
+    [SerializeField]
+    private float minDistance = 10f, maxDistance = 20f;
+
+    /// <summary>
+    /// The time range that the nodes will spawn at
+    /// </summary>
+    [SerializeField]
+    private float minTime = 1f, maxTime = 1f;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        //Adds all the initial starting points to the forward nodes
+        currentForwardNodes.AddRange(startingPoints);
+
+        StartCoroutine(Initialize());
+    }
+
+    /// <summary>
+    /// Coroutine to ensure heart crystal is set before starting blight
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Initialize()
+    {
+        while(heartCrystal == null)
+        {
+            heartCrystal = FindFirstObjectByType<HeartCrystal>();
+
+            yield return null;
+        }
+
+        StartSpawnLoop();
+    }
+
+    private void StartSpawnLoop()
+    {
+        //TODO: make a coroutine for storing this
+        StartCoroutine(SpawnLoop());
+    }
+
+    /// <summary>
+    /// The loop that spawns in the Blight nodes
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnLoop()
+    {
+        while(true)
+        {
+            Debug.Log("We hit another loop");
+            JumpNode();
+
+            float timer = Random.Range(minTime, maxTime);
+
+            yield return new WaitForSeconds(timer);
+
+        }
+    }
+
+    /// <summary>
+    /// Selects the point at which the blight will jump forward from
+    /// </summary>
+    /// <returns></returns>
+    private Transform SelectJumpPoint()
+    {
+        int index = Random.Range(0, currentForwardNodes.Count);
+
+        return currentForwardNodes[index];
+    }
+
+    /// <summary>
+    /// Jumps the node forward towards the heart crystal
+    /// </summary>
+    private void JumpNode()
+    {
+        Transform jumpNode = SelectJumpPoint();
+
+        //Get the direction from the selected node to the crystal
+        Vector3 direction = heartCrystal.transform.position - jumpNode.position;
+
+        //Reset Y so it doesnt go up
+        direction.y = 0;
+        direction.Normalize();
+
+        //Give it a cone range it can spawn in
+        float rangeOffset = Random.Range(-spawnConeRange, spawnConeRange);
+
+        //Min and max dist 
+        float distOffset = Random.Range(minDistance, maxDistance);
+
+        Vector3 finalDirection = Quaternion.Euler(0f, rangeOffset, 0f) * direction;
+
+        //Gets the position the node will spawn at
+        Vector3 targetPos = jumpNode.position + finalDirection * distOffset;
+
+        Quaternion lookDirection = Quaternion.LookRotation(finalDirection);
+
+        BlightNode currentNode = Instantiate(blightPrefab, targetPos, lookDirection);
+
+        //Spawns the object on the server
+        Spawn(currentNode.gameObject);
+
+        currentNode.Initialize(jumpNode);
+
+        if(jumpNode.TryGetComponent<BlightNode>(out BlightNode node))
+        {
+            node.SetNextNode(currentNode.transform);
+        }
+
+        currentForwardNodes.Remove(jumpNode);
+
+        currentForwardNodes.Add(currentNode.transform);
+    }
+}
