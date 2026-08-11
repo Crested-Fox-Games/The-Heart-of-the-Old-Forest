@@ -234,6 +234,8 @@ public class EnemySpawner : NetworkBehaviour
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
 
+        Debug.Log($"Enemy hieght: {GetEnemyHeightHalved(enemySO.EnemyPrefab)}");
+
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
 
@@ -280,7 +282,9 @@ public class EnemySpawner : NetworkBehaviour
         //TODO: Need to use something like raycast to get ground height for spawn pos
 
         //Uses the cardinal position and offset to get the spawn position based on the heart crystal's position
-        return HeartCrystal.transform.position + cardinalPos + new Vector3(offset.x, 0, offset.y);
+        Vector3 heartCrystalPos = new Vector3(HeartCrystal.transform.position.x, 0f, HeartCrystal.transform.position.z);
+
+        return heartCrystalPos + cardinalPos + new Vector3(offset.x, 0, offset.y);
     }
 
     /// <summary>
