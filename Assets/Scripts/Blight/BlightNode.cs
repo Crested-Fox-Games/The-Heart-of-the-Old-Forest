@@ -21,7 +21,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
 
     public void Initialize(Transform previous)
     {
-        previousBlightNode = transform;
+        previousBlightNode = previous;
     }
 
     /// <summary>
