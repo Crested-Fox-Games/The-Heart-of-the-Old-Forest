@@ -15,7 +15,7 @@ public class TargetDetector : MonoBehaviour
     {
         ITargetable target = other.GetComponent<ITargetable>();
 
-        if (target != null)
+        if (target == null)
         {
             return;
         }
@@ -29,7 +29,7 @@ public class TargetDetector : MonoBehaviour
     {
         ITargetable target = other.GetComponent<ITargetable>();
 
-        if (target != null)
+        if (target == null)
         {
             return;
         }

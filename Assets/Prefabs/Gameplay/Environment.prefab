@@ -505,6 +505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5877656785080609898}
+  - component: {fileID: 1819123442749674268}
   - component: {fileID: 3179673300304202960}
   - component: {fileID: 4804657628128944427}
   - component: {fileID: 4084927047754646475}
@@ -531,6 +532,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1819123442749674268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457986329969026767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &3179673300304202960
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -665,6 +682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631040175307246556}
+  - component: {fileID: 4944974500529878616}
   - component: {fileID: 4362751511021739054}
   - component: {fileID: 336582080100285052}
   - component: {fileID: 4184805927554817809}
@@ -691,6 +709,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &4944974500529878616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604899479416390140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4362751511021739054
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1483,6 +1517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5151583396212643645}
+  - component: {fileID: 8367016124080128536}
   - component: {fileID: 256074507080851955}
   - component: {fileID: 8759969243928002157}
   - component: {fileID: 2224757266743795491}
@@ -1509,6 +1544,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6183998624730672084}
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &8367016124080128536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412539772682247567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &256074507080851955
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1646,6 +1697,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 158945213385761212}
+  - component: {fileID: 2875505984703908808}
   - component: {fileID: 1160051535824812542}
   - component: {fileID: 7356247476875935717}
   - component: {fileID: 3561083559160691067}
@@ -1672,6 +1724,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4623779554210365619}
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &2875505984703908808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052757945987456216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &1160051535824812542
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1775,6 +1843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2265564501985071073}
+  - component: {fileID: 4104550731826381049}
   - component: {fileID: 7126585769120551928}
   - component: {fileID: 3861606912490131282}
   - component: {fileID: 3325000984074688488}
@@ -1801,6 +1870,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4104550731826381049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170174626209667538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &7126585769120551928
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2179,6 +2264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3973482294910801662}
+  - component: {fileID: 6158416007533497806}
   - component: {fileID: 6294876400293556209}
   - component: {fileID: 1360868305070764935}
   - component: {fileID: 7864065074510757111}
@@ -2205,6 +2291,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6158416007533497806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770864641878296983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &6294876400293556209
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2407,6 +2509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3918854498350125907}
+  - component: {fileID: 3084469858921982177}
   - component: {fileID: 4637577985784711200}
   - component: {fileID: 5662649213803336895}
   - component: {fileID: 2541165488126495564}
@@ -2433,6 +2536,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8315463673142830288}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &3084469858921982177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271944403976912229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4637577985784711200
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2536,6 +2655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7560457581952409061}
+  - component: {fileID: 6566837231956603861}
   - component: {fileID: 1912895942322414971}
   - component: {fileID: 8587496320208863442}
   - component: {fileID: 6416905835338664380}
@@ -2562,6 +2682,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2676262395512009204}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &6566837231956603861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4384041959871135755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &1912895942322414971
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3625,6 +3761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 526721311395250425}
+  - component: {fileID: 6985020214137635918}
   - component: {fileID: 8236403600440977972}
   - component: {fileID: 5975084053700989350}
   - component: {fileID: 399370499311753749}
@@ -3651,6 +3788,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &6985020214137635918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290279046768206315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &8236403600440977972
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4314,6 +4467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8732849648064612487}
+  - component: {fileID: 7401899095016657700}
   - component: {fileID: 32861348826987618}
   - component: {fileID: 931437373656915249}
   - component: {fileID: 2197519243915712669}
@@ -4340,6 +4494,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &7401899095016657700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8323153759232337136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &32861348826987618
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4699,6 +4869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217655688620758710}
+  - component: {fileID: 4028584209138505517}
   - component: {fileID: 683591455497340838}
   - component: {fileID: 3163981724217776048}
   - component: {fileID: 3932589078643042797}
@@ -4725,6 +4896,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4028584209138505517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8563803370415508499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &683591455497340838
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4828,6 +5015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1244172037927147726}
+  - component: {fileID: 5887525846854182236}
   - component: {fileID: 2744487660842423391}
   - component: {fileID: 2521895730662487863}
   - component: {fileID: 2824495965167324872}
@@ -4854,6 +5042,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &5887525846854182236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581373810314354375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &2744487660842423391
 MeshFilter:
   m_ObjectHideFlags: 0
