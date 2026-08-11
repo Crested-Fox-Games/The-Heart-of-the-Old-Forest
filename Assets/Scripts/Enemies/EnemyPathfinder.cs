@@ -5,12 +5,11 @@ public class EnemyPathfinder : MonoBehaviour
     [SerializeField] private float castRadius = 0.5f;
     [SerializeField] private LayerMask structureLayer;
 
-    private Vector3 gizmoOrigin;
-    private Vector3 gizmoDirection;
-    private float gizmoDistance;
-    private bool gizmoHit;
-    private Vector3 gizmoHitPoint;
-
+    /// <summary>
+    /// Checks for obstructions between the enemy and the heart crystal
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <returns></returns>
     public ITargetable FindDirectObstruction(ITargetable destination)
     {
         if (destination == null)
@@ -31,23 +30,8 @@ public class EnemyPathfinder : MonoBehaviour
 
         direction.Normalize();
 
-        // Store information for the gizmo
-        gizmoOrigin = origin;
-        gizmoDirection = direction;
-        gizmoDistance = distance;
-        gizmoHit = false;
-
-        if (Physics.SphereCast(
-            origin,
-            castRadius,
-            direction,
-            out RaycastHit hit,
-            distance,
-            structureLayer))
+        if (Physics.SphereCast(origin, castRadius, direction, out RaycastHit hit, distance, structureLayer))
         {
-            gizmoHit = true;
-            gizmoHitPoint = hit.point;
-
             ITargetable target = hit.collider.GetComponent<ITargetable>();
 
             if (target == null)
@@ -71,29 +55,14 @@ public class EnemyPathfinder : MonoBehaviour
         return null;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (gizmoDistance <= 0f)
-        {
-            return;
-        }
-
-        Gizmos.color = gizmoHit ? Color.red : Color.green;
-
-        Vector3 end = gizmoOrigin + gizmoDirection * gizmoDistance;
-
-        Gizmos.DrawWireSphere(gizmoOrigin, castRadius);
-        Gizmos.DrawWireSphere(end, castRadius);
-        Gizmos.DrawLine(gizmoOrigin, end);
-
-        if (gizmoHit)
-        {
-            Gizmos.DrawSphere(gizmoHitPoint, 0.1f);
-        }
-    }
-
     //[SerializeField] private float castRadius = 0.5f;
     //[SerializeField] private LayerMask structureLayer;
+
+    //private Vector3 gizmoOrigin;
+    //private Vector3 gizmoDirection;
+    //private float gizmoDistance;
+    //private bool gizmoHit;
+    //private Vector3 gizmoHitPoint;
 
     //public ITargetable FindDirectObstruction(ITargetable destination)
     //{
@@ -115,8 +84,23 @@ public class EnemyPathfinder : MonoBehaviour
 
     //    direction.Normalize();
 
-    //    if (Physics.SphereCast(origin, castRadius, direction, out RaycastHit hit, distance, structureLayer))
+    //    // Store information for the gizmo
+    //    gizmoOrigin = origin;
+    //    gizmoDirection = direction;
+    //    gizmoDistance = distance;
+    //    gizmoHit = false;
+
+    //    if (Physics.SphereCast(
+    //        origin,
+    //        castRadius,
+    //        direction,
+    //        out RaycastHit hit,
+    //        distance,
+    //        structureLayer))
     //    {
+    //        gizmoHit = true;
+    //        gizmoHitPoint = hit.point;
+
     //        ITargetable target = hit.collider.GetComponent<ITargetable>();
 
     //        if (target == null)
@@ -138,5 +122,26 @@ public class EnemyPathfinder : MonoBehaviour
     //    }
 
     //    return null;
+    //}
+
+    //private void OnDrawGizmos()
+    //{
+    //    if (gizmoDistance <= 0f)
+    //    {
+    //        return;
+    //    }
+
+    //    Gizmos.color = gizmoHit ? Color.red : Color.green;
+
+    //    Vector3 end = gizmoOrigin + gizmoDirection * gizmoDistance;
+
+    //    Gizmos.DrawWireSphere(gizmoOrigin, castRadius);
+    //    Gizmos.DrawWireSphere(end, castRadius);
+    //    Gizmos.DrawLine(gizmoOrigin, end);
+
+    //    if (gizmoHit)
+    //    {
+    //        Gizmos.DrawSphere(gizmoHitPoint, 0.1f);
+    //    }
     //}
 }

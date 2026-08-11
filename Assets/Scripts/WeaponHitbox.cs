@@ -74,7 +74,7 @@ public class WeaponHitbox : NetworkBehaviour
             return;
         }
 
-        
+        //Evaluate new enemies when current target is destroyed
         if (!target.TakeDamage(owner.EnemyDamage))
         {
             EnemyBrain brain = GetComponentInParent<EnemyBrain>();
@@ -94,6 +94,10 @@ public class WeaponHitbox : NetworkBehaviour
         AttackTrigger(other);
     }
 
+    /// <summary>
+    /// Evaluates new targets for enemies whenever a triggered attack ends
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
         EnemyBrain brain = GetComponentInParent<EnemyBrain>();

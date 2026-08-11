@@ -18,10 +18,14 @@ public class EnemyBrain : NetworkBehaviour
     private TargetDetector targetDetector;
     private EnemyPathfinder enemyPathfinder;
 
-    //For now this will just be the heart crystal
+    //Heart crystal will be the default target position
     private ITargetable defaultTarget;
+    //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
 
+    /// <summary>
+    /// Initialise references before anything else
+    /// </summary>
     private void Awake()
     {
         GetReferences();
