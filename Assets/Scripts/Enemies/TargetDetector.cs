@@ -23,7 +23,12 @@ public class TargetDetector : MonoBehaviour
     /// </summary>
     public event Action<ITargetable> TargetExited;
 
-    private void OnTriggerEnter(Collider other)
+
+    /// <summary>
+    /// Adds target to Hashset collection that enemy evaluates as possible new targets
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnCollisionEnterTargetable(Collider other)
     {
         ITargetable target = other.GetComponent<ITargetable>();
 
@@ -38,11 +43,13 @@ public class TargetDetector : MonoBehaviour
 
             TargetEntered?.Invoke(target);
         }
-       
-        
     }
 
-    private void OnTriggerExit(Collider other)
+    /// <summary>
+    /// Removes target from Hashset collection that enemy evaluates as possible targets
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnCollisionExitTargetable(Collider other)
     {
         ITargetable target = other.GetComponent<ITargetable>();
 
@@ -57,5 +64,15 @@ public class TargetDetector : MonoBehaviour
 
             TargetExited?.Invoke(target);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnCollisionEnterTargetable(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        OnCollisionExitTargetable(other);
     }
 }

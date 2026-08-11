@@ -50,7 +50,6 @@ public class StructureHealth : NetworkBehaviour, ITargetable
     [ObserversRpc]
     public void Destroyed()
     {
-        //TODO destroy object, different logic for heart crystal
         Debug.Log($"{gameObject.name} has been destroyed");
         gameObject.SetActive(false);
     } 
