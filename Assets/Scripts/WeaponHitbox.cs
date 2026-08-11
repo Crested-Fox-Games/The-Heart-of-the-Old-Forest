@@ -6,10 +6,13 @@ using UnityEngine;
 public class WeaponHitbox : NetworkBehaviour
 {
     //References
+    //Hitbox on enemy weapon
     [SerializeField] private Collider hitboxCollider;
 
-    //HashSet
+    //HashSet 
+    //Stores unique targets that are hit, similar to a list but can't add the same object twice
     private HashSet<StructureHealth> hitTargets = new HashSet<StructureHealth>();
+    //Used to access damage float
     private EnemyMeleeClass owner;
 
     //Attack bool
@@ -26,7 +29,7 @@ public class WeaponHitbox : NetworkBehaviour
     }
 
     /// <summary>
-    /// Starts the attack, clears HashSet targets ready for next attack, enables hitboxCollider during attack animation
+    /// Enables attack during attack animation
     /// </summary>
     public void StartAttack()
     {
@@ -36,7 +39,7 @@ public class WeaponHitbox : NetworkBehaviour
     }
 
     /// <summary>
-    /// Ends the attack by disabling hitboxCollider during attack animation
+    /// Disables attack during attack animation
     /// </summary>
     public void EndAttack()
     {
@@ -65,6 +68,7 @@ public class WeaponHitbox : NetworkBehaviour
             return;
         }
 
+        //hitTargets.Add returns a bool, if the object is already stored in the hashset, returns false and exits function
         if (!hitTargets.Add(health))
         {
             return;
