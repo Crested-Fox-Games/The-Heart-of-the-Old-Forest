@@ -78,9 +78,9 @@ public class EnemySpawner : NetworkBehaviour
     private int spawnCount = 0;
 
     /// <summary>
-    /// The max amount of enemies that can be spawned at once
+    /// The base amount of enemies that can be spawned at once
     /// </summary>
-    private int maxSpawnCount = 100;
+    private int baseMaxSpawnCount = 20;
 
 
     /// <summary>
@@ -150,9 +150,11 @@ public class EnemySpawner : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
+        //This will just loop until the coroutine is stopped externally
         while (true)
         {
-            if(spawnCount < maxSpawnCount)
+            //Checks to see if the spawned enemies is less than the current max spawned enemies
+            if(spawnCount < EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount))
             {
                 SpawnCluster();
             }
@@ -188,8 +190,8 @@ public class EnemySpawner : NetworkBehaviour
         //spawn enemy cluster in NESW directions
         newCluster.direction = Random.Range(0, 4);
 
-        //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
-        newCluster.minSpawnValue = Random.Range(50, 100);
+        //TODO: Decide what the base density is going to be
+        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(10f);
 
         //Probably redundant but just to be safe
         newCluster.enemies.Clear();
