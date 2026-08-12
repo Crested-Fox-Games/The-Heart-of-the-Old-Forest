@@ -76,8 +76,8 @@ public static class EnemyWaveScaling
     /// <returns></returns>
     public static float MaxEnemySpawnScaling(float baseSpawns)
     {
-        //TODO: Add blight factor
-        float scaledSpawns = baseSpawns * (1 + TimeManager.Instance.CurrentDay * spawnFactorNight);
+        float scaledSpawns = baseSpawns * (1 + TimeManager.Instance.CurrentDay * spawnFactorNight + 
+            GameManager.Instance.blightNodesCleared * spawnFactorBlight);
 
         return Mathf.Min(scaledSpawns, AbsoluteMaxEnemySpawns);
     }
@@ -89,8 +89,8 @@ public static class EnemyWaveScaling
     /// <returns></returns>
     public static float SpawnDensityScaling(float baseDensity)
     {
-        //TODO: add blight factor
-        float scaledDensity = baseDensity * (1 + TimeManager.Instance.CurrentDay * spawnDensityFactorNight);
+        float scaledDensity = baseDensity * (1 + TimeManager.Instance.CurrentDay * spawnDensityFactorNight +
+            GameManager.Instance.blightNodesCleared * spawnDensityFactorBlight);
 
         return scaledDensity;
     }

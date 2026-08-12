@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,11 @@ public class GameManager : MonoBehaviour
     /// The event that triggers game over across subscribed systems
     /// </summary>
     public event Action OnGameOver;
+
+    /// <summary>
+    /// Tracks the amount of blight nodes that have been cleared
+    /// </summary>
+    public float blightNodesCleared {  get; private set; }
 
     private void Awake()
     {
@@ -41,5 +47,13 @@ public class GameManager : MonoBehaviour
         //Enable the cursor
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    /// <summary>
+    /// Handles adding to the amount of blight nodes cleared
+    /// </summary>
+    public void BlightCleared()
+    {
+        blightNodesCleared++;
     }
 }
