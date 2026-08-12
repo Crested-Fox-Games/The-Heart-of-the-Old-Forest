@@ -150,6 +150,8 @@ public class EnemySpawner : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
+        Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
+            $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
         //This will just loop until the coroutine is stopped externally
         while (true)
         {
@@ -235,8 +237,6 @@ public class EnemySpawner : NetworkBehaviour
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
-
-        Debug.Log($"Enemy hieght: {GetEnemyHeightHalved(enemySO.EnemyPrefab)}");
 
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);

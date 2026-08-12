@@ -41,7 +41,7 @@ public class BlightManager : NetworkBehaviour
     /// The time range that the nodes will spawn at
     /// </summary>
     [SerializeField]
-    private float minTime = 1f, maxTime = 1f;
+    private float minTime = 300f, maxTime = 420f;
 
     private void Awake()
     {
@@ -95,7 +95,6 @@ public class BlightManager : NetworkBehaviour
     {
         while(true)
         {
-            Debug.Log("We hit another loop");
             JumpNode();
 
             float timer = Random.Range(minTime, maxTime);

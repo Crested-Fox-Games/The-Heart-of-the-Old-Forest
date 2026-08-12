@@ -19,22 +19,22 @@ public static class EnemyWaveScaling
     /// <summary>
     /// The factor that scales the amount of enemies spawned based on nights
     /// </summary>
-    private static float spawnFactorNight = 10f;
+    private static float spawnFactorNight = 1f;
 
     /// <summary>
     /// The factor that scales the amount of enemies spawned based on blight cleared
     /// </summary>
-    private static float spawnFactorBlight = 5f;
+    private static float spawnFactorBlight = 0.5f;
 
     /// <summary>
     /// The factor that scales the amount wave clusters can spawn based on nights
     /// </summary>
-    private static float spawnDensityFactorNight = 10f;
+    private static float spawnDensityFactorNight = 1f;
 
     /// <summary>
     /// The factor that scales the amount wave clusters can spawn based on blight
     /// </summary>
-    private static float spawnDensityFactorBlight = 5f;
+    private static float spawnDensityFactorBlight = 0.5f;
 
     /// <summary>
     /// When we do testing, we will adjust this number to ensure that there isnt too much lag on either the pc or network
