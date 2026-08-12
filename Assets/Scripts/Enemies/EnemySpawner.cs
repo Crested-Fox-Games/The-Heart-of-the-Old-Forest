@@ -42,6 +42,8 @@ public class EnemySpawner : NetworkBehaviour
     /// The list of currently unlocked enemies that can be spawned.
     /// </summary>
     [SerializeField]
+    private List<EnemySO> SpawnableEnemies;
+
     private List<EnemySO> unlockedEnemies;
 
     [SerializeField]
@@ -92,7 +94,8 @@ public class EnemySpawner : NetworkBehaviour
         timeManager.OnNightStart += NightStarted;
         timeManager.OnNightEnd += NightEnded;
 
-
+        unlockedEnemies = new List<EnemySO>();
+        
     }
 
     /// <summary>
@@ -110,6 +113,8 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     private void NightStarted()
     {
+        UpdateUnlockedEnemies();
+
         spawnCoroutine = StartCoroutine(SpawnEnemies());
     }
 
@@ -311,8 +316,20 @@ public class EnemySpawner : NetworkBehaviour
         enemy.onEnemyKilled -= ReturnEnemy;
     }
 
-    
+    /// <summary>
+    /// Updates the currently unlocked enemies
+    /// </summary>
+    private void UpdateUnlockedEnemies()
+    {
+        //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
+        //This might need to be a whole class that handles progression
 
-    //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
-    //This might need to be a whole class that handles progression
+        //TODO: Probably make this more complicated in the future than 1 per day
+
+        //This checks to make sure we dont have an out of bounds error
+        if (SpawnableEnemies.Count >= timeManager.CurrentDay)
+        {
+            unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
+        }
+    }
 }

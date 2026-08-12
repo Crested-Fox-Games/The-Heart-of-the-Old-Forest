@@ -3,8 +3,6 @@ using UnityEngine;
 
 public static class EnemyWaveScaling
 {
-    //TODO: Implement a way for the enemy class to know if it is a wave enemy or a blight enemy
-    //TODO: types of enemies that spawn based on nights
 
     /// <summary>
     /// The factor that the day is multiplied by
