@@ -20,6 +20,8 @@ public static class KCollisionsFunction
     private static bool isGrounded;
     private static float gravityFactor;
 
+    private static readonly int collisionMask =
+        Physics.AllLayers & ~(1 << LayerMask.NameToLayer("Gate"));
     
     //Collision Checks
     public static List<Vector3> CollisionAdjustMovementCords(Vector3 velocity, CapsuleCollider capsule, Rigidbody rb, bool useGravity, float gravity, bool enableSliding)
@@ -40,7 +42,7 @@ public static class KCollisionsFunction
             capsuleP2 = -new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
             
             //Collision Check, boolean
-            collDetected = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, CollisionVelocity, out hit,CollisionVelocity.magnitude, Physics.AllLayers, QueryTriggerInteraction.Ignore );
+            collDetected = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, CollisionVelocity, out hit,CollisionVelocity.magnitude, collisionMask, QueryTriggerInteraction.Ignore );
             
             if(collDetected)
             {
