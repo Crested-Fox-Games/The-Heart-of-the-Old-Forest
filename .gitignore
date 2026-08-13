@@ -126,3 +126,5 @@ Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/CodeBoost/C
 Assets/FishNet/Runtime/Transporting/Transports/Synapse/SynapseSocket/SynapseSocket.csproj.meta
 Assets/FishNet/Runtime/Transporting/Transports/Tugboat/LiteNetLib/LiteNetLib.csproj.meta
 .github/copilot-instructions.md
+# Unity ProBuilder user settings (avoids constant merge conflicts)
+/[Pp]roject[Ss]ettings/[Pp]ackages/com.unity.probuilder/
