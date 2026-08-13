@@ -83,7 +83,7 @@ public static class KCollisionsFunction
         capsuleP1 = new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
         capsuleP2 = -new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
         
-        var grounded = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, new Vector3(0f,-1f,0f),0.10f); //Cast Capsule straight down and return true if it hits something 
+        var grounded = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, new Vector3(0f,-1f,0f),0.10f, collisionMask, QueryTriggerInteraction.Ignore); //Cast Capsule straight down and return true if it hits something 
         return grounded;
     }
     
