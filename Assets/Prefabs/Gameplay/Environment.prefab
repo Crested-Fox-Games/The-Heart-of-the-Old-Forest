@@ -9371,8 +9371,9 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2303001875477162613}
   _networkObjectCache: {fileID: 2303001875477162613}
-  unlockedEnemies:
+  SpawnableEnemies:
   - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
+  - {fileID: 11400000, guid: 1866893a7c2856b4582bcc768c9b71bf, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
