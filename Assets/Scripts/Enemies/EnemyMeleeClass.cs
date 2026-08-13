@@ -6,7 +6,7 @@ public class EnemyMeleeClass : Enemy
     private WeaponHitbox weaponHitbox;
     public float EnemyDamage => enemyDamage;
     
-    ITargetable targetable;
+    private ITargetable currentTarget;
 
     private Animator enemyAnimator;
     private bool isAttacking = false;
