@@ -6,7 +6,7 @@ public class RabbitBasicAttack : Ability
 {
     private Projectile projectile;
 
-    private float damage = 10f;
+    private float damage = 20f;
 
     public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData, Projectile projectile) : base(player, abilityData)
     {
