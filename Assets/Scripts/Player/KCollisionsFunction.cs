@@ -40,7 +40,7 @@ public static class KCollisionsFunction
             capsuleP2 = -new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
             
             //Collision Check, boolean
-            collDetected = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, CollisionVelocity, out hit,CollisionVelocity.magnitude);
+            collDetected = Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, CollisionVelocity, out hit,CollisionVelocity.magnitude, Physics.AllLayers, QueryTriggerInteraction.Ignore );
             
             if(collDetected)
             {

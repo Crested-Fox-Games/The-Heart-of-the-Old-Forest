@@ -253,6 +253,7 @@ MonoBehaviour:
   minPivotRotation: -30
   maxPivotRotation: 65
   defaultVelocity: 0.2
+  gravity: -0.01
   cameraPrefab: {fileID: 181323723340778050, guid: a91c2b0284f63de4b8d4b3b3daf45fb4, type: 3}
 --- !u!114 &3523095287178685474
 MonoBehaviour:
@@ -309,7 +310,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584155084691572016
+  _initializedTimestamp: -8584150019318985842
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1

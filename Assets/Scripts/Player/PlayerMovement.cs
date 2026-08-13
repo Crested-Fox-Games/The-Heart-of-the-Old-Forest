@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using NUnit.Framework.Constraints;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float minPivotRotation = -30f;
     [SerializeField] private float maxPivotRotation = 65f;
     [SerializeField] private float defaultVelocity = 0.5f;
+    [SerializeField] private float gravity = -0.001f;
 
     // --- CAMERA ---
     /// <summary>
@@ -59,20 +61,17 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 movementInputVector;
     private bool isMoving;
     private bool isSliding;
+    private bool isJumping;
+
     private Vector3 playerVelocity;
     private Vector3 residualVelocity;
+    private List<Vector3> movementCords;
     
     //Slide
     private Vector3 addedSlideVelocity;
-    
-    // --- PHYSICS ---
-    private float gravity;
 
-    // --- COLLISION ---
-    private float capsuleRadius;
-    private Vector3 capsuleP1;
-    private Vector3 capsuleP2;
-    private Vector3 capsuleCenterWorldPosition;
+    // --- PHYSICS ---
+    private bool isGrounded;
     
     // --- SYNC VARS ---
     public readonly SyncVar<bool> IsMoving = new SyncVar<bool>();
@@ -203,9 +202,6 @@ public class PlayerMovement : NetworkBehaviour
         cameraPivot = transform.Find("Camera Pivot");
         animator = GetComponentInChildren<Animator>();
         
-        //Set Vars
-        SetCapsuleVars();
-        
         //Cursor Settings
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -223,10 +219,10 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner)
             return;
 
+        ApplyGravity(); //Applies Gravity
         FindPlayerVelocity();
-        //SetAnimationParameters();
         SetMovementStateServerRPC(isMoving, isSliding);
-        UpdateCamera();
+        UpdateCamera(); 
         MovePlayer();
     }
 
@@ -277,7 +273,7 @@ public class PlayerMovement : NetworkBehaviour
     /// <param name="context"></param>
     public void OnSlide(InputAction.CallbackContext context)
     {
-        print("OnSlide");
+        //print("OnSlide");
         if (context.started && !isSliding)
         {
             isSliding = true;
@@ -288,6 +284,16 @@ public class PlayerMovement : NetworkBehaviour
         {
             isSliding = false;
             residualVelocity = residualVelocity - addedSlideVelocity;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (KCollisionsFunction.CheckGrounded(capsule, rb.position))
+        {
+            isJumping = true;
+            residualVelocity.y = residualVelocity.y + 1f;
+            Debug.unityLogger.Log("Jumped");
         }
     }
 
@@ -309,9 +315,7 @@ public class PlayerMovement : NetworkBehaviour
     // --- MOVEMENT ---
     private Vector3 FindPlayerVelocity()
     {
-        playerVelocity = Vector3.Lerp(playerVelocity, InputVelocity() + residualVelocity, 1f - Mathf.Exp(-10* Time.deltaTime));
-        return playerVelocity;
-        
+        return InputVelocity() + residualVelocity;
     }
 
     /// <summary>
@@ -334,7 +338,14 @@ public class PlayerMovement : NetworkBehaviour
     private void MovePlayer()
     {
         //Uses the rigidbody to move the players position based on the player velocity
-        rb.MovePosition(playerVelocity + rb.position);
+        movementCords = KCollisionsFunction.CollisionAdjustMovementCords(FindPlayerVelocity(), capsule, rb, true, gravity, true);
+
+        for (int i = 0; i < movementCords.Count; i++)
+        {
+            rb.MovePosition(movementCords[i]);
+        }
+
+        movementCords.Clear();
 
         //Updates the boolean for the animator
         if (playerVelocity.magnitude > 0.1 && !isMoving)
@@ -355,29 +366,32 @@ public class PlayerMovement : NetworkBehaviour
         animator.SetBool("IsMoving", isMoving);
         animator.SetBool("IsSliding", isSliding);
     }
-    
-    
-    // --- COLLISIONS ---
-    
-    /// <summary>
-    /// Creates the colliders for collisions
-    /// </summary>
-    private void SetCapsuleVars()
-    {
-        capsule = GetComponent<CapsuleCollider>();
-        capsuleRadius = capsule.radius;
-        capsuleCenterWorldPosition = capsule.center + rb.position;
-        capsuleP1 = new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
-        capsuleP2 = -new Vector3(0f, (capsule.height / 2 - capsuleRadius), 0f) + capsuleCenterWorldPosition;
-    }
+
+
+    // --- PHYSICS ---
 
     /// <summary>
-    /// Checks to see if any collisions have occured
+    /// Applies gravity to the player
     /// </summary>
-    private void CheckCollisions()
+    private void ApplyGravity()
     {
-        //TODO: Make this work
-        Physics.CapsuleCast(capsuleP1, capsuleP2, capsuleRadius, playerVelocity, playerVelocity.magnitude);
+        //Ground Check, boolean
+        isGrounded = KCollisionsFunction.CheckGrounded(capsule, rb.position);
+
+        //Enable gravity if not grounded
+        if (!isGrounded)
+        {
+            residualVelocity.y = residualVelocity.y + gravity; //Add gravity factor to velocity
+        }
+        else
+        {
+            if (residualVelocity.y < 0f)
+            {
+                residualVelocity.y = 0f;
+            }
+        }
     }
+
+
 }
 
