@@ -13,7 +13,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float rotationSmooth = 60f;
     [SerializeField] private float minPivotRotation = -30f;
     [SerializeField] private float maxPivotRotation = 65f;
-    [SerializeField] private float defaultVelocity = 0.5f;
+    [SerializeField] private float defaultVelocity = 0.2f;
     [SerializeField] private float gravity = -0.001f;
 
     // --- CAMERA ---
@@ -220,10 +220,10 @@ public class PlayerMovement : NetworkBehaviour
             return;
 
         ApplyGravity(); //Applies Gravity
-        FindPlayerVelocity();
+        MovePlayer();
         SetMovementStateServerRPC(isMoving, isSliding);
         UpdateCamera(); 
-        MovePlayer();
+        
     }
 
     // --- INPUT ---
@@ -340,6 +340,7 @@ public class PlayerMovement : NetworkBehaviour
         //Uses the rigidbody to move the players position based on the player velocity
         movementCords = KCollisionsFunction.CollisionAdjustMovementCords(FindPlayerVelocity(), capsule, rb, true, gravity, true);
 
+        
         for (int i = 0; i < movementCords.Count; i++)
         {
             rb.MovePosition(movementCords[i]);

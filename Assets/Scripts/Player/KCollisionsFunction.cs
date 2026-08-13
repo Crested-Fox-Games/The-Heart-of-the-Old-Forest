@@ -21,7 +21,7 @@ public static class KCollisionsFunction
     private static float gravityFactor;
 
     private static readonly int collisionMask =
-        Physics.AllLayers & ~(1 << LayerMask.NameToLayer("Gate"));
+        Physics.DefaultRaycastLayers & ~(1 << LayerMask.NameToLayer("Gate"));
     
     //Collision Checks
     public static List<Vector3> CollisionAdjustMovementCords(Vector3 velocity, CapsuleCollider capsule, Rigidbody rb, bool useGravity, float gravity, bool enableSliding)
@@ -30,11 +30,11 @@ public static class KCollisionsFunction
         CollisionVelocity = velocity;
         var CAMC = new List<Vector3>(); //Creates a list of collision adjusted movement coordinates 
         CAMC.Add(rb.position); //Adds the current position of rigidbody 
-
+        int count = 0;
         //Compile Movement List
-        while (CollisionVelocity.magnitude > 0.01f)
+        while (CollisionVelocity.magnitude > 0.01f && count < 100)
         {
-
+            count++;
             //Find Capsule Constants
             capsuleRadius = capsule.radius;
             capsuleCenterWorldPosition = capsule.center + CAMC.Last();
