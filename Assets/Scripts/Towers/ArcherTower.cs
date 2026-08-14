@@ -8,46 +8,54 @@ public class ArcherTower : Tower
 {
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>() != null)
+        Enemy enemy = collision.GetComponentInParent<Enemy>();
+
+        //Null check
+        if (enemy == null)
+            return;
+
+        AddEnemyToTargets(enemy);
+
+        //set the current target if none set already
+        if(targetEnemy == null)
         {
-            if (targetEnemy == null) //If we're not targeting an enemy, start targeting them.
-            {
-                targetEnemy = collision.gameObject;
-                Debug.Log("Setting target");
-            }
-            else //If we are already targeting something, add it to the list of possible targets.
-            {
-                targets.Add(collision.gameObject);
-            }
-            Debug.Log($"Starting attack on {targetEnemy}");
-            StartAttack();
+            targetEnemy = enemy.gameObject;
         }
+ 
+        Debug.Log($"Starting attack on {targetEnemy}");
+        StartAttack();
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>() != null)
-        {
-            if (collision.gameObject != targetEnemy)
-            {
-                targets.Remove(collision.gameObject);
-                return;
-            }
+        Enemy enemy = collision.GetComponentInParent<Enemy>();
 
-            if (targetEnemy != null) //If we are targetting something
+        if (enemy == null)
+            return;
+
+        //Remove the enemy from the list if its not the current enemy
+        if(collision.gameObject != targetEnemy)
+        {
+            RemoveEnemyFromTargets(enemy);
+            return;
+        }
+
+        if (targetEnemy != null)
+        {
+            if(targets.Count <= 0)
             {
-                if (targets.Count <= 0) //If theres no other targets in range.
-                {
-                    targetEnemy = null;
-                }
-                else //Select a new target
-                {
-                    //TODO: Possibly add a way to change targetting system, e.g fist, last, strongest, weakest
-                    targetEnemy = targets[0];
-                    targets.RemoveAt(0);
-                }
+                targetEnemy = null;
+            }
+            else
+            {
+                //Update the target enemy to the first one in the list
+                //TODO: This is one of the places we need to implement tower targetting
+                targetEnemy = targets[0];
+                targets.RemoveAt(0);
             }
         }
+
+        enemy.onEnemyKilled -= RemoveEnemyFromTargets;
     }
 
     private void StartAttack()
@@ -104,5 +112,42 @@ public class ArcherTower : Tower
         }
 
         attackCoroutine = null;
+    }
+
+    /// <summary>
+    /// Adds the enemy to the target list and subscribes to its death event
+    /// </summary>
+    /// <param name="enemy"></param>
+    private void AddEnemyToTargets(Enemy enemy)
+    {
+        //Avoid duplication
+        if (targets.Contains(enemy.gameObject) || targetEnemy == enemy.gameObject)
+            return;
+
+        //Subscribes to the event so that when it dies it will be removed
+        enemy.onEnemyKilled += RemoveEnemyFromTargets;
+
+        if(targetEnemy != null)
+        {
+            targets.Add(enemy.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Removes the enemy from the target list and unsubscribes from its death event
+    /// </summary>
+    /// <param name="enemy"></param>
+    private void RemoveEnemyFromTargets(Enemy enemy)
+    {
+        enemy.onEnemyKilled -= RemoveEnemyFromTargets;
+
+        GameObject enemyObj = enemy.gameObject;
+
+        targets.Remove(enemyObj);
+
+        if(targetEnemy == enemyObj)
+        {
+            targetEnemy = null;
+        }
     }
 }
