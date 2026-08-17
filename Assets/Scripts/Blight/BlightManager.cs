@@ -107,6 +107,7 @@ public class BlightManager : NetworkBehaviour
     {
         while(true)
         {
+            //Debug.Log("We hit another loop");
             JumpNode();
 
             float timer = Random.Range(minTime, maxTime);

@@ -505,11 +505,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5877656785080609898}
+  - component: {fileID: 1819123442749674268}
   - component: {fileID: 3179673300304202960}
   - component: {fileID: 4804657628128944427}
   - component: {fileID: 4084927047754646475}
   - component: {fileID: 338527231334411001}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,6 +532,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1819123442749674268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457986329969026767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &3179673300304202960
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -665,11 +682,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631040175307246556}
+  - component: {fileID: 4944974500529878616}
   - component: {fileID: 4362751511021739054}
   - component: {fileID: 336582080100285052}
   - component: {fileID: 4184805927554817809}
   - component: {fileID: 697752952178085958}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,6 +709,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &4944974500529878616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604899479416390140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4362751511021739054
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -906,11 +940,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1501949916551186478}
+  - component: {fileID: 8854436277596265619}
   - component: {fileID: 4981427999055102428}
   - component: {fileID: 9140741594848374912}
   - component: {fileID: 5280978142161647351}
   - component: {fileID: 9046715976529677261}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gate (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -932,6 +967,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3281649411483718060}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &8854436277596265619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153902151747277588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4981427999055102428
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1483,11 +1534,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5151583396212643645}
+  - component: {fileID: 8367016124080128536}
   - component: {fileID: 256074507080851955}
   - component: {fileID: 8759969243928002157}
   - component: {fileID: 2224757266743795491}
   - component: {fileID: 7445628907567239021}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1509,6 +1561,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6183998624730672084}
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &8367016124080128536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412539772682247567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &256074507080851955
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1646,11 +1714,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 158945213385761212}
+  - component: {fileID: 2875505984703908808}
   - component: {fileID: 1160051535824812542}
   - component: {fileID: 7356247476875935717}
   - component: {fileID: 3561083559160691067}
   - component: {fileID: 6098718222929298497}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1672,6 +1741,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4623779554210365619}
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &2875505984703908808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3052757945987456216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &1160051535824812542
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1775,11 +1860,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2265564501985071073}
+  - component: {fileID: 4104550731826381049}
   - component: {fileID: 7126585769120551928}
   - component: {fileID: 3861606912490131282}
   - component: {fileID: 3325000984074688488}
   - component: {fileID: 3995321439044629517}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1801,6 +1887,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4104550731826381049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3170174626209667538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &7126585769120551928
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2016,11 +2118,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4336294498560520573}
+  - component: {fileID: 6951750174383119941}
   - component: {fileID: 8969571210677705716}
   - component: {fileID: 1736275437927011048}
   - component: {fileID: 7727995041820827747}
   - component: {fileID: 6747092969817008607}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2042,6 +2145,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3281649411483718060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6951750174383119941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3337124888687128669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &8969571210677705716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2179,11 +2298,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3973482294910801662}
+  - component: {fileID: 6158416007533497806}
   - component: {fileID: 6294876400293556209}
   - component: {fileID: 1360868305070764935}
   - component: {fileID: 7864065074510757111}
   - component: {fileID: 527845156697045119}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2205,6 +2325,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6158416007533497806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770864641878296983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &6294876400293556209
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2407,11 +2543,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3918854498350125907}
+  - component: {fileID: 3084469858921982177}
   - component: {fileID: 4637577985784711200}
   - component: {fileID: 5662649213803336895}
   - component: {fileID: 2541165488126495564}
   - component: {fileID: 8627598409579048450}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2433,6 +2570,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8315463673142830288}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &3084469858921982177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271944403976912229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4637577985784711200
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2536,11 +2689,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7560457581952409061}
+  - component: {fileID: 6566837231956603861}
   - component: {fileID: 1912895942322414971}
   - component: {fileID: 8587496320208863442}
   - component: {fileID: 6416905835338664380}
   - component: {fileID: 1452313781230985413}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2562,6 +2716,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2676262395512009204}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &6566837231956603861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4384041959871135755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &1912895942322414971
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3155,11 +3325,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6452095064535479540}
+  - component: {fileID: 5689090910351464369}
   - component: {fileID: 6158775511986237711}
   - component: {fileID: 1820080291710937385}
   - component: {fileID: 5016142563989791392}
   - component: {fileID: 7339803690544741105}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gate (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3181,6 +3352,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3281649411483718060}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5689090910351464369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704406749498050634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &6158775511986237711
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3611,7 +3798,6 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2303001875477162613}
   SpawnableEnemies:
   - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
-  - {fileID: 11400000, guid: 1866893a7c2856b4582bcc768c9b71bf, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
@@ -3625,11 +3811,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 526721311395250425}
+  - component: {fileID: 6985020214137635918}
   - component: {fileID: 8236403600440977972}
   - component: {fileID: 5975084053700989350}
   - component: {fileID: 399370499311753749}
   - component: {fileID: 6988702115146224235}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3651,6 +3838,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &6985020214137635918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290279046768206315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &8236403600440977972
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4314,11 +4517,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8732849648064612487}
+  - component: {fileID: 7401899095016657700}
   - component: {fileID: 32861348826987618}
   - component: {fileID: 931437373656915249}
   - component: {fileID: 2197519243915712669}
   - component: {fileID: 3701833757635933642}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4340,6 +4544,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &7401899095016657700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8323153759232337136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &32861348826987618
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4699,11 +4919,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217655688620758710}
+  - component: {fileID: 4028584209138505517}
   - component: {fileID: 683591455497340838}
   - component: {fileID: 3163981724217776048}
   - component: {fileID: 3932589078643042797}
   - component: {fileID: 3983465501513954891}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4725,6 +4946,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4028584209138505517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8563803370415508499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &683591455497340838
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4828,11 +5065,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1244172037927147726}
+  - component: {fileID: 5887525846854182236}
   - component: {fileID: 2744487660842423391}
   - component: {fileID: 2521895730662487863}
   - component: {fileID: 2824495965167324872}
   - component: {fileID: 8189986959461770603}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TmpWall (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,6 +5092,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8149632247042165861}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &5887525846854182236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8581373810314354375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &2744487660842423391
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5050,11 +5304,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9066460991199170248}
+  - component: {fileID: 6534147487147615779}
   - component: {fileID: 4919481395477365317}
   - component: {fileID: 2988335171541533288}
   - component: {fileID: 1852599578497853593}
   - component: {fileID: 6774378879945593660}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gate (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5076,6 +5331,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3281649411483718060}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &6534147487147615779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728090877450990357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 2303001875477162613}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!33 &4919481395477365317
 MeshFilter:
   m_ObjectHideFlags: 0

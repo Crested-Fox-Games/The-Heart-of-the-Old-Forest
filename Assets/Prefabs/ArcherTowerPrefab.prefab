@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 94530346737177422}
   - component: {fileID: 7777220972260072720}
   - component: {fileID: 4092041596734983502}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ArcherTowerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
