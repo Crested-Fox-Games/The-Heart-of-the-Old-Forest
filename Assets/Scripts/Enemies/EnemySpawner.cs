@@ -38,6 +38,8 @@ public class EnemySpawner : NetworkBehaviour
     
     //TODO: Dictionary of all enemies in the game that can be spawned at night
 
+    //TODO: Subscribe to blight event for spawning bosses and implement this
+
     /// <summary>
     /// The list of currently unlocked enemies that can be spawned.
     /// </summary>

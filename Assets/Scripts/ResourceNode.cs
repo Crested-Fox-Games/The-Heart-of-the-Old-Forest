@@ -32,6 +32,10 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     private float currentResourceDurability = 0;
 
+    [SerializeField]
+    private float interactTime = 2f;
+
+    public float InteractTime => interactTime;
 
     public readonly SyncVar<bool> depleted = new();
 

@@ -5,10 +5,18 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BlightNode : NetworkBehaviour, IInteractable
 {
-    //TODO Add clearing the nodes
+    //TODO: fix clearing the nodes
+
+    //TODO: Add spawning enemies
+
     private Transform nextBlightNode, previousBlightNode;
 
     private List<ResourceNode> blightedNodes = new List<ResourceNode>();
+
+    [SerializeField]
+    private float interactTime = 3f;
+
+    public float InteractTime => interactTime;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,6 +30,9 @@ public class BlightNode : NetworkBehaviour, IInteractable
     public void Initialize(Transform previous)
     {
         previousBlightNode = previous;
+
+        //Subscribe to blight buff event
+        BlightManager.Instance.BlightNodesBuffed += BuffBlight;
     }
 
     /// <summary>
@@ -42,17 +53,17 @@ public class BlightNode : NetworkBehaviour, IInteractable
                     prevNode.SetNextNode(nextBlightNode);
                 }
             }
-
-            //Uncorrupt each node
-            foreach (ResourceNode resource in blightedNodes)
-            {
-                resource.UpdateNodeCorruption(false);
-            }
-
-            BlightManager.Instance.BlightCleared();
-
-            Despawn(this);
         }
+
+        //Uncorrupt each node
+        foreach (ResourceNode resource in blightedNodes)
+        {
+            resource.UpdateNodeCorruption(false);
+        }
+
+        BlightManager.Instance.BlightCleared();
+
+        Despawn(this);
     }
 
     /// <summary>
@@ -84,5 +95,13 @@ public class BlightNode : NetworkBehaviour, IInteractable
     public bool CanInteract(NetworkObject player)
     {
         return true;
+    }
+
+    /// <summary>
+    /// Triggers when another blight node is cleared and buffs this one
+    /// </summary>
+    private void BuffBlight()
+    {
+
     }
 }

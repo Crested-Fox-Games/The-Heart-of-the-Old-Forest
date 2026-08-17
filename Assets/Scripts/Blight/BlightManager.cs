@@ -49,11 +49,20 @@ public class BlightManager : NetworkBehaviour
     public float blightNodesCleared { get; private set; }
 
     /// <summary>
-    /// The event that triggers when enough blight nodes are cleared and buffs the rest
+    /// The amount of blight that needs to be cleared in order to buff them
+    /// </summary>
+    [SerializeField]
+    private float blightBossRequirement;
+
+    /// <summary>
+    /// The event that triggers when blight nodes are cleared and buffs the rest
     /// </summary>
     public event Action BlightNodesBuffed;
 
-   
+    /// <summary>
+    /// The event that triggers when enough blight nodes are cleared and spawns a boss enemy in the next night
+    /// </summary>
+    public event Action BlightBossSpawn;
 
     private void Awake()
     {
@@ -178,5 +187,14 @@ public class BlightManager : NetworkBehaviour
     public void BlightCleared()
     {
         blightNodesCleared++;
+
+        //Buffs the existing blight nodes
+        BlightNodesBuffed?.Invoke();
+
+        //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
+        if (blightNodesCleared % blightBossRequirement == 0)
+        {
+            
+        }
     }
 }
