@@ -35,6 +35,12 @@ public class BlightNode : NetworkBehaviour, IInteractable
             if(nextBlightNode.TryGetComponent<BlightNode>(out BlightNode node))
             {
                 node.SetPreviousNode(previousBlightNode);
+
+                //Checks to see if there is a previous node in the chain and updates it
+                if(previousBlightNode.TryGetComponent<BlightNode>(out BlightNode prevNode))
+                {
+                    prevNode.SetNextNode(nextBlightNode);
+                }
             }
 
             //Uncorrupt each node
