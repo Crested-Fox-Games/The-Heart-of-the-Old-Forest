@@ -205,7 +205,7 @@ public class BlightManager : NetworkBehaviour
         //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
         if (blightNodesCleared % blightBossRequirement == 0)
         {
-            
+            //TODO: Make it so that a boss enemy spawns on the next night
         }
     }
 }

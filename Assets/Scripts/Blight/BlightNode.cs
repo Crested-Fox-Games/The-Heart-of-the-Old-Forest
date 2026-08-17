@@ -100,6 +100,13 @@ public class BlightNode : NetworkBehaviour, IInteractable
     /// </summary>
     private void BuffBlight()
     {
-
+        foreach(Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if(child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Scales up the blight creatures stats whenever another node is cleared
+                enemy.ScaleBlightStats(0.05f, 0.05f);
+            }
+        }
     }
 }
