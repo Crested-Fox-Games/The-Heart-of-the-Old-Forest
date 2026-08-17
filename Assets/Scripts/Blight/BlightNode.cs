@@ -5,8 +5,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BlightNode : NetworkBehaviour, IInteractable
 {
-    //TODO: fix clearing the nodes
-
     //TODO: Add spawning enemies
 
     private Transform nextBlightNode, previousBlightNode;

@@ -64,6 +64,9 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     public event Action BlightBossSpawn;
 
+    public event Action<NetworkObject> BlightNodeSpawned;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -114,6 +117,9 @@ public class BlightManager : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnLoop()
     {
+        //This gives a x second window before any nodes are spawned, allowing for systems to start up 
+        yield return new WaitForSeconds(5f);
+
         while(true)
         {
             //Debug.Log("We hit another loop");
@@ -168,6 +174,11 @@ public class BlightManager : NetworkBehaviour
 
         //Spawns the object on the server
         Spawn(currentNode.gameObject);
+
+        //Activates the event for blight nodes being spawned
+        //This tells the enemy spawner to spawn a cluster of blight enemies
+        BlightNodeSpawned?.Invoke(currentNode);
+
 
         currentNode.Initialize(jumpNode);
 

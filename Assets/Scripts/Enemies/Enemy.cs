@@ -66,6 +66,9 @@ public class Enemy : NetworkBehaviour
         {
             enemyHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
             enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
+
+            //TODO: Need to make the enemy brain initialize in a better way so that it can determine if its a wave enemy or not.
+            enemyBrain.Initialize(HeartCrystal);
         }
         else
         { 
@@ -73,12 +76,13 @@ public class Enemy : NetworkBehaviour
             enemyHealth = enemySO.EnemyHealth;
             enemyDamage = enemySO.EnemyDamage;
         }
-        
 
+        //Sets the enemies health after initializing it
+        currentHealth.Value = enemyHealth;
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-        enemyBrain.Initialize(HeartCrystal);
+        
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects

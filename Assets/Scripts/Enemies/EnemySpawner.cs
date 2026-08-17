@@ -97,7 +97,11 @@ public class EnemySpawner : NetworkBehaviour
         timeManager.OnNightEnd += NightEnded;
 
         unlockedEnemies = new List<EnemySO>();
-        
+
+        //Subscribes to the blight spawned event
+        BlightManager.Instance.BlightNodeSpawned += SpawnBlightCluster;
+
+        unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
     }
 
     /// <summary>
@@ -182,7 +186,17 @@ public class EnemySpawner : NetworkBehaviour
 
         foreach (EnemySO enemy in cluster.enemies)
         {
-            SpawnEnemy(enemy, cluster.radius, cluster.direction);
+            SpawnWaveEnemy(enemy, cluster.radius, cluster.direction);
+        }
+    }
+
+    private void SpawnBlightCluster(NetworkObject BlightObject)
+    {
+        EnemyCluster cluster = GetRandomCluster();
+
+        foreach(EnemySO enemy in cluster.enemies)
+        {
+            SpawnBlightEnemy(enemy, 5f, BlightObject);
         }
     }
 
@@ -234,7 +248,7 @@ public class EnemySpawner : NetworkBehaviour
     /// <summary>
     /// Used for the spawning of the individual enemies
     /// </summary>
-    private void SpawnEnemy(EnemySO enemySO, float spawnRadius, int direction)
+    private void SpawnWaveEnemy(EnemySO enemySO, float spawnRadius, int direction)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
@@ -249,7 +263,6 @@ public class EnemySpawner : NetworkBehaviour
         ServerManager.Spawn(currentEnemy.gameObject);
 
         currentEnemy.InitializeValues();
-        currentEnemy.currentHealth.Value = currentEnemy.EnemySO.EnemyHealth;
 
         currentEnemy.GetComponent<NetworkObject>().SetParent(this);
 
@@ -260,9 +273,37 @@ public class EnemySpawner : NetworkBehaviour
         currentEnemy.onEnemyKilled += ReturnEnemy;
     }
 
+    private void SpawnBlightEnemy(EnemySO enemySO, float spawnRadius, NetworkObject BlightObject)
+    {
+        //Used for updating values in the script once we spawn the enemy
+        Enemy currentEnemy;
+
+        //Get offset for spawn pos
+        Vector2 offset = Random.insideUnitCircle * spawnRadius;
+
+        //Get the spawn pos
+        Vector3 spawnPos = BlightObject.transform.position + new Vector3(offset.x, 0f, offset.y);
+
+        //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
+        currentEnemy = Instantiate(enemySO.EnemyPrefab, spawnPos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+
+        //Spawns the enemy on the client side
+        ServerManager.Spawn(currentEnemy.gameObject);
+
+        currentEnemy.InitializeValues(false);
+
+        currentEnemy.GetComponent<NetworkObject>().SetParent(BlightObject);
+    }
+
+    /// <summary>
+    /// Gets the spawn position of the enemy by calculating it using paramters
+    /// </summary>
+    /// <param name="spawnRadius"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     private Vector3 GetSpawnPosition(float spawnRadius, int direction)
     {
-
+        //TODO: Figure out if we're switching this to spawn points like with the blight nodes
         Vector3 cardinalPos;
 
         //Get the position based on the cardinal directions
@@ -329,7 +370,7 @@ public class EnemySpawner : NetworkBehaviour
         //TODO: Probably make this more complicated in the future than 1 per day
 
         //This checks to make sure we dont have an out of bounds error
-        if (SpawnableEnemies.Count >= timeManager.CurrentDay)
+        if (SpawnableEnemies.Count > timeManager.CurrentDay && timeManager.CurrentDay != 0)
         {
             unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
         }
