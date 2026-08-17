@@ -1,12 +1,12 @@
 using FishNet.Object;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BlightManager : NetworkBehaviour
 {
-    //TODO: Get nodes updating the forward nodes when they've been cleared, if theres one missing in between need to caluclate that
-
     public static BlightManager Instance { get; private set; }
 
     /// <summary>
@@ -42,6 +42,18 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private float minTime = 300f, maxTime = 420f;
+
+    /// <summary>
+    /// Tracks the amount of blight nodes that have been cleared
+    /// </summary>
+    public float blightNodesCleared { get; private set; }
+
+    /// <summary>
+    /// The event that triggers when enough blight nodes are cleared and buffs the rest
+    /// </summary>
+    public event Action BlightNodesBuffed;
+
+   
 
     private void Awake()
     {
@@ -157,5 +169,13 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.Remove(jumpNode);
 
         currentForwardNodes.Add(currentNode.transform);
+    }
+
+    /// <summary>
+    /// Handles adding to the amount of blight nodes cleared
+    /// </summary>
+    public void BlightCleared()
+    {
+        blightNodesCleared++;
     }
 }

@@ -49,7 +49,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
                 resource.UpdateNodeCorruption(false);
             }
 
-            GameManager.Instance.BlightCleared();
+            BlightManager.Instance.BlightCleared();
 
             Despawn(this);
         }
