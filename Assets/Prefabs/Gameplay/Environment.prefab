@@ -1203,8 +1203,8 @@ MonoBehaviour:
   spawnConeRange: 45
   minDistance: 20
   maxDistance: 40
-  minTime: 1
-  maxTime: 1
+  minTime: 300
+  maxTime: 420
 --- !u!1 &1363794219306270117
 GameObject:
   m_ObjectHideFlags: 0
@@ -3796,7 +3796,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2303001875477162613}
   _networkObjectCache: {fileID: 2303001875477162613}
-  unlockedEnemies:
+  SpawnableEnemies:
   - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}

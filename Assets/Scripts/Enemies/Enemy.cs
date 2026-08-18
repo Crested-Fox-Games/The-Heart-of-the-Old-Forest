@@ -43,29 +43,42 @@ public class Enemy : NetworkBehaviour
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
 
-        InitializeValues();
-
         currentHealth.Value = enemyHealth;
     }
 
     /// <summary>
     /// Sets the initial values of the enemy based on the SO
     /// </summary>
-    public void InitializeValues()
+    public void InitializeValues(bool isWaveEnemy = true)
     {
         //Strings
         enemyName = enemySO.EnemyName;
         enemyDescription = enemySO.EnemyDescription;
 
         //Floats
-        enemyHealth = enemySO.EnemyHealth;
         enemySpeed = enemySO.EnemySpeed;
-        enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
 
-        //Starts the initialization for the enemy scripts
+        //Scaled values
+
+        if(isWaveEnemy)
+        {
+            //Scales the enemy stats based on the formulas in enemywavescaling
+            enemyHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
+        }
+        else
+        { 
+            //TODO: Change this to be scaled for blight
+            //Scales the enemy stats based on the formulas for enemy blight scaling
+            enemyHealth = enemySO.EnemyHealth;
+            enemyDamage = enemySO.EnemyDamage;
+        }
         
+
+
+        //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
         enemyBrain.Initialize(HeartCrystal);
     }
