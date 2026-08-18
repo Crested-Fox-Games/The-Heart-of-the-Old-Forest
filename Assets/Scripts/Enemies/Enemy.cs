@@ -64,12 +64,14 @@ public class Enemy : NetworkBehaviour
 
         if(isWaveEnemy)
         {
+            //Scales the enemy stats based on the formulas in enemywavescaling
             enemyHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
             enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
         }
         else
         { 
             //TODO: Change this to be scaled for blight
+            //Scales the enemy stats based on the formulas for enemy blight scaling
             enemyHealth = enemySO.EnemyHealth;
             enemyDamage = enemySO.EnemyDamage;
         }
