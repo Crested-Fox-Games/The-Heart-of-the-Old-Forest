@@ -12,9 +12,10 @@ public class Enemy : NetworkBehaviour
     protected EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    protected float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight, enemyAttackRange;
 
     public EnemySO EnemySO => enemySO;
+    public float EnemyAttackRange => enemyAttackRange;
 
     #endregion
 
@@ -63,6 +64,7 @@ public class Enemy : NetworkBehaviour
         enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
+        enemyAttackRange = enemySO.EnemyAttackRange;
 
         //Starts the initialization for the enemy scripts
         

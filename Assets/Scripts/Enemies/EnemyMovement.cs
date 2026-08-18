@@ -42,10 +42,28 @@ public class EnemyMovement : NetworkBehaviour
     /// <param name="targetPos"></param>
     public void MovementTarget(Vector3 targetPos)
     {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+
+        agent.isStopped = false;
+
         agent.SetDestination(targetPos);
 
         //Move this to a proper location later
         if(agent.velocity.sqrMagnitude > 0.0001f)
             transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
+    }
+
+    public void StopMoving()
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
     }
 }

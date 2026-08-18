@@ -18,7 +18,7 @@ MonoBehaviour:
   enemySpeed: 5
   enemyDamage: 3
   enemyAttackRate: 0
-  enemyAttackRange: 0
+  enemyAttackRange: 2
   enemySpawnWeight: 10
   projectile: {fileID: 0}
   enemyPrefab: {fileID: 4040599309909042413, guid: 74eae1828687d8040902a91a02431258, type: 3}

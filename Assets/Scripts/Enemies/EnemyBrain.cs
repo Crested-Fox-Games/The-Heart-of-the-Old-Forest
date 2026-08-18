@@ -17,11 +17,21 @@ public class EnemyBrain : NetworkBehaviour
     private EnemyMovement enemyMovement;
     private TargetDetector targetDetector;
     private EnemyPathfinder enemyPathfinder;
+    private EnemyMeleeClass enemyMeleeClass;
 
     //Heart crystal will be the default target position
     private ITargetable defaultTarget;
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
+
+    private enum EnemyState
+    {
+        Idle,
+        Moving,
+        Attacking
+    }
+
+    private EnemyState currentState;
 
     /// <summary>
     /// Initialise references before anything else
@@ -40,6 +50,7 @@ public class EnemyBrain : NetworkBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
         enemyPathfinder = GetComponent<EnemyPathfinder>();
         targetDetector = GetComponentInChildren<TargetDetector>();
+        enemyMeleeClass = GetComponent<EnemyMeleeClass>();
     }
 
     /// <summary>
@@ -130,6 +141,8 @@ public class EnemyBrain : NetworkBehaviour
             SetTarget(defaultTarget);
         }
 
+        
+
         //foreach (ITargetable target in targetDetector.NearbyTargets)
         //{
         //    if (!target.IsAlive())
@@ -145,6 +158,124 @@ public class EnemyBrain : NetworkBehaviour
         //}
     }
 
+    private void Update()
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
+
+            case EnemyState.Moving:
+                UpdateMoving();
+                break;
+
+            case EnemyState.Attacking:
+                UpdateAttacking();
+                break;
+        }
+    }
+
+    private void UpdateMoving()
+    {
+        if (!HasValidTarget())
+        {
+            ReevaluateTargets();
+            return;
+        }
+
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+    }
+
+   private void UpdateAttacking()
+    {
+        if (!HasValidTarget())
+        {
+            ReevaluateTargets();
+            return;
+        }
+
+        if (!IsTargetInRange())
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    private void ChangeState(EnemyState newState)
+    {
+        if (currentState == newState)
+        {
+            return;
+        }
+
+        ExitState(currentState);
+
+        currentState = newState;
+
+        EnterState(currentState);
+    }
+
+    private void EnterState(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Moving:
+                EnterMoving();
+                break;
+
+            case EnemyState.Attacking:
+                EnterAttacking();
+                break;
+        }
+    }
+
+    private void ExitState(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Moving:
+                ExitMoving();
+                break;
+
+            case EnemyState.Attacking:
+                ExitAttacking();
+                break;
+        }
+    }
+    private void EnterMoving()
+    {
+        Debug.Log("Entering Moving state");
+
+        enemyMovement.MovementTarget(currentTarget.TargetTransform.position);
+    }
+
+    private void ExitMoving()
+    {
+        Debug.Log("Exiting Moving state");
+    }
+
+    private void EnterAttacking()
+    {
+        Debug.Log("Entering Attacking state");
+        // connect to melee attack in enemymeleeclass
+        enemyMovement.StopMoving();
+        enemyMeleeClass.StartAttacking();
+    }
+
+    private void ExitAttacking()
+    {
+        Debug.Log("Exiting Attacking state");
+
+        enemyMeleeClass.StopAttacking();
+    }
+
     /// <summary>
     /// Sets the current target of the enemy
     /// </summary>
@@ -156,7 +287,45 @@ public class EnemyBrain : NetworkBehaviour
         if (!IsServerStarted)
             return;
 
-        //TODO: Will probably need to move this later
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.position);
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+        else
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    private bool HasValidTarget()
+    {
+        if (currentTarget == null)
+        {
+            return false;
+        }
+
+        if (!currentTarget.IsAlive())
+        {
+            return false;
+        }
+
+        if (!currentTarget.IsAttackable())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool IsTargetInRange()
+    {
+        if (!HasValidTarget())
+        {
+            return false;
+        }
+
+        float distance = Vector3.Distance(transform.position, currentTarget.TargetTransform.position);
+
+        return distance <= enemy.EnemyAttackRange;
     }
 }
