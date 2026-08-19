@@ -16,5 +16,5 @@ MonoBehaviour:
   toolTierRequired: 0
   resourceName: Wood
   resourceDescription: Its Wood
-  resourceDurability: 5
-  resourceamountDropped: 10
+  resourceDurability: 6
+  resourceamountDropped: 5
