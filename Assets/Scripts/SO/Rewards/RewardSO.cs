@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RewardSO", menuName = "Scriptable Objects/RewardSO")]
 public abstract class RewardSO : ScriptableObject
 {
     /// <summary>
     /// The name of the reward granted to the player
     /// </summary>
+    [Header("--- Ui Info ---")]
     public string RewardName;
 
     /// <summary>

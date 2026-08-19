@@ -1,11 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ResourceRewardSO", menuName = "Scriptable Objects/ResourceRewardSO")]
+[CreateAssetMenu(fileName = "ResourceRewardSO", menuName = "Rewards/Resource Reward")]
 public class ResourceRewardSO : RewardSO
 {
     /// <summary>
     /// The resource granted by the reward system
     /// </summary>
+    [Header("--- Reward Info ---")]
     public ResourceSO Resource;
 
     //TODO: Make amount scale if we decide to based on nights cleared (Maybe on blight cleared too?)
