@@ -42,9 +42,7 @@ public abstract class Tower : NetworkBehaviour
 
     protected Coroutine attackCoroutine;
 
-    private readonly SyncDictionary<TowerStats, float> towerAdditiveUpgrades = new();
-
-    private readonly SyncDictionary<TowerStats, float> towerMultiplicativeUpgrades = new();
+    TowerManager towerManager;
 
     private SphereCollider towerRangeCollider;
 
@@ -62,20 +60,9 @@ public abstract class Tower : NetworkBehaviour
     {
         base.OnStartServer();
 
-        IntitializeUpgradeDictionaries();
-
         currentHealth.Value = towerMaxHealth;
 
-        towerAdditiveUpgrades.OnChange += OnUpgradesChanged;
-        towerMultiplicativeUpgrades.OnChange += OnUpgradesChanged;
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-
-        towerAdditiveUpgrades.OnChange -= OnUpgradesChanged;
-        towerMultiplicativeUpgrades.OnChange -= OnUpgradesChanged;
+        towerManager = FindFirstObjectByType<TowerManager>();
     }
 
     /// <summary>
@@ -96,22 +83,11 @@ public abstract class Tower : NetworkBehaviour
         //GameObjects
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
-    }
 
-    /// <summary>
-    /// Initializes the towers upgrade dictionaries
-    /// </summary>
-    private void IntitializeUpgradeDictionaries()
-    {
-        towerAdditiveUpgrades[TowerStats.Attack] = 0f;
-        towerAdditiveUpgrades[TowerStats.FireRate] = 0f;
-        towerAdditiveUpgrades[TowerStats.Health] = 0f;
-        towerAdditiveUpgrades[TowerStats.Range] = 0f;
-
-        towerMultiplicativeUpgrades[TowerStats.Attack] = 1f;
-        towerMultiplicativeUpgrades[TowerStats.FireRate] = 1f;
-        towerMultiplicativeUpgrades[TowerStats.Health] = 1f;
-        towerMultiplicativeUpgrades[TowerStats.Range] = 1f;
+        if(towerManager.GlobalTowerUpgrades.ContainsKey(towerSO))
+        {
+            OnUpgradesChanged();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -135,63 +111,50 @@ public abstract class Tower : NetworkBehaviour
     }
 
     /// <summary>
-    /// Adds the upgrades to the dictionary
+    /// Updates the range and health as they are set values.
+    /// Damage and fire rate are done in realtime in the child scripts
     /// </summary>
-    /// <param name="towerStat"></param>
-    /// <param name="upgradeType"></param>
-    /// <param name="amount"></param>
-    public void AddUpgrade(TowerStats towerStat, UpgradeType upgradeType, float amount)
+    public void OnUpgradesChanged()
     {
-        if(upgradeType == UpgradeType.Addition)
-        {
-            towerAdditiveUpgrades[towerStat] += amount;
-        }    
-        else
-        {
-            towerMultiplicativeUpgrades[towerStat] += amount;
-        }
-    }
+        //Updates the range of the tower
+        towerRangeCollider.radius = GetRange();
 
-    private void OnUpgradesChanged(SyncDictionaryOperation op, TowerStats key, float value, bool asServer)
-    {
-        switch(key)
-        {
-            case TowerStats.Range:
-                //Updates the range of the tower
-                towerRangeCollider.radius = GetRange();
-                break;
+        //TODO: Factor in losing max health(if possible)
+        //Updates the health of the tower
+        float newMaxHealth = GetHealth();
 
-            case TowerStats.Health:
+        float difference = newMaxHealth - towerMaxHealth;
 
-                //TODO: Factor in losing max health(if possible)
-                //Updates the health of the tower
-                float newMaxHealth = GetHealth();
-
-                float difference = newMaxHealth - towerMaxHealth;
-
-                towerMaxHealth = newMaxHealth;
-                currentHealth.Value += difference;
-                break;
-        }
+        towerMaxHealth = newMaxHealth;
+        currentHealth.Value += difference;
+        
     }
 
     protected float GetDamage()
     {
-        return (towerDamage + towerAdditiveUpgrades[TowerStats.Attack]) * towerMultiplicativeUpgrades[TowerStats.Attack];
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (towerDamage + globalUpgrades.attackAdd) * globalUpgrades.attackMult;
     }
 
     protected float GetFireRate()
     {
-        return (attackCooldown + towerAdditiveUpgrades[TowerStats.FireRate]) * towerMultiplicativeUpgrades[TowerStats.FireRate];
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (attackCooldown + globalUpgrades.fireRateAdd) * globalUpgrades.fireRateMult;
     }
 
     protected float GetRange()
     {
-        return (attackRange + towerAdditiveUpgrades[TowerStats.Range]) * towerMultiplicativeUpgrades[TowerStats.Range];
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (attackRange + globalUpgrades.rangeAdd) * globalUpgrades.rangeMult;
     }
 
     protected float GetHealth()
     {
-        return (towerDamage + towerAdditiveUpgrades[TowerStats.Health]) * towerMultiplicativeUpgrades[TowerStats.Health];
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (towerMaxHealth + globalUpgrades.healthAdd) * globalUpgrades.healthMult;
     }
 }
