@@ -206,7 +206,7 @@ public class PlayerMovement : NetworkBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
-        //Turn off Physics
+        //Turn off Unity Physics
         rb.linearDamping = 0;
         rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -220,9 +220,9 @@ public class PlayerMovement : NetworkBehaviour
             return;
 
         ApplyGravity(); //Applies Gravity
-        MovePlayer();
+        MovePlayer(); //Moves Player
         SetMovementStateServerRPC(isMoving, isSliding);
-        UpdateCamera(); 
+        UpdateCamera(); //Updates Camera
         
     }
 
@@ -273,21 +273,20 @@ public class PlayerMovement : NetworkBehaviour
     /// <param name="context"></param>
     public void OnSlide(InputAction.CallbackContext context)
     {
-        //print("OnSlide");
         if (context.started && !isSliding)
         {
             isSliding = true;
-            addedSlideVelocity = transform.TransformDirection(movementInputVector * 0.5f);
-            residualVelocity = residualVelocity + addedSlideVelocity;
+            addedSlideVelocity = transform.TransformDirection(movementInputVector * 0.5f); //adds a slide velocity in the direction of the players input relative to the rigidbody direction 
+            residualVelocity = residualVelocity + addedSlideVelocity; //Adjust residual velocity to contain the slide velocity
         }
-        else if (context.canceled && isSliding)
+        else if (context.canceled && isSliding) 
         {
-            isSliding = false;
-            residualVelocity = residualVelocity - addedSlideVelocity;
+            isSliding = false; //Turn off sliding
+            residualVelocity = residualVelocity - addedSlideVelocity; //Adjust residual velocity to remove the slide velocity
         }
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context) //Ignore this for now, it needs changes.
     {
         if (KCollisionsFunction.CheckGrounded(capsule, rb.position))
         {
@@ -303,10 +302,10 @@ public class PlayerMovement : NetworkBehaviour
     /// </summary>
     private void UpdateCamera()
     {
-        float t = 1f - Mathf.Exp(-rotationSmooth * Time.deltaTime);
+        float t = 1f - Mathf.Exp(-rotationSmooth * Time.deltaTime); //how fast the rotation adjustments should be made, allows smoothing if desired 
 
-        currentPlayerRotation = Mathf.Lerp(currentPlayerRotation, targetPlayerRotation, t);
-        currentPivotRotation = Mathf.Lerp(currentPivotRotation, targetPivotRotation, t);
+        currentPlayerRotation = Mathf.Lerp(currentPlayerRotation, targetPlayerRotation, t); //Lerps from current player rotation to target player rotation in t time (rotates the player to be in line with the camera)
+        currentPivotRotation = Mathf.Lerp(currentPivotRotation, targetPivotRotation, t); //Lerps from current pivot location to target pivot location in t time (moves camera to where it should be)
 
         rb.MoveRotation(Quaternion.Euler(0f, currentPlayerRotation, 0f));
         cameraPivot.localRotation = Quaternion.Euler(currentPivotRotation, 0f, 0f);
@@ -324,9 +323,9 @@ public class PlayerMovement : NetworkBehaviour
     /// <returns></returns>
     private Vector3 InputVelocity()
     {
-        if (movementInputVector.magnitude != 0)
+        if (movementInputVector.magnitude != 0) //if player is inputting a direction 
         {
-            return transform.TransformDirection(movementInputVector * defaultVelocity);
+            return transform.TransformDirection(movementInputVector * defaultVelocity); //Shifts input vector space to have the transform direction as the basis vectors, ensures movement inputs are relative to player and not global 
         }
 
         return Vector3.zero;
@@ -341,7 +340,7 @@ public class PlayerMovement : NetworkBehaviour
         movementCords = KCollisionsFunction.CollisionAdjustMovementCords(FindPlayerVelocity(), capsule, rb, true, gravity, true);
 
         
-        for (int i = 0; i < movementCords.Count; i++)
+        for (int i = 0; i < movementCords.Count; i++) //Move the player step by step to all points they would've traveled during this frame 
         {
             rb.MovePosition(movementCords[i]);
         }

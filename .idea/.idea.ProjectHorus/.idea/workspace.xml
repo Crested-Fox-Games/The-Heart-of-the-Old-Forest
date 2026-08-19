@@ -27,7 +27,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Feature/PlayerControllerV2&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;V1-Testing&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -84,6 +84,8 @@
       <workItem from="1781940681402" duration="14640000" />
       <workItem from="1782195364367" duration="641000" />
       <workItem from="1782198692999" duration="2900000" />
+      <workItem from="1787134289282" duration="1590000" />
+      <workItem from="1787136041519" duration="1459000" />
     </task>
     <servers />
   </component>
@@ -115,19 +117,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs</url>
-          <line>366</line>
-          <properties documentPath="C:\ProjectHorus\Assets\Scripts\PlayerMovement.cs" containingFunctionPresentation="Method 'SetAnimationParameters'">
-            <startOffsets>
-              <option value="10810" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10811" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
