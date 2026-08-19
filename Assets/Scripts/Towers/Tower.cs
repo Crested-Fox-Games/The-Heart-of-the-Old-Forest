@@ -42,9 +42,9 @@ public abstract class Tower : NetworkBehaviour
 
     protected Coroutine attackCoroutine;
 
-    private SyncDictionary<TowerStats, float> towerAdditiveUpgrades = new();
+    private readonly SyncDictionary<TowerStats, float> towerAdditiveUpgrades = new();
 
-    private SyncDictionary<TowerStats, float> towerMultiplicativeUpgrades = new();
+    private readonly SyncDictionary<TowerStats, float> towerMultiplicativeUpgrades = new();
 
     private SphereCollider towerRangeCollider;
 
