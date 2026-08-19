@@ -14,9 +14,9 @@ TagManager:
   - Projectile
   - Enemy
   - EnemyCol
-  - 
-  - 
-  - 
+  - Boundary
+  - Gate
+  - Player
   - 
   - 
   - 
