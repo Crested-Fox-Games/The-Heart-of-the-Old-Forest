@@ -75,6 +75,9 @@ public class BlightManager : NetworkBehaviour
 
     public event Action<NetworkObject> BlightNodeSpawned;
 
+    /// <summary>
+    /// Setting up the pools that the blight nodes can spawn with
+    /// </summary>
     private Dictionary<BlightRarity, float> Stage1Pool = new()
     {
         [BlightRarity.common] = 95f,

@@ -16,6 +16,12 @@ public class BlightNode : NetworkBehaviour, IInteractable
 
     public float InteractTime => interactTime;
 
+    /// <summary>
+    /// The factor that the rarity of the blight will scale it by
+    /// </summary>
+    [SerializeField]
+    private float blightUncommonMult = 1.5f, blightRareMult = 2f, blightMythicMult = 3f;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.TryGetComponent<ResourceNode>(out ResourceNode node))
@@ -31,6 +37,8 @@ public class BlightNode : NetworkBehaviour, IInteractable
 
         //Subscribe to blight buff event
         BlightManager.Instance.BlightNodesBuffed += BuffBlight;
+
+        SetRarityScales(rarity);
     }
 
     /// <summary>
@@ -96,6 +104,29 @@ public class BlightNode : NetworkBehaviour, IInteractable
     }
 
     /// <summary>
+    /// Scales the blight enemies health and damage based on its rarity
+    /// </summary>
+    /// <param name="rarity"></param>
+    private void SetRarityScales(BlightRarity rarity)
+    {
+        if(rarity == BlightRarity.uncommon)
+        {
+            transform.localScale = Vector3.one * blightUncommonMult;
+            BuffBlight(blightUncommonMult, blightUncommonMult);
+        }
+        else if(rarity == BlightRarity.rare)
+        {
+            transform.localScale = Vector3.one * blightRareMult;
+            BuffBlight(blightRareMult, blightRareMult);
+        }
+        else if(rarity == BlightRarity.mythic)
+        {
+            transform.localScale = Vector3.one * blightMythicMult;
+            BuffBlight(blightMythicMult, blightMythicMult);
+        }
+    }
+
+    /// <summary>
     /// Triggers when another blight node is cleared and buffs this one
     /// </summary>
     private void BuffBlight()
@@ -106,6 +137,23 @@ public class BlightNode : NetworkBehaviour, IInteractable
             {
                 //Scales up the blight creatures stats whenever another node is cleared
                 enemy.ScaleBlightStats(0.05f, 0.05f);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Overload of the buff blight for passing in values
+    /// </summary>
+    /// <param name="healthMult"></param>
+    /// <param name="damageMult"></param>
+    private void BuffBlight(float healthMult, float damageMult)
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Scales up the blight creatures stats whenever another node is cleared
+                enemy.ScaleBlightStats(healthMult, damageMult);
             }
         }
     }

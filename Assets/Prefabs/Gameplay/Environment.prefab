@@ -1203,8 +1203,9 @@ MonoBehaviour:
   spawnConeRange: 45
   minDistance: 20
   maxDistance: 40
-  minTime: 300
-  maxTime: 420
+  minTime: 5
+  maxTime: 10
+  blightBossRequirement: 0
 --- !u!1 &1363794219306270117
 GameObject:
   m_ObjectHideFlags: 0
