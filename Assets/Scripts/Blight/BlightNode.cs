@@ -7,6 +7,9 @@ public class BlightNode : NetworkBehaviour, IInteractable
 {
     //TODO: Add spawning enemies
 
+    [SerializeField]
+    private GameObject blightModel;
+
     private Transform nextBlightNode, previousBlightNode;
 
     private List<ResourceNode> blightedNodes = new List<ResourceNode>();
@@ -111,19 +114,26 @@ public class BlightNode : NetworkBehaviour, IInteractable
     {
         if(rarity == BlightRarity.uncommon)
         {
-            transform.localScale = Vector3.one * blightUncommonMult;
+            blightModel.transform.localScale = Vector3.one * blightUncommonMult;
             BuffBlight(blightUncommonMult, blightUncommonMult);
         }
         else if(rarity == BlightRarity.rare)
         {
-            transform.localScale = Vector3.one * blightRareMult;
+            blightModel.transform.localScale = Vector3.one * blightRareMult;
             BuffBlight(blightRareMult, blightRareMult);
         }
         else if(rarity == BlightRarity.mythic)
         {
-            transform.localScale = Vector3.one * blightMythicMult;
+            blightModel.transform.localScale = Vector3.one * blightMythicMult;
             BuffBlight(blightMythicMult, blightMythicMult);
         }
+
+        //Fix the position of the node
+        Renderer modelRender = blightModel.GetComponent<Renderer>();
+        blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
+
+        //Tell the reveal controller to update the size for revealing
+        blightModel.GetComponent<RevealController>().UpdateRender();
     }
 
     /// <summary>

@@ -32,11 +32,11 @@ public class DevController : MonoBehaviour
     /// </summary>
     #if UNITY_EDITOR || DEVELOPMENT_BUILD
     [SerializeField]
-        TimeCycleManager timeManager;
+        TimeCycleManager timeCycleManager;
 
         private void SkipToNight()
         {
-            timeManager.SkipToNight();
+            timeCycleManager.SkipToNight();
         }
     #endif
 

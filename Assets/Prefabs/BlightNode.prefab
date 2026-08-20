@@ -4888,6 +4888,11 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 8241820923283046721}
   _networkObjectCache: {fileID: 0}
+  blightModel: {fileID: 6153315338577916489}
+  interactTime: 3
+  blightUncommonMult: 1.5
+  blightRareMult: 2
+  blightMythicMult: 3
 --- !u!114 &8241820923283046721
 MonoBehaviour:
   m_ObjectHideFlags: 0

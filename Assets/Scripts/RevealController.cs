@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 //This makes it so that any gameobject with this script requires a renderer
@@ -20,6 +21,11 @@ public class RevealController : MonoBehaviour
 
         block = new MaterialPropertyBlock();
 
+        UpdateRender();
+    }
+
+    public void UpdateRender()
+    {
         //Gets the objects size
         Bounds bounds = rend.bounds;
 
