@@ -13,9 +13,9 @@ public class TimeCycleManager : NetworkBehaviour
     private Vector3 lightRotation;
 
     public readonly SyncVar<float> cycleTime = new();
-    private float cycleDuration = 720f; // 12 minutes in seconds
-    private float cycleDayDuration = 480f; // 8 minutes in seconds
-    private float cycleNightDuration = 240f; // 4 minutes in seconds
+    private float cycleDuration = 180f; // 3 minutes in seconds
+    private float cycleDayDuration = 120f; // 2 minutes in seconds
+    private float cycleNightDuration = 60f; // 1 minutes in seconds
     private float sunAngle = 0; // Used in calculating sun position
     private int currentDay = 0;
 

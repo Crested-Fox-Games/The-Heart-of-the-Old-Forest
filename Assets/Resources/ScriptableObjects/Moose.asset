@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   enemyName: Basic Enemy
   enemyDescription: Enemy Ahhhh lookin ahhhhh
-  enemyHealth: 50
+  enemyHealth: 200
   enemySpeed: 3
-  enemyDamage: 5
-  enemyAttackRate: 0
-  enemyRange: 5
+  enemyDamage: 20
+  enemyAttackRate: 0.2
+  enemyAttackRange: 0
   enemySpawnWeight: 15
   projectile: {fileID: 0}
   enemyPrefab: {fileID: 4040599309909042413, guid: 353bfa35d6872994fbbdf3c0d7e1de0a, type: 3}

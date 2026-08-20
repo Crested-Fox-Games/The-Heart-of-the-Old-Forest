@@ -214,7 +214,7 @@ public class EnemySpawner : NetworkBehaviour
         newCluster.direction = Random.Range(0, 4);
 
         //TODO: Decide what the base density is going to be
-        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(10f);
+        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(25f);
 
         //Probably redundant but just to be safe
         newCluster.enemies.Clear();
