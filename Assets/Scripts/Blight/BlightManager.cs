@@ -129,6 +129,11 @@ public class BlightManager : NetworkBehaviour
         StartCoroutine(Initialize());
     }
 
+    private void Start()
+    {
+        TimeCycleManager.Instance.OnNightEnd += BuffBlightNodes;
+    }
+
     /// <summary>
     /// Coroutine to ensure heart crystal is set before starting blight
     /// </summary>
@@ -239,14 +244,17 @@ public class BlightManager : NetworkBehaviour
     {
         blightNodesCleared++;
 
-        //Buffs the existing blight nodes
-        BlightNodesBuffed?.Invoke();
-
         //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
         if (blightNodesCleared % blightBossRequirement == 0)
         {
             //TODO: Make it so that a boss enemy spawns on the next night
         }
+    }
+
+    private void BuffBlightNodes()
+    {
+        //Buffs the existing blight nodes
+        BlightNodesBuffed?.Invoke();
     }
 
     private BlightRarity GetBlightRarity()
