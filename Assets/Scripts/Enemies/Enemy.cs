@@ -71,10 +71,9 @@ public class Enemy : NetworkBehaviour
             enemyBrain.Initialize(HeartCrystal);
         }
         else
-        { 
-            //TODO: Change this to be scaled for blight
-            enemyMaxHealth = enemySO.EnemyHealth;
-            enemyDamage = enemySO.EnemyDamage;
+        {
+            enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
         }
 
         //Sets the enemies health after initializing it

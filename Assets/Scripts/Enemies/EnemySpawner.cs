@@ -35,10 +35,6 @@ public class EnemySpawner : NetworkBehaviour
 {
     //TODO: Some sort of way to change spawn patterns (timer between spawns, amount of enemies at once, enemies stats)
     //based on conditions like bosses killed, amount of days passed, total player count
-    
-    //TODO: Dictionary of all enemies in the game that can be spawned at night
-
-    //TODO: Subscribe to blight event for spawning bosses and implement this
 
     /// <summary>
     /// The list of currently unlocked enemies that can be spawned.
@@ -85,6 +81,11 @@ public class EnemySpawner : NetworkBehaviour
     /// The base amount of enemies that can be spawned at once
     /// </summary>
     private int baseMaxSpawnCount = 20;
+
+    /// <summary>
+    /// Bool that checks if we need to spawn a boss on this night
+    /// </summary>
+    public bool bossToSpawn = false;
 
 
     /// <summary>
@@ -163,6 +164,18 @@ public class EnemySpawner : NetworkBehaviour
     {
         Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
             $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
+
+        //Check to see if we need to spawn a boss at the start of this night
+        if(bossToSpawn)
+        {
+            //TODO: Spawn boss here
+
+
+
+            //Reset boss check
+            bossToSpawn = false;
+        }
+
         //This will just loop until the coroutine is stopped externally
         while (true)
         {
@@ -213,7 +226,7 @@ public class EnemySpawner : NetworkBehaviour
         //spawn enemy cluster in NESW directions
         newCluster.direction = Random.Range(0, 4);
 
-        //TODO: Decide what the base density is going to be
+        //Sets the base density of clusters
         newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(25f);
 
         //Probably redundant but just to be safe

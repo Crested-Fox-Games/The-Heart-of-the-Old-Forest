@@ -5,8 +5,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BlightNode : NetworkBehaviour, IInteractable
 {
-    //TODO: Add spawning enemies
-
     [SerializeField]
     private GameObject blightModel;
 

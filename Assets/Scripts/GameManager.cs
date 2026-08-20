@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour
     {
         //TODO: Decide if players and towers are killed or what happens to them
 
-        //TODO: Decide if this takes the players back to the main menu or to a lobby with the current players
-
         OnGameOver?.Invoke();
 
         //Disables the player map, stopping all gameplay inputs and activating ui inputs
