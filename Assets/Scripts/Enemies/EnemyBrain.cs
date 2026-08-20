@@ -43,6 +43,8 @@ public class EnemyBrain : NetworkBehaviour
     private void Awake()
     {
         GetReferences();
+
+        ReevaluateTargets();
     }
 
     /// <summary>
@@ -255,9 +257,9 @@ public class EnemyBrain : NetworkBehaviour
     }
     private void EnterMoving()
     {
-        Debug.Log("Entering Moving state");
+        Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.position);
+        enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
     }
 
     private void ExitMoving()

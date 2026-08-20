@@ -1,6 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyMovement : NetworkBehaviour
 {
@@ -34,13 +35,14 @@ public class EnemyMovement : NetworkBehaviour
     public void Initialize()
     {
         agent = GetComponent<NavMeshAgent>();
+        //agent.stoppingDistance = 4f;
     }
 
     /// <summary>
     /// Tells the nav mesh agent where to move to
     /// </summary>
     /// <param name="targetPos"></param>
-    public void MovementTarget(Vector3 targetPos)
+    public void MovementTarget(GameObject targetObject)
     {
         if (!IsServerStarted)
         {
@@ -49,11 +51,18 @@ public class EnemyMovement : NetworkBehaviour
 
         agent.isStopped = false;
 
-        agent.SetDestination(targetPos);
+        Vector3 closestPoint = targetObject.GetComponent<Collider>().ClosestPoint(transform.position);
+
+        closestPoint = new Vector3(closestPoint.x, 0.5f, closestPoint.z);
+
+        if (NavMesh.SamplePosition(closestPoint, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
 
         //Move this to a proper location later
-        if(agent.velocity.sqrMagnitude > 0.0001f)
-            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
+        if (agent.velocity.sqrMagnitude > 0.0001f)
+        transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
     }
 
     public void StopMoving()
