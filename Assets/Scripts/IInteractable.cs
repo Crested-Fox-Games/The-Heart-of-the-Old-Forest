@@ -9,6 +9,11 @@ using UnityEngine;
 public interface IInteractable
 {
     /// <summary>
+    /// The time that it takes the player to interact with this object
+    /// </summary>
+    float InteractTime { get; }
+
+    /// <summary>
     /// This function is used for objects that can be interacted with, it passes through the player that calls it so that the 
     /// object can validate the interaction and perform any required actions on that player
     /// </summary>

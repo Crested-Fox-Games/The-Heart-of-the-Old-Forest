@@ -30,7 +30,7 @@ public class PlayerInteraction : NetworkBehaviour
     /// The rate at which the player interacts with objects
     /// </summary>
     [SerializeField]
-    private float interactRate = 0.5f;
+    private float baseInteractRate = 0.5f;
 
     /// <summary>
     /// The time the player interacts at
@@ -110,7 +110,19 @@ public class PlayerInteraction : NetworkBehaviour
         if (Time.time < nextInteractTime)
             return;
 
-        nextInteractTime = Time.time + interactRate;
+        IInteractable interact = CheckInteractableCollision();
+
+        if (interact != null)
+        {
+            //Sets the next interact time to the time of the interactable
+            nextInteractTime = Time.time + interact.InteractTime;
+            Debug.Log($"Interact time of {interact} is {interact.InteractTime}");
+        }
+        else
+        {
+            //Sets next interact time to a default value if one isnt found
+            nextInteractTime = Time.time + baseInteractRate;
+        }
 
         TryInteract();
     }
@@ -118,10 +130,10 @@ public class PlayerInteraction : NetworkBehaviour
     /// <summary>
     /// This function checks if the player is looking at an interactable object
     /// </summary>
-    private void CheckInteractableCollision()
+    private IInteractable CheckInteractableCollision()
     {
         if (playerCam == null)
-            return;
+            return null;
 
         // Check if the player is looking at an interactable object
         RaycastHit hit;
@@ -135,11 +147,12 @@ public class PlayerInteraction : NetworkBehaviour
                 //This gets the input for the interact action based on the last input device detected
                 UiManager.Instance.ShowInteractionPopup($"'{interactAction.GetBindingDisplayString(group: GetCurrentBindingGroup())}'");
                 hoverInteracting = true;
+                return currentInteractHover;
             }
             else //This will run if the player is looking at something that cant be interacted with
             {
                 if(!hoverInteracting)
-                    return;
+                    return null;
 
                 //This is here incase the player goes from looking at something interactable to something not interactable
                 //that way the popup will disappear
@@ -151,12 +164,14 @@ public class PlayerInteraction : NetworkBehaviour
         else
         {
             if (!hoverInteracting)
-                return;
+                return null;
 
             hoverInteracting = false;
             currentInteractHover = null;
             UiManager.Instance.HideInteractionPopup();
         }
+
+        return null;
     }
 
     
@@ -164,7 +179,19 @@ public class PlayerInteraction : NetworkBehaviour
     {
         interactHeld = true;
 
-        nextInteractTime = Time.time + interactRate;
+        IInteractable interact = CheckInteractableCollision();
+
+        if (interact != null)
+        {
+            //Sets the next interact time to the time of the interactable
+            nextInteractTime = Time.time + interact.InteractTime;
+        }
+        else
+        {
+            //Sets next interact time to a default value if one isnt found
+            nextInteractTime = Time.time + baseInteractRate;
+        }
+            
     }
 
     public void HandleInteractCancelled(InputAction.CallbackContext context)
@@ -185,6 +212,7 @@ public class PlayerInteraction : NetworkBehaviour
         //Gets the network object of the interactable object
         NetworkObject networkObject = (currentInteractHover as MonoBehaviour).GetComponent<NetworkObject>();
 
+        
         if (networkObject == null)
             return;
 
@@ -200,7 +228,7 @@ public class PlayerInteraction : NetworkBehaviour
     private void InteractServerRPC(NetworkObject target)
     {
         //Ensures the object is valid
-        if(target == null)
+        if (target == null)
             return;
 
         //Ensures the object is still interactable

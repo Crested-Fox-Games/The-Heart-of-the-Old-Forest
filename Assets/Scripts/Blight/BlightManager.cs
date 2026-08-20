@@ -1,12 +1,12 @@
 using FishNet.Object;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BlightManager : NetworkBehaviour
 {
-    //TODO: Get nodes updating the forward nodes when they've been cleared, if theres one missing in between need to caluclate that
-
     public static BlightManager Instance { get; private set; }
 
     /// <summary>
@@ -42,6 +42,30 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private float minTime = 300f, maxTime = 420f;
+
+    /// <summary>
+    /// Tracks the amount of blight nodes that have been cleared
+    /// </summary>
+    public float blightNodesCleared { get; private set; }
+
+    /// <summary>
+    /// The amount of blight that needs to be cleared in order to buff them
+    /// </summary>
+    [SerializeField]
+    private float blightBossRequirement;
+
+    /// <summary>
+    /// The event that triggers when blight nodes are cleared and buffs the rest
+    /// </summary>
+    public event Action BlightNodesBuffed;
+
+    /// <summary>
+    /// The event that triggers when enough blight nodes are cleared and spawns a boss enemy in the next night
+    /// </summary>
+    public event Action BlightBossSpawn;
+
+    public event Action<NetworkObject> BlightNodeSpawned;
+
 
     private void Awake()
     {
@@ -93,6 +117,9 @@ public class BlightManager : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnLoop()
     {
+        //This gives a x second window before any nodes are spawned, allowing for systems to start up 
+        yield return new WaitForSeconds(5f);
+
         while(true)
         {
             //Debug.Log("We hit another loop");
@@ -148,6 +175,11 @@ public class BlightManager : NetworkBehaviour
         //Spawns the object on the server
         Spawn(currentNode.gameObject);
 
+        //Activates the event for blight nodes being spawned
+        //This tells the enemy spawner to spawn a cluster of blight enemies
+        BlightNodeSpawned?.Invoke(currentNode);
+
+
         currentNode.Initialize(jumpNode);
 
         if(jumpNode.TryGetComponent<BlightNode>(out BlightNode node))
@@ -158,5 +190,22 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.Remove(jumpNode);
 
         currentForwardNodes.Add(currentNode.transform);
+    }
+
+    /// <summary>
+    /// Handles adding to the amount of blight nodes cleared
+    /// </summary>
+    public void BlightCleared()
+    {
+        blightNodesCleared++;
+
+        //Buffs the existing blight nodes
+        BlightNodesBuffed?.Invoke();
+
+        //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
+        if (blightNodesCleared % blightBossRequirement == 0)
+        {
+            //TODO: Make it so that a boss enemy spawns on the next night
+        }
     }
 }
