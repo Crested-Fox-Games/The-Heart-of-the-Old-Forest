@@ -24,6 +24,7 @@ public class EnemyBrain : NetworkBehaviour
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
 
+
     private enum EnemyState
     {
         Idle,
@@ -32,6 +33,9 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     private EnemyState currentState;
+
+
+    // new enum state machine for blight enemy or wave enemy
 
     /// <summary>
     /// Initialise references before anything else

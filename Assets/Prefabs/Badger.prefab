@@ -102,7 +102,7 @@ MonoBehaviour:
   castRadius: 0.5
   structureLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 1032
 --- !u!114 &5789222092721587934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 1
-  _initializedTimestamp: -8584155084691572016
+  _initializedTimestamp: -8584143970791631250
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -157,7 +157,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 5
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10921760756875316173
   SceneId: 0

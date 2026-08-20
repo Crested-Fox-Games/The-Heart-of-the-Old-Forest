@@ -75,6 +75,12 @@ public class EnemySpawner : NetworkBehaviour
     private float spawnDistFromBase = 100f;
 
     /// <summary>
+    /// Base rate that enemy clusters will spawn with
+    /// </summary>
+    [SerializeField]
+    private float baseSpawnWeight = 25f;
+
+    /// <summary>
     /// The current amount of enemies that have been spawned
     /// </summary>
     private int spawnCount = 0;
@@ -198,7 +204,7 @@ public class EnemySpawner : NetworkBehaviour
         newCluster.direction = Random.Range(0, 4);
 
         //TODO: Decide what the base density is going to be
-        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(25f);
+        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(baseSpawnWeight);
 
         //Probably redundant but just to be safe
         newCluster.enemies.Clear();

@@ -9372,12 +9372,13 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2303001875477162613}
   _networkObjectCache: {fileID: 2303001875477162613}
   SpawnableEnemies:
-  - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
+  - {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
   - {fileID: 11400000, guid: 1866893a7c2856b4582bcc768c9b71bf, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
   spawnDistFromBase: 125
+  baseSpawnWeight: 5
 --- !u!1 &7290279046768206315
 GameObject:
   m_ObjectHideFlags: 0
