@@ -42,6 +42,8 @@ public class EnemySpawner : NetworkBehaviour
     /// The list of currently unlocked enemies that can be spawned.
     /// </summary>
     [SerializeField]
+    private List<EnemySO> SpawnableEnemies;
+
     private List<EnemySO> unlockedEnemies;
 
     [SerializeField]
@@ -78,9 +80,9 @@ public class EnemySpawner : NetworkBehaviour
     private int spawnCount = 0;
 
     /// <summary>
-    /// The max amount of enemies that can be spawned at once
+    /// The base amount of enemies that can be spawned at once
     /// </summary>
-    private int maxSpawnCount = 100;
+    private int baseMaxSpawnCount = 20;
 
 
     /// <summary>
@@ -92,7 +94,8 @@ public class EnemySpawner : NetworkBehaviour
         timeManager.OnNightStart += NightStarted;
         timeManager.OnNightEnd += NightEnded;
 
-
+        unlockedEnemies = new List<EnemySO>();
+        
     }
 
     /// <summary>
@@ -110,6 +113,8 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     private void NightStarted()
     {
+        UpdateUnlockedEnemies();
+
         spawnCoroutine = StartCoroutine(SpawnEnemies());
     }
 
@@ -150,9 +155,13 @@ public class EnemySpawner : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
+        Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
+            $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
+        //This will just loop until the coroutine is stopped externally
         while (true)
         {
-            if(spawnCount < maxSpawnCount)
+            //Checks to see if the spawned enemies is less than the current max spawned enemies
+            if(spawnCount < EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount))
             {
                 SpawnCluster();
             }
@@ -188,8 +197,8 @@ public class EnemySpawner : NetworkBehaviour
         //spawn enemy cluster in NESW directions
         newCluster.direction = Random.Range(0, 4);
 
-        //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
-        newCluster.minSpawnValue = Random.Range(50, 100);
+        //TODO: Decide what the base density is going to be
+        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(25f);
 
         //Probably redundant but just to be safe
         newCluster.enemies.Clear();
@@ -233,8 +242,6 @@ public class EnemySpawner : NetworkBehaviour
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
-
-        //Debug.Log($"Enemy hieght: {GetEnemyHeightHalved(enemySO.EnemyPrefab)}");
 
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
@@ -309,8 +316,20 @@ public class EnemySpawner : NetworkBehaviour
         enemy.onEnemyKilled -= ReturnEnemy;
     }
 
-    
+    /// <summary>
+    /// Updates the currently unlocked enemies
+    /// </summary>
+    private void UpdateUnlockedEnemies()
+    {
+        //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
+        //This might need to be a whole class that handles progression
 
-    //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
-    //This might need to be a whole class that handles progression
+        //TODO: Probably make this more complicated in the future than 1 per day
+
+        //This checks to make sure we dont have an out of bounds error
+        if (SpawnableEnemies.Count >= timeManager.CurrentDay)
+        {
+            unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
+        }
+    }
 }
