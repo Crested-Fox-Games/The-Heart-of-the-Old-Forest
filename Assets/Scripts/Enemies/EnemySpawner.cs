@@ -49,7 +49,7 @@ public class EnemySpawner : NetworkBehaviour
     private List<EnemySO> unlockedEnemies;
 
     [SerializeField]
-    private TimeManager timeManager;
+    private TimeCycleManager timeManager;
 
     /// <summary>
     /// The gameobject for the heart crystal, so that this can be passed to enemies that spawn

@@ -25,7 +25,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
         }
     }
 
-    public void Initialize(Transform previous)
+    public void Initialize(Transform previous, BlightRarity rarity)
     {
         previousBlightNode = previous;
 
