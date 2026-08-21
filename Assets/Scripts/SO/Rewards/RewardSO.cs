@@ -9,9 +9,20 @@ public abstract class RewardSO : ScriptableObject
     public string RewardName;
 
     /// <summary>
+    /// The ID of the reward SO
+    /// </summary>
+    public int RewardId;
+
+    /// <summary>
+    /// The weight of the reward that is selected
+    /// </summary>
+    public float RewardWeight;
+
+    /// <summary>
     /// The icon for the reward granted to the player
     /// </summary>
     public Sprite RewardIcon;
+
 
     /// <summary>
     /// The function that handles giving the player rewards

@@ -34,4 +34,10 @@ public class PlayerRPCHandler : NetworkBehaviour
 
         currentTowerSlot.GetComponent<TempTowerPlacement>().PlaceTower(towerSO);
     }
+
+    [ServerRpc]
+    public void SelectNightlyReward(int rewardId)
+    {
+        RewardManager.Instance.SelectReward(rewardId, this)
+    }
 }

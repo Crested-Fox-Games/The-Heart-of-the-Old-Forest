@@ -1,11 +1,30 @@
+using FishNet.Connection;
 using FishNet.Object;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RewardManager : NetworkBehaviour
 {
     public static RewardManager Instance { get; private set; }
+
+    /// <summary>
+    /// The list of all rewards
+    /// </summary>
+    private List<RewardSO> rewards;
+
+    /// <summary>
+    /// The rewards that are selected for the current night
+    /// </summary>
+    private Dictionary<PlayerRef , List<RewardSO>> selectedNightlyRewards = new Dictionary<PlayerRef, List<RewardSO>>();
+
+    /// <summary>
+    /// Dictionary of rewards, used for selecting rewards quickly
+    /// </summary>
+    private Dictionary<int, RewardSO> rewardsById;
+
+    private List<PlayerRef> players;
 
     private void Awake()
     {
@@ -19,15 +38,105 @@ public class RewardManager : NetworkBehaviour
         }
     }
 
-    public List<RewardSO> GenerateRewards(int amount)
+    private void Start()
     {
-        //TODO: Select rewards from the pool
-        return null;
+        Initialize();
     }
 
-    [ServerRpc]
-    public void SelectReward(int rewardIndex)
+    /// <summary>
+    /// Sets up everything at start
+    /// </summary>
+    private void Initialize()
     {
+        //Gets all the players in the game
+        players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.InstanceID).ToList();
 
+        //Populates the reward list with all RewardSO's in the Resources/Rewards Folder
+        rewards = Resources.LoadAll<RewardSO>("Rewards").OrderBy(reward => reward.RewardId).ToList();
+
+        //Turns the list into a dictionary with rewardId as the key
+        rewardsById = rewards.ToDictionary(reward => reward.RewardId);
+    }
+
+    public void GenerateRewards()
+    {
+        //Loops through for each player
+        foreach (PlayerRef player in players)
+        {
+            selectedNightlyRewards[player] = new List<RewardSO>();
+
+            //Select rewards from the pool
+            for (int i = 0; i < 3; i++)
+            {
+                selectedNightlyRewards[player].Add(GetRandomReward(player));
+            }
+        }
+
+        //TODO: Add a way for this to send the results to each player
+    }
+
+    /// <summary>
+    /// This gets 1 random reward that is currently not in the selected nightly reward pool
+    /// </summary>
+    /// <returns></returns>
+    private RewardSO GetRandomReward(PlayerRef player)
+    {
+        //Creates a list of rewards that dont exist in selected nightly rewards
+        List<RewardSO> availableRewards = rewards.Where(reward => !selectedNightlyRewards[player].Contains(reward)).ToList();
+
+        if(availableRewards.Count ==0)
+        {
+            return null;
+        }
+
+        //Get the sum of all the reward weights
+        float totalWeight = availableRewards.Sum(reward => reward.RewardWeight);
+
+        //Select a random number
+        float selected = Random.Range(0, totalWeight);
+
+        //Loop through the rewards to find the one at the selected index
+        foreach (RewardSO reward in availableRewards)
+        {
+            //Remove the weight of the current reward from the selected value
+            selected -= reward.RewardWeight;
+
+            //Reward can be selected
+            if (selected <= 0f)
+            {
+                return reward;
+            }
+        }
+
+        //This returns the last reward in the list
+        return availableRewards[^1];
+    }
+
+    
+    public void SelectReward(int rewardId, NetworkConnection playerConn)
+    {
+        if (playerConn == null || playerConn.FirstObject == null)
+        {
+            Debug.LogWarning($"Either the players network connection is broken, or the its passing through an invalid object.");
+            return;
+        }
+
+        //Get the player ref from the connection
+        PlayerRef player = playerConn.FirstObject.GetComponent<PlayerRef>();
+
+        if (player == null)
+        {
+            Debug.LogWarning($"Could not find player ref for {playerConn} when selecting reward in Reward Manager.");
+            return;
+        }
+
+        //Gets the reward from the dictionary
+        RewardSO selectedReward = rewardsById[rewardId];
+
+        //Grants the reward for the player
+        selectedReward.GrantReward(player);
+
+        //Clears the rewards
+        selectedNightlyRewards.Remove(player);
     }
 }
