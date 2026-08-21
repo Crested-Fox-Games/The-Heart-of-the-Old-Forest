@@ -70,6 +70,9 @@ public class BlightNode : NetworkBehaviour, IInteractable
 
         BlightManager.Instance.BlightCleared();
 
+
+        //TODO: Add how we are going to handle blight enemies when the node is cleared
+
         Despawn(this);
     }
 
