@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using System.Linq;
 using UnityEngine;
@@ -36,8 +37,8 @@ public class PlayerRPCHandler : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void SelectNightlyReward(int rewardId)
+    public void SelectNightlyReward(int rewardId, NetworkConnection conn)
     {
-        RewardManager.Instance.SelectReward(rewardId, this);
+        RewardManager.Instance.SelectReward(rewardId, conn);
     }
 }
