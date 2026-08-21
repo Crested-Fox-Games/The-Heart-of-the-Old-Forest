@@ -38,6 +38,6 @@ public class PlayerRPCHandler : NetworkBehaviour
     [ServerRpc]
     public void SelectNightlyReward(int rewardId)
     {
-        RewardManager.Instance.SelectReward(rewardId, this)
+        RewardManager.Instance.SelectReward(rewardId, this);
     }
 }
