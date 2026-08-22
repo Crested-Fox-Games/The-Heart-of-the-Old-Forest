@@ -24,12 +24,16 @@ public class EnemyBrain : NetworkBehaviour
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
 
+    private Vector3 blightSpawnPos;
+
+    [SerializeField] private float blightRangeDistance;
 
     private enum EnemyState
     {
         Idle,
         Moving,
-        Attacking
+        Attacking,
+        Returning
     }
 
     private EnemyState currentState;
@@ -101,7 +105,26 @@ public class EnemyBrain : NetworkBehaviour
         }
 
         defaultTarget = target;
+        
+        if (enemy.IsWaveEnemy)
+        {
+            InitializeWaveEnemy();
+        }
+        else
+        {
+            InitializeBlightEnemy();
+        }
+    }
+
+    private void InitializeWaveEnemy()
+    {
         SetTarget(defaultTarget);
+    }
+
+    private void InitializeBlightEnemy()
+    {
+        blightSpawnPos = transform.position;
+        ChangeState(EnemyState.Idle);
     }
 
     /// <summary>
@@ -111,6 +134,12 @@ public class EnemyBrain : NetworkBehaviour
     private void OnTargetEntered(ITargetable target)
     {
         Debug.Log($"EnemyBrain noticed a target entered: {target}");
+
+        if (!enemy.IsWaveEnemy)
+        {
+            SetBlightTarget(target);
+            return;
+        }
 
         ReevaluateTargets();
     }
@@ -123,7 +152,71 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log($"EnemyBrain noticed a target exited: {target}");
 
+        if (!enemy.IsWaveEnemy)
+        {
+            if (currentTarget == target)
+            {
+                currentTarget = null;
+                ChangeState(EnemyState.Idle);
+            }
+        }
+
         ReevaluateTargets();
+    }
+
+    private void SetBlightTarget(ITargetable target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        if (!target.IsAlive() || !target.IsAttackable())
+        {
+            return;
+        }
+
+        currentTarget = target;
+
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+        else
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    private bool IsOutsideBlightLeash
+        ()
+    {
+        float distance = Vector3.Distance(blightSpawnPos, transform.position);
+
+        return distance >= blightRangeDistance;
+    }
+
+    private void UpdateBlightLeash()
+    {
+        if (currentState == EnemyState.Returning)
+        {
+            return;
+        }
+
+        if (IsOutsideBlightLeash())
+        {
+            ReturnToBlightSpawn();
+        }
+    }
+
+    private void ReturnToBlightSpawn()
+    {
+        currentTarget = null;
+
+        if (currentState != EnemyState.Returning)
+        {
+            ChangeState(EnemyState.Returning);
+        }
     }
 
     /// <summary>
@@ -171,6 +264,12 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
 
+        if (!enemy.IsWaveEnemy)
+        {
+            UpdateBlightLeash();
+        }
+
+
         switch (currentState)
         {
             case EnemyState.Idle:
@@ -182,6 +281,9 @@ public class EnemyBrain : NetworkBehaviour
 
             case EnemyState.Attacking:
                 UpdateAttacking();
+                break;
+            case EnemyState.Returning:
+                UpdateReturning();
                 break;
         }
     }
@@ -239,6 +341,9 @@ public class EnemyBrain : NetworkBehaviour
             case EnemyState.Attacking:
                 EnterAttacking();
                 break;
+            case EnemyState.Returning:
+                EnterReturning();
+                break;
         }
     }
 
@@ -280,6 +385,50 @@ public class EnemyBrain : NetworkBehaviour
         Debug.Log("Exiting Attacking state");
 
         enemyMeleeClass.StopAttacking();
+    }
+
+    private void EnterReturning()
+    {
+        Debug.Log("Returning to blight spawn");
+
+        enemyMeleeClass.StopAttacking();
+
+        //TODO: update movement code
+        enemyMovement.MovementTarget(blightSpawnPos);
+    }
+
+    private void UpdateReturning()
+    {
+        float distance = Vector3.Distance(transform.position, blightSpawnPos);
+
+        if (distance <= 0.5f)
+        {
+            enemyMovement.StopMoving();
+
+            ITargetable target = FindBlightTarget();
+
+            ChangeState(EnemyState.Idle);
+        }
+    }
+
+    private ITargetable FindBlightTarget()
+    {
+        foreach (ITargetable target in targetDetector.NearbyTargets)
+        {
+            if (!target.IsAlive())
+            {
+                continue;
+            }
+
+            if (!target.IsAttackable())
+            {
+                continue;
+            }
+
+            return target;
+        }
+
+        return null;
     }
 
     /// <summary>

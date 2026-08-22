@@ -36,6 +36,10 @@ public class Enemy : NetworkBehaviour
 
     public event Action<Enemy> onEnemyKilled;
 
+    private bool isWaveEnemy;
+
+    public bool IsWaveEnemy => isWaveEnemy;
+
     public override void OnStartServer()
     {
         heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
@@ -52,6 +56,8 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public void InitializeValues(bool isWaveEnemy = true)
     {
+        this.isWaveEnemy = isWaveEnemy;
+
         //Strings
         enemyName = enemySO.EnemyName;
         enemyDescription = enemySO.EnemyDescription;

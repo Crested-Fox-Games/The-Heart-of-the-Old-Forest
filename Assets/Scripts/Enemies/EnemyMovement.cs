@@ -62,7 +62,36 @@ public class EnemyMovement : NetworkBehaviour
 
         //Move this to a proper location later
         if (agent.velocity.sqrMagnitude > 0.0001f)
-        transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f,-90f,0f);
+        {
+            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f, -90f, 0f);
+        } 
+    }
+
+    public void MovementTarget(Vector3 targetPosition)
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+
+        agent.isStopped = false;
+
+        targetPosition = new Vector3(targetPosition.x, 0.5f, targetPosition.z);
+
+        SetMovementDestination(targetPosition);
+    }
+
+    private void SetMovementDestination(Vector3 targetPosition)
+    {
+        if (NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+
+        if (agent.velocity.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f, -90f, 0f);
+        }
     }
 
     public void StopMoving()
