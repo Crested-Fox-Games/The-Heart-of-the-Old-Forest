@@ -3,9 +3,9 @@ using FishNet.Object.Synchronizing;
 using System;
 using UnityEngine;
 
-public class TimeManager : NetworkBehaviour
+public class TimeCycleManager : NetworkBehaviour
 {
-    public static TimeManager Instance { get; private set; }
+    public static TimeCycleManager Instance { get; private set; }
 
     [SerializeField]
     private GameObject sceneLight;

@@ -3,7 +3,6 @@ using FishNet.Object.Synchronizing;
 using System.Collections;
 using UnityEngine;
 
-//TODO: Will need to move this to a more applicable script at some point
 public enum ToolTier
 {
     None = 0,

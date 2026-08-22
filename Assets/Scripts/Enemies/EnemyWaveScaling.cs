@@ -37,7 +37,7 @@ public static class EnemyWaveScaling
     public static float EnemyHealthScaling(float baseHealth)
     {
         //Scale by x% each night
-        float scaledHealth = baseHealth * (1 + TimeManager.Instance.CurrentDay * healthFactor);
+        float scaledHealth = baseHealth * (1 + TimeCycleManager.Instance.CurrentDay * healthFactor);
 
         return scaledHealth;
     }
@@ -50,7 +50,7 @@ public static class EnemyWaveScaling
     public static float EnemyDamageScaling(float baseDamage)
     {
         //Scale by x% each night
-        float scaledDamage = baseDamage * (1 + TimeManager.Instance.CurrentDay * damageFactor);
+        float scaledDamage = baseDamage * (1 + TimeCycleManager.Instance.CurrentDay * damageFactor);
 
         return scaledDamage;
     }
@@ -62,7 +62,7 @@ public static class EnemyWaveScaling
     /// <returns></returns>
     public static float MaxEnemySpawnScaling(float baseSpawns)
     {
-        float scaledSpawns = baseSpawns * (1 + TimeManager.Instance.CurrentDay * spawnFactorNight);
+        float scaledSpawns = baseSpawns * (1 + TimeCycleManager.Instance.CurrentDay * spawnFactorNight);
 
         return Mathf.Min(scaledSpawns, AbsoluteMaxEnemySpawns);
     }
@@ -74,7 +74,7 @@ public static class EnemyWaveScaling
     /// <returns></returns>
     public static float SpawnDensityScaling(float baseDensity)
     {
-        float scaledDensity = baseDensity * (1 + TimeManager.Instance.CurrentDay * spawnDensityFactorNight);
+        float scaledDensity = baseDensity * (1 + TimeCycleManager.Instance.CurrentDay * spawnDensityFactorNight);
 
         return scaledDensity;
     }

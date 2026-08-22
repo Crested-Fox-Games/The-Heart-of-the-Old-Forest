@@ -2,8 +2,17 @@ using FishNet.Object;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
+public enum BlightRarity
+{
+    common,
+    uncommon,
+    rare,
+    mythic,
+}
 
 public class BlightManager : NetworkBehaviour
 {
@@ -66,6 +75,37 @@ public class BlightManager : NetworkBehaviour
 
     public event Action<NetworkObject> BlightNodeSpawned;
 
+    /// <summary>
+    /// Setting up the pools that the blight nodes can spawn with
+    /// </summary>
+    private Dictionary<BlightRarity, float> Stage1Pool = new()
+    {
+        [BlightRarity.common] = 95f,
+        [BlightRarity.uncommon] = 5f
+    };
+
+    private Dictionary<BlightRarity, float> Stage2Pool = new()
+    {
+        [BlightRarity.common] = 75f,
+        [BlightRarity.uncommon] = 20f,
+        [BlightRarity.rare] = 5f
+    };
+
+    private Dictionary<BlightRarity, float> Stage3Pool = new()
+    {
+        [BlightRarity.common] = 35f,
+        [BlightRarity.uncommon] = 40f,
+        [BlightRarity.rare] = 20f,
+        [BlightRarity.mythic] = 5f
+    };
+
+    private Dictionary<BlightRarity, float> Stage4Pool = new()
+    {
+        [BlightRarity.common] = 10f,
+        [BlightRarity.uncommon] = 30f,
+        [BlightRarity.rare] = 40f,
+        [BlightRarity.mythic] = 20f
+    };
 
     private void Awake()
     {
@@ -87,6 +127,11 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.AddRange(startingPoints);
 
         StartCoroutine(Initialize());
+    }
+
+    private void Start()
+    {
+        TimeCycleManager.Instance.OnNightEnd += BuffBlightNodes;
     }
 
     /// <summary>
@@ -180,7 +225,7 @@ public class BlightManager : NetworkBehaviour
         BlightNodeSpawned?.Invoke(currentNode);
 
 
-        currentNode.Initialize(jumpNode);
+        currentNode.Initialize(jumpNode, GetBlightRarity());
 
         if(jumpNode.TryGetComponent<BlightNode>(out BlightNode node))
         {
@@ -199,13 +244,56 @@ public class BlightManager : NetworkBehaviour
     {
         blightNodesCleared++;
 
-        //Buffs the existing blight nodes
-        BlightNodesBuffed?.Invoke();
-
         //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
         if (blightNodesCleared % blightBossRequirement == 0)
         {
-            //TODO: Make it so that a boss enemy spawns on the next night
+            //Tells the enemy spawner to spawn a boss on the next night
+            FindFirstObjectByType<EnemySpawner>().bossToSpawn = true;
         }
+    }
+
+    private void BuffBlightNodes()
+    {
+        //Buffs the existing blight nodes
+        BlightNodesBuffed?.Invoke();
+    }
+
+    private BlightRarity GetBlightRarity()
+    {
+        Dictionary<BlightRarity, float> currentPool = GetCurrentRarityPool();
+
+        float totalWeight = currentPool.Values.Sum();
+        float selected = Random.Range(0, totalWeight);
+
+        foreach(var rarity in currentPool)
+        {
+            selected -= rarity.Value;
+
+            if(selected <= 0)
+            {
+                return rarity.Key;
+            }
+        }
+
+        return currentPool.First().Key;
+    }
+
+    private Dictionary<BlightRarity, float> GetCurrentRarityPool()
+    {
+        //TODO: Probably want to design this better
+        if (TimeCycleManager.Instance.CurrentDay < 2)
+        {
+            return Stage1Pool;
+        }
+        else if (TimeCycleManager.Instance.CurrentDay < 4)
+        {
+            return Stage2Pool;
+        }
+        else if (TimeCycleManager.Instance.CurrentDay < 6)
+        {
+            return Stage3Pool;
+        }
+
+        return Stage4Pool;
     }
 }

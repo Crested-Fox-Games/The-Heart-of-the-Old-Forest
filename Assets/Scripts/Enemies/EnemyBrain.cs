@@ -8,8 +8,6 @@ public class EnemyBrain : NetworkBehaviour
 {
     //TODO: This script will need to handle more complicated decision making later on.
 
-    //TODO: Will need a navigation script for handling the pathfinding.
-
     //TODO: Will need a way for the brain to run for night time enemies vs world enemies
 
     //References
