@@ -72,6 +72,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5789222092721587934}
   _networkObjectCache: {fileID: 5789222092721587934}
+  blightRangeDistance: 15
 --- !u!114 &9215826586628802106
 MonoBehaviour:
   m_ObjectHideFlags: 0

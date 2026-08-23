@@ -46,7 +46,7 @@ public class EnemyBrain : NetworkBehaviour
     {
         GetReferences();
 
-        ReevaluateTargets();
+        //ReevaluateTargets();
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public class EnemyBrain : NetworkBehaviour
         }
 
         defaultTarget = target;
-        
+
         if (enemy.IsWaveEnemy)
         {
             InitializeWaveEnemy();
@@ -131,8 +131,6 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="target"></param>
     private void OnTargetEntered(ITargetable target)
     {
-        Debug.Log($"EnemyBrain noticed a target entered: {target}");
-
         if (!enemy.IsWaveEnemy)
         {
             SetBlightTarget(target);
@@ -157,6 +155,8 @@ public class EnemyBrain : NetworkBehaviour
                 currentTarget = null;
                 ChangeState(EnemyState.Idle);
             }
+
+            return;
         }
 
         ReevaluateTargets();
@@ -290,7 +290,15 @@ public class EnemyBrain : NetworkBehaviour
     {
         if (!HasValidTarget())
         {
-            ReevaluateTargets();
+            if (enemy.IsWaveEnemy)
+            {
+                ReevaluateTargets();
+            }
+            else
+            {
+                ChangeState(EnemyState.Idle);
+            }
+
             return;
         }
 
@@ -304,7 +312,15 @@ public class EnemyBrain : NetworkBehaviour
     {
         if (!HasValidTarget())
         {
-            ReevaluateTargets();
+            if (enemy.IsWaveEnemy)
+            {
+                ReevaluateTargets();
+            }
+            else
+            {
+                ChangeState(EnemyState.Idle);
+            }
+
             return;
         }
 
@@ -391,7 +407,6 @@ public class EnemyBrain : NetworkBehaviour
 
         enemyMeleeClass.StopAttacking();
 
-        //TODO: update movement code
         enemyMovement.MovementTarget(blightSpawnPos);
     }
 
@@ -401,10 +416,19 @@ public class EnemyBrain : NetworkBehaviour
 
         if (distance <= 0.5f)
         {
-            enemyMovement.StopMoving();
+            return;
+        }
 
-            ITargetable target = FindBlightTarget();
+        enemyMovement.StopMoving();
 
+        ITargetable target = FindBlightTarget();
+
+        if (target != null)
+        {
+            SetBlightTarget(target);
+        }
+        else
+        {
             ChangeState(EnemyState.Idle);
         }
     }

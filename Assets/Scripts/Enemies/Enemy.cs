@@ -74,9 +74,6 @@ public class Enemy : NetworkBehaviour
         {
             enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
             enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
-
-            //TODO: Need to make the enemy brain initialize in a better way so that it can determine if its a wave enemy or not.
-            enemyBrain.Initialize(HeartCrystal);
         }
         else
         {
@@ -86,6 +83,9 @@ public class Enemy : NetworkBehaviour
 
         //Sets the enemies health after initializing it
         currentHealth.Value = enemyMaxHealth;
+
+        //Intialise brain for both types of enemy
+        enemyBrain.Initialize(HeartCrystal);
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
