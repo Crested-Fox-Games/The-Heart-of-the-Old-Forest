@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1653671131147951644}
   - component: {fileID: 4513848973097859124}
   - component: {fileID: 5554828885100303472}
+  - component: {fileID: 9025497405741031671}
   - component: {fileID: 3523095287178685474}
   - component: {fileID: 5157244053637599692}
   - component: {fileID: 4249959293906175344}
@@ -255,6 +256,22 @@ MonoBehaviour:
   defaultVelocity: 0.2
   gravity: -0.01
   cameraPrefab: {fileID: 181323723340778050, guid: a91c2b0284f63de4b8d4b3b3daf45fb4, type: 3}
+--- !u!114 &9025497405741031671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e8f7dd4bfa1064bb0e47a0238d49d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5157244053637599692}
+  _networkObjectCache: {fileID: 0}
+  maxHealth: 100
 --- !u!114 &3523095287178685474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,7 +288,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   interactDistance: 5
-  interactRate: 0.5
+  baseInteractRate: 0.5
   aimMask:
     serializedVersion: 2
     m_Bits: 0

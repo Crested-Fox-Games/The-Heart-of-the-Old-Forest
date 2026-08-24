@@ -114,11 +114,17 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Initialise wave enemy state and movement target
+    /// </summary>
     private void InitializeWaveEnemy()
     {
         SetTarget(defaultTarget);
     }
 
+    /// <summary>
+    /// Initialise blight enemy state
+    /// </summary>
     private void InitializeBlightEnemy()
     {
         blightSpawnPos = transform.position;
@@ -146,14 +152,26 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="target"></param>
     private void OnTargetExited(ITargetable target)
     {
-        Debug.Log($"EnemyBrain noticed a target exited: {target}");
+        //Debug.Log($"EnemyBrain noticed a target exited: {target}");
+        Debug.Log(
+       $"[TARGET EXITED] {gameObject.name} | " +
+       $"Target = {target.TargetTransform.gameObject.name} | " +
+       $"Current Target = {currentTarget}");
 
         if (!enemy.IsWaveEnemy)
         {
             if (currentTarget == target)
             {
                 currentTarget = null;
-                ChangeState(EnemyState.Idle);
+
+                if (IsOutsideBlightLeash())
+                {
+                    ChangeState(EnemyState.Returning);
+                }
+                else
+                {
+                    ChangeState(EnemyState.Idle);
+                }
             }
 
             return;
@@ -162,6 +180,10 @@ public class EnemyBrain : NetworkBehaviour
         ReevaluateTargets();
     }
 
+    /// <summary>
+    /// Sets blight enemy target to any object implementing ITargetable (typically player)
+    /// </summary>
+    /// <param name="target"></param>
     private void SetBlightTarget(ITargetable target)
     {
         if (target == null)
@@ -186,6 +208,10 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns blight enemy to their spawn position when they get far enough away from it
+    /// </summary>
+    /// <returns></returns>
     private bool IsOutsideBlightLeash
         ()
     {
@@ -194,6 +220,9 @@ public class EnemyBrain : NetworkBehaviour
         return distance >= blightRangeDistance;
     }
 
+    /// <summary>
+    /// Set the state to returning whenever the blight enemy is too far from its spawn
+    /// </summary>
     private void UpdateBlightLeash()
     {
         if (currentState == EnemyState.Returning)
@@ -207,6 +236,9 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Set state to returning 
+    /// </summary>
     private void ReturnToBlightSpawn()
     {
         currentTarget = null;
@@ -227,6 +259,7 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
         
+        // Raycast to any obstructions between enemy and heart crystal
         ITargetable obstruction = enemyPathfinder.FindDirectObstruction(defaultTarget);
 
         if (obstruction != null)
@@ -237,22 +270,6 @@ public class EnemyBrain : NetworkBehaviour
         {
             SetTarget(defaultTarget);
         }
-
-        
-
-        //foreach (ITargetable target in targetDetector.NearbyTargets)
-        //{
-        //    if (!target.IsAlive())
-        //    {
-        //        continue;
-        //    }
-
-        //    if (!target.IsAttackable())
-        //    {
-        //        continue;
-        //    }
-        //    Debug.Log($"Valid target: {target}");
-        //}
     }
 
     private void Update()
@@ -286,6 +303,9 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    ///  Update enemy movement target based on their blight/wave status, when they enter the moving state
+    /// </summary>
     private void UpdateMoving()
     {
         if (!HasValidTarget())
@@ -414,6 +434,13 @@ public class EnemyBrain : NetworkBehaviour
     {
         float distance = Vector3.Distance(transform.position, blightSpawnPos);
 
+        Debug.Log(
+        $"[RETURNING] {gameObject.name} | " +
+        $"Distance = {distance:F2} | " +
+        $"Agent enabled = {enemyMovement != null} | " +
+        $"Position = {transform.position} | " +
+        $"Spawn = {blightSpawnPos}");
+
         if (distance <= 0.5f)
         {
             return;
@@ -431,6 +458,8 @@ public class EnemyBrain : NetworkBehaviour
         {
             ChangeState(EnemyState.Idle);
         }
+
+        enemyMovement.DebugMovement();
     }
 
     private ITargetable FindBlightTarget()
