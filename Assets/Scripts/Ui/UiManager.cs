@@ -34,6 +34,12 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverPanel;
 
+    /// <summary>
+    /// The panel that holds the nightly rewards for the player
+    /// </summary>
+    [SerializeField]
+    private GameObject nightlyRewardPanel;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)

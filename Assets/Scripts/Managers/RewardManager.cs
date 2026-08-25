@@ -78,13 +78,28 @@ public class RewardManager : NetworkBehaviour
         StartCoroutine(SendRewardsToPlayers());
     }
 
+    /// <summary>
+    /// Send the rewards to each of the players so that their ui can show it
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SendRewardsToPlayers()
     {
-        yield return new WaitForSeconds(10f);
+        //Wait for x seconds before sending the rewards to players
+        //TODO: Decide if we want this or the players have to press a button to bring up the reward screen
+        //TODO: If press a button, decide how we handle players not clicking it before the next night, do we select a random one for them?
+        yield return new WaitForSeconds(1f);
 
         foreach (PlayerRef player in players)
         {
+            //Get the rewards list for the current player
+            List<RewardSO> rewards = selectedNightlyRewards[player];
 
+            //Get the reward ids of the SO's
+            int[] rewardIds = rewards.Select(reward => reward.RewardId).ToArray();
+
+            PlayerRPCHandler playerRPCHandler = player.playerRPCHandler;
+
+            playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds);
         }
     }
 
