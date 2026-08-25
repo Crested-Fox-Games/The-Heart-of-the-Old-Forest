@@ -1,6 +1,7 @@
 using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 /// <summary>
 /// A data class used for the dictionary of tower upgrades
 /// </summary>
+[Serializable]
 public struct GlobalTowerUpgradesDC
 {
     public static GlobalTowerUpgradesDC Default => new GlobalTowerUpgradesDC
@@ -47,9 +49,9 @@ public class TowerManager : NetworkBehaviour
     /// <summary>
     /// The dictionary that holds the upgrades for all towers
     /// </summary>
-    private readonly SyncDictionary<TowerSO, GlobalTowerUpgradesDC> globalTowerUpgrades = new();
+    private readonly SyncDictionary<string, GlobalTowerUpgradesDC> globalTowerUpgrades = new();
 
-    public IReadOnlyDictionary<TowerSO, GlobalTowerUpgradesDC> GlobalTowerUpgrades => globalTowerUpgrades;
+    public IReadOnlyDictionary<string, GlobalTowerUpgradesDC> GlobalTowerUpgrades => globalTowerUpgrades;
 
     private void Awake()
     {
@@ -124,7 +126,7 @@ public class TowerManager : NetworkBehaviour
         }
 
         //Updates the upgrades in the dictionary
-        globalTowerUpgrades[towerSO] = upgrades;
+        globalTowerUpgrades[towerSO.TowerName] = upgrades;
     }
 
 
@@ -135,11 +137,11 @@ public class TowerManager : NetworkBehaviour
     /// <param name="towerStat"></param>
     /// <param name="rewardType"></param>
     /// <param name="rewardAmount"></param>
-    private void ApplyGlobalUpgrades(SyncDictionaryOperation op, TowerSO key, GlobalTowerUpgradesDC value, bool asServer)
+    private void ApplyGlobalUpgrades(SyncDictionaryOperation op, string key, GlobalTowerUpgradesDC value, bool asServer)
     {
         //Checks to ensure we are running this on the server
-        if (!asServer)
-            return;
+        //if (!asServer)
+        //    return;
 
         //Gets all towers and puts them into an array
         Tower[] towers = FindObjectsByType<Tower>(FindObjectsInactive.Include, FindObjectsSortMode.None);
@@ -148,7 +150,7 @@ public class TowerManager : NetworkBehaviour
         foreach (Tower tower in towers)
         {
             //If the towerSO doesnt match the current tower, skip over this one and continue the loop
-            if (tower.TowerSO != key)
+            if (tower.TowerSO.TowerName != key)
                 continue;
 
             //Tell the tower that its upgrade has changed
@@ -164,10 +166,10 @@ public class TowerManager : NetworkBehaviour
     public GlobalTowerUpgradesDC GetOrCreateGlobalUpgrades(TowerSO towerSO)
     {
         //If it cant find the tower upgrades DC then it creates a default one
-        if (!globalTowerUpgrades.TryGetValue(towerSO, out GlobalTowerUpgradesDC upgrades))
+        if (!globalTowerUpgrades.TryGetValue(towerSO.TowerName, out GlobalTowerUpgradesDC upgrades))
         {
             upgrades = GlobalTowerUpgradesDC.Default;
-            globalTowerUpgrades.Add(towerSO, upgrades);
+            globalTowerUpgrades.Add(towerSO.TowerName, upgrades);
         }
 
         //Either returns the created one, or the one from the try get values out

@@ -84,7 +84,7 @@ public abstract class Tower : NetworkBehaviour
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
 
-        if(towerManager.GlobalTowerUpgrades.ContainsKey(towerSO))
+        if(towerManager.GlobalTowerUpgrades.ContainsKey(towerSO.TowerName))
         {
             OnUpgradesChanged();
         }
