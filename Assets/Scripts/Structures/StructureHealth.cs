@@ -6,15 +6,14 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
 {
     //Max and current health of the structure
     [SerializeField] private float maxHealth = 100f;
-
-    [SerializeField] private GameObject childObject;
-
     private readonly SyncVar<float> currentHealth = new();
 
+    //References
+    [SerializeField] private GameObject childObject;
     public Transform TargetTransform => transform;
 
+    //Player interaction
     [SerializeField] private float interactTime = 3f;
-
     public float InteractTime => interactTime;
 
     public override void OnStartServer()
@@ -53,6 +52,9 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
         return true;
     }
 
+    /// <summary>
+    /// Disable visual of structure
+    /// </summary>
     [ObserversRpc]
     private void Destroyed()
     {
@@ -61,11 +63,18 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
         CreateCollider();
     }
 
+    /// <summary>
+    /// Checks if structure is destroyed
+    /// </summary>
+    /// <returns></returns>
     public bool CanRepair()
     {
         return currentHealth.Value <= 0;
     }
 
+    /// <summary>
+    /// Enable wall when interacted with by player
+    /// </summary>
     public void Rebuild()
     {
         if (!CanRepair())
@@ -79,22 +88,37 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
         Rebuilt();
     }
 
+    /// <summary>
+    /// Activates wall visual
+    /// </summary>
     [ObserversRpc]
     private void Rebuilt()
     {
         childObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Calls to rebuild on player interaction
+    /// </summary>
+    /// <param name="player"></param>
     public void Interact(NetworkObject player)
     {
         Rebuild();
     }
 
+    /// <summary>
+    /// Checks if player can interact with repairable structure
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     public bool CanInteract(NetworkObject player)
     {
         return CanRepair();
     }
 
+    /// <summary>
+    /// Builds a collider for the structure after it is destroyed by enemies
+    /// </summary>
     private void CreateCollider()
     {
         BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
@@ -108,6 +132,6 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
 
         boxCollider.center = child.localPosition;
         boxCollider.size = child.localScale;
-        boxCollider.isTrigger = true;
+        boxCollider.isTrigger = false;
     }
 }
