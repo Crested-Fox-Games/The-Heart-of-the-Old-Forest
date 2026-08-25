@@ -138,4 +138,22 @@ public class UiManager : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Opens the nightly reward panel and sends it the reward ids
+    /// </summary>
+    /// <param name="rewardIDs"></param>
+    public void OpenRewardScreen(int[] rewardIDs)
+    {
+        //TODO: Send the rewards to a reward Ui script so that it can get the rewards to generate
+
+        nightlyRewardPanel.SetActive(true);
+    }
+
+    /// <summary>
+    /// Closes the nightly reward panel
+    /// </summary>
+    public void CloseRewardScreen()
+    {
+        nightlyRewardPanel.SetActive(false);
+    }
 }
