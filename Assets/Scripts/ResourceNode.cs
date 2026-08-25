@@ -3,7 +3,6 @@ using FishNet.Object.Synchronizing;
 using System.Collections;
 using UnityEngine;
 
-//TODO: Will need to move this to a more applicable script at some point
 public enum ToolTier
 {
     None = 0,
@@ -32,6 +31,10 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
     private float currentResourceDurability = 0;
 
+    [SerializeField]
+    private float interactTime = 2f;
+
+    public float InteractTime => interactTime;
 
     public readonly SyncVar<bool> depleted = new();
 
