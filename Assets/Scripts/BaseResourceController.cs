@@ -15,6 +15,8 @@ public class BaseResourceController : NetworkBehaviour
     /// </summary>
     private readonly SyncDictionary<ResourceType, int> resourceAmounts = new SyncDictionary<ResourceType, int>();
 
+    public SyncDictionary<ResourceType, int> ResourceAmounts => resourceAmounts;
+
     private void Awake()
     {
         //Singleton Setup
@@ -116,5 +118,18 @@ public class BaseResourceController : NetworkBehaviour
 
         //Checks the dictionary to see if the team has enough resources required
         return current >= amount;
+    }
+
+    /// <summary>
+    /// Returns the amount of resources of a specified type
+    /// </summary>
+    /// <param name="resourceType"></param>
+    /// <returns></returns>
+    public float GetResourceAmount(ResourceType resourceType)
+    {
+        if(resourceAmounts.TryGetValue(resourceType, out var current))
+            return resourceAmounts[resourceType];
+
+        return 0f;
     }
 }
