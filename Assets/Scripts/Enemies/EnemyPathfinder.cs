@@ -32,7 +32,7 @@ public class EnemyPathfinder : MonoBehaviour
 
     //    if (Physics.SphereCast(origin, castRadius, direction, out RaycastHit hit, distance, structureLayer))
     //    {
-    //        ITargetable target = hit.collider.GetComponent<ITargetable>();
+    //        ITargetable target = hit.collider.GetComponentInParent<ITargetable>();
 
     //        if (target == null)
     //        {
@@ -101,7 +101,7 @@ public class EnemyPathfinder : MonoBehaviour
             gizmoHit = true;
             gizmoHitPoint = hit.point;
 
-            ITargetable target = hit.collider.GetComponent<ITargetable>();
+            ITargetable target = hit.collider.GetComponentInParent<ITargetable>();
 
             if (target == null)
             {

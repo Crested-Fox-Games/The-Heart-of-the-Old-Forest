@@ -61,9 +61,16 @@ public class WeaponHitbox : NetworkBehaviour
 
        
         //damage logic
-        ITargetable target = other.GetComponent<ITargetable>();
+        ITargetable target = other.GetComponentInParent<ITargetable>();
 
         if (target == null)
+        {
+            return;
+        }
+
+        EnemyBrain brain = GetComponentInParent<EnemyBrain>();
+
+        if (!brain.IsTargetInRange(target))
         {
             return;
         }
@@ -77,8 +84,6 @@ public class WeaponHitbox : NetworkBehaviour
         //Evaluate new enemies when current target is destroyed
         if (!target.TakeDamage(owner.EnemyDamage))
         {
-            EnemyBrain brain = GetComponentInParent<EnemyBrain>();
-
             brain.ReevaluateTargets();
         }
        

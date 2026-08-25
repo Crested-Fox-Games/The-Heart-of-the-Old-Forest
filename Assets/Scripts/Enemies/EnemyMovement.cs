@@ -49,9 +49,16 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
+        Collider targetCollider = targetObject.GetComponentInChildren<Collider>();
+
+        if (targetCollider == null)
+        {
+            return;
+        }
+
         agent.isStopped = false;
 
-        Vector3 closestPoint = targetObject.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
 
         closestPoint = new Vector3(closestPoint.x, 0.5f, closestPoint.z);
 

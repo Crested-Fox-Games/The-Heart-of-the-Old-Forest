@@ -24,7 +24,7 @@ public class EnemyBrain : NetworkBehaviour
 
     private Vector3 blightSpawnPos;
 
-    [SerializeField] private float blightRangeDistance;
+    [SerializeField] private float blightRangeDistance = 30f;
 
     private enum EnemyState
     {
@@ -128,6 +128,8 @@ public class EnemyBrain : NetworkBehaviour
     private void InitializeBlightEnemy()
     {
         blightSpawnPos = transform.position;
+
+        currentTarget = null;
         ChangeState(EnemyState.Idle);
     }
 
@@ -139,6 +141,11 @@ public class EnemyBrain : NetworkBehaviour
     {
         if (!enemy.IsWaveEnemy)
         {
+            if (target == defaultTarget)
+            {
+                return;
+            }
+
             SetBlightTarget(target);
             return;
         }
@@ -458,8 +465,6 @@ public class EnemyBrain : NetworkBehaviour
         {
             ChangeState(EnemyState.Idle);
         }
-
-        enemyMovement.DebugMovement();
     }
 
     private ITargetable FindBlightTarget()
@@ -523,15 +528,29 @@ public class EnemyBrain : NetworkBehaviour
         return true;
     }
 
-    private bool IsTargetInRange()
+    public bool IsTargetInRange(ITargetable target)
     {
-        if (!HasValidTarget())
+        if (target == null || !target.IsAlive())
         {
             return false;
         }
 
-        float distance = Vector3.Distance(transform.position, currentTarget.TargetTransform.position);
+        Collider targetCollider = target.TargetTransform.GetComponentInChildren<Collider>();
+
+        if (targetCollider == null)
+        {
+            return false;
+        }
+
+        Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
+
+        float distance = Vector3.Distance(transform.position, closestPoint);
 
         return distance <= enemy.EnemyAttackRange;
+    }
+
+    private bool IsTargetInRange()
+    {
+        return IsTargetInRange(currentTarget);
     }
 }
