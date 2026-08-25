@@ -41,4 +41,16 @@ public class PlayerRPCHandler : NetworkBehaviour
     {
         RewardManager.Instance.SelectReward(rewardId, conn);
     }
+
+    [TargetRpc]
+    public void ShowNightlyRewards(int[] rewardIds)
+    {
+        //TODO: Call the ui manager and get it to show the rewards
+    }
+
+    [ServerRpc]
+    public void SelectReward(int rewardId, NetworkConnection conn)
+    {
+        RewardManager.Instance.SelectReward(rewardId, conn);
+    }
 }

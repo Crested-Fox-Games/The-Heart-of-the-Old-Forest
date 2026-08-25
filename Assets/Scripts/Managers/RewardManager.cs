@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -41,6 +42,8 @@ public class RewardManager : NetworkBehaviour
     private void Start()
     {
         Initialize();
+
+        TimeCycleManager.Instance.OnNightEnd += GenerateRewards;
     }
 
     /// <summary>
@@ -72,7 +75,17 @@ public class RewardManager : NetworkBehaviour
             }
         }
 
-        //TODO: Add a way for this to send the results to each player
+        StartCoroutine(SendRewardsToPlayers());
+    }
+
+    private IEnumerator SendRewardsToPlayers()
+    {
+        yield return new WaitForSeconds(10f);
+
+        foreach (PlayerRef player in players)
+        {
+
+        }
     }
 
     /// <summary>
