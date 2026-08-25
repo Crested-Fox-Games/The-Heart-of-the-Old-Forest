@@ -89,6 +89,8 @@ public class RewardManager : NetworkBehaviour
         //TODO: If press a button, decide how we handle players not clicking it before the next night, do we select a random one for them?
         yield return new WaitForSeconds(1f);
 
+        Debug.Log("Sending rewards to players");
+
         foreach (PlayerRef player in players)
         {
             //Get the rewards list for the current player

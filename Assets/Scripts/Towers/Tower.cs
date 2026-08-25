@@ -46,23 +46,29 @@ public abstract class Tower : NetworkBehaviour
 
     private SphereCollider towerRangeCollider;
 
-    private void Awake()
-    {
-        InitializeValues();
-
-        //Creates the sphere around the tower that they can attack in
-        towerRangeCollider = gameObject.AddComponent<SphereCollider>();
-        towerRangeCollider.radius = GetRange();
-        towerRangeCollider.isTrigger = true;
-    }
-
     public override void OnStartServer()
     {
         base.OnStartServer();
 
         currentHealth.Value = towerMaxHealth;
 
-        towerManager = FindFirstObjectByType<TowerManager>();
+        StartCoroutine(GetTowerManager());
+    }
+
+    private IEnumerator GetTowerManager()
+    {
+        while(towerManager == null)
+        {
+            towerManager = FindFirstObjectByType<TowerManager>();
+            yield return null;
+        }
+
+        //Creates the sphere around the tower that they can attack in
+        towerRangeCollider = gameObject.AddComponent<SphereCollider>();
+        towerRangeCollider.radius = GetRange();
+        towerRangeCollider.isTrigger = true;
+
+        InitializeValues();
     }
 
     /// <summary>
