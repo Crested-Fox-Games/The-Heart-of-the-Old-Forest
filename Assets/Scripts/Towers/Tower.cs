@@ -42,7 +42,7 @@ public abstract class Tower : NetworkBehaviour
 
     protected Coroutine attackCoroutine;
 
-    TowerManager towerManager;
+    private TowerManager towerManager;
 
     private SphereCollider towerRangeCollider;
 

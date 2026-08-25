@@ -142,10 +142,13 @@ public class UiManager : MonoBehaviour
     /// Opens the nightly reward panel and sends it the reward ids
     /// </summary>
     /// <param name="rewardIDs"></param>
-    public void OpenRewardScreen(int[] rewardIDs)
+    public void OpenRewardScreen(int[] rewardIDs, PlayerRef player)
     {
-        //TODO: Send the rewards to a reward Ui script so that it can get the rewards to generate
+        //TODO: Rework this so that opening and populating are seperate
 
+        //Send the rewards to a reward Ui script so that it can get the rewards to generate
+        nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, player);
+        
         nightlyRewardPanel.SetActive(true);
     }
 

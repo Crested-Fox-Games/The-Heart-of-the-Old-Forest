@@ -3224,6 +3224,14 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1678857866662492142, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: SceneId
+      value: 3955049982
+      objectReference: {fileID: 0}
+    - target: {fileID: 1678857866662492142, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2251105730303669840, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 155.1001

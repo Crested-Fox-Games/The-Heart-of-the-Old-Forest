@@ -47,7 +47,7 @@ public class PlayerRPCHandler : NetworkBehaviour
     /// <param name="rewardId"></param>
     /// <param name="conn"></param>
     [ServerRpc]
-    public void SelectNightlyReward(int rewardId, NetworkConnection conn)
+    public void SelectNightlyReward(int rewardId, NetworkConnection conn = null)
     {
         RewardManager.Instance.SelectReward(rewardId, conn);
     }
