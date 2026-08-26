@@ -3228,6 +3228,10 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7982202049907191913, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: devControlPanel
+      value: 
+      objectReference: {fileID: 7519108098769467536}
     - target: {fileID: 8987464460459311553, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: sceneLight
       value: 
@@ -3513,6 +3517,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+--- !u!1 &7519108098769467536 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6362784817187870735, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+  m_PrefabInstance: {fileID: 7519108098769467535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
