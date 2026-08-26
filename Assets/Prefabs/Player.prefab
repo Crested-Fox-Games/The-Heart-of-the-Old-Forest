@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5854695226715694454}
   - component: {fileID: 1478582881670916179}
   - component: {fileID: 5131311982947011687}
+  - component: {fileID: 6140876044436142698}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -271,7 +272,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   interactDistance: 5
-  interactRate: 0.5
+  baseInteractRate: 0.5
   aimMask:
     serializedVersion: 2
     m_Bits: 0
@@ -310,7 +311,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584150019318985842
+  _initializedTimestamp: -8584138450806474739
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -449,6 +450,18 @@ MonoBehaviour:
   aimMask:
     serializedVersion: 2
     m_Bits: 1
+--- !u!114 &6140876044436142698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604874821253831385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9364db2870ed944b79833702883b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRef
 --- !u!1001 &1483530858569048458
 PrefabInstance:
   m_ObjectHideFlags: 0

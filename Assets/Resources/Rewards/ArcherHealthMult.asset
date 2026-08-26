@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArcherHealthMult
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
   RewardName: Archer Health
-  RewardId: 2
+  RewardId: 4
   RewardWeight: 5
   RewardIcon: {fileID: 0}
   towerStat: 1

@@ -150,6 +150,8 @@ public class UiManager : MonoBehaviour
         nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, player);
         
         nightlyRewardPanel.SetActive(true);
+
+        UiElementOpened();
     }
 
     /// <summary>
@@ -158,5 +160,7 @@ public class UiManager : MonoBehaviour
     public void CloseRewardScreen()
     {
         nightlyRewardPanel.SetActive(false);
+
+        UiElementClosed();
     }
 }

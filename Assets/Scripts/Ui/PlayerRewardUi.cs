@@ -26,6 +26,10 @@ public class PlayerRewardUi : MonoBehaviour
     {
         //Gets a dictionary of all rewardSO's 
         rewards = Resources.LoadAll<RewardSO>("Rewards").ToDictionary(reward => reward.RewardId);
+        Debug.Log($"Rewards count {rewards.Count}");
+
+        //Closes it straight away
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -40,6 +44,7 @@ public class PlayerRewardUi : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
+            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}"  );
             currentRewardOptions.Add(rewards[rewardIds[i]]);
         }
 
@@ -60,15 +65,18 @@ public class PlayerRewardUi : MonoBehaviour
     public void SelectOption1()
     {
         localPlayer.playerRPCHandler.SelectNightlyReward(currentRewardOptions[0].RewardId);
+        UiManager.Instance.CloseRewardScreen();
     }
 
     public void SelectOption2()
     {
         localPlayer.playerRPCHandler.SelectNightlyReward(currentRewardOptions[1].RewardId);
+        UiManager.Instance.CloseRewardScreen();
     }
 
     public void SelectOption3()
     {
         localPlayer.playerRPCHandler.SelectNightlyReward(currentRewardOptions[2].RewardId);
+        UiManager.Instance.CloseRewardScreen();
     }
 }

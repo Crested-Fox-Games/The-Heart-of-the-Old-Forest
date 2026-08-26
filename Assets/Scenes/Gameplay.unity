@@ -2039,6 +2039,17 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!114 &1911149158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 980425232048405161, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+  m_PrefabInstance: {fileID: 6318027134756845730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!43 &1966799949
 Mesh:
   m_ObjectHideFlags: 0
@@ -2414,6 +2425,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3185020671151739321, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 4290772415
+      objectReference: {fileID: 0}
+    - target: {fileID: -3185020671151739321, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 75689579587106318, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4194268603
@@ -2428,7 +2447,7 @@ PrefabInstance:
       objectReference: {fileID: 1431768669}
     - target: {fileID: 326205943567271447, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5435
+      value: 5444
       objectReference: {fileID: 0}
     - target: {fileID: 349716614019371780, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
@@ -2440,7 +2459,7 @@ PrefabInstance:
       objectReference: {fileID: 636119746}
     - target: {fileID: 371169101087060160, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 3305
+      value: 3314
       objectReference: {fileID: 0}
     - target: {fileID: 371169101087060160, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Tangents.Array.data[25].x
@@ -2788,7 +2807,7 @@ PrefabInstance:
       objectReference: {fileID: 1781457548}
     - target: {fileID: 1080063612039462459, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5405
+      value: 5414
       objectReference: {fileID: 0}
     - target: {fileID: 1472143747536647204, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
@@ -2804,7 +2823,7 @@ PrefabInstance:
       objectReference: {fileID: 698469242}
     - target: {fileID: 1705382681826916382, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5465
+      value: 5474
       objectReference: {fileID: 0}
     - target: {fileID: 1742815438686842935, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: timeManager
@@ -2856,7 +2875,7 @@ PrefabInstance:
       objectReference: {fileID: 1129474901}
     - target: {fileID: 2927163529518685267, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5408
+      value: 5417
       objectReference: {fileID: 0}
     - target: {fileID: 3001981680894493441, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
@@ -3000,7 +3019,7 @@ PrefabInstance:
       objectReference: {fileID: 1966799949}
     - target: {fileID: 6403329750331043909, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5399
+      value: 5408
       objectReference: {fileID: 0}
     - target: {fileID: 6487227808763173069, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VoxelSize
@@ -3028,7 +3047,7 @@ PrefabInstance:
       objectReference: {fileID: 1003585370}
     - target: {fileID: 6697372136082188617, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5432
+      value: 5441
       objectReference: {fileID: 0}
     - target: {fileID: 7007818026485285288, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
@@ -3052,7 +3071,7 @@ PrefabInstance:
       objectReference: {fileID: 323542169}
     - target: {fileID: 7902107757121847340, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5396
+      value: 5405
       objectReference: {fileID: 0}
     - target: {fileID: 8141108874994015123, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
@@ -3060,7 +3079,7 @@ PrefabInstance:
       objectReference: {fileID: 1579601469}
     - target: {fileID: 8141108874994015123, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5408
+      value: 5417
       objectReference: {fileID: 0}
     - target: {fileID: 8172561241524579009, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Name
@@ -3112,7 +3131,7 @@ PrefabInstance:
       objectReference: {fileID: 2126321445}
     - target: {fileID: 9205197173239570681, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
-      value: 5411
+      value: 5420
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3168,6 +3187,14 @@ PrefabInstance:
       propertyPath: 'spawnPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 1905318642101308239}
+    - target: {fileID: 980425232048405161, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: SceneId
+      value: 3959250835
+      objectReference: {fileID: 0}
+    - target: {fileID: 980425232048405161, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1163466994526991383, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -3220,6 +3247,18 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1442235007829568966, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268060771301705947, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 1911149158}
+    - target: {fileID: 2268060771301705947, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5696329235465407647, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: SceneId
       value: 4265592316
@@ -3227,6 +3266,10 @@ PrefabInstance:
     - target: {fileID: 5696329235465407647, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696329235465407647, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7982202049907191913, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: devControlPanel
@@ -3495,6 +3538,10 @@ PrefabInstance:
     - target: {fileID: 6518272855684083747, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7081077516198269962, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8623979208043900120, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
       propertyPath: m_AnchorMax.y

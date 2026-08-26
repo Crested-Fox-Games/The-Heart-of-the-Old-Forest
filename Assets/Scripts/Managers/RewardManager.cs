@@ -41,6 +41,9 @@ public class RewardManager : NetworkBehaviour
 
     private void Start()
     {
+        if (!IsServerStarted)
+            return;
+
         Initialize();
 
         TimeCycleManager.Instance.OnNightEnd += GenerateRewards;
@@ -51,8 +54,7 @@ public class RewardManager : NetworkBehaviour
     /// </summary>
     private void Initialize()
     {
-        //Gets all the players in the game
-        players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.InstanceID).ToList();
+        UpdatePlayers();
 
         //Populates the reward list with all RewardSO's in the Resources/Rewards Folder
         rewards = Resources.LoadAll<RewardSO>("Rewards").OrderBy(reward => reward.RewardId).ToList();
@@ -61,8 +63,20 @@ public class RewardManager : NetworkBehaviour
         rewardsById = rewards.ToDictionary(reward => reward.RewardId);
     }
 
+    private void UpdatePlayers()
+    {
+        //Gets all the players in the game
+        players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.InstanceID).ToList();
+    }
+
     public void GenerateRewards()
     {
+        //This is here for redundancy
+        if(players.Count == 0)
+        {
+            UpdatePlayers();
+        }
+
         //Loops through for each player
         foreach (PlayerRef player in players)
         {
@@ -89,10 +103,9 @@ public class RewardManager : NetworkBehaviour
         //TODO: If press a button, decide how we handle players not clicking it before the next night, do we select a random one for them?
         yield return new WaitForSeconds(1f);
 
-        Debug.Log("Sending rewards to players");
-
         foreach (PlayerRef player in players)
         {
+           
             //Get the rewards list for the current player
             List<RewardSO> rewards = selectedNightlyRewards[player];
 
