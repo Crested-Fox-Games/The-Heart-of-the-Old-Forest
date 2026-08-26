@@ -30,7 +30,7 @@ public class PlayerRewardInstanceUi : MonoBehaviour
 
     private void PopulateResource(ResourceRewardSO reward)
     {
-        rewardDescription.text = $"You will gain {reward.baseAmount} of {reward.Resource.ResourceName}";
+        rewardDescription.text = $"You will gain {reward.baseAmount} {reward.Resource.ResourceName}";
     }
 
     private void PopulateTowerUpgrades(TowerStatRewardSO reward)
@@ -41,7 +41,7 @@ public class PlayerRewardInstanceUi : MonoBehaviour
         }
         else if(reward.rewardType == UpgradeType.Multiplacation)
         {
-            rewardDescription.text = $"You will gain X{reward.rewardAmount} bonus to {reward.towerStat} for this tower";
+            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.towerStat} for this tower";
         }
     }
 }
