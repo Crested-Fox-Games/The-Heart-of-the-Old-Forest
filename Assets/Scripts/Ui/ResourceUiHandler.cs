@@ -26,9 +26,7 @@ public class ResourceUiHandler : MonoBehaviour
         if(!displayedResources.TryGetValue(resource, out ResourceIndexUi resourceIndex))
         {
             //Create the prefab and get the indexUi script
-            resourceIndex = Instantiate(resourceIndexUiPrefab).GetComponent<ResourceIndexUi>();
-
-            resourceIndex.gameObject.transform.parent = transform;
+            resourceIndex = Instantiate(resourceIndexUiPrefab, transform.position, Quaternion.identity, transform).GetComponent<ResourceIndexUi>();
 
             //Initialize the values for the script
             resourceIndex.Initialize(resource);
