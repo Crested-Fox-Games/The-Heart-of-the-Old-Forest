@@ -15,6 +15,11 @@ public class TempTowerPlacement : NetworkBehaviour, IInteractable
     /// </summary>
     private GameObject spawnedTower;
 
+    [SerializeField]
+    private float interactTime = 1f;
+
+    public float InteractTime => interactTime;
+
     public bool CanInteract(NetworkObject player)
     {
         //TODO: Check if tower placement UI is already open, also check if player is close enough

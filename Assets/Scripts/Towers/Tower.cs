@@ -73,7 +73,6 @@ public abstract class Tower : NetworkBehaviour
         if (currentHealth.Value < 0)
         {
             //TODO: Need to create some sort of broken form 
-            //TODO: Might want a way to repair it when its damaged
 
             //Tells the tower placement that this tower has died
             TempTowerPlacement towerPlacement = GetComponentInParent<TempTowerPlacement>();
@@ -82,6 +81,4 @@ public abstract class Tower : NetworkBehaviour
             towerPlacement.TowerDestroyed();
         }
     }
-
-    
 }
