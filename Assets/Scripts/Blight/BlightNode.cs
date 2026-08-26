@@ -1,4 +1,5 @@
 using FishNet.Object;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -68,11 +69,13 @@ public class BlightNode : NetworkBehaviour, IInteractable
             resource.UpdateNodeCorruption(false);
         }
 
+        //Tells the blight manager that a blight node has been cleared
         BlightManager.Instance.BlightCleared();
 
+        //Update the enemy logic
+        UpdateEnemies();
 
-        //TODO: Add how we are going to handle blight enemies when the node is cleared
-
+        //Despawn the blight node
         Despawn(this);
     }
 
@@ -113,20 +116,21 @@ public class BlightNode : NetworkBehaviour, IInteractable
     /// <param name="rarity"></param>
     private void SetRarityScales(BlightRarity rarity)
     {
-        if(rarity == BlightRarity.uncommon)
+        //Update the scale and buff the blight based on the rarity multiplier
+        switch(rarity)
         {
-            blightModel.transform.localScale = Vector3.one * blightUncommonMult;
-            BuffBlight(blightUncommonMult, blightUncommonMult);
-        }
-        else if(rarity == BlightRarity.rare)
-        {
-            blightModel.transform.localScale = Vector3.one * blightRareMult;
-            BuffBlight(blightRareMult, blightRareMult);
-        }
-        else if(rarity == BlightRarity.mythic)
-        {
-            blightModel.transform.localScale = Vector3.one * blightMythicMult;
-            BuffBlight(blightMythicMult, blightMythicMult);
+            case BlightRarity.uncommon:
+                blightModel.transform.localScale = Vector3.one * blightUncommonMult;
+                BuffBlight(blightUncommonMult, blightUncommonMult);
+                break;
+            case BlightRarity.rare:
+                blightModel.transform.localScale = Vector3.one * blightRareMult;
+                BuffBlight(blightRareMult, blightRareMult);
+                break;
+            case BlightRarity.mythic:
+                blightModel.transform.localScale = Vector3.one * blightMythicMult;
+                BuffBlight(blightMythicMult, blightMythicMult);
+                break;
         }
 
         //Fix the position of the node
@@ -165,6 +169,24 @@ public class BlightNode : NetworkBehaviour, IInteractable
             {
                 //Scales up the blight creatures stats whenever another node is cleared
                 enemy.ScaleBlightStats(healthMult, damageMult);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Update the enemies so that theyre no longer children of the blight node
+    /// and update their logic
+    /// </summary>
+    private void UpdateEnemies()
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Update the parent of the child to be the enemy spawner
+                child.parent = FindFirstObjectByType<EnemySpawner>().gameObject.transform;
+
+                //MARCUS TODO: Tell the enemy to update its logic to be a wave enemy or whatever we decide to do
             }
         }
     }

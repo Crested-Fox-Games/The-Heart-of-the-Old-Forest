@@ -6,6 +6,9 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// The rarity levels for blight nodes
+/// </summary>
 public enum BlightRarity
 {
     common,
@@ -140,6 +143,7 @@ public class BlightManager : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator Initialize()
     {
+        //Done in an ienumerator to ensure we find it properly
         while(heartCrystal == null)
         {
             heartCrystal = FindFirstObjectByType<HeartCrystal>();
@@ -258,17 +262,26 @@ public class BlightManager : NetworkBehaviour
         BlightNodesBuffed?.Invoke();
     }
 
+    /// <summary>
+    /// Gets the rarity for the blight node we are spawning
+    /// </summary>
+    /// <returns></returns>
     private BlightRarity GetBlightRarity()
     {
+        //Gets the current rarity pool for the rarity weights
         Dictionary<BlightRarity, float> currentPool = GetCurrentRarityPool();
 
+        //Calculates total weights in pool and selects a random number in that range
         float totalWeight = currentPool.Values.Sum();
         float selected = Random.Range(0, totalWeight);
 
+        //Loops through the rarities
         foreach(var rarity in currentPool)
         {
+            //Takes away the rarity value from the selected value
             selected -= rarity.Value;
 
+            //Checks to see if the selected value is at or below 0 and returns that rarity if its the case
             if(selected <= 0)
             {
                 return rarity.Key;
@@ -278,6 +291,10 @@ public class BlightManager : NetworkBehaviour
         return currentPool.First().Key;
     }
 
+    /// <summary>
+    /// Basic implementation for getting rarity pool based on days completed
+    /// </summary>
+    /// <returns></returns>
     private Dictionary<BlightRarity, float> GetCurrentRarityPool()
     {
         //TODO: Probably want to design this better
