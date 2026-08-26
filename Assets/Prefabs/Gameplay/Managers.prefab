@@ -85,7 +85,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  playerPrefab: {fileID: 5854695226715694454, guid: 94a85b52799726a4ca6ed9b59fdfda77, type: 3}
+  playerPrefab: {fileID: 0}
 --- !u!1 &3485863293959672481
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DevController
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  timeManager: {fileID: 8987464460459311553}
+  timeCycleManager: {fileID: 8987464460459311553}
 --- !u!1 &3722609941635714526
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,10 +218,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7346716959144363141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0f7d9f944dfe1f48977e91f5d488d81, type: 3}
+  m_Script: {fileID: 11500000, guid: 535e17603ac6d0e409ff2bde784372ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
-  _componentIndexCache: 1
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1442235007829568966}
   _networkObjectCache: {fileID: 0}
   sceneLight: {fileID: 0}

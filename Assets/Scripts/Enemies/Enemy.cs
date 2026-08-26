@@ -12,7 +12,7 @@ public class Enemy : NetworkBehaviour
     protected EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    protected float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyMaxHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
 
     public EnemySO EnemySO => enemySO;
 
@@ -43,7 +43,7 @@ public class Enemy : NetworkBehaviour
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
 
-        currentHealth.Value = enemyHealth;
+        currentHealth.Value = enemyMaxHealth;
     }
 
     /// <summary>
@@ -64,23 +64,24 @@ public class Enemy : NetworkBehaviour
 
         if(isWaveEnemy)
         {
-            //Scales the enemy stats based on the formulas in enemywavescaling
-            enemyHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
             enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
+
+            //TODO: Need to make the enemy brain initialize in a better way so that it can determine if its a wave enemy or not.
+            enemyBrain.Initialize(HeartCrystal);
         }
         else
-        { 
-            //TODO: Change this to be scaled for blight
-            //Scales the enemy stats based on the formulas for enemy blight scaling
-            enemyHealth = enemySO.EnemyHealth;
-            enemyDamage = enemySO.EnemyDamage;
+        {
+            enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
         }
-        
 
+        //Sets the enemies health after initializing it
+        currentHealth.Value = enemyMaxHealth;
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-        enemyBrain.Initialize(HeartCrystal);
+        
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
@@ -131,6 +132,20 @@ public class Enemy : NetworkBehaviour
 
         //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
         ServerManager.Despawn(gameObject);
+    }
+
+    public void ScaleBlightStats(float healthScale, float damageScale)
+    {
+        //Scales enemy damage to add the scale to its base damage, this gives us linear
+        //scaling rather than exponential of scaling multiplying its current stats
+        enemyDamage += enemySO.EnemyDamage * damageScale;
+
+        //Scales enemy health
+        float healthIncrease = enemySO.EnemyHealth * healthScale;
+
+        currentHealth.Value += healthIncrease;
+
+        enemyMaxHealth += healthIncrease;
     }
 
 }

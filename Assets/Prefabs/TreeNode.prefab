@@ -131,6 +131,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1415233867076043021}
   _networkObjectCache: {fileID: 1415233867076043021}
   resourceSO: {fileID: 11400000, guid: 253ec946bd9eea04e9a42732604ba4d4, type: 2}
+  interactTime: 1
   model: {fileID: 6863421217929929154}
 --- !u!114 &1415233867076043021
 MonoBehaviour:
@@ -162,7 +163,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584155084691572016
+  _initializedTimestamp: -8584143722586593771
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -181,7 +182,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 12743062076522194789
   SceneId: 0

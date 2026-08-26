@@ -12,11 +12,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public event Action OnGameOver;
 
-    /// <summary>
-    /// Tracks the amount of blight nodes that have been cleared
-    /// </summary>
-    public float blightNodesCleared {  get; private set; }
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,8 +32,6 @@ public class GameManager : MonoBehaviour
     {
         //TODO: Decide if players and towers are killed or what happens to them
 
-        //TODO: Decide if this takes the players back to the main menu or to a lobby with the current players
-
         OnGameOver?.Invoke();
 
         //Disables the player map, stopping all gameplay inputs and activating ui inputs
@@ -47,13 +40,5 @@ public class GameManager : MonoBehaviour
         //Enable the cursor
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-    }
-
-    /// <summary>
-    /// Handles adding to the amount of blight nodes cleared
-    /// </summary>
-    public void BlightCleared()
-    {
-        blightNodesCleared++;
     }
 }
