@@ -146,7 +146,7 @@ public abstract class Tower : NetworkBehaviour
     {
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
 
-        return (attackCooldown + globalUpgrades.fireRateAdd) * globalUpgrades.fireRateMult;
+        return attackCooldown / ((1f + globalUpgrades.fireRateAdd * 0.1f) * globalUpgrades.fireRateMult);
     }
 
     protected float GetRange()
