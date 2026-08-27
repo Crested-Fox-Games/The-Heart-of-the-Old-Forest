@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4165eafabc29038428cf582deaaac3bb, type: 3}
+  m_Name: Archer Tower Range ADD Uncommon
+  m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
+  RewardName: Archer Tower Range
+  RewardId: 11
+  RewardWeight: 2
+  RewardIcon: {fileID: 0}
+  towerStat: 3
+  towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
+  rewardType: 0
+  rewardAmount: 0
