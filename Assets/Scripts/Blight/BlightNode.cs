@@ -36,7 +36,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
     public void Initialize(Transform previous, BlightRarity rarity)
     {
         previousBlightNode = previous;
-
+        nextBlightNode = null;
         //Subscribe to blight buff event
         BlightManager.Instance.BlightNodesBuffed += BuffBlight;
 
