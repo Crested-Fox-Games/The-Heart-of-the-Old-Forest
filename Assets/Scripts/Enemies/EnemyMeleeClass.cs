@@ -5,6 +5,8 @@ public class EnemyMeleeClass : Enemy
     //References
     private WeaponHitbox weaponHitbox;
     private Animator enemyAnimator;
+
+    //Stats
     public float EnemyDamage => enemyDamage;
 
     //Attack state
@@ -30,6 +32,9 @@ public class EnemyMeleeClass : Enemy
         AttackCooldown();
     }
 
+    /// <summary>
+    /// Updates the cooldown of enemy attacks
+    /// </summary>
     private void AttackCooldown()
     {
         if (!IsServerStarted)
@@ -49,6 +54,7 @@ public class EnemyMeleeClass : Enemy
             }
         }
 
+        //Attempt attack
         TryAttack();
     }
 
@@ -74,6 +80,9 @@ public class EnemyMeleeClass : Enemy
         shouldAttack = false;
     }
 
+    /// <summary>
+    /// Checks if attacking is possible
+    /// </summary>
     private void TryAttack()
     {
         if (!shouldAttack)
@@ -97,6 +106,9 @@ public class EnemyMeleeClass : Enemy
         StartAttack();
     }
 
+    /// <summary>
+    /// Start attack animation if attacking is possible
+    /// </summary>
     public void StartAttack()
     {
         isAttacking = true;
@@ -114,7 +126,9 @@ public class EnemyMeleeClass : Enemy
     }
 
     
-
+    /// <summary>
+    /// Reset attack
+    /// </summary>
     public void EndAttack()
     {
         isAttacking = false;
