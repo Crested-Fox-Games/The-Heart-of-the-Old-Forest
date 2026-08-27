@@ -109,6 +109,6 @@ public class WeaponHitbox : NetworkBehaviour
         //TODO: Separate blight and wave enemy logic
         EnemyBrain brain = GetComponentInParent<EnemyBrain>();
 
-        brain.ReevaluateTargets();
+        //brain.ReevaluateTargets();
     }
 }

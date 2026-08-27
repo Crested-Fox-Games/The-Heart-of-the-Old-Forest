@@ -219,8 +219,7 @@ public class EnemyBrain : NetworkBehaviour
     /// Returns blight enemy to their spawn position when they get far enough away from it
     /// </summary>
     /// <returns></returns>
-    private bool IsOutsideBlightLeash
-        ()
+    private bool IsOutsideBlightLeash()
     {
         float distance = Vector3.Distance(blightSpawnPos, transform.position);
 
@@ -434,6 +433,8 @@ public class EnemyBrain : NetworkBehaviour
     private void ExitMoving()
     {
         Debug.Log("Exiting Moving state");
+        // connect to melee attack in enemymeleeclass
+        enemyMovement.StopMoving();
     }
 
     /// <summary>
@@ -442,8 +443,7 @@ public class EnemyBrain : NetworkBehaviour
     private void EnterAttacking()
     {
         Debug.Log("Entering Attacking state");
-        // connect to melee attack in enemymeleeclass
-        enemyMovement.StopMoving();
+        
         enemyMeleeClass.StartAttacking();
     }
 
@@ -464,7 +464,7 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log("Returning to blight spawn");
 
-        enemyMeleeClass.StopAttacking();
+        //enemyMeleeClass.StopAttacking();
 
         enemyMovement.MovementTarget(blightSpawnPos);
     }
@@ -476,19 +476,12 @@ public class EnemyBrain : NetworkBehaviour
     {
         float distance = Vector3.Distance(transform.position, blightSpawnPos);
 
-        Debug.Log(
-        $"[RETURNING] {gameObject.name} | " +
-        $"Distance = {distance:F2} | " +
-        $"Agent enabled = {enemyMovement != null} | " +
-        $"Position = {transform.position} | " +
-        $"Spawn = {blightSpawnPos}");
-
         if (distance <= 0.5f)
         {
             return;
         }
 
-        enemyMovement.StopMoving();
+        //enemyMovement.StopMoving();
 
         ITargetable target = FindBlightTarget();
 
