@@ -61,6 +61,11 @@ public class BlightNode : NetworkBehaviour, IInteractable
                     prevNode.SetNextNode(nextBlightNode);
                 }
             }
+            else
+            {
+                //update the manager so it knows what the chain is
+                BlightManager.Instance.UpdateForwardNodesFromNode(transform, previousBlightNode);
+            }
         }
 
         //Uncorrupt each node

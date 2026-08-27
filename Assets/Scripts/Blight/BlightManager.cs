@@ -242,6 +242,16 @@ public class BlightManager : NetworkBehaviour
     }
 
     /// <summary>
+    /// This function allows the spawned nodes to update the jump nodes
+    /// </summary>
+    public void UpdateForwardNodesFromNode(Transform nodeToRemove, Transform nodeToAdd)
+    {
+        currentForwardNodes.Remove(nodeToRemove);
+
+        currentForwardNodes.Add(nodeToAdd);
+    }
+
+    /// <summary>
     /// Handles adding to the amount of blight nodes cleared
     /// </summary>
     public void BlightCleared()
