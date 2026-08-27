@@ -23,6 +23,7 @@ public class Enemy : NetworkBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
+    private GameObject heartCrystal;
 
     /// <summary>
     /// The current health of the enemy, the syncvar allows this variable to be updated across
@@ -30,14 +31,14 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public readonly SyncVar<float> currentHealth = new();
 
-    private GameObject heartCrystal;
-
+    //Update reference
     public GameObject HeartCrystal => heartCrystal;
 
+    //Input reference
     public event Action<Enemy> onEnemyKilled;
 
+    //State bools
     private bool isWaveEnemy;
-
     public bool IsWaveEnemy => isWaveEnemy;
 
     public override void OnStartServer()

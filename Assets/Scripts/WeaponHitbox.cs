@@ -68,6 +68,7 @@ public class WeaponHitbox : NetworkBehaviour
             return;
         }
 
+        //Access brain to ensure enemies only deal damage when requirements are met
         EnemyBrain brain = GetComponentInParent<EnemyBrain>();
 
         if (!brain.IsTargetInRange(target))
@@ -105,6 +106,7 @@ public class WeaponHitbox : NetworkBehaviour
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
+        //TODO: Separate blight and wave enemy logic
         EnemyBrain brain = GetComponentInParent<EnemyBrain>();
 
         brain.ReevaluateTargets();

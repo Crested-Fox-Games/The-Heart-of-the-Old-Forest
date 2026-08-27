@@ -22,10 +22,13 @@ public class EnemyBrain : NetworkBehaviour
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
 
+    //Store blight enemy spawn
     private Vector3 blightSpawnPos;
 
+    //Blight leash range
     [SerializeField] private float blightRangeDistance = 30f;
 
+    //State machine
     private enum EnemyState
     {
         Idle,
@@ -35,9 +38,6 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     private EnemyState currentState;
-
-
-    // new enum state machine for blight enemy or wave enemy
 
     /// <summary>
     /// Initialise references before anything else
@@ -286,12 +286,13 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
 
+        //Leash check for blight enemies
         if (!enemy.IsWaveEnemy)
         {
             UpdateBlightLeash();
         }
 
-
+        //State machine yippeee!
         switch (currentState)
         {
             case EnemyState.Idle:
@@ -335,6 +336,9 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Update attack logic whenever enemy is in attacking state
+    /// </summary>
    private void UpdateAttacking()
     {
         if (!HasValidTarget())
@@ -357,6 +361,10 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the state of the enemy when called
+    /// </summary>
+    /// <param name="newState"></param>
     private void ChangeState(EnemyState newState)
     {
         if (currentState == newState)
@@ -371,6 +379,10 @@ public class EnemyBrain : NetworkBehaviour
         EnterState(currentState);
     }
 
+    /// <summary>
+    /// Runs necessary functions when enemy enters a specific state
+    /// </summary>
+    /// <param name="state"></param>
     private void EnterState(EnemyState state)
     {
         switch (state)
@@ -388,6 +400,10 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Runs necessary functions when enemy ecits a specific state
+    /// </summary>
+    /// <param name="state"></param>
     private void ExitState(EnemyState state)
     {
         switch (state)
@@ -401,6 +417,10 @@ public class EnemyBrain : NetworkBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// Runs necessary logic when enemy enters moving state
+    /// </summary>
     private void EnterMoving()
     {
         Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
@@ -408,11 +428,17 @@ public class EnemyBrain : NetworkBehaviour
         enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
     }
 
+    /// <summary>
+    /// Runs necessary logic when enemy exits moving state
+    /// </summary>
     private void ExitMoving()
     {
         Debug.Log("Exiting Moving state");
     }
 
+    /// <summary>
+    /// Runs necessary logic when enemy enters attacking state
+    /// </summary>
     private void EnterAttacking()
     {
         Debug.Log("Entering Attacking state");
@@ -421,6 +447,9 @@ public class EnemyBrain : NetworkBehaviour
         enemyMeleeClass.StartAttacking();
     }
 
+    /// <summary>
+    /// Runs necessary logic when enemy exits attacking state
+    /// </summary>
     private void ExitAttacking()
     {
         Debug.Log("Exiting Attacking state");
@@ -428,6 +457,9 @@ public class EnemyBrain : NetworkBehaviour
         enemyMeleeClass.StopAttacking();
     }
 
+    /// <summary>
+    /// Runs necessary logic when the enemy enters returning to blight state
+    /// </summary>
     private void EnterReturning()
     {
         Debug.Log("Returning to blight spawn");
@@ -437,6 +469,9 @@ public class EnemyBrain : NetworkBehaviour
         enemyMovement.MovementTarget(blightSpawnPos);
     }
 
+    /// <summary>
+    /// Runs necessary logic when the enemy is in the returning state
+    /// </summary>
     private void UpdateReturning()
     {
         float distance = Vector3.Distance(transform.position, blightSpawnPos);
@@ -467,6 +502,10 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Finds 
+    /// </summary>
+    /// <returns></returns>
     private ITargetable FindBlightTarget()
     {
         foreach (ITargetable target in targetDetector.NearbyTargets)
@@ -508,6 +547,10 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the enemy's target is valid by running through ITargetable logic
+    /// </summary>
+    /// <returns></returns>
     private bool HasValidTarget()
     {
         if (currentTarget == null)
@@ -528,6 +571,11 @@ public class EnemyBrain : NetworkBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Checks if the enemy's target is within attacking range
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public bool IsTargetInRange(ITargetable target)
     {
         if (target == null || !target.IsAlive())
@@ -549,6 +597,10 @@ public class EnemyBrain : NetworkBehaviour
         return distance <= enemy.EnemyAttackRange;
     }
 
+    /// <summary>
+    /// Returns if the target is in range without a targetable input above
+    /// </summary>
+    /// <returns></returns>
     private bool IsTargetInRange()
     {
         return IsTargetInRange(currentTarget);

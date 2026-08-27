@@ -62,6 +62,7 @@ public class EnemyMovement : NetworkBehaviour
 
         closestPoint = new Vector3(closestPoint.x, 0.5f, closestPoint.z);
 
+        //Set the enemy movement destination to the nearest part of obstruction collider
         if (NavMesh.SamplePosition(closestPoint, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
@@ -74,6 +75,10 @@ public class EnemyMovement : NetworkBehaviour
         } 
     }
 
+    /// <summary>
+    /// Update target the enemy needs to move towards
+    /// </summary>
+    /// <param name="targetPosition"></param>
     public void MovementTarget(Vector3 targetPosition)
     {
         if (!IsServerStarted)
@@ -85,11 +90,17 @@ public class EnemyMovement : NetworkBehaviour
 
         targetPosition = new Vector3(targetPosition.x, 0.5f, targetPosition.z);
 
+        //Set the updated destination of the enemy
         SetMovementDestination(targetPosition);
     }
 
+    /// <summary>
+    /// Sets the movement position the enemy needs to move towards
+    /// </summary>
+    /// <param name="targetPosition"></param>
     private void SetMovementDestination(Vector3 targetPosition)
     {
+        //Update the navmesh for enemy's movement target
         if (NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
@@ -101,6 +112,7 @@ public class EnemyMovement : NetworkBehaviour
         }
     }
 
+    //Stop enemy movement completely
     public void StopMoving()
     {
         if (!IsServerStarted)
