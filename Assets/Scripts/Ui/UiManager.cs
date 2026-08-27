@@ -28,6 +28,12 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverPanel;
 
+    /// <summary>
+    /// The panel that holds the nightly rewards for the player
+    /// </summary>
+    [SerializeField]
+    private GameObject nightlyRewardPanel;
+    
     [SerializeField]
     private ResourceUiHandler uiHandler;
 
@@ -126,4 +132,29 @@ public class UiManager : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Opens the nightly reward panel and sends it the reward ids
+    /// </summary>
+    /// <param name="rewardIDs"></param>
+    public void OpenRewardScreen(int[] rewardIDs, PlayerRef player)
+    {
+        //TODO: Rework this so that opening and populating are seperate
+
+        //Send the rewards to a reward Ui script so that it can get the rewards to generate
+        nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, player);
+        
+        nightlyRewardPanel.SetActive(true);
+
+        UiElementOpened();
+    }
+
+    /// <summary>
+    /// Closes the nightly reward panel
+    /// </summary>
+    public void CloseRewardScreen()
+    {
+        nightlyRewardPanel.SetActive(false);
+
+        UiElementClosed();
+    }
 }

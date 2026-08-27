@@ -955,9 +955,27 @@
             "id": "07dec71e-0b7d-484a-bbfa-dfb40b1a4430",
             "actions": [
                 {
-                    "name": "SkipToNight",
+                    "name": "OpenDevControls",
                     "type": "Button",
-                    "id": "3cc44ae9-6363-4ad2-8be6-33124b757743",
+                    "id": "bb8ca6be-8c46-4957-8822-264497c64bd1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextPage",
+                    "type": "Button",
+                    "id": "86881526-072b-4939-9bf1-e9d8d20ab532",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PreviousPage",
+                    "type": "Button",
+                    "id": "80ad1e7a-fbd3-43d4-a2b8-6a004eb737c3",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -967,12 +985,82 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "e7e8441e-7d26-411a-9539-92f54179fdda",
+                    "id": "336b4f6a-658f-45ee-840a-4980142d4adb",
                     "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "OpenDevControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97ac8c00-f243-4ff8-b828-fdf2b0224794",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "NextPage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4fc7ea2-986d-4f07-9e1e-d2e1ba4f066a",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PreviousPage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DevTime",
+            "id": "dcfdf317-04f7-4405-8b90-a5e466ca07f7",
+            "actions": [
+                {
+                    "name": "SkipToNight",
+                    "type": "Button",
+                    "id": "b6d84847-cace-47b6-b03d-3676562bc5fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickEndDay",
+                    "type": "Button",
+                    "id": "5e647980-7ad7-429f-8d41-76fc10bd5d7b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "52457b70-8bcd-40af-9f8e-90a5b67d3915",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "SkipToNight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4d5033d-0d46-4268-a894-59e630a3b7e1",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuickEndDay",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
