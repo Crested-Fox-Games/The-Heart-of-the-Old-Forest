@@ -189,6 +189,8 @@ public class BlightManager : NetworkBehaviour
     {
         int index = Random.Range(0, currentForwardNodes.Count);
 
+        Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
+
         return currentForwardNodes[index];
     }
 
@@ -246,9 +248,12 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     public void UpdateForwardNodesFromNode(Transform nodeToRemove, Transform nodeToAdd)
     {
+        Debug.Log($"We are removing {nodeToRemove.name}");
         currentForwardNodes.Remove(nodeToRemove);
 
         currentForwardNodes.Add(nodeToAdd);
+
+        Debug.Log($"We just added {nodeToAdd.name}");
     }
 
     /// <summary>

@@ -2395,8 +2395,8 @@ MonoBehaviour:
   spawnConeRange: 90
   minDistance: 20
   maxDistance: 40
-  minTime: 5
-  maxTime: 10
+  minTime: 30
+  maxTime: 45
   blightBossRequirement: 0
 --- !u!1 &1363794219306270117
 GameObject:
@@ -9379,6 +9379,7 @@ MonoBehaviour:
   HeartCrystal: {fileID: 8005133743718769901}
   baseSpawnInterval: 5
   spawnDistFromBase: 125
+  bossToSpawn: 0
 --- !u!1 &7290279046768206315
 GameObject:
   m_ObjectHideFlags: 0

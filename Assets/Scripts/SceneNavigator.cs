@@ -18,9 +18,12 @@ public class SceneNavigator : MonoBehaviour
         }
     }
 
-    public void OpenMainMenu()
+    public void OpenMainMenuFromGameplay()
     {
+        GamePlayerSpawner.Instance.DespawnPlayers();
         SceneManager.LoadScene("MainMenu");
+
+        InstanceFinder.ServerManager.StopConnection(true);
     }
 
     public void StartSinglePlayer()
