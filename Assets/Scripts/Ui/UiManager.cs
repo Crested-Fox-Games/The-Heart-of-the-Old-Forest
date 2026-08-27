@@ -17,12 +17,6 @@ public class UiManager : MonoBehaviour
     private TextMeshProUGUI interactText;
 
     /// <summary>
-    /// The text box used for the resource display
-    /// </summary>
-    [SerializeField]
-    private TextMeshProUGUI resourceText;
-
-    /// <summary>
     /// The ui panel for the tower placement ui
     /// </summary>
     [SerializeField]
@@ -39,6 +33,9 @@ public class UiManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject nightlyRewardPanel;
+    
+    [SerializeField]
+    private ResourceUiHandler uiHandler;
 
     private void Awake()
     {
@@ -124,13 +121,10 @@ public class UiManager : MonoBehaviour
     /// <param name="resourceAmounts"></param>
     public void UpdatePlayerResourceUi(SyncDictionary<ResourceType, int> resourceAmounts)
     {
-        string playerResources = "";
         foreach (var resource in resourceAmounts)
         {
-            playerResources += $"{resource.Key}: {resource.Value}\n";
+            uiHandler.UpdateOrCreateDisplayedResource(resource.Key, resource.Value);
         }
-
-        resourceText.text = playerResources;
     }
 
     public void OpenGameOverScreen()
