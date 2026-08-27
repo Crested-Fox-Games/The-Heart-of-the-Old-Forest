@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,18 +50,23 @@ public class DevController : MonoBehaviour
         actionMapsList.Add(devTimeMap);
     }
 
+    /// <summary>
+    /// This #if will only run if the game is being played in the editor
+    /// </summary>
+    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+
     private void InitializeDevControls()
     {
         devMap.Enable();
 
         OpenDevControls = devMap.FindAction("OpenDevControls");
-        OpenDevControls.performed += ctx => ActivateDevControls();
+        OpenDevControls.performed += ActivateDevControls;
 
         //Find actions for all the action maps(add more functions below)
         FindDevTimeMapActions();
     }
 
-    private void ActivateDevControls()
+    private void ActivateDevControls(InputAction.CallbackContext context)
     {
         devControlPanel.SetActive(true);
 
@@ -70,7 +74,7 @@ public class DevController : MonoBehaviour
         ActivateDevTimeMapControls();
 
         //TODO: we might want to have it unsubcribe from this and subscribe to a deactivate later, but might not be worth it
-        OpenDevControls.performed -= ctx => ActivateDevControls();
+        OpenDevControls.performed -= ActivateDevControls;
     }
 
     private void FindDevTimeMapActions()
@@ -83,8 +87,8 @@ public class DevController : MonoBehaviour
     {
         devTimeMap.Enable();
 
-        skipToNight.performed += ctx => SkipToNight();
-        quickEndDay.performed += ctx => QuickEndDay();
+        skipToNight.performed += SkipToNight;
+        quickEndDay.performed += QuickEndDay;
     }
 
     /// <summary>
@@ -94,24 +98,21 @@ public class DevController : MonoBehaviour
     {
         devTimeMap.Disable();
 
-        skipToNight.performed -= ctx => SkipToNight();
-        quickEndDay.performed -= ctx => QuickEndDay();
+        skipToNight.performed -= SkipToNight;
+        quickEndDay.performed -= QuickEndDay;
     }
 
-    /// <summary>
-    /// This #if will only run if the game is being played in the editor
-    /// </summary>
-    #if UNITY_EDITOR || DEVELOPMENT_BUILD
+    
 
-        private void SkipToNight()
-        {
-            TimeCycleManager.Instance.SkipToNight();
-        }
+    private void SkipToNight(InputAction.CallbackContext context)
+    {
+        TimeCycleManager.Instance.SkipToNight();
+    }
 
-        private void QuickEndDay()
-        {
-            TimeCycleManager.Instance.QuickEndDay();
-        }
+    private void QuickEndDay(InputAction.CallbackContext context)
+    {
+        TimeCycleManager.Instance.QuickEndDay();
+    }
     #endif
 
 }
