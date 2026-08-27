@@ -53,6 +53,7 @@ public class PlayerMovement : NetworkBehaviour
     private InputAction moveAction;
     private InputAction lookAction;
     private InputAction slideAction;
+    private InputAction jumpAction;
     
     // --- MOVEMENT ---
     /// <summary>
@@ -149,6 +150,7 @@ public class PlayerMovement : NetworkBehaviour
         moveAction = playerMap.FindAction("Move");
         lookAction = playerMap.FindAction("Look");
         slideAction = playerMap.FindAction("Slide");
+        jumpAction = playerMap.FindAction("Jump");
 
         //Subsribes functions to the player inputs
         //SubscribeToInputs();
@@ -173,6 +175,8 @@ public class PlayerMovement : NetworkBehaviour
 
         slideAction.started += OnSlide;
         slideAction.canceled += OnSlide;
+
+        jumpAction.started += OnJump;
     }
 
     private void UnsubscribeFromInputs()
@@ -189,6 +193,8 @@ public class PlayerMovement : NetworkBehaviour
         
         slideAction.started -= OnSlide;
         slideAction.canceled -= OnSlide;
+
+        jumpAction.started -= OnJump;
     }
     
     /// <summary>
@@ -291,7 +297,7 @@ public class PlayerMovement : NetworkBehaviour
         if (KCollisionsFunction.CheckGrounded(capsule, rb.position))
         {
             isJumping = true;
-            residualVelocity.y = residualVelocity.y + 1f;
+            residualVelocity.y = residualVelocity.y + .2f;
             Debug.unityLogger.Log("Jumped");
         }
     }
