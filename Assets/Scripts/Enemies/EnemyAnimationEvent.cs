@@ -6,6 +6,13 @@ public class EnemyAnimationEvent : NetworkBehaviour
     //Reference to weaponHitbox script
     [SerializeField] private WeaponHitbox weaponHitbox;
 
+    private EnemyMeleeClass enemyMeleeClass;
+
+    private void Awake()
+    {
+        enemyMeleeClass = GetComponentInParent<EnemyMeleeClass>();
+    }
+
     /// <summary>
     /// Call weaponHitbox StartAttack function on animation event
     /// </summary>
@@ -19,6 +26,10 @@ public class EnemyAnimationEvent : NetworkBehaviour
     /// </summary>
     public void CallEndAttack()
     {
+        Debug.Log("CALL END ATTACK EVENT FIRED");
+
         weaponHitbox.EndAttack();
+
+        enemyMeleeClass.EndAttack();
     }
 }

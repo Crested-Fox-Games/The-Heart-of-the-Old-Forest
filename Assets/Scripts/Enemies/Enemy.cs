@@ -12,9 +12,10 @@ public class Enemy : NetworkBehaviour
     protected EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    protected float enemyMaxHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyMaxHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight, enemyAttackRange;
 
     public EnemySO EnemySO => enemySO;
+    public float EnemyAttackRange => enemyAttackRange;
 
     #endregion
 
@@ -22,6 +23,7 @@ public class Enemy : NetworkBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
+    private GameObject heartCrystal;
 
     /// <summary>
     /// The current health of the enemy, the syncvar allows this variable to be updated across
@@ -29,11 +31,15 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public readonly SyncVar<float> currentHealth = new();
 
-    private GameObject heartCrystal;
-
+    //Update reference
     public GameObject HeartCrystal => heartCrystal;
 
+    //Input reference
     public event Action<Enemy> onEnemyKilled;
+
+    //State bools
+    private bool isWaveEnemy;
+    public bool IsWaveEnemy => isWaveEnemy;
 
     public override void OnStartServer()
     {
@@ -51,6 +57,8 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public void InitializeValues(bool isWaveEnemy = true)
     {
+        this.isWaveEnemy = isWaveEnemy;
+
         //Strings
         enemyName = enemySO.EnemyName;
         enemyDescription = enemySO.EnemyDescription;
@@ -59,6 +67,7 @@ public class Enemy : NetworkBehaviour
         enemySpeed = enemySO.EnemySpeed;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
+        enemyAttackRange = enemySO.EnemyAttackRange;
 
         //Scaled values
 
@@ -66,9 +75,6 @@ public class Enemy : NetworkBehaviour
         {
             enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
             enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
-
-            //TODO: Need to make the enemy brain initialize in a better way so that it can determine if its a wave enemy or not.
-            enemyBrain.Initialize(HeartCrystal);
         }
         else
         {
@@ -78,6 +84,9 @@ public class Enemy : NetworkBehaviour
 
         //Sets the enemies health after initializing it
         currentHealth.Value = enemyMaxHealth;
+
+        //Intialise brain for both types of enemy
+        enemyBrain.Initialize(HeartCrystal);
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();

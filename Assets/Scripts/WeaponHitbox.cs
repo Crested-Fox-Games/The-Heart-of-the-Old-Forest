@@ -61,9 +61,17 @@ public class WeaponHitbox : NetworkBehaviour
 
        
         //damage logic
-        ITargetable target = other.GetComponent<ITargetable>();
+        ITargetable target = other.GetComponentInParent<ITargetable>();
 
         if (target == null)
+        {
+            return;
+        }
+
+        //Access brain to ensure enemies only deal damage when requirements are met
+        EnemyBrain brain = GetComponentInParent<EnemyBrain>();
+
+        if (!brain.IsTargetInRange(target))
         {
             return;
         }
@@ -77,8 +85,6 @@ public class WeaponHitbox : NetworkBehaviour
         //Evaluate new enemies when current target is destroyed
         if (!target.TakeDamage(owner.EnemyDamage))
         {
-            EnemyBrain brain = GetComponentInParent<EnemyBrain>();
-
             brain.ReevaluateTargets();
         }
        
@@ -100,6 +106,7 @@ public class WeaponHitbox : NetworkBehaviour
     /// <param name="other"></param>
     private void OnTriggerExit(Collider other)
     {
+        //TODO: Separate blight and wave enemy logic
         EnemyBrain brain = GetComponentInParent<EnemyBrain>();
 
         brain.ReevaluateTargets();

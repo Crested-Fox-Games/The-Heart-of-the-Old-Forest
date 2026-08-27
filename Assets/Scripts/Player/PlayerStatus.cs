@@ -2,9 +2,8 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class StructureHealth : NetworkBehaviour, ITargetable
+public class PlayerStatus : NetworkBehaviour, ITargetable
 {
-    //Max and current health of the structure
     [SerializeField] private float maxHealth = 100f;
 
     private readonly SyncVar<float> currentHealth = new();
@@ -28,10 +27,6 @@ public class StructureHealth : NetworkBehaviour, ITargetable
         return IsAlive();
     }
 
-    /// <summary>
-    /// Handles taking damage from sources such as enemies
-    /// </summary>
-    /// <param name="damage"></param>
     public bool TakeDamage(float damage)
     {
         if (!IsServerStarted)
@@ -52,5 +47,5 @@ public class StructureHealth : NetworkBehaviour, ITargetable
     {
         Debug.Log($"{gameObject.name} has been destroyed");
         gameObject.SetActive(false);
-    } 
+    }
 }

@@ -4,12 +4,19 @@ public class EnemyMeleeClass : Enemy
 {
     //References
     private WeaponHitbox weaponHitbox;
-    public float EnemyDamage => enemyDamage;
-    
-    private ITargetable currentTarget;
-
     private Animator enemyAnimator;
+
+    //Stats
+    public float EnemyDamage => enemyDamage;
+
+    //Attack state
+    private bool shouldAttack;
     private bool isAttacking = false;
+
+    //Attack timer
+    private float attackCooldown;
+
+
     private void Awake()
     {
         //Initialise vital components
@@ -20,12 +27,112 @@ public class EnemyMeleeClass : Enemy
         weaponHitbox.Initialise(this);
     }
 
-    private void Start()
+    private void Update()
+    {
+        AttackCooldown();
+    }
+
+    /// <summary>
+    /// Updates the cooldown of enemy attacks
+    /// </summary>
+    private void AttackCooldown()
     {
         if (!IsServerStarted)
+        {
             return;
+        }
 
+        if (attackCooldown > 0f)
+        {
+            attackCooldown -= Time.deltaTime;
+
+            if (attackCooldown <= 0f)
+            {
+                attackCooldown = 0f;
+
+                Debug.Log("Attack cooldown finished");
+            }
+        }
+
+        //Attempt attack
+        TryAttack();
+    }
+
+    public void StartAttacking()
+    {
+        Debug.Log("StartAttacking() called");
+
+        if (!IsServerStarted)
+        {
+            Debug.Log("StartAttacking() stopped: not server");
+            return;
+        }
+
+        shouldAttack = true;
+
+        Debug.Log("shouldAttack set to TRUE");
+
+        TryAttack();
+    }
+
+    public void StopAttacking()
+    {
+        shouldAttack = false;
+    }
+
+    /// <summary>
+    /// Checks if attacking is possible
+    /// </summary>
+    private void TryAttack()
+    {
+        if (!shouldAttack)
+        {
+            //Debug.Log("TryAttack blocked: shouldAttack is false");
+            return;
+        }
+
+        if (isAttacking)
+        {
+            //Debug.Log("TryAttack blocked: isAttacking is true");
+            return;
+        }
+
+        if (attackCooldown > 0f)
+        {
+            return;
+        }
+        Debug.Log("TryAttack success");
+
+        StartAttack();
+    }
+
+    /// <summary>
+    /// Start attack animation if attacking is possible
+    /// </summary>
+    public void StartAttack()
+    {
         isAttacking = true;
+
+        if (enemyAttackRate > 0f)
+        {
+            attackCooldown = 1f / enemyAttackRate;
+        }
+        else
+        {
+            attackCooldown = 0f;
+        }
+
         enemyAnimator.Play("BadgerAttack");
+    }
+
+    
+    /// <summary>
+    /// Reset attack
+    /// </summary>
+    public void EndAttack()
+    {
+        isAttacking = false;
+
+        Debug.Log("EnemyMeleeClass EndAttack() called. isAttacking = FALSE");
     }
 }
