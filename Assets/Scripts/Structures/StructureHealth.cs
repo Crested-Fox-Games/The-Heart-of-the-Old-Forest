@@ -43,7 +43,7 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
             return true;
 
         currentHealth.Value -= damage;
-        //Debug.Log("Structure has taken damage");
+
         if (currentHealth.Value <= 0)
         {
             Destroyed();
@@ -60,6 +60,8 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
     {
         Debug.Log($"{gameObject.name} has been destroyed");
         childObject.SetActive(false);
+
+        //Create repair collider for player to interact with
         CreateCollider();
     }
 
@@ -77,23 +79,27 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
     /// </summary>
     public void Rebuild()
     {
-        if (!CanRepair())
+        if (!IsServerStarted)
             return;
 
-        if (!IsServerStarted)
+        if (!CanRepair())
             return;
 
         currentHealth.Value = maxHealth;
 
-        Rebuilt();
+        StructureEnable();
     }
 
     /// <summary>
     /// Activates wall visual
     /// </summary>
     [ObserversRpc]
-    private void Rebuilt()
+    private void StructureEnable()
     {
+        //delete the interactable collider
+        BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
+        DestroyCollider(boxCollider);
+
         childObject.SetActive(true);
     }
 
@@ -117,7 +123,7 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
     }
 
     /// <summary>
-    /// Builds a collider for the structure after it is destroyed by enemies
+    /// Builds a collider for the structure after it is destroyed by enemies, for player interaction
     /// </summary>
     private void CreateCollider()
     {
@@ -133,5 +139,14 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
         boxCollider.center = child.localPosition;
         boxCollider.size = child.localScale;
         boxCollider.isTrigger = false;
+    }
+
+    /// <summary>
+    /// Destroy the player interactable collider
+    /// </summary>
+    /// <param name="boxCollider"></param>
+    private void DestroyCollider(BoxCollider boxCollider)
+    {
+        Destroy(boxCollider);
     }
 }
