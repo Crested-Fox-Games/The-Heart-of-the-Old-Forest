@@ -26,9 +26,9 @@ public class EnemyCluster
     public List<EnemySO> enemies = new();
 
     /// <summary>
-    /// The direction that the cluster will spawn in
+    /// The spawn point that the cluster is going to spawn at
     /// </summary>
-    public int direction = 0;
+    public Transform selectedSpawnPoint;
 }
 
 public class EnemySpawner : NetworkBehaviour
@@ -53,7 +53,8 @@ public class EnemySpawner : NetworkBehaviour
     [SerializeField]
     private GameObject HeartCrystal;
 
-    
+    [SerializeField]
+    private Transform[] spawnPoints;
 
     /// <summary>
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
@@ -65,12 +66,6 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private float baseSpawnInterval = 5f;
-
-    /// <summary>
-    /// The distance the enemies will spawn from the base
-    /// </summary>
-    [SerializeField]
-    private float spawnDistFromBase = 100f;
 
     /// <summary>
     /// Base rate that enemy clusters will spawn with
@@ -205,7 +200,7 @@ public class EnemySpawner : NetworkBehaviour
 
         foreach (EnemySO enemy in cluster.enemies)
         {
-            SpawnWaveEnemy(enemy, cluster.radius, cluster.direction);
+            SpawnWaveEnemy(enemy, cluster.radius, cluster.selectedSpawnPoint);
         }
     }
 
@@ -229,8 +224,10 @@ public class EnemySpawner : NetworkBehaviour
 
         float totalWeight = 0;
 
-        //spawn enemy cluster in NESW directions
-        newCluster.direction = Random.Range(0, 4);
+        //Get a random spawn point to spawn the cluster at
+        int spawnIndex = Random.Range(0, spawnPoints.Length);
+
+        newCluster.selectedSpawnPoint = spawnPoints[spawnIndex];
 
         //TODO: Decide what the base density is going to be
         newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(baseSpawnWeight);
@@ -267,13 +264,13 @@ public class EnemySpawner : NetworkBehaviour
     /// <summary>
     /// Used for the spawning of the individual enemies
     /// </summary>
-    private void SpawnWaveEnemy(EnemySO enemySO, float spawnRadius, int direction)
+    private void SpawnWaveEnemy(EnemySO enemySO, float spawnRadius, Transform selectedPoint)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
 
         //Get enemy spawn position
-        Vector3 pos = GetSpawnPosition(spawnRadius, direction);
+        Vector3 pos = GetSpawnPosition(spawnRadius, selectedPoint);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
         currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
@@ -320,29 +317,9 @@ public class EnemySpawner : NetworkBehaviour
     /// <param name="spawnRadius"></param>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private Vector3 GetSpawnPosition(float spawnRadius, int direction)
+    private Vector3 GetSpawnPosition(float spawnRadius, Transform selectedPos)
     {
-        //TODO: Figure out if we're switching this to spawn points like with the blight nodes
-        Vector3 cardinalPos;
-
-        //Get the position based on the cardinal directions
-        switch (direction)
-        {
-            case 0: //North
-                cardinalPos = new Vector3(0, 0, spawnDistFromBase);
-                break;
-            case 1: //East
-                cardinalPos = new Vector3(spawnDistFromBase, 0, 0);
-                break;
-            case 2: //South
-                cardinalPos = new Vector3(0, 0, -spawnDistFromBase);
-                break;
-            case 3: //West
-                cardinalPos = new Vector3(-spawnDistFromBase, 0, 0);
-                break;
-            default:
-                return Vector3.zero;
-        }
+        Vector3 spawnPos = selectedPos.position;
 
         //This offsets the spawn pos to a random point in the spawn radius
         //TODO: Will need to check to ensure this spawn point is not inside any other enemies or obstacles
@@ -350,10 +327,7 @@ public class EnemySpawner : NetworkBehaviour
 
         //TODO: Need to use something like raycast to get ground height for spawn pos
 
-        //Uses the cardinal position and offset to get the spawn position based on the heart crystal's position
-        Vector3 heartCrystalPos = new Vector3(HeartCrystal.transform.position.x, 0f, HeartCrystal.transform.position.z);
-
-        return heartCrystalPos + cardinalPos + new Vector3(offset.x, 0, offset.y);
+        return spawnPos + new Vector3(offset.x, 0, offset.y);
     }
 
     /// <summary>
