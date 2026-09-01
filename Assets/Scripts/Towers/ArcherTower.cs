@@ -8,6 +8,9 @@ public class ArcherTower : Tower
 {
     private void OnTriggerEnter(Collider collision)
     {
+        if(!IsServerStarted)
+        { return; }
+
         Enemy enemy = collision.GetComponentInParent<Enemy>();
 
         //Null check
@@ -28,6 +31,9 @@ public class ArcherTower : Tower
 
     private void OnTriggerExit(Collider collision)
     {
+        if(!IsServerStarted) 
+        { return; }
+
         Enemy enemy = collision.GetComponentInParent<Enemy>();
 
         if (enemy == null)
@@ -82,12 +88,12 @@ public class ArcherTower : Tower
             GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
 
             //Initialize the projectile
-            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform.position, towerDamage);
+            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
 
             Spawn(proj);
 
             //Activate cooldown
-            yield return new WaitForSeconds(attackCooldown);
+            yield return new WaitForSeconds(GetFireRate());
 
 
             //Checks if the target enemy has been killed, and if so, adds a new target from the list

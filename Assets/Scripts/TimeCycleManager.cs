@@ -115,9 +115,14 @@ public class TimeCycleManager : NetworkBehaviour
     }
 
     #if UNITY_EDITOR || DEVELOPMENT_BUILD
-    public void SkipToNight()
+        public void SkipToNight()
         {
             cycleTime.Value = cycleDayDuration;
+        }
+
+        public void QuickEndDay()
+        {
+        cycleTime.Value = cycleDuration - 1;
         }
     #endif
 }

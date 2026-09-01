@@ -5,6 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TowerStats
+{
+    Attack,
+    Health,
+    FireRate,
+    Range
+}
+
 public abstract class Tower : NetworkBehaviour
 {
     #region SO Fields
@@ -13,11 +21,13 @@ public abstract class Tower : NetworkBehaviour
 
     protected string towerName, towerDescription;
 
-    protected float attackRange, towerDamage, towerHealth, attackCooldown;
+    protected float attackRange, towerDamage, towerMaxHealth, attackCooldown;
 
     protected GameObject projectile, displayObject;
 
     #endregion
+
+    public TowerSO TowerSO => towerSO;
 
     protected GameObject targetEnemy;
 
@@ -32,18 +42,33 @@ public abstract class Tower : NetworkBehaviour
 
     protected Coroutine attackCoroutine;
 
-    
+    private TowerManager towerManager;
 
-    private void Start()
+    private SphereCollider towerRangeCollider;
+
+    public override void OnStartServer()
     {
-        InitializeValues();
+        base.OnStartServer();
+
+        currentHealth.Value = towerMaxHealth;
+
+        StartCoroutine(GetTowerManager());
+    }
+
+    private IEnumerator GetTowerManager()
+    {
+        while(towerManager == null)
+        {
+            towerManager = FindFirstObjectByType<TowerManager>();
+            yield return null;
+        }
 
         //Creates the sphere around the tower that they can attack in
-        SphereCollider col = gameObject.AddComponent<SphereCollider>();
-        col.radius = attackRange;
-        col.isTrigger = true;
+        towerRangeCollider = gameObject.AddComponent<SphereCollider>();
+        towerRangeCollider.radius = GetRange();
+        towerRangeCollider.isTrigger = true;
 
-        currentHealth.Value = towerHealth;
+        InitializeValues();
     }
 
     /// <summary>
@@ -58,16 +83,24 @@ public abstract class Tower : NetworkBehaviour
         //Float
         attackRange = towerSO.AttackRange;
         towerDamage = towerSO.TowerDamage;
-        towerHealth = towerSO.TowerHealth;
+        towerMaxHealth = towerSO.TowerHealth;
         attackCooldown = towerSO.AttackCooldown;
 
         //GameObjects
         projectile = towerSO.Projectile;
         displayObject = towerSO.DisplayObject;
+
+        if(towerManager.GlobalTowerUpgrades.ContainsKey(towerSO.TowerName))
+        {
+            OnUpgradesChanged();
+        }
     }
 
     public void TakeDamage(float damage)
     {
+        if (!IsServerStarted)
+            return;
+
         currentHealth.Value -= damage;
 
         if (currentHealth.Value < 0)
@@ -80,5 +113,53 @@ public abstract class Tower : NetworkBehaviour
             //TODO: Change this when above TODO's are done
             towerPlacement.TowerDestroyed();
         }
+    }
+
+    /// <summary>
+    /// Updates the range and health as they are set values.
+    /// Damage and fire rate are done in realtime in the child scripts
+    /// </summary>
+    public void OnUpgradesChanged()
+    {
+        //Updates the range of the tower
+        towerRangeCollider.radius = GetRange();
+
+        //TODO: Factor in losing max health(if possible)
+        //Updates the health of the tower
+        float newMaxHealth = GetHealth();
+
+        float difference = newMaxHealth - towerMaxHealth;
+
+        towerMaxHealth = newMaxHealth;
+        currentHealth.Value += difference;
+        
+    }
+
+    protected float GetDamage()
+    {
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (towerDamage + globalUpgrades.attackAdd) * globalUpgrades.attackMult;
+    }
+
+    protected float GetFireRate()
+    {
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (attackCooldown + globalUpgrades.fireRateAdd) * globalUpgrades.fireRateMult;
+    }
+
+    protected float GetRange()
+    {
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (attackRange + globalUpgrades.rangeAdd) * globalUpgrades.rangeMult;
+    }
+
+    protected float GetHealth()
+    {
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return (towerMaxHealth + globalUpgrades.healthAdd) * globalUpgrades.healthMult;
     }
 }

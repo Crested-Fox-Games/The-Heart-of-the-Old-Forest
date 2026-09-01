@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using System.Linq;
 using UnityEngine;
@@ -21,6 +22,11 @@ public class PlayerRPCHandler : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Tells the server to place the tower in the slot
+    /// </summary>
+    /// <param name="currentTowerSlot"></param>
+    /// <param name="towerName"></param>
     [ServerRpc]
     public void CallPlaceTower(NetworkObject currentTowerSlot, string towerName)
     {
@@ -33,5 +39,27 @@ public class PlayerRPCHandler : NetworkBehaviour
             return;
 
         currentTowerSlot.GetComponent<TempTowerPlacement>().PlaceTower(towerSO);
+    }
+
+    /// <summary>
+    /// Tells the server which reward the player selected
+    /// </summary>
+    /// <param name="rewardId"></param>
+    /// <param name="conn"></param>
+    [ServerRpc]
+    public void SelectNightlyReward(int rewardId, NetworkConnection conn = null)
+    {
+        RewardManager.Instance.SelectReward(rewardId, conn);
+    }
+
+    /// <summary>
+    /// The server tells the specific client what its nightly rewards are
+    /// </summary>
+    /// <param name="rewardIds"></param>
+    [TargetRpc]
+    public void ShowNightlyRewards(NetworkConnection conn, int[] rewardIds)
+    {
+        //Calls the ui manager and get it to show the rewards
+        UiManager.Instance.OpenRewardScreen(rewardIds, GetComponent<PlayerRef>());
     }
 }

@@ -17,12 +17,6 @@ public class UiManager : MonoBehaviour
     private TextMeshProUGUI interactText;
 
     /// <summary>
-    /// The text box used for the resource display
-    /// </summary>
-    [SerializeField]
-    private TextMeshProUGUI resourceText;
-
-    /// <summary>
     /// The ui panel for the tower placement ui
     /// </summary>
     [SerializeField]
@@ -33,6 +27,15 @@ public class UiManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject gameOverPanel;
+
+    /// <summary>
+    /// The panel that holds the nightly rewards for the player
+    /// </summary>
+    [SerializeField]
+    private GameObject nightlyRewardPanel;
+    
+    [SerializeField]
+    private ResourceUiHandler uiHandler;
 
     private void Awake()
     {
@@ -118,13 +121,10 @@ public class UiManager : MonoBehaviour
     /// <param name="resourceAmounts"></param>
     public void UpdatePlayerResourceUi(SyncDictionary<ResourceType, int> resourceAmounts)
     {
-        string playerResources = "";
         foreach (var resource in resourceAmounts)
         {
-            playerResources += $"{resource.Key}: {resource.Value}\n";
+            uiHandler.UpdateOrCreateDisplayedResource(resource.Key, resource.Value);
         }
-
-        resourceText.text = playerResources;
     }
 
     public void OpenGameOverScreen()
@@ -132,4 +132,29 @@ public class UiManager : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Opens the nightly reward panel and sends it the reward ids
+    /// </summary>
+    /// <param name="rewardIDs"></param>
+    public void OpenRewardScreen(int[] rewardIDs, PlayerRef player)
+    {
+        //TODO: Rework this so that opening and populating are seperate
+
+        //Send the rewards to a reward Ui script so that it can get the rewards to generate
+        nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, player);
+        
+        nightlyRewardPanel.SetActive(true);
+
+        UiElementOpened();
+    }
+
+    /// <summary>
+    /// Closes the nightly reward panel
+    /// </summary>
+    public void CloseRewardScreen()
+    {
+        nightlyRewardPanel.SetActive(false);
+
+        UiElementClosed();
+    }
 }
