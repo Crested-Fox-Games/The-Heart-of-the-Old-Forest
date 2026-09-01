@@ -135,9 +135,9 @@ public class PlayerInteraction : NetworkBehaviour
         if (playerCam == null)
             return null;
 
-        // Check if the player is looking at an interactable object
+        // Check if the player is looking at an interactable object on assigned layers
         RaycastHit hit;
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance, aimMask, QueryTriggerInteraction.Ignore))
         {
             //Checks to see if the player is looking at an interactable object(In parent checks up the hierarchy for the object)
             currentInteractHover = hit.transform.GetComponentInParent<IInteractable>();

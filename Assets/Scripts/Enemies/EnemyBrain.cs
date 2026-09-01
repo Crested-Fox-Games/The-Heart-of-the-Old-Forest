@@ -15,11 +15,29 @@ public class EnemyBrain : NetworkBehaviour
     private EnemyMovement enemyMovement;
     private TargetDetector targetDetector;
     private EnemyPathfinder enemyPathfinder;
+    private EnemyMeleeClass enemyMeleeClass;
 
     //Heart crystal will be the default target position
     private ITargetable defaultTarget;
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
+
+    //Store blight enemy spawn
+    private Vector3 blightSpawnPos;
+
+    //Blight leash range
+    [SerializeField] private float blightRangeDistance = 30f;
+
+    //State machine
+    private enum EnemyState
+    {
+        Idle,
+        Moving,
+        Attacking,
+        Returning
+    }
+
+    private EnemyState currentState;
 
     /// <summary>
     /// Initialise references before anything else
@@ -27,6 +45,8 @@ public class EnemyBrain : NetworkBehaviour
     private void Awake()
     {
         GetReferences();
+
+        //ReevaluateTargets();
     }
 
     /// <summary>
@@ -38,6 +58,7 @@ public class EnemyBrain : NetworkBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
         enemyPathfinder = GetComponent<EnemyPathfinder>();
         targetDetector = GetComponentInChildren<TargetDetector>();
+        enemyMeleeClass = GetComponent<EnemyMeleeClass>();
     }
 
     /// <summary>
@@ -82,7 +103,34 @@ public class EnemyBrain : NetworkBehaviour
         }
 
         defaultTarget = target;
+
+        if (enemy.IsWaveEnemy)
+        {
+            InitializeWaveEnemy();
+        }
+        else
+        {
+            InitializeBlightEnemy();
+        }
+    }
+
+    /// <summary>
+    /// Initialise wave enemy state and movement target
+    /// </summary>
+    private void InitializeWaveEnemy()
+    {
         SetTarget(defaultTarget);
+    }
+
+    /// <summary>
+    /// Initialise blight enemy state
+    /// </summary>
+    private void InitializeBlightEnemy()
+    {
+        blightSpawnPos = transform.position;
+
+        currentTarget = null;
+        ChangeState(EnemyState.Idle);
     }
 
     /// <summary>
@@ -91,7 +139,16 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="target"></param>
     private void OnTargetEntered(ITargetable target)
     {
-        Debug.Log($"EnemyBrain noticed a target entered: {target}");
+        if (!enemy.IsWaveEnemy)
+        {
+            if (target == defaultTarget)
+            {
+                return;
+            }
+
+            SetBlightTarget(target);
+            return;
+        }
 
         ReevaluateTargets();
     }
@@ -102,9 +159,100 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="target"></param>
     private void OnTargetExited(ITargetable target)
     {
-        Debug.Log($"EnemyBrain noticed a target exited: {target}");
+        //Debug.Log($"EnemyBrain noticed a target exited: {target}");
+        Debug.Log(
+       $"[TARGET EXITED] {gameObject.name} | " +
+       $"Target = {target.TargetTransform.gameObject.name} | " +
+       $"Current Target = {currentTarget}");
+
+        if (!enemy.IsWaveEnemy)
+        {
+            if (currentTarget == target)
+            {
+                currentTarget = null;
+
+                if (IsOutsideBlightLeash())
+                {
+                    ChangeState(EnemyState.Returning);
+                }
+                else
+                {
+                    ChangeState(EnemyState.Idle);
+                }
+            }
+
+            return;
+        }
 
         ReevaluateTargets();
+    }
+
+    /// <summary>
+    /// Sets blight enemy target to any object implementing ITargetable (typically player)
+    /// </summary>
+    /// <param name="target"></param>
+    private void SetBlightTarget(ITargetable target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        if (!target.IsAlive() || !target.IsAttackable())
+        {
+            return;
+        }
+
+        currentTarget = target;
+
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+        else
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    /// <summary>
+    /// Returns blight enemy to their spawn position when they get far enough away from it
+    /// </summary>
+    /// <returns></returns>
+    private bool IsOutsideBlightLeash()
+    {
+        float distance = Vector3.Distance(blightSpawnPos, transform.position);
+
+        return distance >= blightRangeDistance;
+    }
+
+    /// <summary>
+    /// Set the state to returning whenever the blight enemy is too far from its spawn
+    /// </summary>
+    private void UpdateBlightLeash()
+    {
+        if (currentState == EnemyState.Returning)
+        {
+            return;
+        }
+
+        if (IsOutsideBlightLeash())
+        {
+            ReturnToBlightSpawn();
+        }
+    }
+
+    /// <summary>
+    /// Set state to returning 
+    /// </summary>
+    private void ReturnToBlightSpawn()
+    {
+        currentTarget = null;
+
+        if (currentState != EnemyState.Returning)
+        {
+            ChangeState(EnemyState.Returning);
+        }
     }
 
     /// <summary>
@@ -117,6 +265,7 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
         
+        // Raycast to any obstructions between enemy and heart crystal
         ITargetable obstruction = enemyPathfinder.FindDirectObstruction(defaultTarget);
 
         if (obstruction != null)
@@ -127,20 +276,247 @@ public class EnemyBrain : NetworkBehaviour
         {
             SetTarget(defaultTarget);
         }
+    }
 
-        //foreach (ITargetable target in targetDetector.NearbyTargets)
-        //{
-        //    if (!target.IsAlive())
-        //    {
-        //        continue;
-        //    }
+    private void Update()
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
 
-        //    if (!target.IsAttackable())
-        //    {
-        //        continue;
-        //    }
-        //    Debug.Log($"Valid target: {target}");
-        //}
+        //Leash check for blight enemies
+        if (!enemy.IsWaveEnemy)
+        {
+            UpdateBlightLeash();
+        }
+
+        //State machine yippeee!
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
+
+            case EnemyState.Moving:
+                UpdateMoving();
+                break;
+
+            case EnemyState.Attacking:
+                UpdateAttacking();
+                break;
+            case EnemyState.Returning:
+                UpdateReturning();
+                break;
+        }
+    }
+
+    /// <summary>
+    ///  Update enemy movement target based on their blight/wave status, when they enter the moving state
+    /// </summary>
+    private void UpdateMoving()
+    {
+        if (!HasValidTarget())
+        {
+            if (enemy.IsWaveEnemy)
+            {
+                ReevaluateTargets();
+            }
+            else
+            {
+                ChangeState(EnemyState.Idle);
+            }
+
+            return;
+        }
+
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+    }
+
+    /// <summary>
+    /// Update attack logic whenever enemy is in attacking state
+    /// </summary>
+   private void UpdateAttacking()
+    {
+        if (!HasValidTarget())
+        {
+            if (enemy.IsWaveEnemy)
+            {
+                ReevaluateTargets();
+            }
+            else
+            {
+                ChangeState(EnemyState.Idle);
+            }
+
+            return;
+        }
+
+        if (!IsTargetInRange())
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    /// <summary>
+    /// Changes the state of the enemy when called
+    /// </summary>
+    /// <param name="newState"></param>
+    private void ChangeState(EnemyState newState)
+    {
+        if (currentState == newState)
+        {
+            return;
+        }
+
+        ExitState(currentState);
+
+        currentState = newState;
+
+        EnterState(currentState);
+    }
+
+    /// <summary>
+    /// Runs necessary functions when enemy enters a specific state
+    /// </summary>
+    /// <param name="state"></param>
+    private void EnterState(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Moving:
+                EnterMoving();
+                break;
+
+            case EnemyState.Attacking:
+                EnterAttacking();
+                break;
+            case EnemyState.Returning:
+                EnterReturning();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Runs necessary functions when enemy ecits a specific state
+    /// </summary>
+    /// <param name="state"></param>
+    private void ExitState(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Moving:
+                ExitMoving();
+                break;
+
+            case EnemyState.Attacking:
+                ExitAttacking();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Runs necessary logic when enemy enters moving state
+    /// </summary>
+    private void EnterMoving()
+    {
+        Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
+
+        enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+    }
+
+    /// <summary>
+    /// Runs necessary logic when enemy exits moving state
+    /// </summary>
+    private void ExitMoving()
+    {
+        Debug.Log("Exiting Moving state");
+        // connect to melee attack in enemymeleeclass
+        enemyMovement.StopMoving();
+    }
+
+    /// <summary>
+    /// Runs necessary logic when enemy enters attacking state
+    /// </summary>
+    private void EnterAttacking()
+    {
+        Debug.Log("Entering Attacking state");
+        
+        enemyMeleeClass.StartAttacking();
+    }
+
+    /// <summary>
+    /// Runs necessary logic when enemy exits attacking state
+    /// </summary>
+    private void ExitAttacking()
+    {
+        Debug.Log("Exiting Attacking state");
+
+        enemyMeleeClass.StopAttacking();
+    }
+
+    /// <summary>
+    /// Runs necessary logic when the enemy enters returning to blight state
+    /// </summary>
+    private void EnterReturning()
+    {
+        Debug.Log("Returning to blight spawn");
+
+        //enemyMeleeClass.StopAttacking();
+
+        enemyMovement.MovementTarget(blightSpawnPos);
+    }
+
+    /// <summary>
+    /// Runs necessary logic when the enemy is in the returning state
+    /// </summary>
+    private void UpdateReturning()
+    {
+        float distance = Vector3.Distance(transform.position, blightSpawnPos);
+
+        if (distance <= 0.5f)
+        {
+            return;
+        }
+
+        //enemyMovement.StopMoving();
+
+        ITargetable target = FindBlightTarget();
+
+        if (target != null)
+        {
+            SetBlightTarget(target);
+        }
+        else
+        {
+            ChangeState(EnemyState.Idle);
+        }
+    }
+
+    /// <summary>
+    /// Finds 
+    /// </summary>
+    /// <returns></returns>
+    private ITargetable FindBlightTarget()
+    {
+        foreach (ITargetable target in targetDetector.NearbyTargets)
+        {
+            if (!target.IsAlive())
+            {
+                continue;
+            }
+
+            if (!target.IsAttackable())
+            {
+                continue;
+            }
+
+            return target;
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -154,7 +530,72 @@ public class EnemyBrain : NetworkBehaviour
         if (!IsServerStarted)
             return;
 
-        //TODO: Will probably need to move this later
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.position);
+        if (IsTargetInRange())
+        {
+            ChangeState(EnemyState.Attacking);
+        }
+        else
+        {
+            ChangeState(EnemyState.Moving);
+        }
+    }
+
+    /// <summary>
+    /// Checks if the enemy's target is valid by running through ITargetable logic
+    /// </summary>
+    /// <returns></returns>
+    private bool HasValidTarget()
+    {
+        if (currentTarget == null)
+        {
+            return false;
+        }
+
+        if (!currentTarget.IsAlive())
+        {
+            return false;
+        }
+
+        if (!currentTarget.IsAttackable())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Checks if the enemy's target is within attacking range
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public bool IsTargetInRange(ITargetable target)
+    {
+        if (target == null || !target.IsAlive())
+        {
+            return false;
+        }
+
+        Collider targetCollider = target.TargetTransform.GetComponentInChildren<Collider>();
+
+        if (targetCollider == null)
+        {
+            return false;
+        }
+
+        Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
+
+        float distance = Vector3.Distance(transform.position, closestPoint);
+
+        return distance <= enemy.EnemyAttackRange;
+    }
+
+    /// <summary>
+    /// Returns if the target is in range without a targetable input above
+    /// </summary>
+    /// <returns></returns>
+    private bool IsTargetInRange()
+    {
+        return IsTargetInRange(currentTarget);
     }
 }
