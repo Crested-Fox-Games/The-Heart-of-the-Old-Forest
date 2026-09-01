@@ -250,7 +250,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
-  sensitivity: 2.8
+  sensitivity: 5
   rotationSmooth: 60
   minPivotRotation: -30
   maxPivotRotation: 65
@@ -269,9 +269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98e8f7dd4bfa1064bb0e47a0238d49d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5157244053637599692}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5157244053637599692}
   maxHealth: 100
 --- !u!114 &3523095287178685474
 MonoBehaviour:
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234ca988bf9a241428fdebc81d17604f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  _componentIndexCache: 1
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   interactDistance: 5
@@ -313,6 +313,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 5554828885100303472}
+  - {fileID: 9025497405741031671}
   - {fileID: 3523095287178685474}
   - {fileID: 4249959293906175344}
   - {fileID: 1680321782225394051}
@@ -328,7 +329,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584138450806474739
+  _initializedTimestamp: -8584133695652358549
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -368,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
-  _componentIndexCache: 2
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
 --- !u!114 &1680321782225394051
@@ -383,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
-  _componentIndexCache: 3
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   _componentConfiguration: 0
@@ -429,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea130477043888c4689d9ccdb267a4c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRPCHandler
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
 --- !u!114 &1478582881670916179
@@ -456,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca08de1354b8d04daf7bdd91efffaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
-  _componentIndexCache: 5
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
