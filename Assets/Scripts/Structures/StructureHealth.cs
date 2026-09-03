@@ -16,10 +16,16 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
     [SerializeField] private float interactTime = 3f;
     public float InteractTime => interactTime;
 
+    private HealthBar healthBar;
+
     public override void OnStartServer()
     {
         //Initialises the health of the structure
         currentHealth.Value = maxHealth;
+
+        //Sets up the health bar to update on health changing
+        healthBar = GetComponentInChildren<HealthBar>();
+        currentHealth.OnChange += UpdateHealthBar;
     }
 
     public bool IsAlive()
@@ -148,5 +154,13 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
     private void DestroyCollider(BoxCollider boxCollider)
     {
         Destroy(boxCollider);
+    }
+
+    /// <summary>
+    /// Updates the health bar of the structure
+    /// </summary>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        healthBar.TriggerHealthBarUpdate(currentHealth.Value, maxHealth);
     }
 }

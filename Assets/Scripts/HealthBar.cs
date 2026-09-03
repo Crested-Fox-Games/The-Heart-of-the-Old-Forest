@@ -42,15 +42,31 @@ public class HealthBar : MonoBehaviour
 
     private Coroutine healthAnimationCoroutine;
 
-    private void Start()
+    private void Awake()
     {
         propertyBlock = new MaterialPropertyBlock();
-        playerCam = Camera.main;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(GetPlayerCamera());
+    }
+
+    private IEnumerator GetPlayerCamera()
+    {
+        while (playerCam == null)
+        {
+            playerCam = Camera.main;
+            yield return null;
+        }
     }
 
 
     private void Update()
     {
+        if (playerCam == null)
+            return;
+
         Vector3 direction = playerCam.transform.position - healthBarContainer.transform.position;
         healthBarContainer.transform.rotation = quaternion.LookRotation(direction, Vector3.up);
     }
@@ -115,7 +131,8 @@ public class HealthBar : MonoBehaviour
     {
         if (healthText != null)
         {
-            healthText.text = $"{currentHealth}/{maxHealth}";
+            //Displays the health as an integer value, rounded down, in the form of 'x/x'
+            healthText.text = $"{(int)currentHealth}/{(int)maxHealth}";
         }
     }
 }
