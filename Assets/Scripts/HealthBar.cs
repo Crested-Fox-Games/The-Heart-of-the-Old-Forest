@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -35,10 +36,11 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     private static readonly int FillProperty = Shader.PropertyToID("_Fill");
 
-    [SerializeField]
-    private float HeightAboveObject = 1f;
+    private float lastHealth = -1;
 
     private MaterialPropertyBlock propertyBlock;
+
+    private Coroutine healthAnimationCoroutine;
 
     private void Start()
     {
@@ -60,11 +62,22 @@ public class HealthBar : MonoBehaviour
     /// <param name="maxHealth"></param>
     public void TriggerHealthBarUpdate(float currentHealth, float maxHealth)
     {
-        float percentage = currentHealth / maxHealth;
+        if(lastHealth < 0)
+            lastHealth = maxHealth;
 
-        UpdateHealthBar(percentage);
+        if (healthAnimationCoroutine == null)
+        {
+            healthAnimationCoroutine = StartCoroutine(ChangeHealthOverTime(lastHealth, currentHealth, maxHealth, 0.5f));
+
+        }
+        else
+        {
+            StopCoroutine(healthAnimationCoroutine);
+            healthAnimationCoroutine = StartCoroutine(ChangeHealthOverTime(lastHealth, currentHealth, maxHealth, 0.5f));
+        }
+
         UpdateHealthText(currentHealth, maxHealth);
-    }
+    } 
 
     /// <summary>
     /// Updates the actual health bar itself
@@ -75,6 +88,22 @@ public class HealthBar : MonoBehaviour
         healthBarRenderer.GetPropertyBlock(propertyBlock);
         propertyBlock.SetFloat(FillProperty, healthPercentage);
         healthBarRenderer.SetPropertyBlock(propertyBlock);
+    }
+
+    private IEnumerator ChangeHealthOverTime(float startingHealth, float targetHealth, float enemyMaxHealth, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+            float currentHealth = Mathf.Lerp(startingHealth, targetHealth, t);
+            UpdateHealthBar(currentHealth / enemyMaxHealth);
+            yield return null;
+        }
+
+        lastHealth = targetHealth;
+        healthAnimationCoroutine = null;
     }
 
     /// <summary>
