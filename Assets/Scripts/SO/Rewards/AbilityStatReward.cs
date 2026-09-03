@@ -1,14 +1,25 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerStatRewardSO", menuName = "Rewards/Player Stat Reward")]
-public class PlayerStatRewardSO : RewardSO
+/// <summary>
+/// The stats of the ability that can be upgraded
+/// </summary>
+public enum AbilityStat
+{
+    Damage,
+    Cooldown,
+    Range,
+    Speed,
+    Duration
+}
+
+[CreateAssetMenu(fileName = "AbilityStatReward", menuName = "Rewards/Ability Stat Reward")]
+public class AbilityStatReward : RewardSO
 {
     /// <summary>
     /// The stat granted by the reward system
     /// </summary>
     [Header("--- Reward Info ---")]
-    [Tooltip("Base speed is 0.2f")]
-    public PlayerStats playerStat;
+    public AbilityStat abilityStat;
 
     /// <summary>
     /// Whether the upgrade is additive or multiplicative
@@ -22,6 +33,6 @@ public class PlayerStatRewardSO : RewardSO
 
     public override void GrantReward(PlayerRef player)
     {
-        player.playerStatus.AddUpgrade(playerStat, upgradeType, rewardAmount);
+        throw new System.NotImplementedException();
     }
 }

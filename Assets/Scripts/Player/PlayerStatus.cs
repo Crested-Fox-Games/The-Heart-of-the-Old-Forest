@@ -48,6 +48,15 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         currentHealth.Value = maxHealth;
 
         currentHealth.OnChange += UpdateHealthBar;
+        playerAdditiveUpgrades.OnChange += OnUpgradesChanged;
+        playerMultiplicativeUpgrades.OnChange += OnUpgradesChanged;
+    }
+
+    override public void OnStopServer()
+    {
+        currentHealth.OnChange -= UpdateHealthBar;
+        playerAdditiveUpgrades.OnChange -= OnUpgradesChanged;
+        playerMultiplicativeUpgrades.OnChange -= OnUpgradesChanged;
     }
 
     public bool IsAlive()
