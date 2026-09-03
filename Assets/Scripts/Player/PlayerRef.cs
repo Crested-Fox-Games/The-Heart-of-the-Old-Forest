@@ -9,6 +9,7 @@ public class PlayerRef : MonoBehaviour
     public PlayerMovement playerMovement { get; private set; }
     public PlayerInteraction playerInteraction { get; private set; }
     public PlayerRPCHandler playerRPCHandler { get; private set; }
+    public PlayerStatus playerStatus { get; private set; }
 
     private void Awake()
     {
@@ -16,5 +17,6 @@ public class PlayerRef : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerInteraction = GetComponent<PlayerInteraction>();
         playerRPCHandler = GetComponent<PlayerRPCHandler>();
+        playerStatus = GetComponent<PlayerStatus>();
     }
 }
