@@ -14,6 +14,8 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     {
         //Initialises the health of the structure
         currentHealth.Value = maxHealth;
+
+        currentHealth.OnChange += UpdateHealthBar;
     }
 
     public bool IsAlive()
@@ -47,5 +49,16 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     {
         Debug.Log($"{gameObject.name} has been destroyed");
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Tells the ui manager that the health of the player has changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        UiManager.Instance.UpdatePlayerHealthBar(currentHealth.Value, maxHealth);
     }
 }
