@@ -57,7 +57,7 @@ public abstract class Ability
     {
         Activate(direction);
 
-        cooldownRemaining = abilitySO.Cooldown;
+        cooldownRemaining = owner.GetCooldown(abilitySO, abilitySO.Cooldown);
     }
 
     /// <summary>

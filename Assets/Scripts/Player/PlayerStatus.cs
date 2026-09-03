@@ -20,7 +20,9 @@ public enum AbilityStats
 public class PlayerStatus : NetworkBehaviour, ITargetable
 {
     [SerializeField] 
-    private float maxHealth = 100f;
+    private float baseMaxHealth = 100f;
+
+    private float currentMaxHealth;
 
     private float moveSpeed = 5f;
 
@@ -45,9 +47,11 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         InitializeUpgradeDictionaries();
 
         //Initialises the health of the structure
-        currentHealth.Value = maxHealth;
+        currentMaxHealth = baseMaxHealth;
+        currentHealth.Value = currentMaxHealth;
 
         currentHealth.OnChange += UpdateHealthBar;
+
         playerAdditiveUpgrades.OnChange += OnUpgradesChanged;
         playerMultiplicativeUpgrades.OnChange += OnUpgradesChanged;
     }
@@ -100,7 +104,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     /// <param name="asServer"></param>
     private void UpdateHealthBar(float prev, float next, bool asServer)
     {
-        UiManager.Instance.UpdatePlayerHealthBar(currentHealth.Value, maxHealth);
+        UiManager.Instance.UpdatePlayerHealthBar(currentHealth.Value, currentMaxHealth);
     }
 
     /// <summary>
@@ -138,9 +142,9 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
                 // Update current and max health based on the new value
                 float newMaxHealth = GetHealth();
 
-                float difference = newMaxHealth - maxHealth;
+                float difference = newMaxHealth - currentMaxHealth;
 
-                maxHealth = newMaxHealth;
+                currentMaxHealth = newMaxHealth;
                 currentHealth.Value += difference;
                 break;
             case PlayerStats.MoveSpeed:
@@ -151,7 +155,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
 
     private float GetHealth()
     {
-        return (maxHealth + playerAdditiveUpgrades[PlayerStats.Health]) * playerMultiplicativeUpgrades[PlayerStats.Health];
+        return (baseMaxHealth + playerAdditiveUpgrades[PlayerStats.Health]) * playerMultiplicativeUpgrades[PlayerStats.Health];
     }
 
     private float GetSpeed()

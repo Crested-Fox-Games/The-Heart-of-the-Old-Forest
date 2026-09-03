@@ -22,7 +22,7 @@ public class RabbitBasicAttack : Ability
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
 
         //Spawn Projectile that fires in the direction the player is aiming at
-        owner.GetComponent<PlayerAbilities>().SpawnProjectile(projectile.gameObject, direction, damage);
+        owner.GetComponent<PlayerAbilities>().SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
 
     }
 
