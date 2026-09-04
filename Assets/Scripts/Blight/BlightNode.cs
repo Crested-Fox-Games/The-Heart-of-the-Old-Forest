@@ -56,6 +56,7 @@ public class BlightNode : NetworkBehaviour
 
         SetRarityScales(rarity);
         nodeCurrentHealth = nodeMaxHealth;
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
     }
 
     /// <summary>
@@ -160,7 +161,7 @@ public class BlightNode : NetworkBehaviour
         Renderer modelRender = blightModel.GetComponent<Renderer>();
         blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
 
-        healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y + healthBaroffset, modelRender.transform.position.z);
+        healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, modelRender.bounds.max.y + healthBaroffset, modelRender.transform.position.z);
 
         //Tell the reveal controller to update the size for revealing
         blightModel.GetComponent<RevealController>().UpdateRender();
