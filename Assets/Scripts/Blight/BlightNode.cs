@@ -33,7 +33,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
         }
     }
 
-    public void Initialize(Transform previous, BlightRarity rarity)
+    public void Initialize(Transform previous, Rarity rarity)
     {
         previousBlightNode = previous;
         nextBlightNode = null;
@@ -119,20 +119,20 @@ public class BlightNode : NetworkBehaviour, IInteractable
     /// Scales the blight enemies health and damage based on its rarity
     /// </summary>
     /// <param name="rarity"></param>
-    private void SetRarityScales(BlightRarity rarity)
+    private void SetRarityScales(Rarity rarity)
     {
         //Update the scale and buff the blight based on the rarity multiplier
         switch(rarity)
         {
-            case BlightRarity.uncommon:
+            case Rarity.uncommon:
                 blightModel.transform.localScale = Vector3.one * blightUncommonMult;
                 BuffBlight(blightUncommonMult, blightUncommonMult);
                 break;
-            case BlightRarity.rare:
+            case Rarity.rare:
                 blightModel.transform.localScale = Vector3.one * blightRareMult;
                 BuffBlight(blightRareMult, blightRareMult);
                 break;
-            case BlightRarity.mythic:
+            case Rarity.mythic:
                 blightModel.transform.localScale = Vector3.one * blightMythicMult;
                 BuffBlight(blightMythicMult, blightMythicMult);
                 break;
