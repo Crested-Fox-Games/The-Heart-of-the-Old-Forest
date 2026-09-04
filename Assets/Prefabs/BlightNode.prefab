@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4239786110914573946}
   - component: {fileID: 593293177454591539}
   - component: {fileID: 7995696660070662525}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 8241820923283046721}
   - component: {fileID: 8599355456424762268}
   - component: {fileID: 227705535553553310}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: BlightNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4871,6 +4871,7 @@ Transform:
   m_Children:
   - {fileID: 1644246003137258389}
   - {fileID: 4239786110914573946}
+  - {fileID: 2481764452990967763}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5399148234845229741
@@ -4888,8 +4889,11 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 8241820923283046721}
   _networkObjectCache: {fileID: 0}
+  healthBar: {fileID: 7906261649160348802}
   blightModel: {fileID: 6153315338577916489}
+  healthBarObject: {fileID: 6613893399596499759}
   interactTime: 3
+  healthBaroffset: 1
   nodeMaxHealth: 50
   blightUncommonMult: 1.5
   blightRareMult: 2
@@ -5141,3 +5145,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RevealController
   revealProgress: 0
+--- !u!1001 &117391362329077728
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1191801880243362043}
+    m_Modifications:
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514540231575921871, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+      propertyPath: m_Name
+      value: HealthBar
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+--- !u!4 &2481764452990967763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2581109372593977395, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+  m_PrefabInstance: {fileID: 117391362329077728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6613893399596499759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6514540231575921871, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+  m_PrefabInstance: {fileID: 117391362329077728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7906261649160348802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7789434905916457826, guid: 781f30e736b2a194abb9bc641a90a6a3, type: 3}
+  m_PrefabInstance: {fileID: 117391362329077728}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6613893399596499759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3112dbd46d48d544b578e53896d1c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBar

@@ -7,7 +7,13 @@ using static UnityEngine.GraphicsBuffer;
 public class BlightNode : NetworkBehaviour
 {
     [SerializeField]
+    private HealthBar healthBar;
+
+    [SerializeField]
     private GameObject blightModel;
+
+    [SerializeField]
+    private GameObject healthBarObject;
 
     private Transform nextBlightNode, previousBlightNode;
 
@@ -17,6 +23,9 @@ public class BlightNode : NetworkBehaviour
     private float interactTime = 3f;
 
     public float InteractTime => interactTime;
+
+    [SerializeField]
+    private float healthBaroffset = 1f;
 
     [SerializeField]
     private float nodeMaxHealth = 50f;
@@ -151,6 +160,8 @@ public class BlightNode : NetworkBehaviour
         Renderer modelRender = blightModel.GetComponent<Renderer>();
         blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
 
+        healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y + healthBaroffset, modelRender.transform.position.z);
+
         //Tell the reveal controller to update the size for revealing
         blightModel.GetComponent<RevealController>().UpdateRender();
     }
@@ -205,12 +216,43 @@ public class BlightNode : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Node takes damage when hit
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
-        nodeCurrentHealth -= damage;
+        //If the node has enemies, it gains damage resistance
+        if(HasEnemies())
+        {
+            nodeCurrentHealth -= damage * 0.05f;
+        }
+        else
+        {
+            nodeCurrentHealth -= damage;
+        }
+
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
+
         if (nodeCurrentHealth <= 0)
         {
             BlightCleared();
         }
+    }
+
+    /// <summary>
+    /// Returns whether or not the blight node has enemies in its children
+    /// </summary>
+    /// <returns></returns>
+    private bool HasEnemies()
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -48,6 +48,8 @@ public class Projectile : NetworkBehaviour
         else if (hitBlightNode != null)
         {
             hitBlightNode.TakeDamage(projDamage);
+
+            HandleProjectileFinished();
         }
     }
 
