@@ -23,6 +23,8 @@ public class Enemy : NetworkBehaviour
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
+    private HealthBar healthBar;
+
     private GameObject heartCrystal;
 
     /// <summary>
@@ -43,13 +45,25 @@ public class Enemy : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        base.OnStartServer();
+
         heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
 
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
+        healthBar = GetComponentInChildren<HealthBar>();
+
+        currentHealth.OnChange += UpdateHealthBar;
 
         currentHealth.Value = enemyMaxHealth;
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        currentHealth.OnChange -= UpdateHealthBar;
     }
 
     /// <summary>
@@ -157,4 +171,11 @@ public class Enemy : NetworkBehaviour
         enemyMaxHealth += healthIncrease;
     }
 
+    /// <summary>
+    /// Updates the health bar of the enemy
+    /// </summary>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        healthBar.TriggerHealthBarUpdate(currentHealth.Value, enemyMaxHealth);
+    }
 }

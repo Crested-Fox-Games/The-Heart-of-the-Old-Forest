@@ -37,6 +37,9 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private ResourceUiHandler uiHandler;
 
+    [SerializeField]
+    private PlayerHealthBar healthBar;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -156,5 +159,10 @@ public class UiManager : MonoBehaviour
         nightlyRewardPanel.SetActive(false);
 
         UiElementClosed();
+    }
+
+    public void UpdatePlayerHealthBar(float currentHealth, float maxHealth)
+    {
+        healthBar.TriggerHealthBarUpdate(currentHealth, maxHealth);
     }
 }
