@@ -67,7 +67,7 @@ public class HealthBar : MonoBehaviour
         if (playerCam == null)
             return;
 
-        Vector3 direction = playerCam.transform.position - healthBarContainer.transform.position;
+        Vector3 direction = (playerCam.transform.position - healthBarContainer.transform.position).normalized;
         healthBarContainer.transform.rotation = quaternion.LookRotation(direction, Vector3.up);
     }
 
