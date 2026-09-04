@@ -861,6 +861,7 @@ Transform:
   - {fileID: 2681943124061792505}
   - {fileID: 7092094916237359685}
   - {fileID: 6182398379090598077}
+  - {fileID: 2022631975447941171}
   m_Father: {fileID: 6290068896630646003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4369618176447708395
@@ -878,6 +879,7 @@ MonoBehaviour:
   interactText: {fileID: 9044205453270968080}
   tmpTowerPlacementUi: {fileID: 5477095842178334869}
   gameOverPanel: {fileID: 6224472570675097397}
+  nightlyRewardPanel: {fileID: 7081077516198269962}
   uiHandler: {fileID: 5605942388875197870}
 --- !u!1 &3717244105816463055
 GameObject:

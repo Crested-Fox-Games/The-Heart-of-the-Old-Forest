@@ -1,21 +1,33 @@
 using FishNet;
-using FishNet.Component.Spawning;
 using FishNet.Connection;
-using FishNet.Managing;
 using FishNet.Managing.Scened;
-using FishNet.Managing.Server;
 using FishNet.Object;
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GamePlayerSpawner : MonoBehaviour
 {
+    public static GamePlayerSpawner Instance {  get; private set; }
+
     [SerializeField]
     private Transform[] spawnPoints;
 
     [SerializeField]
     private NetworkObject playerPrefab;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -71,6 +83,19 @@ public class GamePlayerSpawner : MonoBehaviour
             InstanceFinder.ServerManager.Spawn(player, connection, gameObject.scene);
 
             spawnIndex++;
+        }
+    }
+
+    public void DespawnPlayers()
+    {
+        if (!InstanceFinder.IsServerStarted)
+            return;
+
+        List<PlayerRef> players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.None).ToList();
+
+        foreach (PlayerRef player in players)
+        {
+            player.GetComponent<NetworkObject>().Despawn();
         }
     }
 }

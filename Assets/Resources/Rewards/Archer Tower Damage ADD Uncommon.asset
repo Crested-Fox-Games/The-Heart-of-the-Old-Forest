@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4165eafabc29038428cf582deaaac3bb, type: 3}
-  m_Name: ArcherAttackAdd
+  m_Name: Archer Tower Damage ADD Uncommon
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
-  RewardName: Archer Attack
-  RewardId: 1
-  RewardWeight: 5
+  RewardName: Archer Tower Damage
+  RewardId: 2
+  RewardWeight: 2
   RewardIcon: {fileID: 0}
   towerStat: 0
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
   rewardType: 0
-  rewardAmount: 5
+  rewardAmount: 20

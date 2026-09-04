@@ -36,7 +36,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
     public void Initialize(Transform previous, BlightRarity rarity)
     {
         previousBlightNode = previous;
-
+        nextBlightNode = null;
         //Subscribe to blight buff event
         BlightManager.Instance.BlightNodesBuffed += BuffBlight;
 
@@ -61,6 +61,11 @@ public class BlightNode : NetworkBehaviour, IInteractable
                     prevNode.SetNextNode(nextBlightNode);
                 }
             }
+        }
+        else
+        {
+            //update the manager so it knows what the chain is
+            BlightManager.Instance.UpdateForwardNodesFromNode(transform, previousBlightNode);
         }
 
         //Uncorrupt each node
