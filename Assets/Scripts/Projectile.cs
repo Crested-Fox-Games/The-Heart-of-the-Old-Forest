@@ -36,13 +36,18 @@ public class Projectile : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Enemy hitEnemy = other.GetComponentInParent<Enemy>();
+        BlightNode hitBlightNode = other.GetComponentInParent<BlightNode>();
 
-        if(hitEnemy != null)
+        if (hitEnemy != null)
         {
             //Deal damage
             hitEnemy.TakeDamage(projDamage);
 
             HandleProjectileFinished();
+        }
+        else if (hitBlightNode != null)
+        {
+            hitBlightNode.TakeDamage(projDamage);
         }
     }
 

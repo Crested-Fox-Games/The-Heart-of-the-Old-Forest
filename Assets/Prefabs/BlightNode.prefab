@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4239786110914573946}
   - component: {fileID: 593293177454591539}
   - component: {fileID: 7995696660070662525}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 8241820923283046721}
   - component: {fileID: 8599355456424762268}
   - component: {fileID: 227705535553553310}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlightNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4890,6 +4890,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   blightModel: {fileID: 6153315338577916489}
   interactTime: 3
+  nodeMaxHealth: 50
   blightUncommonMult: 1.5
   blightRareMult: 2
   blightMythicMult: 3
@@ -5012,7 +5013,7 @@ GameObject:
   - component: {fileID: 2890065866958668816}
   - component: {fileID: 8888998821971030580}
   - component: {fileID: 3528033041194989406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlightModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class BlightNode : NetworkBehaviour, IInteractable
+public class BlightNode : NetworkBehaviour
 {
     [SerializeField]
     private GameObject blightModel;
@@ -17,6 +17,11 @@ public class BlightNode : NetworkBehaviour, IInteractable
     private float interactTime = 3f;
 
     public float InteractTime => interactTime;
+
+    [SerializeField]
+    private float nodeMaxHealth = 50f;
+
+    private float nodeCurrentHealth;
 
     /// <summary>
     /// The factor that the rarity of the blight will scale it by
@@ -41,6 +46,7 @@ public class BlightNode : NetworkBehaviour, IInteractable
         BlightManager.Instance.BlightNodesBuffed += BuffBlight;
 
         SetRarityScales(rarity);
+        nodeCurrentHealth = nodeMaxHealth;
     }
 
     /// <summary>
@@ -126,14 +132,17 @@ public class BlightNode : NetworkBehaviour, IInteractable
         {
             case Rarity.uncommon:
                 blightModel.transform.localScale = Vector3.one * blightUncommonMult;
+                nodeMaxHealth *= blightUncommonMult;
                 BuffBlight(blightUncommonMult, blightUncommonMult);
                 break;
             case Rarity.rare:
                 blightModel.transform.localScale = Vector3.one * blightRareMult;
+                nodeMaxHealth *= blightRareMult;
                 BuffBlight(blightRareMult, blightRareMult);
                 break;
             case Rarity.mythic:
                 blightModel.transform.localScale = Vector3.one * blightMythicMult;
+                nodeMaxHealth *= blightMythicMult;
                 BuffBlight(blightMythicMult, blightMythicMult);
                 break;
         }
@@ -193,6 +202,15 @@ public class BlightNode : NetworkBehaviour, IInteractable
 
                 //MARCUS TODO: Tell the enemy to update its logic to be a wave enemy or whatever we decide to do
             }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        nodeCurrentHealth -= damage;
+        if (nodeCurrentHealth <= 0)
+        {
+            BlightCleared();
         }
     }
 }
