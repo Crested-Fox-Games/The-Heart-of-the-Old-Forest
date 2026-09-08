@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 5082435152995193006}
   - component: {fileID: 4443693900981695326}
   - component: {fileID: 3451498371024118729}
-  - component: {fileID: 3428635581005589706}
   - component: {fileID: -2499425587572573096}
   - component: {fileID: 6959718672274560483}
   - component: {fileID: 2514852656174016834}
+  - component: {fileID: 417760506842130566}
   m_Layer: 6
   m_Name: Proj
   m_TagString: Untagged
@@ -116,22 +116,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3428635581005589706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3723794516530627890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b765b03b6c450ec409c0253b0a43681a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 6959718672274560483}
-  _networkObjectCache: {fileID: 6959718672274560483}
-  projSpeed: 50
 --- !u!54 &-2499425587572573096
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,7 +162,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 3428635581005589706}
+  - {fileID: 0}
   - {fileID: 2514852656174016834}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -264,3 +248,19 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &417760506842130566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723794516530627890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 080300d3f73b08f478f85f1855dc8ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalProjectile
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 6959718672274560483}
+  _networkObjectCache: {fileID: 0}
+  projSpeed: 30
