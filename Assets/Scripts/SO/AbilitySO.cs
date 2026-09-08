@@ -13,6 +13,9 @@ public class AbilitySO : ScriptableObject
     private float cooldown, castTime;
 
     [SerializeField]
+    private BaseProjectile projectile;
+
+    [SerializeField]
     private bool needDirection;
     
     /// <summary>
@@ -34,6 +37,11 @@ public class AbilitySO : ScriptableObject
     /// The amount of time it takes this ability to finish activating
     /// </summary>
     public float CastTime => castTime;
+
+    /// <summary>
+    /// The projectile for if the ability has a projectile
+    /// </summary>
+    public BaseProjectile Projectile => projectile;
 
     /// <summary>
     /// Returns whether or not this ability needs a direction to be used

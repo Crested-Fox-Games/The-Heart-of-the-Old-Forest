@@ -61,6 +61,14 @@ public abstract class Ability
     }
 
     /// <summary>
+    /// Deactivates the active ability
+    /// </summary>
+    public void AbilityFinished()
+    {
+        Deactivate();
+    }
+
+    /// <summary>
     /// This method is delcared in the children that inherit from this class.
     /// This way we can create any ability we want from it.
     /// </summary>
@@ -76,6 +84,14 @@ public abstract class Ability
     protected virtual void Activate(Vector3 direction)
     {
         Activate();
+    }
+
+    /// <summary>
+    /// An overridable method for deactivating abilities that have an active time
+    /// </summary>
+    protected virtual void Deactivate()
+    {
+
     }
 
     /// <summary>
