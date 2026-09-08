@@ -19,6 +19,10 @@ public class TimeCycleManager : NetworkBehaviour
     private float sunAngle = 0; // Used in calculating sun position
     private int currentDay = 0;
 
+    public float CycleDuration => cycleDuration;
+    public float CycleDayDuration => cycleDayDuration;
+    public float CycleNightDuration => cycleNightDuration;
+
     public int CurrentDay => currentDay;
 
     /// <summary>
