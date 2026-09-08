@@ -8,9 +8,9 @@ public class RabbitBasicAttack : Ability
 
     private float damage = 20f;
 
-    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData, BaseProjectile projectile) : base(player, abilityData)
+    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData) : base(player, abilityData)
     {
-        this.projectile = projectile;
+        projectile = abilityData.Projectile;
     }
 
 
@@ -22,7 +22,7 @@ public class RabbitBasicAttack : Ability
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
 
         //Spawn Projectile that fires in the direction the player is aiming at
-        owner.GetComponent<PlayerAbilities>().SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
+        owner.SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
 
     }
 

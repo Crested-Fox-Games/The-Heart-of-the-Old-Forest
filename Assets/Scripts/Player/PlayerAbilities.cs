@@ -2,6 +2,7 @@ using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,7 +13,8 @@ public enum AbilitySlot
 {
     BasicAttack,
     FirstAbility,
-    SecondAbility
+    SecondAbility,
+    UltimateAbility
 }
 
 /// <summary>
@@ -58,8 +60,8 @@ public struct AbilityUpgradesDC
 public class PlayerAbilities : NetworkBehaviour
 {
     [SerializeField]
-    private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO;
-    private Ability basicAttack, firstAbility, secondAbility;
+    private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO, ultimateAbilitySO;
+    private Ability basicAttack, firstAbility, secondAbility, ultimateAbility;
 
     /// <summary>
     /// A dictionary that holds the values for the abilities upgrades
@@ -70,6 +72,7 @@ public class PlayerAbilities : NetworkBehaviour
     /// This syncvar is used to let the client know how long is left on the cooldown, used for UI purposes
     /// </summary>
     private readonly SyncVar<float> basicAttackCooldownRemaining = new SyncVar<float>();
+    private readonly SyncVar<float> ultimateAbilityCooldownRemaining = new SyncVar<float>();
 
     /// <summary>
     /// This is the projectile for the player basic attack.
@@ -77,6 +80,8 @@ public class PlayerAbilities : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private BaseProjectile projectile;
+
+    public BaseProjectile Projectile => projectile;
 
     [SerializeField]
     private Transform firingPosition;
@@ -86,8 +91,8 @@ public class PlayerAbilities : NetworkBehaviour
 
     private void Awake()
     {
-        basicAttack = new RabbitBasicAttack(this, basicAttackSO, projectile);
-
+        basicAttack = new RabbitBasicAttack(this, basicAttackSO);
+        ultimateAbility = new RelentlessVolley(this, ultimateAbilitySO);
     }
 
     private void Update()
@@ -97,9 +102,11 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Ticks down the basic attacks cooldown timer
         basicAttack.Tick(Time.deltaTime);
+        ultimateAbility.Tick(Time.deltaTime);
 
         //Updates the sync var to let the client know how much time is left on the cooldown
         basicAttackCooldownRemaining.Value = basicAttack.CooldownRemaining;
+        ultimateAbilityCooldownRemaining.Value = ultimateAbility.CooldownRemaining;
     }
 
     private void TryUseAbility(AbilitySlot abilitySlot)
@@ -118,6 +125,12 @@ public class PlayerAbilities : NetworkBehaviour
     }
 
 
+    public void SetProjectile(GameObject proj)
+    {
+        Debug.Log($"projectile changed to {proj}");
+        projectile = proj.GetComponent<BaseProjectile>();
+    }
+
     /// <summary>
     /// The server validates to see if the ability can be used and then uses it if it can
     /// </summary>
@@ -126,12 +139,16 @@ public class PlayerAbilities : NetworkBehaviour
     private void UseAbility(AbilitySlot abilitySlot)
     {
         Ability ability = GetAbilityFromSlot(abilitySlot);
-
+        
         if (ability == null)
             return;
 
-        if(!ability.CanUseAbility())
+        Debug.Log("Getting to the use ability step: not null");
+
+        if (!ability.CanUseAbility())
             return;
+
+        Debug.Log("Getting to the use ability step: can use");
 
         ability.UseAbility();
     }
@@ -150,6 +167,14 @@ public class PlayerAbilities : NetworkBehaviour
         ability.UseAbility(direction);
     }
 
+    private void DeactivateAbility(AbilitySO abilitySO)
+    {
+        //Silly but should work
+        Ability ability = GetAbilityFromSlot(GetSlotFromAbility(abilitySO));
+
+        ability.AbilityFinished();
+    }
+
     public void TryUseBasicAttack(InputAction.CallbackContext context)
     {
         TryUseAbility(AbilitySlot.BasicAttack);
@@ -165,6 +190,12 @@ public class PlayerAbilities : NetworkBehaviour
     //    TryUseAbility(AbilitySlot.SecondAbility);
     //}
 
+    public void TryUseUltimateAttack(InputAction.CallbackContext context)
+    {
+        Debug.Log("Activating ultimate attack");
+        TryUseAbility(AbilitySlot.UltimateAbility);
+    }
+
     /// <summary>
     /// Gets the ability from the specified slot.
     /// </summary>
@@ -179,6 +210,7 @@ public class PlayerAbilities : NetworkBehaviour
             AbilitySlot.BasicAttack => basicAttack,
             AbilitySlot.FirstAbility => firstAbility,
             AbilitySlot.SecondAbility => secondAbility,
+            AbilitySlot.UltimateAbility => ultimateAbility,
             _ => throw new System.ArgumentOutOfRangeException(nameof(abilitySlot), abilitySlot, null)
         };
     }
@@ -332,6 +364,18 @@ public class PlayerAbilities : NetworkBehaviour
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
         return (baseCooldown + abilityUpgrades.cooldownAdd) * abilityUpgrades.cooldownMult;
+    }
+
+    public void StartActiveTimerForAbility(float timer, AbilitySO ability)
+    {
+        StartCoroutine(ActiveTimerForAbility(ability, timer));
+    }
+
+    private IEnumerator ActiveTimerForAbility(AbilitySO ability, float timer)
+    {
+        yield return new WaitForSeconds(timer);
+
+        DeactivateAbility(ability);
     }
 
 }
