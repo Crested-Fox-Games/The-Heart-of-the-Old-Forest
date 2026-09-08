@@ -272,7 +272,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 0}
-  maxHealth: 100
+  baseMaxHealth: 100
 --- !u!114 &3523095287178685474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +462,7 @@ MonoBehaviour:
   basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
   firstAbilitySO: {fileID: 0}
   secondAbilitySO: {fileID: 0}
-  projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
+  projectile: {fileID: 2318843439141175615, guid: 6fdb742f749d1784bb2fb587705cc76d, type: 3}
   firingPosition: {fileID: 1286192359782629347}
   aimMask:
     serializedVersion: 2
