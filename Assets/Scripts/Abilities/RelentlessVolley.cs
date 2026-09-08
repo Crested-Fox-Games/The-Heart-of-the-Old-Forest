@@ -5,31 +5,57 @@ public class RelentlessVolley : Ability
 {
     private BaseProjectile projectile;
 
-    private float damage = 20f;
-
     GameObject normalProj;
 
-    public RelentlessVolley(PlayerAbilities player, AbilitySO abilityData) : base(player, abilityData)
+    private Ability basicAttack;
+
+    private float timer = 5f;
+
+    private void Start()
     {
-        projectile = abilityData.Projectile;
+        projectile = abilitySO.Projectile;
     }
 
-
-    protected override void Activate(Vector3 direction)
+    private void InitializeBasicAttack()
     {
+        basicAttack = owner.BasicAttack;
+    }
+
+    protected override void Activate()
+    {
+        if(basicAttack == null)
+        {
+            InitializeBasicAttack();
+        }
+
         // Implementation for the basic attack activation
 
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
-        Debug.Log($"Relentless Volley Activated");
         normalProj = owner.Projectile.gameObject;
 
-        owner.SetProjectile(projectile.gameObject);
+        basicAttack.SetProjectile(projectile.gameObject);
+
+        //Apply buffs
+        //NOTE: Might need this to be its own upgrade buff
+        owner.AddAbilityUpgrade(basicAttack.AbilitySO, AbilityStats.Damage, UpgradeType.Multiplacation, 0.5f);
+        owner.AddAbilityUpgrade(basicAttack.AbilitySO, AbilityStats.Cooldown, UpgradeType.Multiplacation, 1f);
+
+        StartCoroutine(ActiveTimerForAbility());
     }
 
     protected override void Deactivate()
     {
-        owner.SetProjectile(normalProj);
+        basicAttack.SetProjectile(normalProj);
+
+        //Remove buffs
+        owner.AddAbilityUpgrade(basicAttack.AbilitySO, AbilityStats.Damage, UpgradeType.Multiplacation, -0.5f);
+        owner.AddAbilityUpgrade(basicAttack.AbilitySO, AbilityStats.Cooldown, UpgradeType.Multiplacation, -1f);
     }
 
-    
+    private IEnumerator ActiveTimerForAbility()
+    {
+        yield return new WaitForSeconds(timer);
+
+        Deactivate();
+    }
 }

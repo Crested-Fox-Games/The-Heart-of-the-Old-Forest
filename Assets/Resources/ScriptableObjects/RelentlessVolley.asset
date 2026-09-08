@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Relentless Volley
   icon: {fileID: 0}
-  cooldown: 90
+  cooldown: 50
   castTime: 0
   projectile: {fileID: 2318843439141175615, guid: 6fdb742f749d1784bb2fb587705cc76d, type: 3}
   needDirection: 0
+  ability: {fileID: 11500000, guid: df6a946160c5f0a46b58b0c43f7b8d2a, type: 3}

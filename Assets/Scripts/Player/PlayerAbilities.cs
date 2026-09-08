@@ -63,6 +63,8 @@ public class PlayerAbilities : NetworkBehaviour
     private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO, ultimateAbilitySO;
     private Ability basicAttack, firstAbility, secondAbility, ultimateAbility;
 
+    public Ability BasicAttack => basicAttack;
+
     /// <summary>
     /// A dictionary that holds the values for the abilities upgrades
     /// </summary>
@@ -86,13 +88,19 @@ public class PlayerAbilities : NetworkBehaviour
     [SerializeField]
     private Transform firingPosition;
 
+    public Transform FiringPosition => firingPosition;
+
     [SerializeField]
     private LayerMask aimMask;
 
     private void Awake()
     {
-        basicAttack = new RabbitBasicAttack(this, basicAttackSO);
-        ultimateAbility = new RelentlessVolley(this, ultimateAbilitySO);
+        basicAttack = AddAbility(basicAttackSO);
+        ultimateAbility = AddAbility(ultimateAbilitySO);
+
+        //FOR TESTING REMOVE WHEN OTHER ABILITIES MADE
+        firstAbility = AddAbility(basicAttackSO);
+        secondAbility = AddAbility(basicAttackSO);
     }
 
     private void Update()
@@ -109,9 +117,18 @@ public class PlayerAbilities : NetworkBehaviour
         ultimateAbilityCooldownRemaining.Value = ultimateAbility.CooldownRemaining;
     }
 
+    private Ability AddAbility(AbilitySO abilitySO)
+    {
+        Ability ability = gameObject.AddComponent(abilitySO.Ability.GetClass()) as Ability;
+
+        ability.Initialize(this, abilitySO);
+
+        return ability;
+    }
+
     private void TryUseAbility(AbilitySlot abilitySlot)
     {
-       if(!IsOwner)
+        if(!IsOwner)
             return;
 
         if (GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
@@ -122,13 +139,6 @@ public class PlayerAbilities : NetworkBehaviour
         {
             UseAbility(abilitySlot);
         }
-    }
-
-
-    public void SetProjectile(GameObject proj)
-    {
-        Debug.Log($"projectile changed to {proj}");
-        projectile = proj.GetComponent<BaseProjectile>();
     }
 
     /// <summary>
@@ -143,12 +153,8 @@ public class PlayerAbilities : NetworkBehaviour
         if (ability == null)
             return;
 
-        Debug.Log("Getting to the use ability step: not null");
-
         if (!ability.CanUseAbility())
             return;
-
-        Debug.Log("Getting to the use ability step: can use");
 
         ability.UseAbility();
     }
@@ -165,14 +171,6 @@ public class PlayerAbilities : NetworkBehaviour
             return;
 
         ability.UseAbility(direction);
-    }
-
-    private void DeactivateAbility(AbilitySO abilitySO)
-    {
-        //Silly but should work
-        Ability ability = GetAbilityFromSlot(GetSlotFromAbility(abilitySO));
-
-        ability.AbilityFinished();
     }
 
     public void TryUseBasicAttack(InputAction.CallbackContext context)
@@ -192,7 +190,6 @@ public class PlayerAbilities : NetworkBehaviour
 
     public void TryUseUltimateAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("Activating ultimate attack");
         TryUseAbility(AbilitySlot.UltimateAbility);
     }
 
@@ -230,6 +227,7 @@ public class PlayerAbilities : NetworkBehaviour
             _ when ability == basicAttack.AbilitySO => AbilitySlot.BasicAttack,
             _ when ability == firstAbility.AbilitySO => AbilitySlot.FirstAbility,
             _ when ability == secondAbility.AbilitySO => AbilitySlot.SecondAbility,
+            _ when ability == ultimateAbility.AbilitySO => AbilitySlot.UltimateAbility,
             _ => throw new System.ArgumentException("Ability not found in any slot", nameof(ability))
         };
     }
@@ -363,19 +361,19 @@ public class PlayerAbilities : NetworkBehaviour
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
-        return (baseCooldown + abilityUpgrades.cooldownAdd) * abilityUpgrades.cooldownMult;
+        //Flat reduction
+        float cooldown = baseCooldown - abilityUpgrades.cooldownAdd;
+
+        //Percentage reduction with diminishing returns
+        float reduction = 1f - (1f / abilityUpgrades.cooldownMult);
+
+        cooldown *= 1 - reduction;
+
+        Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
+        //Ensures that the cooldown never hits 0
+        return Mathf.Max(0.1f, cooldown);
     }
 
-    public void StartActiveTimerForAbility(float timer, AbilitySO ability)
-    {
-        StartCoroutine(ActiveTimerForAbility(ability, timer));
-    }
-
-    private IEnumerator ActiveTimerForAbility(AbilitySO ability, float timer)
-    {
-        yield return new WaitForSeconds(timer);
-
-        DeactivateAbility(ability);
-    }
+    
 
 }
