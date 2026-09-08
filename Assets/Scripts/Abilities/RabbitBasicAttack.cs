@@ -6,13 +6,15 @@ public class RabbitBasicAttack : Ability
 {
     private BaseProjectile projectile;
 
+    private Transform firingPosition;
+
     private float damage = 20f;
 
-    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData) : base(player, abilityData)
+    private void Start()
     {
-        projectile = abilityData.Projectile;
+        firingPosition = owner.FiringPosition;
+        projectile = abilitySO.Projectile;
     }
-
 
     protected override void Activate(Vector3 direction)
     {
@@ -23,8 +25,34 @@ public class RabbitBasicAttack : Ability
 
         //Spawn Projectile that fires in the direction the player is aiming at
         owner.SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
-
     }
 
-    
+    /// <summary>
+    /// Handles spawning projectiles for player abilities
+    /// </summary>
+    /// <param name="projectilePrefab"></param>
+    /// <param name="target"></param>
+    /// <param name="baseDamage"></param>
+    /// <param name="abilitySO"></param>
+    public void SpawnProjectile(GameObject projectilePrefab, Vector3 target, float baseDamage, AbilitySO abilitySO)
+    {
+        //Gets the direction the projectile should be facing
+        Vector3 dir = (target - firingPosition.position).normalized;
+
+        //Creates a rotation for the projectile to face the target
+        Quaternion projRotation = Quaternion.LookRotation(dir);
+
+        // Spawns the projectile on the server
+        BaseProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<BaseProjectile>();
+
+        newProjectile.InitializeProjectile(target, owner.GetDamage(abilitySO, baseDamage));
+
+        //Spawns the projectile on the network
+        Spawn(newProjectile.gameObject);
+    }
+
+    public override void SetProjectile(GameObject proj)
+    {
+        projectile = proj.GetComponent<BaseProjectile>();
+    }
 }

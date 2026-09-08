@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilitySO", menuName = "Scriptable Objects/AbilitySO")]
@@ -17,6 +18,9 @@ public class AbilitySO : ScriptableObject
 
     [SerializeField]
     private bool needDirection;
+
+    [SerializeField]
+    private MonoScript ability;
     
     /// <summary>
     /// The name of the ability
@@ -47,4 +51,9 @@ public class AbilitySO : ScriptableObject
     /// Returns whether or not this ability needs a direction to be used
     /// </summary>
     public bool NeedDirection => needDirection;
+
+    /// <summary>
+    /// The ability script for the SO
+    /// </summary>
+    public MonoScript Ability => ability;
 }

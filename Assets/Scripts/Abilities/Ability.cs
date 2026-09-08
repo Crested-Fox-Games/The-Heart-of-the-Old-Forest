@@ -1,6 +1,9 @@
+using FishNet.Object;
+using System;
 using UnityEngine;
 
-public abstract class Ability
+[Serializable]
+public abstract class Ability : NetworkBehaviour
 {
     /// <summary>
     /// Stores the abilities data
@@ -21,7 +24,7 @@ public abstract class Ability
 
     public AbilitySO AbilitySO => abilitySO;
 
-    public Ability(PlayerAbilities player, AbilitySO abilityData)
+    public void Initialize(PlayerAbilities player, AbilitySO abilityData)
     {
         owner = player;
         abilitySO = abilityData;
@@ -46,7 +49,7 @@ public abstract class Ability
     {
         Activate();
 
-        cooldownRemaining = abilitySO.Cooldown;
+        cooldownRemaining = owner.GetCooldown(AbilitySO, AbilitySO.Cooldown);
     }
 
     /// <summary>
@@ -104,5 +107,13 @@ public abstract class Ability
         {
             cooldownRemaining -= deltaTime;
         }
+    }
+
+    /// <summary>
+    /// An overridable method for setting the projectile for an ability
+    /// </summary>
+    public virtual void SetProjectile(GameObject proj)
+    {
+
     }
 }

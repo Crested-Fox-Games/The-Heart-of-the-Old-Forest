@@ -24,7 +24,7 @@ public class RicochetProjectile : BaseProjectile
     /// <summary>
     /// The maximum number of times the projectile can ricochet
     /// </summary>
-    private int maxRicochets = 3;
+    private int maxRicochets = 1;
 
     /// <summary>
     /// The current number of times the projectile has ricocheted
