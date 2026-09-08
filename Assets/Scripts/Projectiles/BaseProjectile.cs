@@ -21,10 +21,22 @@ public abstract class BaseProjectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        HandleTriggerLogic(other);
+    }
+
+    /// <summary>
+    /// This allows us to override the logic for things like enemy projectiles that should hit players and 
+    /// structures instead of enemies and blight nodes
+    /// </summary>
+    /// <param name="other"></param>
+    protected virtual void HandleTriggerLogic(Collider other)
+    {
+        //Checks to see if the projectile hit an enemy or a blight node
         Enemy hitEnemy = other.GetComponentInParent<Enemy>();
         BlightNode hitBlightNode = other.GetComponentInParent<BlightNode>();
 
-        if(hitEnemy != null)
+        //Tells the projectile to handle the hit based on what it hit
+        if (hitEnemy != null)
         {
             HandleProjectileEnemyHit(hitEnemy);
         }
@@ -34,6 +46,23 @@ public abstract class BaseProjectile : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the logic for when we hit an enemy
+    /// </summary>
+    /// <param name="enemy"></param>
     protected abstract void HandleProjectileEnemyHit(Enemy enemy);
+
+    /// <summary>
+    /// Handles the logic for when we hit a blight node
+    /// </summary>
+    /// <param name="blightNode"></param>
     protected abstract void HandleProjectileBlightNodeHit(BlightNode blightNode);
+
+    /// <summary>
+    /// Handles what happens when the projectile hits its target or times out
+    /// </summary>
+    protected void HandleProjectileFinished()
+    {
+        ServerManager.Despawn(gameObject);
+    }
 }
