@@ -75,7 +75,7 @@ public class PlayerAbilities : NetworkBehaviour
     /// This will probably need to be changed later for when we have multiple different characters
     /// </summary>
     [SerializeField]
-    private Projectile projectile;
+    private NormalProjectile projectile;
 
     [SerializeField]
     private Transform firingPosition;
@@ -240,7 +240,7 @@ public class PlayerAbilities : NetworkBehaviour
         Quaternion projRotation = Quaternion.LookRotation(dir);
 
         // Spawns the projectile on the server
-        Projectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<Projectile>();
+        NormalProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<NormalProjectile>();
 
         //Initializes the projectiles values
         newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));

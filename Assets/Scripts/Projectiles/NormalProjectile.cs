@@ -3,20 +3,13 @@ using FishNet.Object;
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : NetworkBehaviour
+public class NormalProjectile : BaseProjectile
 {
     private Vector3 targetPosition;
-
-    [SerializeField]
-    private float projSpeed;
-
-    private float projDamage;
 
     private Enemy hitEnemy;
 
     private Vector3 direction;
-
-    private float projectileMaxTime = 5f;
 
     /// <summary>
     /// Initializes the projectiles initial values
@@ -33,24 +26,17 @@ public class Projectile : NetworkBehaviour
         StartCoroutine(MoveToTarget());
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void HandleProjectileEnemyHit(Enemy enemy)
     {
-        Enemy hitEnemy = other.GetComponentInParent<Enemy>();
-        BlightNode hitBlightNode = other.GetComponentInParent<BlightNode>();
+        //Deal damage
+        enemy.TakeDamage(projDamage);
+        HandleProjectileFinished();
+    }
 
-        if (hitEnemy != null)
-        {
-            //Deal damage
-            hitEnemy.TakeDamage(projDamage);
-
-            HandleProjectileFinished();
-        }
-        else if (hitBlightNode != null)
-        {
-            hitBlightNode.TakeDamage(projDamage);
-
-            HandleProjectileFinished();
-        }
+    protected override void HandleProjectileBlightNodeHit(BlightNode blightNode)
+    {
+        blightNode.TakeDamage(projDamage);
+        HandleProjectileFinished();
     }
 
     /// <summary>

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RabbitBasicAttack : Ability
 {
-    private Projectile projectile;
+    private NormalProjectile projectile;
 
     private float damage = 20f;
 
-    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData, Projectile projectile) : base(player, abilityData)
+    public RabbitBasicAttack(PlayerAbilities player, AbilitySO abilityData, NormalProjectile projectile) : base(player, abilityData)
     {
         this.projectile = projectile;
     }
