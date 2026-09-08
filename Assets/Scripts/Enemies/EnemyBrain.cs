@@ -160,10 +160,6 @@ public class EnemyBrain : NetworkBehaviour
     private void OnTargetExited(ITargetable target)
     {
         //Debug.Log($"EnemyBrain noticed a target exited: {target}");
-        Debug.Log(
-       $"[TARGET EXITED] {gameObject.name} | " +
-       $"Target = {target.TargetTransform.gameObject.name} | " +
-       $"Current Target = {currentTarget}");
 
         if (!enemy.IsWaveEnemy)
         {
@@ -171,16 +167,8 @@ public class EnemyBrain : NetworkBehaviour
             {
                 currentTarget = null;
 
-                if (IsOutsideBlightLeash())
-                {
-                    ChangeState(EnemyState.Returning);
-                }
-                else
-                {
-                    ChangeState(EnemyState.Idle);
-                }
+                ChangeState(EnemyState.Returning);
             }
-
             return;
         }
 
@@ -289,6 +277,11 @@ public class EnemyBrain : NetworkBehaviour
         if (!enemy.IsWaveEnemy)
         {
             UpdateBlightLeash();
+            
+            if (IsTargetInRange())
+            {
+                //Look at target
+            }
         }
 
         //State machine yippeee!
@@ -335,6 +328,7 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+
     /// <summary>
     /// Update attack logic whenever enemy is in attacking state
     /// </summary>
@@ -348,16 +342,34 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
-                ChangeState(EnemyState.Idle);
+                ChangeState(EnemyState.Returning);
             }
 
             return;
         }
 
+        RotateTowardsTarget();
+
         if (!IsTargetInRange())
         {
             ChangeState(EnemyState.Moving);
         }
+    }
+
+    private void RotateTowardsTarget()
+    {
+        Vector3 direction = currentTarget.TargetTransform.position - transform.position;
+
+        direction.y = 0;
+
+        if (direction.magnitude <= 0.001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime);
     }
 
     /// <summary>
