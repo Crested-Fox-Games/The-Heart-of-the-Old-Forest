@@ -259,7 +259,7 @@ public class PlayerAbilities : NetworkBehaviour
         else if (projectilePrefab.GetComponent<RicochetProjectile>() != null)
         {
             //Initializes the projectiles values
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 10f, 3);
+            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 1f, 3);
         }
     }
 

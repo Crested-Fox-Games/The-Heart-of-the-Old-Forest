@@ -19,7 +19,7 @@ public class RicochetProjectile : BaseProjectile
     /// <summary>
     /// A list of targets the projectile has already hit
     /// </summary>
-    private List<GameObject> hitTargets;
+    private List<GameObject> hitTargets = new();
 
     /// <summary>
     /// The maximum number of times the projectile can ricochet
@@ -34,7 +34,7 @@ public class RicochetProjectile : BaseProjectile
     /// <summary>
     /// The max distance the projectile checks for a new target to ricochet to
     /// </summary>
-    private float maxRicochetDistance = 10f;
+    private float maxRicochetDistance = 1f;
 
     /// <summary>
     /// Coroutine that handles the movement of the projectile towards the target position
@@ -47,7 +47,7 @@ public class RicochetProjectile : BaseProjectile
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;
         this.maxRicochetDistance = maxRicochetDist;
-        hitTargets = new List<GameObject>();
+        hitTargets.Clear();
 
         direction = (targetPosition - transform.position).normalized;
         movementCoroutine = StartCoroutine(MoveToTarget());
@@ -96,7 +96,7 @@ public class RicochetProjectile : BaseProjectile
         enemy.TakeDamage(projDamage);
         StopCoroutine(movementCoroutine);
 
-        if (currentRicochets < maxRicochets)
+        if (currentRicochets <= maxRicochets)
         {
             Ricochet();
         }
@@ -119,8 +119,9 @@ public class RicochetProjectile : BaseProjectile
         //Where: Checks to see if the game object has an enemy or blight node component that are not in the hitTargets list
         //OrderBy: Orders the list by distance from the projectile
         possibleTargets = Physics.OverlapSphere(transform.position, maxRicochetDistance)
-            .Select(collider => collider.gameObject)
-            .Where(go => (go.GetComponentInParent<Enemy>() != null || go.GetComponentInParent<BlightNode>() != null) && !hitTargets.Contains(go))
+            .Select(collider => collider.GetComponentInParent<Enemy>()?.gameObject ?? collider.GetComponentInParent<BlightNode>()?.gameObject)
+            .Where(go => (go != null && !hitTargets.Contains(go)))
+            .Distinct()
             .OrderBy(go => (go.transform.position - transform.position).sqrMagnitude)
             .ToList();
 
@@ -133,7 +134,7 @@ public class RicochetProjectile : BaseProjectile
             direction = (targetPosition - transform.position).normalized;
 
             Debug.DrawRay(transform.position, direction * 5f, Color.red, 2f);
-            Debug.Log($"Target Pos {targetPosition} current pos {transform.position} direction {direction}");
+            Debug.Log($"Target enemy {possibleTargets[0]} Target Pos {targetPosition} current pos {transform.position} direction {direction}");
             movementCoroutine = StartCoroutine(MoveToTarget());
         }
         else
