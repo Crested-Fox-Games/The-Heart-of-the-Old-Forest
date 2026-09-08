@@ -252,11 +252,11 @@ public class PlayerAbilities : NetworkBehaviour
     //NOTE: This is so ugly, need to find a better way of doing it
     private void InitializeProjectiles(BaseProjectile newProjectile, Vector3 target, AbilitySO abilitySO, float baseDamage, GameObject projectilePrefab)
     {
-        if (projectilePrefab.GetComponentInParent<NormalProjectile>() != null)
+        if (projectilePrefab.GetComponent<NormalProjectile>() != null)
         {
             newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
         }
-        else if (projectilePrefab.GetComponentInParent<RicochetProjectile>() != null)
+        else if (projectilePrefab.GetComponent<RicochetProjectile>() != null)
         {
             //Initializes the projectiles values
             newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 10f, 3);

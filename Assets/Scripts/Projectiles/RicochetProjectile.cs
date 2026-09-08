@@ -132,6 +132,7 @@ public class RicochetProjectile : BaseProjectile
             targetPosition.y = transform.position.y;
             direction = (targetPosition - transform.position).normalized;
 
+            Debug.DrawRay(transform.position, direction * 5f, Color.red, 2f);
             Debug.Log($"Target Pos {targetPosition} current pos {transform.position} direction {direction}");
             movementCoroutine = StartCoroutine(MoveToTarget());
         }
