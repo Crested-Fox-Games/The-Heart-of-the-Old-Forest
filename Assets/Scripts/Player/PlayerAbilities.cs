@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using static UnityEngine.GraphicsBuffer;
 
 public enum AbilitySlot
 {
@@ -75,7 +76,7 @@ public class PlayerAbilities : NetworkBehaviour
     /// This will probably need to be changed later for when we have multiple different characters
     /// </summary>
     [SerializeField]
-    private NormalProjectile projectile;
+    private BaseProjectile projectile;
 
     [SerializeField]
     private Transform firingPosition;
@@ -240,13 +241,26 @@ public class PlayerAbilities : NetworkBehaviour
         Quaternion projRotation = Quaternion.LookRotation(dir);
 
         // Spawns the projectile on the server
-        NormalProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<NormalProjectile>();
+        BaseProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<BaseProjectile>();
 
-        //Initializes the projectiles values
-        newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+        InitializeProjectiles(newProjectile, target, abilitySO, baseDamage, projectilePrefab);
 
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
+    }
+
+    //NOTE: This is so ugly, need to find a better way of doing it
+    private void InitializeProjectiles(BaseProjectile newProjectile, Vector3 target, AbilitySO abilitySO, float baseDamage, GameObject projectilePrefab)
+    {
+        if (projectilePrefab.GetComponentInParent<NormalProjectile>() != null)
+        {
+            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+        }
+        else if (projectilePrefab.GetComponentInParent<RicochetProjectile>() != null)
+        {
+            //Initializes the projectiles values
+            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 10f, 3);
+        }
     }
 
     public void AddAbilityUpgrade(AbilitySO abilitySO, AbilityStats abilityStat, UpgradeType rewardType, float rewardAmount)

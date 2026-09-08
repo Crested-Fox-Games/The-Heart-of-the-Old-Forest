@@ -19,7 +19,7 @@ public class RicochetProjectile : BaseProjectile
     /// <summary>
     /// A list of targets the projectile has already hit
     /// </summary>
-    private GameObject[] hitTargets;
+    private List<GameObject> hitTargets;
 
     /// <summary>
     /// The maximum number of times the projectile can ricochet
@@ -41,13 +41,13 @@ public class RicochetProjectile : BaseProjectile
     /// </summary>
     private Coroutine movementCoroutine;
 
-    public void InitializeProjectile(Vector3 target, float projectileDamage, float maxRicochetDist, int maxRicochets)
+    public override void InitializeProjectile(Vector3 target, float projectileDamage, float maxRicochetDist, int maxRicochets)
     {
         targetPosition = target;
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;
         this.maxRicochetDistance = maxRicochetDist;
-        hitTargets = new GameObject[maxRicochets];
+        hitTargets = new List<GameObject>();
 
         direction = (targetPosition - transform.position).normalized;
         movementCoroutine = StartCoroutine(MoveToTarget());
@@ -76,6 +76,7 @@ public class RicochetProjectile : BaseProjectile
 
     protected override void HandleProjectileBlightNodeHit(BlightNode blightNode)
     {
+        hitTargets.Add(blightNode.gameObject);
         blightNode.TakeDamage(projDamage);
         StopCoroutine(movementCoroutine);
 
@@ -91,6 +92,7 @@ public class RicochetProjectile : BaseProjectile
 
     protected override void HandleProjectileEnemyHit(Enemy enemy)
     {
+        hitTargets.Add(enemy.gameObject);
         enemy.TakeDamage(projDamage);
         StopCoroutine(movementCoroutine);
 
@@ -114,20 +116,23 @@ public class RicochetProjectile : BaseProjectile
 
         //Populate the list of possible targets
         //Select: Selects the game object from the collider
-        //Where: Checks to see if the game object has an enemy or blight node component
+        //Where: Checks to see if the game object has an enemy or blight node component that are not in the hitTargets list
         //OrderBy: Orders the list by distance from the projectile
         possibleTargets = Physics.OverlapSphere(transform.position, maxRicochetDistance)
             .Select(collider => collider.gameObject)
-            .Where(go => (go.GetComponent<Enemy>() != null || go.GetComponent<BlightNode>() != null) && !hitTargets.Contains(go))
+            .Where(go => (go.GetComponentInParent<Enemy>() != null || go.GetComponentInParent<BlightNode>() != null) && !hitTargets.Contains(go))
             .OrderBy(go => (go.transform.position - transform.position).sqrMagnitude)
             .ToList();
 
         if (possibleTargets.Count > 0)
         {
+            currentRicochets++;
             //Set the new target position and direction and move the projectile towards it
             targetPosition = possibleTargets[0].transform.position;
+            targetPosition.y = transform.position.y;
             direction = (targetPosition - transform.position).normalized;
 
+            Debug.Log($"Target Pos {targetPosition} current pos {transform.position} direction {direction}");
             movementCoroutine = StartCoroutine(MoveToTarget());
         }
         else

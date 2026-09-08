@@ -65,4 +65,26 @@ public abstract class BaseProjectile : NetworkBehaviour
     {
         ServerManager.Despawn(gameObject);
     }
+
+    /// <summary>
+    /// Initializes the projectile with the target position and damage value
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="projectileDamage"></param>
+    public virtual void InitializeProjectile(Vector3 target, float projectileDamage)
+    {
+        // Implementation for initializing the projectile
+    }
+
+    /// <summary>
+    /// Initializes the projectile with the target position, damage value, maximum distance, and maximum ricochets
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="projectileDamage"></param>
+    /// <param name="maxDist"></param>
+    /// <param name="maxRicochets"></param>
+    public virtual void InitializeProjectile(Vector3 target, float projectileDamage, float maxDist, int maxRicochets)
+    {
+        // Implementation for initializing the projectile with ricochet parameters
+    }
 }

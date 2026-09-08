@@ -21,7 +21,7 @@ public class NormalProjectile : BaseProjectile
     /// <param name="target"></param>
     /// <param name="projectileDamage"></param>
     /// <param name="tower"></param>
-    public void InitializeProjectile(Vector3 target, float projectileDamage)
+    public override void InitializeProjectile(Vector3 target, float projectileDamage)
     {
         targetPosition = target;
         projDamage = projectileDamage;
