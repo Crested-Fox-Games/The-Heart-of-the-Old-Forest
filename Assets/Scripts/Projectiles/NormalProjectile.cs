@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class NormalProjectile : BaseProjectile
 {
+    /// <summary>
+    /// The target position the projectile is moving towards
+    /// </summary>
     private Vector3 targetPosition;
 
-    private Enemy hitEnemy;
-
+    /// <summary>
+    /// The direction the projectile is moving in
+    /// </summary>
     private Vector3 direction;
 
     /// <summary>
@@ -26,6 +30,28 @@ public class NormalProjectile : BaseProjectile
         StartCoroutine(MoveToTarget());
     }
 
+    /// <summary>
+    /// Moves the projectile towards the target position over time until it either hits the target or times out
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MoveToTarget()
+    {
+        float timer = 0;
+
+        while (timer < projectileMaxTime)
+        {
+            timer += Time.deltaTime;
+
+            //Move the projectile towards the enemy
+            transform.position += direction * projSpeed * Time.deltaTime;
+
+            yield return null;
+        }
+
+        HandleProjectileFinished();
+    }
+
+
     protected override void HandleProjectileEnemyHit(Enemy enemy)
     {
         //Deal damage
@@ -39,28 +65,5 @@ public class NormalProjectile : BaseProjectile
         HandleProjectileFinished();
     }
 
-    /// <summary>
-    /// Handles what happens when the projectile hits its target or times out
-    /// </summary>
-    private void HandleProjectileFinished()
-    {
-        ServerManager.Despawn(gameObject);
-    }
-
-    private IEnumerator MoveToTarget()
-    {
-        float timer = 0;
-
-        while (timer < projectileMaxTime) 
-        {
-            timer += Time.deltaTime;
-
-            //Move the projectile towards the enemy
-            transform.position += direction * projSpeed * Time.deltaTime;
-
-            yield return null;
-        }
-
-       HandleProjectileFinished();
-    }
+    
 }
