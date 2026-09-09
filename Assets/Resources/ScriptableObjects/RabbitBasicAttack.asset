@@ -18,4 +18,5 @@ MonoBehaviour:
   castTime: 0.5
   projectile: {fileID: 417760506842130566, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   needDirection: 1
-  ability: {fileID: 11500000, guid: 3775a8b17b404a347b0bb22fd56ac2bb, type: 3}
+  abilityTypeName: RabbitBasicAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
