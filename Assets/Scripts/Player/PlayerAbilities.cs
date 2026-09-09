@@ -119,7 +119,21 @@ public class PlayerAbilities : NetworkBehaviour
 
     private Ability AddAbility(AbilitySO abilitySO)
     {
-        Ability ability = gameObject.AddComponent(abilitySO.Ability.GetClass()) as Ability;
+        Type abilityType = Type.GetType(abilitySO.AbilityTypeName);
+
+        if(abilityType == null)
+        {
+            Debug.LogError($"Could not find ability type '{abilitySO.AbilityTypeName}' for ability '{abilitySO.AbilityName}'");
+
+            return null;
+        }
+
+        Ability ability = gameObject.AddComponent(abilityType) as Ability;
+
+        if(ability == null)
+        {
+            Debug.LogError($"Type '{abilityType}' does not inherit from ability");
+        }
 
         ability.Initialize(this, abilitySO);
 
