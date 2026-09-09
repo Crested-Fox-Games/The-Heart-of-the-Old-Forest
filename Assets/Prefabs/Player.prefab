@@ -250,7 +250,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
-  sensitivity: 5
+  sensitivity: 2.8
   rotationSmooth: 60
   minPivotRotation: -30
   maxPivotRotation: 65
@@ -272,7 +272,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
-  maxHealth: 100
+  baseMaxHealth: 100
 --- !u!114 &3523095287178685474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584133695652358549
+  _initializedTimestamp: -8584127497071289618
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -348,7 +348,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 2
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2092870565765373345
   SceneId: 0
@@ -461,9 +461,10 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
-  firstAbilitySO: {fileID: 0}
-  secondAbilitySO: {fileID: 0}
-  projectile: {fileID: 3428635581005589706, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
+  firstAbilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  secondAbilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  ultimateAbilitySO: {fileID: 11400000, guid: a42917d512f143347b88fa7d6015a6b9, type: 2}
+  projectile: {fileID: 417760506842130566, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   firingPosition: {fileID: 1286192359782629347}
   aimMask:
     serializedVersion: 2

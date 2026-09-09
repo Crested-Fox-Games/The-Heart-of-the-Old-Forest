@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilitySO", menuName = "Scriptable Objects/AbilitySO")]
@@ -13,7 +14,13 @@ public class AbilitySO : ScriptableObject
     private float cooldown, castTime;
 
     [SerializeField]
+    private BaseProjectile projectile;
+
+    [SerializeField]
     private bool needDirection;
+
+    [SerializeField]
+    private MonoScript ability;
     
     /// <summary>
     /// The name of the ability
@@ -36,7 +43,17 @@ public class AbilitySO : ScriptableObject
     public float CastTime => castTime;
 
     /// <summary>
+    /// The projectile for if the ability has a projectile
+    /// </summary>
+    public BaseProjectile Projectile => projectile;
+
+    /// <summary>
     /// Returns whether or not this ability needs a direction to be used
     /// </summary>
     public bool NeedDirection => needDirection;
+
+    /// <summary>
+    /// The ability script for the SO
+    /// </summary>
+    public MonoScript Ability => ability;
 }

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityStatRewardSO
   RewardName: Basic Attack Upgrade
   RewardId: 16
-  RewardWeight: 100
+  RewardWeight: 5
   RewardIcon: {fileID: 0}
   rarity: 3
   abilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
   abilityStat: 0
   upgradeType: 0
-  rewardAmount: 100
+  rewardAmount: 5
