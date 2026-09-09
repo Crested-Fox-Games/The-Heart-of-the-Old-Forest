@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545e1844cfb2526489ab8d78c1c676d1, type: 3}
+  m_Name: _BasicAttack
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityStatRewardSO
+  RewardName: Basic Attack Upgrade
+  RewardId: 16
+  RewardWeight: 100
+  RewardIcon: {fileID: 0}
+  rarity: 3
+  abilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  abilityStat: 0
+  upgradeType: 0
+  rewardAmount: 100

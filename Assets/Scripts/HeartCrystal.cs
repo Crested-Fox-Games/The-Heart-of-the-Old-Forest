@@ -6,16 +6,21 @@ using UnityEngine;
 public class HeartCrystal : NetworkBehaviour, ITargetable
 {
     //The current and starting health
-    private float startingHealth = 100f;
+    private float maxHealth = 100f;
 
     public readonly SyncVar<float> currentHealth = new();
 
     public Transform TargetTransform => transform;
 
+    private HealthBar healthBar;
+
     public override void OnStartServer()
     {
         //Initializes the health
-        currentHealth.Value = startingHealth;
+        currentHealth.Value = maxHealth;
+
+        healthBar = GetComponentInChildren<HealthBar>();
+        currentHealth.OnChange += UpdateHealthBar;
     }
 
     public bool IsAlive()
@@ -48,5 +53,11 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
         return true;
     }
 
-    //TODO: update some sort of in scene ui that displays a health bar
+    /// <summary>
+    /// Updates the health bar of the heart crystal
+    /// </summary>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        healthBar.TriggerHealthBarUpdate(currentHealth.Value, maxHealth);
+    }
 }

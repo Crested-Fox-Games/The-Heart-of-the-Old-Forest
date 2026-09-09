@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// The rarity levels for blight nodes
 /// </summary>
-public enum BlightRarity
+public enum Rarity
 {
     common,
     uncommon,
@@ -81,33 +81,33 @@ public class BlightManager : NetworkBehaviour
     /// <summary>
     /// Setting up the pools that the blight nodes can spawn with
     /// </summary>
-    private Dictionary<BlightRarity, float> Stage1Pool = new()
+    private Dictionary<Rarity, float> Stage1Pool = new()
     {
-        [BlightRarity.common] = 95f,
-        [BlightRarity.uncommon] = 5f
+        [Rarity.common] = 95f,
+        [Rarity.uncommon] = 5f
     };
 
-    private Dictionary<BlightRarity, float> Stage2Pool = new()
+    private Dictionary<Rarity, float> Stage2Pool = new()
     {
-        [BlightRarity.common] = 75f,
-        [BlightRarity.uncommon] = 20f,
-        [BlightRarity.rare] = 5f
+        [Rarity.common] = 75f,
+        [Rarity.uncommon] = 20f,
+        [Rarity.rare] = 5f
     };
 
-    private Dictionary<BlightRarity, float> Stage3Pool = new()
+    private Dictionary<Rarity, float> Stage3Pool = new()
     {
-        [BlightRarity.common] = 35f,
-        [BlightRarity.uncommon] = 40f,
-        [BlightRarity.rare] = 20f,
-        [BlightRarity.mythic] = 5f
+        [Rarity.common] = 35f,
+        [Rarity.uncommon] = 40f,
+        [Rarity.rare] = 20f,
+        [Rarity.mythic] = 5f
     };
 
-    private Dictionary<BlightRarity, float> Stage4Pool = new()
+    private Dictionary<Rarity, float> Stage4Pool = new()
     {
-        [BlightRarity.common] = 10f,
-        [BlightRarity.uncommon] = 30f,
-        [BlightRarity.rare] = 40f,
-        [BlightRarity.mythic] = 20f
+        [Rarity.common] = 10f,
+        [Rarity.uncommon] = 30f,
+        [Rarity.rare] = 40f,
+        [Rarity.mythic] = 20f
     };
 
     private void Awake()
@@ -281,10 +281,10 @@ public class BlightManager : NetworkBehaviour
     /// Gets the rarity for the blight node we are spawning
     /// </summary>
     /// <returns></returns>
-    private BlightRarity GetBlightRarity()
+    private Rarity GetBlightRarity()
     {
         //Gets the current rarity pool for the rarity weights
-        Dictionary<BlightRarity, float> currentPool = GetCurrentRarityPool();
+        Dictionary<Rarity, float> currentPool = GetCurrentRarityPool();
 
         //Calculates total weights in pool and selects a random number in that range
         float totalWeight = currentPool.Values.Sum();
@@ -310,7 +310,7 @@ public class BlightManager : NetworkBehaviour
     /// Basic implementation for getting rarity pool based on days completed
     /// </summary>
     /// <returns></returns>
-    private Dictionary<BlightRarity, float> GetCurrentRarityPool()
+    private Dictionary<Rarity, float> GetCurrentRarityPool()
     {
         //TODO: Probably want to design this better
         if (TimeCycleManager.Instance.CurrentDay < 2)

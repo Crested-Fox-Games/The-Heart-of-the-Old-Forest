@@ -23,6 +23,10 @@ public abstract class RewardSO : ScriptableObject
     /// </summary>
     public Sprite RewardIcon;
 
+    /// <summary>
+    /// The rarity of the reward granted to the player
+    /// </summary>
+    public Rarity rarity;
 
     /// <summary>
     /// The function that handles giving the player rewards
