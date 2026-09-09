@@ -40,12 +40,15 @@ public class EventPopups : MonoBehaviour
     {
         go.SetActive(true);
 
+        //Gets the canvas group so that the text can be faded in
         CanvasGroup cg = go.GetComponent<CanvasGroup>();
 
+        //Sets the alpha to 0, making it invisible
         cg.alpha = 0f;
 
         float timer = 0f;
 
+        //Fades in over time
         while (timer < fadeTimer)
         {
             timer += Time.deltaTime;
@@ -55,6 +58,7 @@ public class EventPopups : MonoBehaviour
             yield return null;
         }
 
+        //Failsafe to ensure the alpha is correct after loop
         cg.alpha = 1f;
 
         yield return new WaitForSeconds(stayTimer);
@@ -64,10 +68,12 @@ public class EventPopups : MonoBehaviour
 
     private IEnumerator FadeOut(GameObject go) 
     {
+        //Gets the canvas group so that text can be faded out
         CanvasGroup cg = go.GetComponent<CanvasGroup>();
 
         float timer = 0f;
 
+        //Fades out over time
         while (timer < fadeTimer)
         {
             timer += Time.deltaTime;
@@ -77,6 +83,7 @@ public class EventPopups : MonoBehaviour
             yield return null;
         }
 
+        //Failsafe to ensure the alpha is correct after loop
         cg.alpha = 0f;
 
         go.SetActive(false);
