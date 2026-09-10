@@ -1,5 +1,6 @@
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This script handles all the enemies decision making
@@ -21,6 +22,7 @@ public class EnemyBrain : NetworkBehaviour
     private ITargetable defaultTarget;
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
+    public ITargetable CurrentTarget => currentTarget;
 
     //Store blight enemy spawn
     private Vector3 blightSpawnPos;
@@ -160,10 +162,6 @@ public class EnemyBrain : NetworkBehaviour
     private void OnTargetExited(ITargetable target)
     {
         //Debug.Log($"EnemyBrain noticed a target exited: {target}");
-        Debug.Log(
-       $"[TARGET EXITED] {gameObject.name} | " +
-       $"Target = {target.TargetTransform.gameObject.name} | " +
-       $"Current Target = {currentTarget}");
 
         if (!enemy.IsWaveEnemy)
         {
@@ -171,16 +169,15 @@ public class EnemyBrain : NetworkBehaviour
             {
                 currentTarget = null;
 
-                if (IsOutsideBlightLeash())
+                if(FindBlightTarget() == null)
                 {
                     ChangeState(EnemyState.Returning);
                 }
                 else
                 {
-                    ChangeState(EnemyState.Idle);
+                    SetBlightTarget(FindBlightTarget());
                 }
             }
-
             return;
         }
 
@@ -238,6 +235,7 @@ public class EnemyBrain : NetworkBehaviour
 
         if (IsOutsideBlightLeash())
         {
+            Debug.Log("Outside blight leash detected");
             ReturnToBlightSpawn();
         }
     }
@@ -289,6 +287,11 @@ public class EnemyBrain : NetworkBehaviour
         if (!enemy.IsWaveEnemy)
         {
             UpdateBlightLeash();
+            
+            if (IsTargetInRange())
+            {
+                //Look at target
+            }
         }
 
         //State machine yippeee!
@@ -323,17 +326,57 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
+                //THIS
                 ChangeState(EnemyState.Idle);
             }
 
             return;
         }
+        else
+        {
+            if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
+            {
+                enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+            }
+            else
+            {
+                enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+            }
+        }
 
         if (IsTargetInRange())
         {
             ChangeState(EnemyState.Attacking);
+            return;
+        }
+
+        CheckIfStuck();
+    }
+
+    private float lastDist;
+    private float stuckTimer;
+
+    private void CheckIfStuck()
+    {
+        float currentDist = enemyMovement.GetRemainingDistance();
+
+        if(Mathf.Abs(currentDist - lastDist) < 0.01f)
+        {
+            stuckTimer += Time.deltaTime;
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+
+        lastDist = currentDist;
+
+        if(stuckTimer >= 1f)
+        {
+            enemyMovement.StopMoving();
         }
     }
+
 
     /// <summary>
     /// Update attack logic whenever enemy is in attacking state
@@ -348,16 +391,34 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
-                ChangeState(EnemyState.Idle);
+                ChangeState(EnemyState.Returning);
             }
 
             return;
         }
 
+        RotateTowardsTarget();
+
         if (!IsTargetInRange())
         {
             ChangeState(EnemyState.Moving);
         }
+    }
+
+    private void RotateTowardsTarget()
+    {
+        Vector3 direction = currentTarget.TargetTransform.position - transform.position;
+
+        direction.y = 0;
+
+        if (direction.magnitude <= 0.001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360f * Time.deltaTime);
     }
 
     /// <summary>
@@ -424,7 +485,16 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        if(currentTarget.TargetTransform.GetComponent<PlayerRef>()  != null)
+        {
+            enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+        }
+        else
+        {
+            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        }
+        
+        //RotateTowardsTarget();
     }
 
     /// <summary>

@@ -58,6 +58,8 @@ public class TargetDetector : MonoBehaviour
             return;
         }
 
+        Debug.Log("Should be removed");
+
         if (nearbyTargets.Remove(target))
         {
             Debug.Log($"{gameObject.name} lost {other.gameObject.name}");
