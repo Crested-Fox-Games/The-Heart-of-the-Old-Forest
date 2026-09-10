@@ -22,6 +22,20 @@ public abstract class Ability : NetworkBehaviour
 
     public float CooldownRemaining => cooldownRemaining;
 
+    /// <summary>
+    /// A bool for if the ability has an active portion
+    /// </summary>
+    protected bool hasActive = false;
+
+    /// <summary>
+    /// The amount of time the ability is active for
+    /// </summary>
+    protected float activeTimer = 0f;
+
+    private float activeRemaining = 0f;
+
+    private bool isActive = false;
+
     public AbilitySO AbilitySO => abilitySO;
 
     public void Initialize(PlayerAbilities player, AbilitySO abilityData)
@@ -50,6 +64,7 @@ public abstract class Ability : NetworkBehaviour
         Activate();
 
         cooldownRemaining = owner.GetCooldown(AbilitySO, AbilitySO.Cooldown);
+        activeRemaining = activeTimer;
     }
 
     /// <summary>
@@ -61,6 +76,7 @@ public abstract class Ability : NetworkBehaviour
         Activate(direction);
 
         cooldownRemaining = owner.GetCooldown(abilitySO, abilitySO.Cooldown);
+        activeRemaining = activeTimer;
     }
 
     /// <summary>
@@ -77,7 +93,10 @@ public abstract class Ability : NetworkBehaviour
     /// </summary>
     protected virtual void Activate()
     {
-
+        if(hasActive)
+        {
+            isActive = true;
+        }
     }
 
     /// <summary>
@@ -94,7 +113,11 @@ public abstract class Ability : NetworkBehaviour
     /// </summary>
     protected virtual void Deactivate()
     {
+        if(hasActive)
+            isActive = false;
 
+        //Resets the cooldown again to make it easier
+        cooldownRemaining = owner.GetCooldown(AbilitySO, AbilitySO.Cooldown);
     }
 
     /// <summary>
@@ -103,6 +126,16 @@ public abstract class Ability : NetworkBehaviour
     /// <param name="deltaTime"></param>
     public void Tick(float deltaTime)
     {
+        if(isActive && activeRemaining > 0)
+        {
+            Debug.Log($"Active remaining {activeRemaining}");
+            activeRemaining -= deltaTime;
+        }
+        else if(!isActive && activeRemaining > 0)
+        {
+            activeRemaining = 0;
+        }    
+
         if (cooldownRemaining > 0)
         {
             cooldownRemaining -= deltaTime;
@@ -115,5 +148,20 @@ public abstract class Ability : NetworkBehaviour
     public virtual void SetProjectile(GameObject proj)
     {
 
+    }
+
+    public bool HasActive()
+    {
+        return hasActive;
+    }
+
+    public float ActiveRemaining()
+    {
+        return activeRemaining;
+    }
+
+    public float ActiveTime()
+    {
+        return activeTimer;
     }
 }

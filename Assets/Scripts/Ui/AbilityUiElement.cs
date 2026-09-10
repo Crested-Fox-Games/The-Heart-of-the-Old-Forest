@@ -114,6 +114,16 @@ public class AbilityUiElement : MonoBehaviour
     /// <param name="asServer"></param>
     private void UpdateCooldown(float previous, float cooldownRemaining, bool asServer)
     {
+        if(ability.HasActive() && ability.ActiveRemaining() > 0)
+        {
+            cooldownText.gameObject.SetActive(true);
+
+            cooldownText.text = ability.ActiveRemaining().ToString("F1");
+            cooldownOverlay.fillAmount = 1f - ability.ActiveRemaining() / ability.ActiveTime();
+
+            return;
+        }
+
         if(cooldownRemaining > 0) 
         {
             cooldownText.gameObject.SetActive(true);
