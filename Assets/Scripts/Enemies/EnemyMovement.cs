@@ -1,4 +1,5 @@
 using FishNet.Object;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -122,5 +123,35 @@ public class EnemyMovement : NetworkBehaviour
 
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+    }
+
+    public void PullTowards(Vector3 position, float distance, float time)
+    {
+        StartCoroutine(PullTowardsOverTime(position, distance, time));
+    }
+
+    private IEnumerator PullTowardsOverTime(Vector3 position, float distance, float time)
+    {
+        agent.isStopped = true;
+
+        Vector3 direction = (position - transform.position).normalized;
+
+        float timer = 0f;
+
+        while (timer < time)
+        {
+            timer += Time.deltaTime;
+
+            float pullDist = distance / time * Time.deltaTime;
+
+            agent.Move(direction * pullDist);
+
+            yield return null;
+        }
+
+        //Reset the agent
+        agent.isStopped = false;
+        
+        //TODO: Set the destination again
     }
 }
