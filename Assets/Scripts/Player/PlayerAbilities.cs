@@ -12,8 +12,8 @@ using static UnityEngine.GraphicsBuffer;
 public enum AbilitySlot
 {
     BasicAttack,
-    FirstAbility,
-    SecondAbility,
+    MovementAbility,
+    SpecialAbility,
     UltimateAbility
 }
 
@@ -74,6 +74,8 @@ public class PlayerAbilities : NetworkBehaviour
     /// This syncvar is used to let the client know how long is left on the cooldown, used for UI purposes
     /// </summary>
     private readonly SyncVar<float> basicAttackCooldownRemaining = new SyncVar<float>();
+    private readonly SyncVar<float> movementAbilityCooldownRemaining = new SyncVar<float>();
+    private readonly SyncVar<float> specialAbilityCooldownRemaining = new SyncVar<float>();
     private readonly SyncVar<float> ultimateAbilityCooldownRemaining = new SyncVar<float>();
 
     /// <summary>
@@ -213,14 +215,14 @@ public class PlayerAbilities : NetworkBehaviour
     /// <param name="abilitySlot"></param>
     /// <returns></returns>
     /// <exception cref="System.ArgumentOutOfRangeException"></exception>
-    private Ability GetAbilityFromSlot(AbilitySlot abilitySlot)
+    public Ability GetAbilityFromSlot(AbilitySlot abilitySlot)
     {
         //A switch statement which returns the ability in the specified slot
         return abilitySlot switch
         {
             AbilitySlot.BasicAttack => basicAttack,
-            AbilitySlot.FirstAbility => firstAbility,
-            AbilitySlot.SecondAbility => secondAbility,
+            AbilitySlot.MovementAbility => firstAbility,
+            AbilitySlot.SpecialAbility => secondAbility,
             AbilitySlot.UltimateAbility => ultimateAbility,
             _ => throw new System.ArgumentOutOfRangeException(nameof(abilitySlot), abilitySlot, null)
         };
@@ -239,11 +241,34 @@ public class PlayerAbilities : NetworkBehaviour
         return ability switch
         {
             _ when ability == basicAttack.AbilitySO => AbilitySlot.BasicAttack,
-            _ when ability == firstAbility.AbilitySO => AbilitySlot.FirstAbility,
-            _ when ability == secondAbility.AbilitySO => AbilitySlot.SecondAbility,
+            _ when ability == firstAbility.AbilitySO => AbilitySlot.MovementAbility,
+            _ when ability == secondAbility.AbilitySO => AbilitySlot.SpecialAbility,
             _ when ability == ultimateAbility.AbilitySO => AbilitySlot.UltimateAbility,
             _ => throw new System.ArgumentException("Ability not found in any slot", nameof(ability))
         };
+    }
+
+    /// <summary>
+    /// Returns the cooldown based on which slot is passed in
+    /// </summary>
+    /// <param name="slot"></param>
+    /// <returns></returns>
+    /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+    public SyncVar<float> GetCooldownSyncVarFromSlot(AbilitySlot slot)
+    {
+        return slot switch
+        {
+            AbilitySlot.BasicAttack => basicAttackCooldownRemaining,
+            AbilitySlot.MovementAbility => movementAbilityCooldownRemaining,
+            AbilitySlot.SpecialAbility => specialAbilityCooldownRemaining,
+            AbilitySlot.UltimateAbility => ultimateAbilityCooldownRemaining,
+            _ => throw new System.ArgumentOutOfRangeException(nameof(slot), slot, null)
+        };
+    }
+
+    public float GetCooldownFromSlot(AbilitySlot slot)
+    {
+        return GetCooldownSyncVarFromSlot(slot).Value;
     }
 
     /// <summary>

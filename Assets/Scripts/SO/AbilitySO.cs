@@ -7,7 +7,7 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
-    private Sprite icon;
+    private Sprite abilityIcon;
 
     [SerializeField]
     private float cooldown, castTime;
@@ -29,7 +29,7 @@ public class AbilitySO : ScriptableObject
     /// <summary>
     /// The icon for the ability that is displayed in the UI
     /// </summary>
-    public Sprite Icon => icon;
+    public Sprite AbilityIcon => abilityIcon;
 
     /// <summary>
     /// The cooldown for this ability

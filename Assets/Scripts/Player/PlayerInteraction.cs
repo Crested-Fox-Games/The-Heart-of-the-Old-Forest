@@ -317,7 +317,7 @@ public class PlayerInteraction : NetworkBehaviour
     /// Returns the current binding group based on the last input received
     /// </summary>
     /// <returns></returns>
-    private string GetCurrentBindingGroup()
+    public string GetCurrentBindingGroup()
     {
         //If we want to add support for other input devices, they just need to be added as an else if below gamepad
         if(lastUsedInputDevice is Gamepad)
