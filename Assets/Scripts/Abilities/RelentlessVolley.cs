@@ -9,11 +9,11 @@ public class RelentlessVolley : Ability
 
     private Ability basicAttack;
 
-    private float timer = 5f;
-
     private void Start()
     {
         projectile = abilitySO.Projectile;
+        hasActive = true;
+        activeTimer = 5f;
     }
 
     private void InitializeBasicAttack()
@@ -23,6 +23,8 @@ public class RelentlessVolley : Ability
 
     protected override void Activate()
     {
+        base.Activate();
+
         if(basicAttack == null)
         {
             InitializeBasicAttack();
@@ -45,6 +47,8 @@ public class RelentlessVolley : Ability
 
     protected override void Deactivate()
     {
+        base.Deactivate();
+
         basicAttack.SetProjectile(normalProj);
 
         //Remove buffs
@@ -54,7 +58,7 @@ public class RelentlessVolley : Ability
 
     private IEnumerator ActiveTimerForAbility()
     {
-        yield return new WaitForSeconds(timer);
+        yield return new WaitForSeconds(activeTimer);
 
         Deactivate();
     }
