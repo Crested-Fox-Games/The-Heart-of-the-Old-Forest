@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78fe02c43350abe4f9a15268963f020f, type: 3}
-  m_Name: RabbitBasicAttack
+  m_Name: RelentlessVolley
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
-  abilityName: Basic Attack
+  abilityName: Relentless Volley
   icon: {fileID: 0}
-  cooldown: 1
-  castTime: 0.5
-  projectile: {fileID: 417760506842130566, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
-  needDirection: 1
-  abilityTypeName: RabbitBasicAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  cooldown: 50
+  castTime: 0
+  projectile: {fileID: 2318843439141175615, guid: 6fdb742f749d1784bb2fb587705cc76d, type: 3}
+  needDirection: 0
+  abilityTypeName: RelentlessVolley, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null

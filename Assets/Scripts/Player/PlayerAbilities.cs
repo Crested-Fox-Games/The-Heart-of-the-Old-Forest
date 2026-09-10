@@ -2,16 +2,19 @@ using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using static UnityEngine.GraphicsBuffer;
 
 public enum AbilitySlot
 {
     BasicAttack,
     FirstAbility,
-    SecondAbility
+    SecondAbility,
+    UltimateAbility
 }
 
 /// <summary>
@@ -57,8 +60,10 @@ public struct AbilityUpgradesDC
 public class PlayerAbilities : NetworkBehaviour
 {
     [SerializeField]
-    private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO;
-    private Ability basicAttack, firstAbility, secondAbility;
+    private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO, ultimateAbilitySO;
+    private Ability basicAttack, firstAbility, secondAbility, ultimateAbility;
+
+    public Ability BasicAttack => basicAttack;
 
     /// <summary>
     /// A dictionary that holds the values for the abilities upgrades
@@ -69,24 +74,33 @@ public class PlayerAbilities : NetworkBehaviour
     /// This syncvar is used to let the client know how long is left on the cooldown, used for UI purposes
     /// </summary>
     private readonly SyncVar<float> basicAttackCooldownRemaining = new SyncVar<float>();
+    private readonly SyncVar<float> ultimateAbilityCooldownRemaining = new SyncVar<float>();
 
     /// <summary>
     /// This is the projectile for the player basic attack.
     /// This will probably need to be changed later for when we have multiple different characters
     /// </summary>
     [SerializeField]
-    private Projectile projectile;
+    private BaseProjectile projectile;
+
+    public BaseProjectile Projectile => projectile;
 
     [SerializeField]
     private Transform firingPosition;
+
+    public Transform FiringPosition => firingPosition;
 
     [SerializeField]
     private LayerMask aimMask;
 
     private void Awake()
     {
-        basicAttack = new RabbitBasicAttack(this, basicAttackSO, projectile);
+        basicAttack = AddAbility(basicAttackSO);
+        ultimateAbility = AddAbility(ultimateAbilitySO);
 
+        //FOR TESTING REMOVE WHEN OTHER ABILITIES MADE
+        firstAbility = AddAbility(basicAttackSO);
+        secondAbility = AddAbility(basicAttackSO);
     }
 
     private void Update()
@@ -96,14 +110,39 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Ticks down the basic attacks cooldown timer
         basicAttack.Tick(Time.deltaTime);
+        ultimateAbility.Tick(Time.deltaTime);
 
         //Updates the sync var to let the client know how much time is left on the cooldown
         basicAttackCooldownRemaining.Value = basicAttack.CooldownRemaining;
+        ultimateAbilityCooldownRemaining.Value = ultimateAbility.CooldownRemaining;
+    }
+
+    private Ability AddAbility(AbilitySO abilitySO)
+    {
+        Type abilityType = Type.GetType(abilitySO.AbilityTypeName);
+
+        if(abilityType == null)
+        {
+            Debug.LogError($"Could not find ability type '{abilitySO.AbilityTypeName}' for ability '{abilitySO.AbilityName}'");
+
+            return null;
+        }
+
+        Ability ability = gameObject.AddComponent(abilityType) as Ability;
+
+        if(ability == null)
+        {
+            Debug.LogError($"Type '{abilityType}' does not inherit from ability");
+        }
+
+        ability.Initialize(this, abilitySO);
+
+        return ability;
     }
 
     private void TryUseAbility(AbilitySlot abilitySlot)
     {
-       if(!IsOwner)
+        if(!IsOwner)
             return;
 
         if (GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
@@ -116,7 +155,6 @@ public class PlayerAbilities : NetworkBehaviour
         }
     }
 
-
     /// <summary>
     /// The server validates to see if the ability can be used and then uses it if it can
     /// </summary>
@@ -125,11 +163,11 @@ public class PlayerAbilities : NetworkBehaviour
     private void UseAbility(AbilitySlot abilitySlot)
     {
         Ability ability = GetAbilityFromSlot(abilitySlot);
-
+        
         if (ability == null)
             return;
 
-        if(!ability.CanUseAbility())
+        if (!ability.CanUseAbility())
             return;
 
         ability.UseAbility();
@@ -164,6 +202,11 @@ public class PlayerAbilities : NetworkBehaviour
     //    TryUseAbility(AbilitySlot.SecondAbility);
     //}
 
+    public void TryUseUltimateAttack(InputAction.CallbackContext context)
+    {
+        TryUseAbility(AbilitySlot.UltimateAbility);
+    }
+
     /// <summary>
     /// Gets the ability from the specified slot.
     /// </summary>
@@ -178,6 +221,7 @@ public class PlayerAbilities : NetworkBehaviour
             AbilitySlot.BasicAttack => basicAttack,
             AbilitySlot.FirstAbility => firstAbility,
             AbilitySlot.SecondAbility => secondAbility,
+            AbilitySlot.UltimateAbility => ultimateAbility,
             _ => throw new System.ArgumentOutOfRangeException(nameof(abilitySlot), abilitySlot, null)
         };
     }
@@ -197,6 +241,7 @@ public class PlayerAbilities : NetworkBehaviour
             _ when ability == basicAttack.AbilitySO => AbilitySlot.BasicAttack,
             _ when ability == firstAbility.AbilitySO => AbilitySlot.FirstAbility,
             _ when ability == secondAbility.AbilitySO => AbilitySlot.SecondAbility,
+            _ when ability == ultimateAbility.AbilitySO => AbilitySlot.UltimateAbility,
             _ => throw new System.ArgumentException("Ability not found in any slot", nameof(ability))
         };
     }
@@ -240,13 +285,26 @@ public class PlayerAbilities : NetworkBehaviour
         Quaternion projRotation = Quaternion.LookRotation(dir);
 
         // Spawns the projectile on the server
-        Projectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<Projectile>();
+        BaseProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<BaseProjectile>();
 
-        //Initializes the projectiles values
-        newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+        InitializeProjectiles(newProjectile, target, abilitySO, baseDamage, projectilePrefab);
 
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
+    }
+
+    //NOTE: This is so ugly, need to find a better way of doing it
+    private void InitializeProjectiles(BaseProjectile newProjectile, Vector3 target, AbilitySO abilitySO, float baseDamage, GameObject projectilePrefab)
+    {
+        if (projectilePrefab.GetComponent<NormalProjectile>() != null)
+        {
+            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+        }
+        else if (projectilePrefab.GetComponent<RicochetProjectile>() != null)
+        {
+            //Initializes the projectiles values
+            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 1f, 3);
+        }
     }
 
     public void AddAbilityUpgrade(AbilitySO abilitySO, AbilityStats abilityStat, UpgradeType rewardType, float rewardAmount)
@@ -317,7 +375,19 @@ public class PlayerAbilities : NetworkBehaviour
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
-        return (baseCooldown + abilityUpgrades.cooldownAdd) * abilityUpgrades.cooldownMult;
+        //Flat reduction
+        float cooldown = baseCooldown - abilityUpgrades.cooldownAdd;
+
+        //Percentage reduction with diminishing returns
+        float reduction = 1f - (1f / abilityUpgrades.cooldownMult);
+
+        cooldown *= 1 - reduction;
+
+        Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
+        //Ensures that the cooldown never hits 0
+        return Mathf.Max(0.1f, cooldown);
     }
+
+    
 
 }

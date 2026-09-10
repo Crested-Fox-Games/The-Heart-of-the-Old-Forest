@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
 
     private InputAction interactAction;
 
-    private InputAction basicAttackAction;
+    private InputAction basicAttackAction, ultimateAbilityAction;
 
     private PlayerInteraction playerInteraction;
 
@@ -33,6 +33,7 @@ public class PlayerInput : MonoBehaviour
         //Finds the different player inputs
         interactAction = playerMap.FindAction("Interact");
         basicAttackAction = playerMap.FindAction("BasicAttack");
+        ultimateAbilityAction = playerMap.FindAction("UltimateAbility");
 
         //Subscribes to the interact input
         interactAction.started += playerInteraction.HandleInteractStarted;
@@ -40,6 +41,7 @@ public class PlayerInput : MonoBehaviour
         
         //Subscribes to the basic attack input
         basicAttackAction.started += playerAbilities.TryUseBasicAttack;
+        ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
 
     }
 }
