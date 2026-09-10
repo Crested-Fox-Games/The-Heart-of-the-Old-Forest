@@ -13767,6 +13767,10 @@ PrefabInstance:
       propertyPath: SerializedTransformProperties.Rotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 6467231101537813834, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
+      propertyPath: m_Radius
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7335877145718042285, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

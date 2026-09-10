@@ -15,7 +15,7 @@ MonoBehaviour:
   enemyName: Basic Enemy
   enemyDescription: Enemy Ahhhh lookin ahhhhh
   enemyHealth: 100
-  enemySpeed: 5
+  enemySpeed: 10
   enemyDamage: 10
   enemyAttackRate: 0.2
   enemyAttackRange: 1
