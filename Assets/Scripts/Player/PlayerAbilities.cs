@@ -60,8 +60,8 @@ public struct AbilityUpgradesDC
 public class PlayerAbilities : NetworkBehaviour
 {
     [SerializeField]
-    private AbilitySO basicAttackSO, firstAbilitySO, secondAbilitySO, ultimateAbilitySO;
-    private Ability basicAttack, firstAbility, secondAbility, ultimateAbility;
+    private AbilitySO basicAttackSO, movementAbilitySO, specialAbilitySO, ultimateAbilitySO;
+    private Ability basicAttack, movementAbility, specialAbility, ultimateAbility;
 
     public Ability BasicAttack => basicAttack;
 
@@ -100,9 +100,9 @@ public class PlayerAbilities : NetworkBehaviour
         basicAttack = AddAbility(basicAttackSO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
 
-        //FOR TESTING REMOVE WHEN OTHER ABILITIES MADE
-        firstAbility = AddAbility(basicAttackSO);
-        secondAbility = AddAbility(basicAttackSO);
+        //FOR TESTING UPDATE WHEN OTHER ABILITIES MADE
+        movementAbility = AddAbility(basicAttackSO);
+        specialAbility = AddAbility(basicAttackSO);
     }
 
     private void Update()
@@ -221,8 +221,8 @@ public class PlayerAbilities : NetworkBehaviour
         return abilitySlot switch
         {
             AbilitySlot.BasicAttack => basicAttack,
-            AbilitySlot.MovementAbility => firstAbility,
-            AbilitySlot.SpecialAbility => secondAbility,
+            AbilitySlot.MovementAbility => movementAbility,
+            AbilitySlot.SpecialAbility => specialAbility,
             AbilitySlot.UltimateAbility => ultimateAbility,
             _ => throw new System.ArgumentOutOfRangeException(nameof(abilitySlot), abilitySlot, null)
         };
@@ -241,8 +241,8 @@ public class PlayerAbilities : NetworkBehaviour
         return ability switch
         {
             _ when ability == basicAttack.AbilitySO => AbilitySlot.BasicAttack,
-            _ when ability == firstAbility.AbilitySO => AbilitySlot.MovementAbility,
-            _ when ability == secondAbility.AbilitySO => AbilitySlot.SpecialAbility,
+            _ when ability == movementAbility.AbilitySO => AbilitySlot.MovementAbility,
+            _ when ability == specialAbility.AbilitySO => AbilitySlot.SpecialAbility,
             _ when ability == ultimateAbility.AbilitySO => AbilitySlot.UltimateAbility,
             _ => throw new System.ArgumentException("Ability not found in any slot", nameof(ability))
         };
