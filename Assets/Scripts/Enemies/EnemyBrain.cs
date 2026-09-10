@@ -22,6 +22,7 @@ public class EnemyBrain : NetworkBehaviour
     private ITargetable defaultTarget;
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
+    public ITargetable CurrentTarget => currentTarget;
 
     //Store blight enemy spawn
     private Vector3 blightSpawnPos;

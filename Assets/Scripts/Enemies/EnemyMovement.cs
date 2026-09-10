@@ -125,8 +125,9 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
         agent.isStopped = true;
+        agent.ResetPath();
         agent.velocity = Vector3.zero;
     }
 }
