@@ -166,8 +166,6 @@ public class EnemyMovement : NetworkBehaviour
     {
         agent.isStopped = true;
 
-        Vector3 direction = (position - transform.position).normalized;
-
         float timer = 0f;
 
         while (timer < time)
@@ -176,17 +174,42 @@ public class EnemyMovement : NetworkBehaviour
 
             float pullDist = distance / time * Time.deltaTime;
 
-            agent.Move(direction * pullDist);
+            agent.Move(position * pullDist);
 
             yield return null;
         }
 
+        float originalSpeed = agent.speed;
+
+        agent.speed = 1f;
+
         //Reset the agent
         agent.isStopped = false;
-        
+
+        StartCoroutine(ChangeSpeedOverTime(agent.speed, originalSpeed, 2f));
+
         //Set the destination again
         agent.SetDestination(GetComponent<EnemyBrain>().CurrentTarget.TargetTransform.position);
     }
+
+    private IEnumerator ChangeSpeedOverTime(float startingSpeed, float endingSpeed, float timeToAdjust)
+    {
+        float timer = 0f;
+
+        while (timer < timeToAdjust)
+        {
+            timer += Time.deltaTime;
+
+            float t = timer / timeToAdjust;
+
+            agent.speed = Mathf.Lerp(startingSpeed, endingSpeed, t);
+
+            yield return null;
+        }
+
+        agent.speed = endingSpeed;
+    }
+
     public float GetRemainingDistance()
     {
         if (!IsServerStarted)

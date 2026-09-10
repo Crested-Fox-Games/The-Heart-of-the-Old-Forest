@@ -15,8 +15,8 @@ MonoBehaviour:
   abilityName: Empowered Shot
   abilityIcon: {fileID: 0}
   cooldown: 10
-  castTime: 0
-  projectile: {fileID: 0}
-  needDirection: 0
+  castTime: 0.5
+  projectile: {fileID: 4887008083236010489, guid: c26573638182bc248b01912655f8e88e, type: 3}
+  needDirection: 1
   abilityTypeName: EmpoweredShot, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null

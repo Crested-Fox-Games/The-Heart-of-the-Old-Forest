@@ -98,11 +98,10 @@ public class PlayerAbilities : NetworkBehaviour
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
+        movementAbility = AddAbility(movementAbilitySO); //NOT IMPLEMENTED
+        specialAbility = AddAbility(specialAbilitySO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
-
-        //FOR TESTING UPDATE WHEN OTHER ABILITIES MADE
-        movementAbility = AddAbility(basicAttackSO);
-        specialAbility = AddAbility(basicAttackSO);
+        
     }
 
     private void Update()
@@ -112,10 +111,13 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Ticks down the basic attacks cooldown timer
         basicAttack.Tick(Time.deltaTime);
+        specialAbility.Tick(Time.deltaTime);
         ultimateAbility.Tick(Time.deltaTime);
 
         //Updates the sync var to let the client know how much time is left on the cooldown
         basicAttackCooldownRemaining.Value = basicAttack.CooldownRemaining;
+        movementAbilityCooldownRemaining.Value = movementAbility.CooldownRemaining;
+        specialAbilityCooldownRemaining.Value = specialAbility.CooldownRemaining;
         ultimateAbilityCooldownRemaining.Value = ultimateAbility.CooldownRemaining;
     }
 
@@ -194,15 +196,15 @@ public class PlayerAbilities : NetworkBehaviour
         TryUseAbility(AbilitySlot.BasicAttack);
     }
 
-    //public void TryUseFirstAbility()
-    //{
-    //    TryUseAbility(AbilitySlot.FirstAbility);
-    //}
+    public void TryUseMovementAbility(InputAction.CallbackContext context)
+    {
+        TryUseAbility(AbilitySlot.MovementAbility);
+    }
 
-    //public void TryUseSecondAbility()
-    //{
-    //    TryUseAbility(AbilitySlot.SecondAbility);
-    //}
+    public void TryUseSpecialAbility(InputAction.CallbackContext context)
+    {
+        TryUseAbility(AbilitySlot.SpecialAbility);
+    }
 
     public void TryUseUltimateAttack(InputAction.CallbackContext context)
     {
@@ -321,7 +323,7 @@ public class PlayerAbilities : NetworkBehaviour
     //NOTE: This is so ugly, need to find a better way of doing it
     private void InitializeProjectiles(BaseProjectile newProjectile, Vector3 target, AbilitySO abilitySO, float baseDamage, GameObject projectilePrefab)
     {
-        if (projectilePrefab.GetComponent<NormalProjectile>() != null)
+        if (projectilePrefab.GetComponent<NormalProjectile>() != null || projectilePrefab.GetComponent<VacuumProjectile>() != null)
         {
             newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
         }
@@ -330,6 +332,7 @@ public class PlayerAbilities : NetworkBehaviour
             //Initializes the projectiles values
             newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 1f, 3);
         }
+
     }
 
     public void AddAbilityUpgrade(AbilitySO abilitySO, AbilityStats abilityStat, UpgradeType rewardType, float rewardAmount)
