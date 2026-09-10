@@ -184,7 +184,8 @@ public class EnemyMovement : NetworkBehaviour
         //Reset the agent
         agent.isStopped = false;
         
-        //TODO: Set the destination again
+        //Set the destination again
+        agent.SetDestination(GetComponent<EnemyBrain>().CurrentTarget.TargetTransform.position);
     }
     public float GetRemainingDistance()
     {
