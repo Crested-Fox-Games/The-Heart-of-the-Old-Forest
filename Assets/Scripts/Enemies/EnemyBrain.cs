@@ -334,12 +334,46 @@ public class EnemyBrain : NetworkBehaviour
         }
         else
         {
-            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+            if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
+            {
+                enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+            }
+            else
+            {
+                enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+            }
         }
 
         if (IsTargetInRange())
         {
             ChangeState(EnemyState.Attacking);
+            return;
+        }
+
+        CheckIfStuck();
+    }
+
+    private float lastDist;
+    private float stuckTimer;
+
+    private void CheckIfStuck()
+    {
+        float currentDist = enemyMovement.GetRemainingDistance();
+
+        if(Mathf.Abs(currentDist - lastDist) < 0.01f)
+        {
+            stuckTimer += Time.deltaTime;
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+
+        lastDist = currentDist;
+
+        if(stuckTimer >= 1f)
+        {
+            enemyMovement.StopMoving();
         }
     }
 
@@ -451,8 +485,16 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
-        RotateTowardsTarget();
+        if(currentTarget.TargetTransform.GetComponent<PlayerRef>()  != null)
+        {
+            enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+        }
+        else
+        {
+            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        }
+        
+        //RotateTowardsTarget();
     }
 
     /// <summary>
