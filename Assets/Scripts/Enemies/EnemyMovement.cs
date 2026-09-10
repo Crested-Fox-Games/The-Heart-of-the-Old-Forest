@@ -36,6 +36,8 @@ public class EnemyMovement : NetworkBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         //agent.stoppingDistance = 4f;
+
+        agent.avoidancePriority = Random.Range(30, 70);
     }
 
     /// <summary>
@@ -56,6 +58,7 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         agent.isStopped = false;
 
         Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
@@ -71,7 +74,7 @@ public class EnemyMovement : NetworkBehaviour
         //Move this to a proper location later
         if (agent.velocity.sqrMagnitude > 0.0001f)
         {
-            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f, -90f, 0f);
+            transform.rotation = Quaternion.LookRotation(agent.velocity.normalized) * Quaternion.Euler(0f, -0f, 0f);
         } 
     }
 
@@ -86,6 +89,7 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         agent.isStopped = false;
 
         targetPosition = new Vector3(targetPosition.x, 0.5f, targetPosition.z);
@@ -100,6 +104,7 @@ public class EnemyMovement : NetworkBehaviour
     /// <param name="targetPosition"></param>
     private void SetMovementDestination(Vector3 targetPosition)
     {
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         //Update the navmesh for enemy's movement target
         if (NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
@@ -120,6 +125,7 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
     }

@@ -1,5 +1,6 @@
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This script handles all the enemies decision making
@@ -167,7 +168,14 @@ public class EnemyBrain : NetworkBehaviour
             {
                 currentTarget = null;
 
-                ChangeState(EnemyState.Returning);
+                if(FindBlightTarget() == null)
+                {
+                    ChangeState(EnemyState.Returning);
+                }
+                else
+                {
+                    SetBlightTarget(FindBlightTarget());
+                }
             }
             return;
         }
@@ -226,6 +234,7 @@ public class EnemyBrain : NetworkBehaviour
 
         if (IsOutsideBlightLeash())
         {
+            Debug.Log("Outside blight leash detected");
             ReturnToBlightSpawn();
         }
     }
@@ -316,10 +325,15 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
+                //THIS
                 ChangeState(EnemyState.Idle);
             }
 
             return;
+        }
+        else
+        {
+            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
         }
 
         if (IsTargetInRange())
@@ -437,6 +451,7 @@ public class EnemyBrain : NetworkBehaviour
         Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
         enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        RotateTowardsTarget();
     }
 
     /// <summary>
