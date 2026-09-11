@@ -31,7 +31,7 @@ public class HopAbility : Ability
 
     private float upwardForce = 0.3f;
 
-    private float AOE = 5f;
+    private float AOE = 3f;
 
     private float damage = 50f;
 
