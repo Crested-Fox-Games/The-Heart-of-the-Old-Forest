@@ -48,5 +48,7 @@ public class HopAbility : Ability
 
         //Decrease the player speed
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier - speedMult);
+
+        passiveCoroutine = null;
     }
 }

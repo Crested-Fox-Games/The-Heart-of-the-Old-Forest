@@ -461,7 +461,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
   basicAttackSO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
-  movementAbilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
+  movementAbilitySO: {fileID: 11400000, guid: 322b37d161e33f04aa8708246b66aa54, type: 2}
   specialAbilitySO: {fileID: 11400000, guid: 8c5f74d738455514e93667762b695a75, type: 2}
   ultimateAbilitySO: {fileID: 11400000, guid: a42917d512f143347b88fa7d6015a6b9, type: 2}
   projectile: {fileID: 417760506842130566, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
