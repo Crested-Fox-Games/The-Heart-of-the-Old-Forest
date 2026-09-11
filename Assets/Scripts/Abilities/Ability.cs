@@ -168,16 +168,36 @@ public abstract class Ability : NetworkBehaviour
 
     }
 
+    /// An overridable method for getting damage from abilities
+    /// </summary>
+    /// <returns></returns>
+    public virtual float GetDamage()
+    {
+        return 0f;
+    }
+
+    /// <summary>
+    /// Returns whether the ability has an active
+    /// </summary>
+    /// <returns></returns>
     public bool HasActive()
     {
         return hasActive;
     }
 
+    /// <summary>
+    /// Returns the active time remaining on the ability
+    /// </summary>
+    /// <returns></returns>
     public float ActiveRemaining()
     {
         return activeRemaining;
     }
 
+    /// <summary>
+    /// Returns the active time for the ability
+    /// </summary>
+    /// <returns></returns>
     public float ActiveTime()
     {
         return activeTimer;
