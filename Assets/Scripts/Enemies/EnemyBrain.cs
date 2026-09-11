@@ -1,5 +1,6 @@
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This script handles all the enemies decision making
@@ -21,6 +22,7 @@ public class EnemyBrain : NetworkBehaviour
     private ITargetable defaultTarget;
     //Any new target positions enemies choose to attack
     private ITargetable currentTarget;
+    public ITargetable CurrentTarget => currentTarget;
 
     //Store blight enemy spawn
     private Vector3 blightSpawnPos;
@@ -167,7 +169,14 @@ public class EnemyBrain : NetworkBehaviour
             {
                 currentTarget = null;
 
-                ChangeState(EnemyState.Returning);
+                if(FindBlightTarget() == null)
+                {
+                    ChangeState(EnemyState.Returning);
+                }
+                else
+                {
+                    SetBlightTarget(FindBlightTarget());
+                }
             }
             return;
         }
@@ -226,6 +235,7 @@ public class EnemyBrain : NetworkBehaviour
 
         if (IsOutsideBlightLeash())
         {
+            Debug.Log("Outside blight leash detected");
             ReturnToBlightSpawn();
         }
     }
@@ -316,15 +326,54 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
+                //THIS
                 ChangeState(EnemyState.Idle);
             }
 
             return;
         }
+        else
+        {
+            if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
+            {
+                enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+            }
+            else
+            {
+                enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+            }
+        }
 
         if (IsTargetInRange())
         {
             ChangeState(EnemyState.Attacking);
+            return;
+        }
+
+        CheckIfStuck();
+    }
+
+    private float lastDist;
+    private float stuckTimer;
+
+    private void CheckIfStuck()
+    {
+        float currentDist = enemyMovement.GetRemainingDistance();
+
+        if(Mathf.Abs(currentDist - lastDist) < 0.01f)
+        {
+            stuckTimer += Time.deltaTime;
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+
+        lastDist = currentDist;
+
+        if(stuckTimer >= 1f)
+        {
+            enemyMovement.StopMoving();
         }
     }
 
@@ -436,7 +485,16 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
-        enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        if(currentTarget.TargetTransform.GetComponent<PlayerRef>()  != null)
+        {
+            enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+        }
+        else
+        {
+            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+        }
+        
+        //RotateTowardsTarget();
     }
 
     /// <summary>
