@@ -73,8 +73,22 @@ public class PlayerMovement : NetworkBehaviour
     private bool isSliding;
     private bool isJumping;
 
+    /// <summary>
+    /// A bool for if the player has been launched
+    /// </summary>
+    private bool isLaunched;
+
+    /// <summary>
+    /// A bool to help distinguish between the start and end of the launch
+    /// </summary>
+    private bool hasLeftGround;
+
     private Vector3 playerVelocity;
     private Vector3 residualVelocity;
+    /// <summary>
+    /// The velocity added when the player is launched
+    /// </summary>
+    private Vector3 launchVelocity;
     private List<Vector3> movementCords;
     
     //Slide
@@ -92,6 +106,11 @@ public class PlayerMovement : NetworkBehaviour
     /// An event that fires when the player jumps, used for abilities and other features
     /// </summary>
     public event Action onPlayerJump;
+
+    /// <summary>
+    /// An event that fires when the player lands after a launch
+    /// </summary>
+    public event Action OnLaunchLanded;
 
     #endregion
 
@@ -338,7 +357,7 @@ public class PlayerMovement : NetworkBehaviour
     // --- MOVEMENT ---
     private Vector3 FindPlayerVelocity()
     {
-        return InputVelocity() + residualVelocity;
+        return InputVelocity() + residualVelocity + launchVelocity;
     }
 
     /// <summary>
@@ -405,10 +424,24 @@ public class PlayerMovement : NetworkBehaviour
         //Enable gravity if not grounded
         if (!isGrounded)
         {
+            if(isLaunched)
+            {
+                hasLeftGround = true;
+            }
+
             residualVelocity.y = residualVelocity.y + gravity; //Add gravity factor to velocity
         }
         else
         {
+            if(isLaunched && hasLeftGround)
+            {
+                isLaunched = false;
+
+                launchVelocity = Vector3.zero;
+
+                OnLaunchLanded?.Invoke();
+            }
+
             if (residualVelocity.y < 0f)
             {
                 residualVelocity.y = 0f;
@@ -423,6 +456,18 @@ public class PlayerMovement : NetworkBehaviour
     public void SetMovementSpeedMultiplier(float moveSpeed)
     {
         movementSpeedMultiplier = moveSpeed;
+    }
+
+    /// <summary>
+    /// Launches the player in the direction of the vector
+    /// </summary>
+    /// <param name="velocity"></param>
+    public void Launch(Vector3 velocity)
+    {
+        launchVelocity += velocity;
+        isJumping = true;
+        isLaunched = true;
+        hasLeftGround = false;
     }
 }
 
