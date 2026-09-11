@@ -177,7 +177,6 @@ public class BlightManager : NetworkBehaviour
             float timer = Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(timer);
-
         }
     }
 
@@ -201,6 +200,8 @@ public class BlightManager : NetworkBehaviour
     {
         Transform jumpNode = SelectJumpPoint();
 
+        Rarity rarity = GetBlightRarity();
+
         //Get the direction from the selected node to the crystal
         Vector3 direction = heartCrystal.transform.position - jumpNode.position;
 
@@ -208,16 +209,35 @@ public class BlightManager : NetworkBehaviour
         direction.y = 0;
         direction.Normalize();
 
-        //Give it a cone range it can spawn in
-        float rangeOffset = Random.Range(-spawnConeRange, spawnConeRange);
+        bool validLocation = false;
+        int attempts = 0;
+        Vector3 finalDirection = Vector3.zero;
+        Vector3 targetPos = Vector3.zero;
 
-        //Min and max dist 
-        float distOffset = Random.Range(minDistance, maxDistance);
+        while (!validLocation && attempts < 10)
+        {
+            //Give it a cone range it can spawn in
+            float rangeOffset = Random.Range(-spawnConeRange, spawnConeRange);
 
-        Vector3 finalDirection = Quaternion.Euler(0f, rangeOffset, 0f) * direction;
+            //Min and max dist 
+            float distOffset = Random.Range(minDistance, maxDistance);
 
-        //Gets the position the node will spawn at
-        Vector3 targetPos = jumpNode.position + finalDirection * distOffset;
+            finalDirection = Quaternion.Euler(0f, rangeOffset, 0f) * direction;
+
+            //Gets the position the node will spawn at
+            targetPos = jumpNode.position + finalDirection * distOffset;
+
+            attempts++;
+
+            if(CheckValidPosition(targetPos, rarity))
+            {
+                validLocation = true;
+            }
+        }
+
+        //If it doesnt find a valid location within the designated number of attempts, it will cancel trying to spawn 
+        if (!validLocation)
+            return;
 
         Quaternion lookDirection = Quaternion.LookRotation(finalDirection);
 
@@ -231,7 +251,7 @@ public class BlightManager : NetworkBehaviour
         BlightNodeSpawned?.Invoke(currentNode);
 
 
-        currentNode.Initialize(jumpNode, GetBlightRarity());
+        currentNode.Initialize(jumpNode, rarity);
 
         if(jumpNode.TryGetComponent<BlightNode>(out BlightNode node))
         {
@@ -241,6 +261,11 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.Remove(jumpNode);
 
         currentForwardNodes.Add(currentNode.transform);
+    }
+
+    private bool CheckValidPosition(Vector3 pos, Rarity rarity)
+    {
+        
     }
 
     /// <summary>
