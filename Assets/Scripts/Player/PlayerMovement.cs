@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using NUnit.Framework.Constraints;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,13 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float maxPivotRotation = 65f;
     [SerializeField] private float defaultVelocity = 0.2f;
     [SerializeField] private float gravity = -0.001f;
+
+    /// <summary>
+    /// A multiplier for movement speed used for abilities and upgrades
+    /// </summary>
+    private float movementSpeedMultiplier = 1f;
+
+    public float MovementSpeedMultiplier => movementSpeedMultiplier;
 
     // --- CAMERA ---
     /// <summary>
@@ -34,6 +42,7 @@ public class PlayerMovement : NetworkBehaviour
     /// </summary>
     private float currentPivotRotation;
     private Transform cameraPivot;
+
     [SerializeField]
     private Camera cameraPrefab;
 
@@ -77,6 +86,12 @@ public class PlayerMovement : NetworkBehaviour
     // --- SYNC VARS ---
     public readonly SyncVar<bool> IsMoving = new SyncVar<bool>();
     public readonly SyncVar<bool > IsSliding = new SyncVar<bool>();
+
+    // --- EVENTS ---
+    /// <summary>
+    /// An event that fires when the player jumps, used for abilities and other features
+    /// </summary>
+    public event Action onPlayerJump;
 
     #endregion
 
@@ -298,6 +313,9 @@ public class PlayerMovement : NetworkBehaviour
         {
             isJumping = true;
             residualVelocity.y = residualVelocity.y + .2f;
+
+            //Trigger the event for anything that is affected by jumped
+            onPlayerJump?.Invoke();
             Debug.unityLogger.Log("Jumped");
         }
     }
@@ -331,7 +349,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (movementInputVector.magnitude != 0) //if player is inputting a direction 
         {
-            return transform.TransformDirection(movementInputVector * defaultVelocity); //Shifts input vector space to have the transform direction as the basis vectors, ensures movement inputs are relative to player and not global 
+            return transform.TransformDirection(movementInputVector * defaultVelocity * movementSpeedMultiplier); //Shifts input vector space to have the transform direction as the basis vectors, ensures movement inputs are relative to player and not global 
         }
 
         return Vector3.zero;
@@ -398,6 +416,13 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Adds a multiplier to the movement speed
+    /// </summary>
+    /// <param name="moveSpeed"></param>
+    public void SetMovementSpeedMultiplier(float moveSpeed)
+    {
+        movementSpeedMultiplier = moveSpeed;
+    }
 }
 

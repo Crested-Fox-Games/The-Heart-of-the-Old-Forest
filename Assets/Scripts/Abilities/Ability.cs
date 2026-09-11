@@ -42,6 +42,8 @@ public abstract class Ability : NetworkBehaviour
     {
         owner = player;
         abilitySO = abilityData;
+
+        PassiveAbilitySetup();
     }
 
     /// <summary>
@@ -146,6 +148,22 @@ public abstract class Ability : NetworkBehaviour
     /// An overridable method for setting the projectile for an ability
     /// </summary>
     public virtual void SetProjectile(GameObject proj)
+    {
+
+    }
+
+    /// <summary>
+    /// Called whenever the passive is actually triggered
+    /// </summary>
+    protected virtual void PassiveTriggered()
+    {
+
+    }
+
+    /// <summary>
+    /// An overridebable method for setting up subscriptions to the passive activation
+    /// </summary>
+    public virtual void PassiveAbilitySetup()
     {
 
     }
