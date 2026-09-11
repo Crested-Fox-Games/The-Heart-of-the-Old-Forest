@@ -55,4 +55,9 @@ public class RabbitBasicAttack : Ability
     {
         projectile = proj.GetComponent<BaseProjectile>();
     }
+
+    public override float GetDamage()
+    {
+        return damage;
+    }
 }

@@ -7,7 +7,17 @@ using UnityEngine;
 
 public class VacuumProjectile : BaseProjectile
 {
+    /// <summary>
+    /// The AOE that the projectile hits in
+    /// </summary>
+    [SerializeField]
     private float AOE = 3f;
+
+    /// <summary>
+    /// The amount of damage it deals based off of the base attack
+    /// </summary>
+    [SerializeField]
+    private float damageMult = 1.5f;
 
     [SerializeField]
     private LayerMask mask;
@@ -28,16 +38,23 @@ public class VacuumProjectile : BaseProjectile
     private bool hasHit = false;
 
     /// <summary>
+    /// The player abilities script for accessing the data in it
+    /// </summary>
+    private PlayerAbilities owner;
+
+
+    /// <summary>
     /// Initializes the projectiles initial values
     /// </summary>
     /// <param name="target"></param>
     /// <param name="projectileDamage"></param>
     /// <param name="tower"></param>
-    public override void InitializeProjectile(Vector3 target, float projectileDamage)
+    public override void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
     {
         Debug.Log("Initializing vacuum proj");
         targetPosition = target;
         projDamage = projectileDamage;
+        owner = player;
 
         direction = (targetPosition - transform.position).normalized;
         StartCoroutine(MoveToTarget());
@@ -93,6 +110,7 @@ public class VacuumProjectile : BaseProjectile
             //Get the direction to the pull point
             Vector3 dir = (transform.position - enemy.transform.position).normalized;
 
+            enemy.TakeDamage(owner.GetDamage(owner.BasicAttack.AbilitySO, owner.BasicAttack.GetDamage()) * damageMult);
             enemy.GetComponent<EnemyMovement>().PullTowards(dir, 2f, 0.5f);
         }
 
