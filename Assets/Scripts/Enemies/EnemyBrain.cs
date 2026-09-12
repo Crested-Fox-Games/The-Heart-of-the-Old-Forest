@@ -321,7 +321,6 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
-                //THIS
                 ChangeState(EnemyState.Returning);
             }
 
@@ -329,6 +328,7 @@ public class EnemyBrain : NetworkBehaviour
         }
         else
         {
+            //Sets movement target based on if the current target it a player or not
             if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
             {
                 enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
@@ -351,6 +351,9 @@ public class EnemyBrain : NetworkBehaviour
     private float lastDist;
     private float stuckTimer;
 
+    /// <summary>
+    /// Checks to see if the enemy is stuck and cant get to its target
+    /// </summary>
     private void CheckIfStuck()
     {
         float currentDist = enemyMovement.GetRemainingDistance();
@@ -482,6 +485,7 @@ public class EnemyBrain : NetworkBehaviour
         {
             Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
+            //Moves based on whether target is a player or not
             if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
             {
                 enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);

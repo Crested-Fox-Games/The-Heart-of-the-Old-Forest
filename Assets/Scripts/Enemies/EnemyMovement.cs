@@ -35,8 +35,8 @@ public class EnemyMovement : NetworkBehaviour
     public void Initialize()
     {
         agent = GetComponent<NavMeshAgent>();
-        //agent.stoppingDistance = 4f;
 
+        //Changes the priority so that they dont push each other as much
         agent.avoidancePriority = Random.Range(30, 70);
 
         agent.updateRotation = true;
@@ -62,6 +62,7 @@ public class EnemyMovement : NetworkBehaviour
             return;
         }
 
+        //Update agent settings
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         agent.isStopped = false;
         agent.updateRotation = true;
@@ -83,6 +84,10 @@ public class EnemyMovement : NetworkBehaviour
         //} 
     }
 
+    /// <summary>
+    /// Tells the navmesh where to move based on an object
+    /// </summary>
+    /// <param name="targetObject"></param>
     public void MovementTargetActor(GameObject targetObject)
     {
         if(!IsServerStarted || targetObject == null)
