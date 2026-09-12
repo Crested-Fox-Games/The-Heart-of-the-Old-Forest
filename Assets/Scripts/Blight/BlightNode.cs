@@ -38,6 +38,12 @@ public class BlightNode : NetworkBehaviour
     [SerializeField]
     private float blightUncommonMult = 1.5f, blightRareMult = 2f, blightMythicMult = 3f;
 
+    /// <summary>
+    /// The collider for the blight node
+    /// </summary>
+    [SerializeField]
+    private Collider placementCollider;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.TryGetComponent<ResourceNode>(out ResourceNode node))
@@ -257,5 +263,24 @@ public class BlightNode : NetworkBehaviour
         return false;
     }
 
+    public Vector3 GetPlacementHalfExtents(Rarity rarity)
+    {
+        float scale = GetScaleFromRarity(rarity);
+
+        Bounds bounds = placementCollider.bounds;
+
+        return bounds.extents * scale;
+    }
+
+    private float GetScaleFromRarity(Rarity rarity)
+    {
+        return rarity switch
+        {
+            Rarity.uncommon => blightUncommonMult,
+            Rarity.rare => blightRareMult,
+            Rarity.mythic => blightMythicMult,
+            _ => 1f
+        };
+    }
 
 }

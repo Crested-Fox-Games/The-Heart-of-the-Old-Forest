@@ -79,6 +79,18 @@ public class BlightManager : NetworkBehaviour
     public event Action<NetworkObject> BlightNodeSpawned;
 
     /// <summary>
+    /// The layers to detect for when spawning the blight node
+    /// </summary>
+    [SerializeField]
+    private LayerMask obstructionMask;
+
+    /// <summary>
+    /// The ground layer
+    /// </summary>
+    [SerializeField]
+    private LayerMask groundMask;
+
+    /// <summary>
     /// Setting up the pools that the blight nodes can spawn with
     /// </summary>
     private Dictionary<Rarity, float> Stage1Pool = new()
@@ -229,10 +241,22 @@ public class BlightManager : NetworkBehaviour
 
             attempts++;
 
-            if(CheckValidPosition(targetPos, rarity))
+            if(!CheckValidPosition(targetPos, rarity))
             {
-                validLocation = true;
+                continue;
             }
+
+            if(!GetLowestGroundPoint(targetPos, rarity, out float groundY))
+            {
+                continue;
+            }
+
+            Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+            //Move it into the ground with 0.1f below ground level
+            targetPos.y = groundY - halfExtents.y - 0.1f;
+
+            validLocation = true;
         }
 
         //If it doesnt find a valid location within the designated number of attempts, it will cancel trying to spawn 
@@ -263,9 +287,54 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.Add(currentNode.transform);
     }
 
+    /// <summary>
+    /// Checks to make sure nothing is in the way of the blight node spawning
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="rarity"></param>
+    /// <returns></returns>
     private bool CheckValidPosition(Vector3 pos, Rarity rarity)
     {
-        
+        Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+        Collider[] colliders = Physics.OverlapBox(pos, halfExtents, Quaternion.identity, obstructionMask, QueryTriggerInteraction.Ignore);
+
+        return colliders.Length == 0;
+    }
+
+    /// <summary>
+    /// Gets the lowest point of the ground 
+    /// </summary>
+    /// <returns></returns>
+    private bool GetLowestGroundPoint(Vector3 pos, Rarity rarity, out float lowestGroundY)
+    {
+        lowestGroundY = float.MaxValue;
+
+        Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+        //Number of samples across footprint
+        int samples = 3;
+
+        for(int i = 0; i < samples; i++)
+        {
+            for(int j = 0; j < samples; j++)
+            {
+                //Gets a position along the bottom of the bounding box
+                float xPos = Mathf.Lerp(pos.x - halfExtents.x, pos.x + halfExtents.x, i / (float)(samples - 1));
+                float zPos = Mathf.Lerp(pos.z - halfExtents.z, pos.z + halfExtents.z, j / (float)(samples - 1));
+
+                //Creates the ray origin point
+                Vector3 rayOrigin = new Vector3(xPos, pos.y + 100f, zPos);
+
+                //Checks where the ground is below the origin point
+                if(Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
+                {
+                    lowestGroundY = Mathf.Min(lowestGroundY, hit.point.y);
+                }
+            }
+        }
+
+        return lowestGroundY != float.MaxValue;
     }
 
     /// <summary>

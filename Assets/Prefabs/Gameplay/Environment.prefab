@@ -2139,6 +2139,12 @@ MonoBehaviour:
   minTime: 30
   maxTime: 45
   blightBossRequirement: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 7689
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!1 &1363794219306270117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,7 +2268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 808230630787776954}
   - component: {fileID: 5067823171742464980}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Moose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6298,7 +6304,7 @@ GameObject:
   - component: {fileID: 2726357651782084020}
   - component: {fileID: 8824997121956509040}
   - component: {fileID: 3237768313045566220}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8186,7 +8192,7 @@ GameObject:
   - component: {fileID: 4099703169466068022}
   - component: {fileID: 2023247517646465713}
   - component: {fileID: 6801893754444847474}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9437,7 +9443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1515293643158825813}
   - component: {fileID: 2797593119922211963}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
