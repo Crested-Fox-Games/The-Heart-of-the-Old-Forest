@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilitySO", menuName = "Scriptable Objects/AbilitySO")]
@@ -8,8 +7,8 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
-    private Sprite icon;
-    
+    private Sprite abilityIcon;
+
     [SerializeField]
     private float cooldown, castTime;
 
@@ -20,8 +19,8 @@ public class AbilitySO : ScriptableObject
     private bool needDirection;
 
     [SerializeField]
-    private MonoScript ability;
-    
+    private string abilityTypeName;
+
     /// <summary>
     /// The name of the ability
     /// </summary>
@@ -30,7 +29,7 @@ public class AbilitySO : ScriptableObject
     /// <summary>
     /// The icon for the ability that is displayed in the UI
     /// </summary>
-    public Sprite Icon => icon;
+    public Sprite AbilityIcon => abilityIcon;
 
     /// <summary>
     /// The cooldown for this ability
@@ -53,7 +52,7 @@ public class AbilitySO : ScriptableObject
     public bool NeedDirection => needDirection;
 
     /// <summary>
-    /// The ability script for the SO
+    /// The c# type name
     /// </summary>
-    public MonoScript Ability => ability;
+    public string AbilityTypeName => abilityTypeName;
 }
