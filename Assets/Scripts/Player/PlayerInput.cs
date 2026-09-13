@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
 
     private InputAction interactAction;
 
-    private InputAction basicAttackAction, ultimateAbilityAction;
+    private InputAction basicAttackAction, movementAbilityAction, specialAbilityAction, ultimateAbilityAction;
 
     private PlayerInteraction playerInteraction;
 
@@ -43,5 +43,17 @@ public class PlayerInput : MonoBehaviour
         basicAttackAction.started += playerAbilities.TryUseBasicAttack;
         ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
 
+    }
+
+    public InputAction GetHotkeyFromSlot(AbilitySlot abilitySlot)
+    {
+        return abilitySlot switch
+        {
+            AbilitySlot.BasicAttack => basicAttackAction,
+            AbilitySlot.MovementAbility => movementAbilityAction,
+            AbilitySlot.SpecialAbility => specialAbilityAction,
+            AbilitySlot.UltimateAbility => ultimateAbilityAction,
+            _ => throw new System.ArgumentOutOfRangeException(nameof(abilitySlot), abilitySlot, null)
+        };
     }
 }
