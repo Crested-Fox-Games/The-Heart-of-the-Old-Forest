@@ -328,7 +328,7 @@ public class EnemyBrain : NetworkBehaviour
         }
         else
         {
-            //Sets movement target based on if the current target it a player or not
+            //Sets movement target based on if the current target is a player or not
             if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
             {
                 enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
@@ -403,6 +403,9 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Rotates enemy towards current target while attacking
+    /// </summary>
     private void RotateTowardsTarget()
     {
         Vector3 direction = currentTarget.TargetTransform.position - transform.position;
@@ -420,7 +423,7 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     /// <summary>
-    /// Changes the state of the enemy when called
+    /// Runs through all state change logic
     /// </summary>
     /// <param name="newState"></param>
     private void ChangeState(EnemyState newState)
@@ -536,8 +539,6 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log("Returning to blight spawn");
 
-        //enemyMeleeClass.StopAttacking();
-
         enemyMovement.MovementTarget(blightSpawnPos);
     }
 
@@ -553,8 +554,6 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
 
-        //enemyMovement.StopMoving();
-
         ITargetable target = FindBlightTarget();
 
         if (target != null)
@@ -568,7 +567,7 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     /// <summary>
-    /// Finds 
+    /// Finds a valid target within the target detector hitbox
     /// </summary>
     /// <returns></returns>
     private ITargetable FindBlightTarget()

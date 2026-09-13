@@ -14,6 +14,7 @@ public class EnemyPathfinder : MonoBehaviour
     //private bool gizmoHit;
     //private Vector3 gizmoHitPoint;
 
+    
     public ITargetable FindDirectObstruction(ITargetable destination)
     {
         if (destination == null)
