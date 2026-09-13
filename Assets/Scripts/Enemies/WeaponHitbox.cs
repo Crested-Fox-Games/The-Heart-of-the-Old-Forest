@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 public class WeaponHitbox : NetworkBehaviour
@@ -32,7 +33,7 @@ public class WeaponHitbox : NetworkBehaviour
     /// Enables attack during attack animation
     /// </summary>
     public void StartAttack()
-    {;
+    {
         attackActive = true;
         hitTargets.Clear();
         hitboxCollider.enabled = true;
@@ -58,7 +59,6 @@ public class WeaponHitbox : NetworkBehaviour
 
         if (!attackActive)
             return;
-
        
         //damage logic
         ITargetable target = other.GetComponentInParent<ITargetable>();
