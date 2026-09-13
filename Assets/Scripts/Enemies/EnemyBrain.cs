@@ -135,6 +135,38 @@ public class EnemyBrain : NetworkBehaviour
         ChangeState(EnemyState.Idle);
     }
 
+    private void Update()
+    {
+        if (!IsServerStarted)
+        {
+            return;
+        }
+
+        //Leash check for blight enemies
+        if (!enemy.IsWaveEnemy)
+        {
+            UpdateBlightLeash();
+        }
+
+        //State machine yippeee!
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
+
+            case EnemyState.Moving:
+                UpdateMoving();
+                break;
+
+            case EnemyState.Attacking:
+                UpdateAttacking();
+                break;
+            case EnemyState.Returning:
+                UpdateReturning();
+                break;
+        }
+    }
+
     /// <summary>
     /// Evaluate potential targets when a new target enters enemy collider
     /// </summary>
@@ -276,43 +308,6 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (!IsServerStarted)
-        {
-            return;
-        }
-
-        //Leash check for blight enemies
-        if (!enemy.IsWaveEnemy)
-        {
-            UpdateBlightLeash();
-            
-            if (IsTargetInRange())
-            {
-                //Look at target
-            }
-        }
-
-        //State machine yippeee!
-        switch (currentState)
-        {
-            case EnemyState.Idle:
-                break;
-
-            case EnemyState.Moving:
-                UpdateMoving();
-                break;
-
-            case EnemyState.Attacking:
-                UpdateAttacking();
-                break;
-            case EnemyState.Returning:
-                UpdateReturning();
-                break;
-        }
-    }
-
     /// <summary>
     ///  Update enemy movement target based on their blight/wave status, when they enter the moving state
     /// </summary>
@@ -326,14 +321,14 @@ public class EnemyBrain : NetworkBehaviour
             }
             else
             {
-                //THIS
-                ChangeState(EnemyState.Idle);
+                ChangeState(EnemyState.Returning);
             }
 
             return;
         }
         else
         {
+            //Sets movement target based on if the current target is a player or not
             if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
             {
                 enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
@@ -356,6 +351,9 @@ public class EnemyBrain : NetworkBehaviour
     private float lastDist;
     private float stuckTimer;
 
+    /// <summary>
+    /// Checks to see if the enemy is stuck and cant get to its target
+    /// </summary>
     private void CheckIfStuck()
     {
         float currentDist = enemyMovement.GetRemainingDistance();
@@ -405,6 +403,9 @@ public class EnemyBrain : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Rotates enemy towards current target while attacking
+    /// </summary>
     private void RotateTowardsTarget()
     {
         Vector3 direction = currentTarget.TargetTransform.position - transform.position;
@@ -422,7 +423,7 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     /// <summary>
-    /// Changes the state of the enemy when called
+    /// Runs through all state change logic
     /// </summary>
     /// <param name="newState"></param>
     private void ChangeState(EnemyState newState)
@@ -483,18 +484,22 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void EnterMoving()
     {
-        Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
+        if (!IsOutsideBlightLeash())
+        {
+            Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
-        if(currentTarget.TargetTransform.GetComponent<PlayerRef>()  != null)
-        {
-            enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+            //Moves based on whether target is a player or not
+            if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
+            {
+                enemyMovement.MovementTargetActor(currentTarget.TargetTransform.gameObject);
+            }
+            else
+            {
+                enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
+            }
+
+            //RotateTowardsTarget();
         }
-        else
-        {
-            enemyMovement.MovementTarget(currentTarget.TargetTransform.gameObject);
-        }
-        
-        //RotateTowardsTarget();
     }
 
     /// <summary>
@@ -534,8 +539,6 @@ public class EnemyBrain : NetworkBehaviour
     {
         Debug.Log("Returning to blight spawn");
 
-        //enemyMeleeClass.StopAttacking();
-
         enemyMovement.MovementTarget(blightSpawnPos);
     }
 
@@ -551,8 +554,6 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
 
-        //enemyMovement.StopMoving();
-
         ITargetable target = FindBlightTarget();
 
         if (target != null)
@@ -566,7 +567,7 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     /// <summary>
-    /// Finds 
+    /// Finds a valid target within the target detector hitbox
     /// </summary>
     /// <returns></returns>
     private ITargetable FindBlightTarget()
