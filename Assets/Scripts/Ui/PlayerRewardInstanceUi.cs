@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class PlayerRewardInstanceUi : MonoBehaviour
 {
@@ -26,6 +27,15 @@ public class PlayerRewardInstanceUi : MonoBehaviour
         {
             PopulateTowerUpgrades(statReward);
         }
+        else if (reward is PlayerStatRewardSO playerReward)
+        {
+            PopulatePlayerUpgrades(playerReward);
+        }
+        else if (reward is AbilityStatRewardSO abilityReward)
+        {
+            PopulateAbilityUpgrades(abilityReward);
+        }
+
     }
 
     private void PopulateResource(ResourceRewardSO reward)
@@ -42,6 +52,30 @@ public class PlayerRewardInstanceUi : MonoBehaviour
         else if(reward.rewardType == UpgradeType.Multiplacation)
         {
             rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.towerStat} for this tower";
+        }
+    }
+
+    private void PopulatePlayerUpgrades(PlayerStatRewardSO reward)
+    {
+        if (reward.upgradeType == UpgradeType.Addition)
+        {
+            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.upgradeType} for this tower";
+        }
+        else if (reward.upgradeType == UpgradeType.Multiplacation)
+        {
+            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.upgradeType} for this tower";
+        }
+    }
+
+    private void PopulateAbilityUpgrades(AbilityStatRewardSO reward)
+    {
+        if (reward.upgradeType == UpgradeType.Addition)
+        {
+            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.upgradeType} for this tower";
+        }
+        else if (reward.upgradeType == UpgradeType.Multiplacation)
+        {
+            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.upgradeType} for this tower";
         }
     }
 }
