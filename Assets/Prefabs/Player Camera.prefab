@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 181323723340778050}
   - component: {fileID: 5621597747880354502}
   - component: {fileID: 3999956039406435778}
+  - component: {fileID: 4449688222849889231}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -137,3 +138,45 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &4449688222849889231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871496172995986343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a879e317c20b0d41a9a56f1a97f4cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AmplifyOcclusion.AmplifyOcclusionEffect
+  ApplyMethod: 0
+  SampleCount: 2
+  PerPixelNormals: 1
+  Intensity: 1
+  Tint: {r: 0, g: 0, b: 0, a: 1}
+  Radius: 3
+  PowerExponent: 1.8
+  Bias: 0.05
+  Thickness: 1
+  Downsample: 1
+  CacheAware: 1
+  FadeEnabled: 0
+  FadeStart: 100
+  FadeLength: 50
+  FadeToIntensity: 0
+  FadeToTint: {r: 0, g: 0, b: 0, a: 1}
+  FadeToRadius: 2
+  FadeToPowerExponent: 1
+  FadeToThickness: 1
+  BlurEnabled: 1
+  BlurRadius: 3
+  BlurPasses: 1
+  BlurSharpness: 15
+  FilterEnabled: 1
+  FilterDownsample: 1
+  FilterBlending: 0.8
+  FilterResponse: 0.5
+  m_occlusionShader: {fileID: 4800000, guid: ca3c44b6d4f2d4d1095e1e783d9684ba, type: 3}
+  m_blurShader: {fileID: 4800000, guid: 721d4727a93c1e548a5c6160a6229427, type: 3}
+  m_applyShader: {fileID: 4800000, guid: 537ee96eb0f0e5348bead799d732fa65, type: 3}
