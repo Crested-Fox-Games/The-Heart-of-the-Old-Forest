@@ -35,6 +35,14 @@ public abstract class Tower : NetworkBehaviour
 
     protected bool stunned = false;
 
+    //Returns total projectile count of tower shots
+    protected int GetProjectileCount()
+    {
+        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+
+        return 1 + globalUpgrades.projectileCountAdd;
+    }
+
     /// <summary>
     /// The current health of the tower
     /// </summary>

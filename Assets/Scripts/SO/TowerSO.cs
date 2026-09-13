@@ -27,6 +27,9 @@ public class TowerSO : ScriptableObject
     [SerializeField]
     private List<ResourceCost> requiredResources;
 
+    [SerializeField]
+    private List<TowerUpgradeSO> upgradePaths;
+
     /// <summary>
     /// The name of the tower
     /// </summary>
@@ -76,4 +79,9 @@ public class TowerSO : ScriptableObject
     /// A dictionary containing the required resources and the amounts required
     /// </summary>
     public List<ResourceCost> RequiredResources => requiredResources;
+
+    /// <summary>
+    /// List of upgrade paths
+    /// </summary>
+    public List<TowerUpgradeSO> UpgradePaths => upgradePaths;
 }

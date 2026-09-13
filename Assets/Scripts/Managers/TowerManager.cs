@@ -40,6 +40,15 @@ public struct GlobalTowerUpgradesDC
     //Range Modifiers
     public float rangeAdd;
     public float rangeMult;
+
+    //Projectile Modifiers
+    public int projectileCountAdd;
+}
+
+[System.Serializable]
+public class TowerUpgradeProgress
+{
+    public int upgradeCount;
 }
 
 public class TowerManager : NetworkBehaviour
@@ -129,6 +138,38 @@ public class TowerManager : NetworkBehaviour
         globalTowerUpgrades[towerSO.TowerName] = upgrades;
     }
 
+    private void ApplyUpgrade(TowerSO towerSO, TowerUpgradeSO towerUpgradeSO)
+    {
+        GlobalTowerUpgradesDC upgrades = GetOrCreateGlobalUpgrades(towerSO);
+
+        foreach (UpgradeEffect effect in towerUpgradeSO.Effects)
+        {
+            switch (effect.effectType)
+            {
+                case UpgradeEffectType.ProjectileCount:
+                    upgrades.projectileCountAdd += (int)effect.amount;
+                    break;
+
+                case UpgradeEffectType.Damage:
+                    upgrades.attackAdd += effect.amount;
+                    break;
+
+                case UpgradeEffectType.Range:
+                    upgrades.rangeAdd += effect.amount;
+                    break;
+
+                case UpgradeEffectType.Health:
+                    upgrades.healthAdd += effect.amount;
+                    break;
+
+                case UpgradeEffectType.FireRate:
+                    upgrades.fireRateAdd += effect.amount;
+                    break;
+            }
+        }
+
+        globalTowerUpgrades[towerSO.TowerName] = upgrades;
+    }
 
     /// <summary>
     /// Applies the changes to the upgrades to all relevant towers

@@ -83,14 +83,20 @@ public class ArcherTower : Tower
                 continue;
             }
 
-            //Spawn projectile with stats
-            //For optimization turn projs off and on instead of destroying
-            GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
+            int projectileCount = GetProjectileCount();
 
-            //Initialize the projectile
-            proj.GetComponent<NormalProjectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
+            for (int i = 0; i < projectileCount; i++)
+            {
+                //Spawn projectile with stats
+                //For optimization turn projs off and on instead of destroying
+                GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
 
-            Spawn(proj);
+                //Initialize the projectile
+                proj.GetComponent<NormalProjectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
+
+                Spawn(proj);
+
+            }
 
             //Activate cooldown
             yield return new WaitForSeconds(GetFireRate());
