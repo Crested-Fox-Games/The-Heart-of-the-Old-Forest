@@ -111,6 +111,7 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Ticks down the basic attacks cooldown timer
         basicAttack.Tick(Time.deltaTime);
+        movementAbility.Tick(Time.deltaTime);
         specialAbility.Tick(Time.deltaTime);
         ultimateAbility.Tick(Time.deltaTime);
 
