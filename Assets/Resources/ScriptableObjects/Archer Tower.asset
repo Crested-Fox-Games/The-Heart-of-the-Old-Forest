@@ -23,4 +23,4 @@ MonoBehaviour:
   towerPrefab: {fileID: 7829146077412672749, guid: 825707b6501974e43954d0e456274cc6, type: 3}
   requiredResources:
   - resource: 0
-    cost: 10
+    cost: 20

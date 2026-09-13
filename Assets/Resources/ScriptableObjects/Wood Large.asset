@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceSO
   resourceType: 0
   toolTierRequired: 0
-  resourceName: Wood
-  resourceDescription: Its Wood
-  resourceDurability: 5
+  resourceName: Crystals
+  resourceDescription: Its a Crystal
+  resourceDurability: 8
   resourceamountDropped: 5
