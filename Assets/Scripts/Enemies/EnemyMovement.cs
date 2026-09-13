@@ -1,4 +1,5 @@
 using FishNet.Object;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -159,6 +160,59 @@ public class EnemyMovement : NetworkBehaviour
         agent.ResetPath();
         agent.velocity = Vector3.zero;
         agent.updateRotation = false;
+    }
+
+    public void PullTowards(Vector3 position, float distance, float time)
+    {
+        StartCoroutine(PullTowardsOverTime(position, distance, time));
+    }
+
+    private IEnumerator PullTowardsOverTime(Vector3 position, float distance, float time)
+    {
+        agent.isStopped = true;
+
+        float timer = 0f;
+
+        while (timer < time)
+        {
+            timer += Time.deltaTime;
+
+            float pullDist = distance / time * Time.deltaTime;
+
+            agent.Move(position * pullDist);
+
+            yield return null;
+        }
+
+        float originalSpeed = agent.speed;
+
+        agent.speed = 1f;
+
+        //Reset the agent
+        agent.isStopped = false;
+
+        StartCoroutine(ChangeSpeedOverTime(agent.speed, originalSpeed, 2f));
+
+        //Set the destination again
+        agent.SetDestination(GetComponent<EnemyBrain>().CurrentTarget.TargetTransform.position);
+    }
+
+    private IEnumerator ChangeSpeedOverTime(float startingSpeed, float endingSpeed, float timeToAdjust)
+    {
+        float timer = 0f;
+
+        while (timer < timeToAdjust)
+        {
+            timer += Time.deltaTime;
+
+            float t = timer / timeToAdjust;
+
+            agent.speed = Mathf.Lerp(startingSpeed, endingSpeed, t);
+
+            yield return null;
+        }
+
+        agent.speed = endingSpeed;
     }
 
     public float GetRemainingDistance()

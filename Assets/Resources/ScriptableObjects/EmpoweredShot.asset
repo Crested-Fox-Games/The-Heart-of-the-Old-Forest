@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fe02c43350abe4f9a15268963f020f, type: 3}
+  m_Name: EmpoweredShot
+  m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
+  abilityName: Empowered Shot
+  abilityIcon: {fileID: 0}
+  cooldown: 10
+  castTime: 0.5
+  projectile: {fileID: 4887008083236010489, guid: c26573638182bc248b01912655f8e88e, type: 3}
+  needDirection: 1
+  abilityTypeName: EmpoweredShot, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null

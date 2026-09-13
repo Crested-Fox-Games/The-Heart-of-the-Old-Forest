@@ -1,8 +1,6 @@
-using FishNet.Managing.Server;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class RabbitBasicAttack : Ability
+public class EmpoweredShot : Ability
 {
     private BaseProjectile projectile;
 
@@ -18,9 +16,6 @@ public class RabbitBasicAttack : Ability
 
     protected override void Activate(Vector3 direction)
     {
-        Debug.Log("Basic Attack Activated");
-        // Implementation for the basic attack activation
-
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
 
         //Spawn Projectile that fires in the direction the player is aiming at
@@ -49,15 +44,5 @@ public class RabbitBasicAttack : Ability
 
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
-    }
-
-    public override void SetProjectile(GameObject proj)
-    {
-        projectile = proj.GetComponent<BaseProjectile>();
-    }
-
-    public override float GetDamage()
-    {
-        return damage;
     }
 }
