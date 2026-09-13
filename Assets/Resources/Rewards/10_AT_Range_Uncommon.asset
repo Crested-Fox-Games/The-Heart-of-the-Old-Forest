@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4165eafabc29038428cf582deaaac3bb, type: 3}
   m_Name: 10_AT_Range_Uncommon
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
-  RewardName: 
+  RewardName: Tower Range
   RewardId: 10
-  RewardWeight: 5
+  RewardWeight: 8
   RewardIcon: {fileID: 0}
   rarity: 2
-  towerStat: 0
+  towerStat: 3
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
   rewardType: 0
-  rewardAmount: 0
+  rewardAmount: 3

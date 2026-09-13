@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545e1844cfb2526489ab8d78c1c676d1, type: 3}
   m_Name: 33_Ult_Damage_Mythic
   m_EditorClassIdentifier: Assembly-CSharp::AbilityStatRewardSO
-  RewardName: 
+  RewardName: Ultimate Damage
   RewardId: 33
-  RewardWeight: 1
+  RewardWeight: 2
   RewardIcon: {fileID: 0}
   rarity: 3
   abilitySO: {fileID: 11400000, guid: a42917d512f143347b88fa7d6015a6b9, type: 2}
   abilityStat: 0
   upgradeType: 0
-  rewardAmount: 0
+  rewardAmount: 20

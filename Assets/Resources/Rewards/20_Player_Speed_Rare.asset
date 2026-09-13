@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf02f07ead4bdb429d929c633517329, type: 3}
   m_Name: 20_Player_Speed_Rare
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatRewardSO
-  RewardName: 
+  RewardName: Movement Speed
   RewardId: 20
-  RewardWeight: 5
+  RewardWeight: 8
   RewardIcon: {fileID: 0}
   rarity: 2
   playerStat: 1
-  upgradeType: 0
-  rewardAmount: 0
+  upgradeType: 1
+  rewardAmount: 1.1

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545e1844cfb2526489ab8d78c1c676d1, type: 3}
   m_Name: 26_Basic_Cooldown_Common
   m_EditorClassIdentifier: Assembly-CSharp::AbilityStatRewardSO
-  RewardName: 
+  RewardName: Attack Speed
   RewardId: 26
-  RewardWeight: 10
+  RewardWeight: 70
   RewardIcon: {fileID: 0}
   rarity: 0
   abilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
   abilityStat: 1
   upgradeType: 0
-  rewardAmount: 0
+  rewardAmount: 1

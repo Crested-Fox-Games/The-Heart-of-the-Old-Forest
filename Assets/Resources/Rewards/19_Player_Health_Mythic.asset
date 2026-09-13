@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf02f07ead4bdb429d929c633517329, type: 3}
   m_Name: 19_Player_Health_Mythic
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatRewardSO
-  RewardName: 
+  RewardName: Health
   RewardId: 19
-  RewardWeight: 1
+  RewardWeight: 2
   RewardIcon: {fileID: 0}
   rarity: 3
   playerStat: 0
   upgradeType: 0
-  rewardAmount: 0
+  rewardAmount: 20

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4165eafabc29038428cf582deaaac3bb, type: 3}
   m_Name: 3_AT_Damage_Mythic
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
-  RewardName: Archer Tower Damage
+  RewardName: Tower Damage
   RewardId: 3
-  RewardWeight: 1
+  RewardWeight: 2
   RewardIcon: {fileID: 0}
   rarity: 3
   towerStat: 0
