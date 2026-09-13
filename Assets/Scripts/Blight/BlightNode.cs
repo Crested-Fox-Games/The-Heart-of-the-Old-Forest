@@ -4,10 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class BlightNode : NetworkBehaviour, IInteractable
+public class BlightNode : NetworkBehaviour
 {
     [SerializeField]
+    private HealthBar healthBar;
+
+    [SerializeField]
     private GameObject blightModel;
+
+    [SerializeField]
+    private GameObject healthBarObject;
 
     private Transform nextBlightNode, previousBlightNode;
 
@@ -17,6 +23,14 @@ public class BlightNode : NetworkBehaviour, IInteractable
     private float interactTime = 3f;
 
     public float InteractTime => interactTime;
+
+    [SerializeField]
+    private float healthBaroffset = 1f;
+
+    [SerializeField]
+    private float nodeMaxHealth = 50f;
+
+    private float nodeCurrentHealth;
 
     /// <summary>
     /// The factor that the rarity of the blight will scale it by
@@ -41,6 +55,8 @@ public class BlightNode : NetworkBehaviour, IInteractable
         BlightManager.Instance.BlightNodesBuffed += BuffBlight;
 
         SetRarityScales(rarity);
+        nodeCurrentHealth = nodeMaxHealth;
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
     }
 
     /// <summary>
@@ -126,14 +142,17 @@ public class BlightNode : NetworkBehaviour, IInteractable
         {
             case Rarity.uncommon:
                 blightModel.transform.localScale = Vector3.one * blightUncommonMult;
+                nodeMaxHealth *= blightUncommonMult;
                 BuffBlight(blightUncommonMult, blightUncommonMult);
                 break;
             case Rarity.rare:
                 blightModel.transform.localScale = Vector3.one * blightRareMult;
+                nodeMaxHealth *= blightRareMult;
                 BuffBlight(blightRareMult, blightRareMult);
                 break;
             case Rarity.mythic:
                 blightModel.transform.localScale = Vector3.one * blightMythicMult;
+                nodeMaxHealth *= blightMythicMult;
                 BuffBlight(blightMythicMult, blightMythicMult);
                 break;
         }
@@ -141,6 +160,8 @@ public class BlightNode : NetworkBehaviour, IInteractable
         //Fix the position of the node
         Renderer modelRender = blightModel.GetComponent<Renderer>();
         blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
+
+        healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, modelRender.bounds.max.y + healthBaroffset, modelRender.transform.position.z);
 
         //Tell the reveal controller to update the size for revealing
         blightModel.GetComponent<RevealController>().UpdateRender();
@@ -194,5 +215,45 @@ public class BlightNode : NetworkBehaviour, IInteractable
                 //MARCUS TODO: Tell the enemy to update its logic to be a wave enemy or whatever we decide to do
             }
         }
+    }
+
+    /// <summary>
+    /// Node takes damage when hit
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeDamage(float damage)
+    {
+        //If the node has enemies, it gains damage resistance
+        if(HasEnemies())
+        {
+            nodeCurrentHealth -= damage * 0.05f;
+        }
+        else
+        {
+            nodeCurrentHealth -= damage;
+        }
+
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
+
+        if (nodeCurrentHealth <= 0)
+        {
+            BlightCleared();
+        }
+    }
+
+    /// <summary>
+    /// Returns whether or not the blight node has enemies in its children
+    /// </summary>
+    /// <returns></returns>
+    private bool HasEnemies()
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

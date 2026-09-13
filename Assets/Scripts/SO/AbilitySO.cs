@@ -7,14 +7,20 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
-    private Sprite icon;
-    
+    private Sprite abilityIcon;
+
     [SerializeField]
     private float cooldown, castTime;
 
     [SerializeField]
+    private BaseProjectile projectile;
+
+    [SerializeField]
     private bool needDirection;
-    
+
+    [SerializeField]
+    private string abilityTypeName;
+
     /// <summary>
     /// The name of the ability
     /// </summary>
@@ -23,7 +29,7 @@ public class AbilitySO : ScriptableObject
     /// <summary>
     /// The icon for the ability that is displayed in the UI
     /// </summary>
-    public Sprite Icon => icon;
+    public Sprite AbilityIcon => abilityIcon;
 
     /// <summary>
     /// The cooldown for this ability
@@ -36,7 +42,17 @@ public class AbilitySO : ScriptableObject
     public float CastTime => castTime;
 
     /// <summary>
+    /// The projectile for if the ability has a projectile
+    /// </summary>
+    public BaseProjectile Projectile => projectile;
+
+    /// <summary>
     /// Returns whether or not this ability needs a direction to be used
     /// </summary>
     public bool NeedDirection => needDirection;
+
+    /// <summary>
+    /// The c# type name
+    /// </summary>
+    public string AbilityTypeName => abilityTypeName;
 }

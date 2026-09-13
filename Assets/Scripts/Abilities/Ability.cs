@@ -1,6 +1,9 @@
+using FishNet.Object;
+using System;
 using UnityEngine;
 
-public abstract class Ability
+[Serializable]
+public abstract class Ability : NetworkBehaviour
 {
     /// <summary>
     /// Stores the abilities data
@@ -19,9 +22,23 @@ public abstract class Ability
 
     public float CooldownRemaining => cooldownRemaining;
 
+    /// <summary>
+    /// A bool for if the ability has an active portion
+    /// </summary>
+    protected bool hasActive = false;
+
+    /// <summary>
+    /// The amount of time the ability is active for
+    /// </summary>
+    protected float activeTimer = 0f;
+
+    private float activeRemaining = 0f;
+
+    private bool isActive = false;
+
     public AbilitySO AbilitySO => abilitySO;
 
-    public Ability(PlayerAbilities player, AbilitySO abilityData)
+    public void Initialize(PlayerAbilities player, AbilitySO abilityData)
     {
         owner = player;
         abilitySO = abilityData;
@@ -46,7 +63,8 @@ public abstract class Ability
     {
         Activate();
 
-        cooldownRemaining = abilitySO.Cooldown;
+        cooldownRemaining = owner.GetCooldown(AbilitySO, AbilitySO.Cooldown);
+        activeRemaining = activeTimer;
     }
 
     /// <summary>
@@ -58,6 +76,15 @@ public abstract class Ability
         Activate(direction);
 
         cooldownRemaining = owner.GetCooldown(abilitySO, abilitySO.Cooldown);
+        activeRemaining = activeTimer;
+    }
+
+    /// <summary>
+    /// Deactivates the active ability
+    /// </summary>
+    public void AbilityFinished()
+    {
+        Deactivate();
     }
 
     /// <summary>
@@ -66,7 +93,10 @@ public abstract class Ability
     /// </summary>
     protected virtual void Activate()
     {
-
+        if(hasActive)
+        {
+            isActive = true;
+        }
     }
 
     /// <summary>
@@ -79,14 +109,59 @@ public abstract class Ability
     }
 
     /// <summary>
+    /// An overridable method for deactivating abilities that have an active time
+    /// </summary>
+    protected virtual void Deactivate()
+    {
+        if(hasActive)
+            isActive = false;
+
+        //Resets the cooldown again to make it easier
+        cooldownRemaining = owner.GetCooldown(AbilitySO, AbilitySO.Cooldown);
+    }
+
+    /// <summary>
     /// Ticks down the cooldown for the ability
     /// </summary>
     /// <param name="deltaTime"></param>
     public void Tick(float deltaTime)
     {
+        if(isActive && activeRemaining > 0)
+        {
+            Debug.Log($"Active remaining {activeRemaining}");
+            activeRemaining -= deltaTime;
+        }
+        else if(!isActive && activeRemaining > 0)
+        {
+            activeRemaining = 0;
+        }    
+
         if (cooldownRemaining > 0)
         {
             cooldownRemaining -= deltaTime;
         }
+    }
+
+    /// <summary>
+    /// An overridable method for setting the projectile for an ability
+    /// </summary>
+    public virtual void SetProjectile(GameObject proj)
+    {
+
+    }
+
+    public bool HasActive()
+    {
+        return hasActive;
+    }
+
+    public float ActiveRemaining()
+    {
+        return activeRemaining;
+    }
+
+    public float ActiveTime()
+    {
+        return activeTimer;
     }
 }

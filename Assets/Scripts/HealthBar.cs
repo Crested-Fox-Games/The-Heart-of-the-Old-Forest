@@ -108,17 +108,19 @@ public class HealthBar : MonoBehaviour
 
     private IEnumerator ChangeHealthOverTime(float startingHealth, float targetHealth, float enemyMaxHealth, float duration)
     {
+        
+
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
             float currentHealth = Mathf.Lerp(startingHealth, targetHealth, t);
+            lastHealth = currentHealth;
             UpdateHealthBar(currentHealth / enemyMaxHealth);
             yield return null;
         }
 
-        lastHealth = targetHealth;
         healthAnimationCoroutine = null;
     }
 

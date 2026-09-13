@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Basic Attack
   icon: {fileID: 0}
-  cooldown: 0.5
+  cooldown: 1
   castTime: 0.5
+  projectile: {fileID: 417760506842130566, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   needDirection: 1
+  abilityTypeName: RabbitBasicAttack, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null

@@ -88,7 +88,7 @@ public class ArcherTower : Tower
             GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
 
             //Initialize the projectile
-            proj.GetComponent<Projectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
+            proj.GetComponent<NormalProjectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
 
             Spawn(proj);
 

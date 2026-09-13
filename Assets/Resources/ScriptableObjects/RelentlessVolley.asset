@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fe02c43350abe4f9a15268963f020f, type: 3}
+  m_Name: RelentlessVolley
+  m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
+  abilityName: Relentless Volley
+  icon: {fileID: 0}
+  cooldown: 50
+  castTime: 0
+  projectile: {fileID: 2318843439141175615, guid: 6fdb742f749d1784bb2fb587705cc76d, type: 3}
+  needDirection: 0
+  abilityTypeName: RelentlessVolley, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
