@@ -1,4 +1,3 @@
-using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,25 +27,6 @@ public class TowerUpgradePathSO : ScriptableObject
     public TowerUpgradeSO MilestoneUpgrade => milestoneUpgrade;
     public List<TowerUpgradeSO> RandomUpgradePool => randomUpgradePool;
     public int RandomUpgradesBetweenMilestones => randomUpgradesBetweenMilestones;
-
-    public TowerUpgradeSO GetNextUpgrade(int upgradeCount)
-    {
-        int positionInCycle = upgradeCount % (randomUpgradesBetweenMilestones + 1);
-
-        if (positionInCycle == 0)
-        {
-            return milestoneUpgrade;
-        }
-
-        if (randomUpgradePool.Count == 0)
-        {
-            return null;
-        }
-
-        int randomIndex = Random.Range(0, randomUpgradePool.Count);
-
-        return randomUpgradePool[randomIndex];
-    }
 
     public TowerUpgradeSO GetRandomUpgrade()
     {

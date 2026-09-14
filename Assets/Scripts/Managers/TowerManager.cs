@@ -3,7 +3,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
@@ -45,12 +44,6 @@ public struct GlobalTowerUpgradesDC
     public int projectileCountAdd;
 }
 
-[System.Serializable]
-public class TowerUpgradeProgress
-{
-    public int upgradeCount;
-}
-
 public class TowerManager : NetworkBehaviour
 {
     public static TowerManager Instance { get; private set; }
@@ -61,6 +54,8 @@ public class TowerManager : NetworkBehaviour
     private readonly SyncDictionary<string, GlobalTowerUpgradesDC> globalTowerUpgrades = new();
 
     public IReadOnlyDictionary<string, GlobalTowerUpgradesDC> GlobalTowerUpgrades => globalTowerUpgrades;
+
+    private readonly Dictionary<string, TowerPathProgress> upgradeProgress = new();
 
     private void Awake()
     {
@@ -138,38 +133,126 @@ public class TowerManager : NetworkBehaviour
         globalTowerUpgrades[towerSO.TowerName] = upgrades;
     }
 
-    private void ApplyUpgrade(TowerSO towerSO, TowerUpgradeSO towerUpgradeSO)
+    public TowerUpgradeSO GetNextUpgrade(TowerSO towerSO, int pathIndex)
     {
-        GlobalTowerUpgradesDC upgrades = GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
 
-        foreach (UpgradeEffect effect in towerUpgradeSO.Effects)
+        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+
+        // Milestone upgrade
+        if (IsMilestoneUpgrade(path, progress.upgradeCount))
         {
-            switch (effect.effectType)
+            return path.MilestoneUpgrade;
+        }
+
+        // Already selected a random upgrade.
+        if (progress.pendingUpgradeID != -1)
+        {
+            return FindUpgradeByID(path, progress.pendingUpgradeID);
+        }
+
+        // Select a new random upgrade.
+        TowerUpgradeSO randomUpgrade = path.GetRandomUpgrade();
+
+        if (randomUpgrade == null)
+        {
+            return null;
+        }
+
+        progress.pendingUpgradeID = randomUpgrade.UpgradeId;
+
+        string key = GetPathKey(towerSO, pathIndex);
+
+        upgradeProgress[key] = progress;
+
+        return randomUpgrade;
+    }
+
+    public void PurchaseUpgrade(TowerSO towerSO, int pathIndex)
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        TowerUpgradeSO upgrade = GetNextUpgrade(towerSO, pathIndex);
+
+        if (upgrade == null)
+        {
+            return;
+        }
+
+        // Let the upgrade apply itself.
+        upgrade.GrantUpgrade(towerSO);
+
+        // Update progression.
+        string key = GetPathKey(towerSO, pathIndex);
+
+        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+
+        progress.upgradeCount++;
+        progress.pendingUpgradeID = -1;
+
+        upgradeProgress[key] = progress;
+    }
+
+    private string GetPathKey(TowerSO towerSO, int pathIndex)
+    {
+        return $"{towerSO.TowerName}_{pathIndex}";
+    }
+
+    private TowerPathProgress GetPathProgress(TowerSO towerSO, int pathIndex)
+    {
+        string key = GetPathKey(towerSO, pathIndex);
+
+        if (!upgradeProgress.TryGetValue(key, out TowerPathProgress progress))
+        {
+            progress = new TowerPathProgress
             {
-                case UpgradeEffectType.ProjectileCount:
-                    upgrades.projectileCountAdd += (int)effect.amount;
-                    break;
+                upgradeCount = 0,
+                pendingUpgradeID = -1
+            };
 
-                case UpgradeEffectType.Damage:
-                    upgrades.attackAdd += effect.amount;
-                    break;
+            upgradeProgress.Add(key, progress);
+        }
 
-                case UpgradeEffectType.Range:
-                    upgrades.rangeAdd += effect.amount;
-                    break;
+        return progress;
+    }
 
-                case UpgradeEffectType.Health:
-                    upgrades.healthAdd += effect.amount;
-                    break;
+    private bool IsMilestoneUpgrade(TowerUpgradePathSO path, int upgradeCount)
+    {
+        int cycleLength = path.RandomUpgradesBetweenMilestones + 1;
 
-                case UpgradeEffectType.FireRate:
-                    upgrades.fireRateAdd += effect.amount;
-                    break;
+        return upgradeCount % cycleLength == 0;
+    }
+
+    private TowerUpgradeSO FindUpgradeByID(TowerUpgradePathSO path, int upgradeID)
+    {
+        foreach (TowerUpgradeSO upgrade in path.RandomUpgradePool)
+        {
+            if (upgrade.UpgradeId == upgradeID)
+            {
+                return upgrade;
             }
         }
 
+        return null;
+    }
+
+    public void AddProjectileUpgrade(TowerSO towerSO, int amount)
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        GlobalTowerUpgradesDC upgrades = GetOrCreateGlobalUpgrades(towerSO);
+
+        upgrades.projectileCountAdd += amount;
+
         globalTowerUpgrades[towerSO.TowerName] = upgrades;
     }
+
 
     /// <summary>
     /// Applies the changes to the upgrades to all relevant towers

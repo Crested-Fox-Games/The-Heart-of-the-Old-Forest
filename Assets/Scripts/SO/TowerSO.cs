@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +27,7 @@ public class TowerSO : ScriptableObject
     private List<ResourceCost> requiredResources;
 
     [SerializeField]
-    private List<TowerUpgradeSO> upgradePaths;
+    private List<TowerUpgradePathSO> upgradePaths;
 
     /// <summary>
     /// The name of the tower
@@ -83,5 +82,5 @@ public class TowerSO : ScriptableObject
     /// <summary>
     /// List of upgrade paths
     /// </summary>
-    public List<TowerUpgradeSO> UpgradePaths => upgradePaths;
+    public List<TowerUpgradePathSO> UpgradePaths => upgradePaths;
 }

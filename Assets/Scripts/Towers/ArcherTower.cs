@@ -94,6 +94,8 @@ public class ArcherTower : Tower
                 //Initialize the projectile
                 proj.GetComponent<NormalProjectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
 
+                //TODO: Add some sort of spread to the projectiles
+
                 Spawn(proj);
 
             }

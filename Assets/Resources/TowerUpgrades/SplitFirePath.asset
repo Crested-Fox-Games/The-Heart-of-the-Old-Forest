@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61d330236a628a743b3825f312b8525d, type: 3}
-  m_Name: UpgradePathSplitFire
+  m_Name: SplitFirePath
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradePathSO
-  pathName: 
-  milestoneUpgrade: {fileID: 11400000, guid: d6fd05dcb30ab2846a5e8b4c1885a0fe, type: 2}
+  pathName: Split Fire
+  milestoneUpgrade: {fileID: 11400000, guid: 97c57c30a817f5247aca2bad837bed5e, type: 2}
   randomUpgradePool:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: e9c370db7135ea740822ccbcac67f8fe, type: 2}
+  - {fileID: 11400000, guid: 07f8e7c3361ffb4439a687acdeb3a0f9, type: 2}
   randomUpgradesBetweenMilestones: 2
