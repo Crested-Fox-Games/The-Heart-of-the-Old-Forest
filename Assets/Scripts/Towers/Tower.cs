@@ -1,3 +1,4 @@
+using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using NUnit.Framework;
@@ -11,6 +12,43 @@ public enum TowerStats
     Health,
     FireRate,
     Range
+}
+
+public struct TowerUpgradesDC
+{
+    public static TowerUpgradesDC Default => new TowerUpgradesDC()
+    {
+        attackAdd = 0f,
+        fireRateAdd = 0f,
+        healthAdd = 0f,
+        rangeAdd = 0f,
+
+        attackMult = 1f,
+        fireRateMult = 1f,
+        healthMult = 1f,
+        rangeMult = 1f,
+
+        projectileCountAdd = 0,
+    };
+
+    //Attack Modifiers
+    public float attackAdd;
+    public float attackMult;
+
+    //Attack Speed Modifiers
+    public float fireRateAdd;
+    public float fireRateMult;
+
+    //Health Modifiers
+    public float healthAdd;
+    public float healthMult;
+
+    //Range Modifiers
+    public float rangeAdd;
+    public float rangeMult;
+
+    //Projectile Modifiers
+    public int projectileCountAdd;
 }
 
 public abstract class Tower : NetworkBehaviour
@@ -35,12 +73,176 @@ public abstract class Tower : NetworkBehaviour
 
     protected bool stunned = false;
 
+    //Upgrades
+    private readonly Dictionary<string, TowerPathProgress> upgradeProgress = new();
+
+    private readonly SyncDictionary<string, TowerUpgradesDC> localUpgrades = new();
+
     //Returns total projectile count of tower shots
     protected int GetProjectileCount()
     {
-        GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradesDC towerUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return 1 + globalUpgrades.projectileCountAdd;
+        return 1 + towerUpgrades.projectileCountAdd;
+    }
+
+    public TowerUpgradeSO GetNextUpgrade(TowerSO towerSO, int pathIndex)
+    {
+        TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
+
+        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+
+        // Milestone upgrade
+        if (IsMilestoneUpgrade(path, progress.upgradeCount))
+        {
+            if (progress.milestoneUpgradeCount < path.MaxUniqueUpgrades)
+            {
+                return path.MilestoneUpgrade;
+            }
+        }
+
+        // Already selected a random upgrade.
+        if (progress.pendingUpgradeID != -1)
+        {
+            return FindUpgradeByID(path, progress.pendingUpgradeID);
+        }
+        TowerUpgradeSO randomUpgrade;
+
+        if (path.NextRandomUpgrade == null)
+        {
+            // Select a new random upgrade.
+            randomUpgrade = path.GetRandomUpgrade();
+        }
+        else
+        {
+            randomUpgrade = path.NextRandomUpgrade;
+        }
+
+
+        if (randomUpgrade == null)
+        {
+            return null;
+        }
+
+        progress.pendingUpgradeID = randomUpgrade.UpgradeId;
+
+        string key = GetPathKey(towerSO, pathIndex);
+
+        upgradeProgress[key] = progress;
+
+        return randomUpgrade;
+    }
+
+    public void PurchaseUpgrade(TowerSO towerSO, int pathIndex)
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
+
+        TowerUpgradeSO upgrade = GetNextUpgrade(towerSO, pathIndex);
+
+        if (upgrade == null)
+        {
+            return;
+        }
+
+        //Let the upgrade apply itself.
+        upgrade.GrantUpgrade(towerSO);
+
+        // Update progression.
+        string key = GetPathKey(towerSO, pathIndex);
+
+        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+
+        progress.upgradeCount++;
+        progress.pendingUpgradeID = -1;
+
+        if (upgrade == path.MilestoneUpgrade)
+        {
+            progress.milestoneUpgradeCount++;
+        }
+
+        upgradeProgress[key] = progress;
+
+        path.GetRandomUpgrade();
+    }
+
+    private string GetPathKey(TowerSO towerSO, int pathIndex)
+    {
+        return $"{towerSO.TowerName}_{pathIndex}";
+    }
+
+    private TowerPathProgress GetPathProgress(TowerSO towerSO, int pathIndex)
+    {
+        string key = GetPathKey(towerSO, pathIndex);
+
+        if (!upgradeProgress.TryGetValue(key, out TowerPathProgress progress))
+        {
+            progress = new TowerPathProgress
+            {
+                upgradeCount = 0,
+                pendingUpgradeID = -1
+            };
+
+            upgradeProgress.Add(key, progress);
+        }
+
+        return progress;
+    }
+
+    private bool IsMilestoneUpgrade(TowerUpgradePathSO path, int upgradeCount)
+    {
+        int cycleLength = path.RandomUpgradesBetweenMilestones + 1;
+
+        return upgradeCount % cycleLength == 0;
+    }
+
+    private TowerUpgradeSO FindUpgradeByID(TowerUpgradePathSO path, int upgradeID)
+    {
+        foreach (TowerUpgradeSO upgrade in path.RandomUpgradePool)
+        {
+            if (upgrade.UpgradeId == upgradeID)
+            {
+                return upgrade;
+            }
+        }
+
+        return null;
+    }
+
+    public void AddProjectileUpgrade(TowerSO towerSO, int amount)
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        TowerUpgradesDC upgrades = GetOrCreateLocalUpgrades(towerSO);
+
+        upgrades.projectileCountAdd += amount;
+
+        localUpgrades[towerSO.TowerName] = upgrades;
+    }
+
+    /// <summary>
+    /// Either creates or gets the upgrades for a specific tower type
+    /// </summary>
+    /// <param name="towerSO"></param>
+    /// <returns></returns>
+    public TowerUpgradesDC GetOrCreateLocalUpgrades(TowerSO towerSO)
+    {
+        //If it cant find the tower upgrades DC then it creates a default one
+        if (!localUpgrades.TryGetValue(towerSO.TowerName, out TowerUpgradesDC upgrades))
+        {
+            upgrades = TowerUpgradesDC.Default;
+            localUpgrades.Add(towerSO.TowerName, upgrades);
+        }
+
+        //Either returns the created one, or the one from the try get values out
+        return upgrades;
     }
 
     /// <summary>
@@ -146,28 +348,32 @@ public abstract class Tower : NetworkBehaviour
     protected float GetDamage()
     {
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (towerDamage + globalUpgrades.attackAdd) * globalUpgrades.attackMult;
+        return (towerDamage + globalUpgrades.attackAdd + localUpgrades.attackAdd) * (globalUpgrades.attackMult + localUpgrades.attackMult);
     }
 
     protected float GetFireRate()
     {
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return attackCooldown / ((1f + globalUpgrades.fireRateAdd * 0.1f) * globalUpgrades.fireRateMult);
+        return attackCooldown / ((1f + (globalUpgrades.fireRateAdd + localUpgrades.fireRateAdd) * 0.1f) * (globalUpgrades.fireRateMult + localUpgrades.fireRateMult));
     }
 
     protected float GetRange()
     {
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (attackRange + globalUpgrades.rangeAdd) * globalUpgrades.rangeMult;
+        return (attackRange + globalUpgrades.rangeAdd + localUpgrades.rangeAdd) * (globalUpgrades.rangeMult + localUpgrades.rangeMult);
     }
 
     protected float GetHealth()
     {
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
+        TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (towerMaxHealth + globalUpgrades.healthAdd) * globalUpgrades.healthMult;
+        return (towerMaxHealth + globalUpgrades.healthAdd + localUpgrades.healthAdd) * (globalUpgrades.healthMult + localUpgrades.healthMult);
     }
 }

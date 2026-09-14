@@ -62,4 +62,9 @@ public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExi
         //Make white when we stop hovering over the tower
         towerUpgradePanel.color = Color.white;
     }
+
+    public void OnClick()
+    {
+        towerUpgradeUi.SelectUpgrade(towerUpgradeSO);
+    }
 }

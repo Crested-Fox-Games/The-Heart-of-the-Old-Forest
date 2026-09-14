@@ -27,11 +27,14 @@ public class TowerUpgradePathSO : ScriptableObject
     [SerializeField]
     private int randomUpgradesBetweenMilestones = 2;
 
+    private TowerUpgradeSO nextRandomUpgrade;
+
     public string PathName => pathName;
     public int MaxUniqueUpgrades => maxUniqueUpgrades;
     public TowerUpgradeSO MilestoneUpgrade => milestoneUpgrade;
     public List<TowerUpgradeSO> RandomUpgradePool => randomUpgradePool;
     public int RandomUpgradesBetweenMilestones => randomUpgradesBetweenMilestones;
+    public TowerUpgradeSO NextRandomUpgrade => nextRandomUpgrade;
 
     public TowerUpgradeSO GetRandomUpgrade()
     {
@@ -42,6 +45,8 @@ public class TowerUpgradePathSO : ScriptableObject
 
         int randomIndex = Random.Range(0, randomUpgradePool.Count);
 
-        return randomUpgradePool[randomIndex];
+        nextRandomUpgrade = randomUpgradePool[randomIndex];
+
+        return nextRandomUpgrade;
     }
 }

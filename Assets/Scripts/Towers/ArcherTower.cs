@@ -97,7 +97,7 @@ public class ArcherTower : Tower
                 //TODO: Add some sort of spread to the projectiles
 
                 Spawn(proj);
-
+                yield return new WaitForSeconds(0.25f);
             }
 
             //Activate cooldown

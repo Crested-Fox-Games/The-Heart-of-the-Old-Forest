@@ -42,6 +42,20 @@ public class PlayerRPCHandler : NetworkBehaviour
     }
 
     /// <summary>
+    /// Tells the server to place the tower in the slot
+    /// </summary>
+    /// <param name="currentTowerSlot"></param>
+    /// <param name="towerName"></param>
+    [ServerRpc]
+    public void CallSelectUpgrade(NetworkObject currentTower, string upgradeName, UpgradeType upgradeType)
+    {
+        //NOTE: If the folder structure changes and this isnt changed, it will break
+        if (currentTower == null) return;
+
+        currentTower.GetComponent<Tower>().SelectUpgrade(towerSO);
+    }
+
+    /// <summary>
     /// Tells the server which reward the player selected
     /// </summary>
     /// <param name="rewardId"></param>
