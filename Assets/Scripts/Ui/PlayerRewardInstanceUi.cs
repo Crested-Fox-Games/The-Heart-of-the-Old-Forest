@@ -59,11 +59,11 @@ public class PlayerRewardInstanceUi : MonoBehaviour
     {
         if (reward.upgradeType == UpgradeType.Addition)
         {
-            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.upgradeType} for this tower";
+            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.playerStat}";
         }
         else if (reward.upgradeType == UpgradeType.Multiplacation)
         {
-            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.upgradeType} for this tower";
+            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.playerStat}";
         }
     }
 
@@ -71,11 +71,11 @@ public class PlayerRewardInstanceUi : MonoBehaviour
     {
         if (reward.upgradeType == UpgradeType.Addition)
         {
-            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.upgradeType} for this tower";
+            rewardDescription.text = $"You will gain +{reward.rewardAmount} {reward.abilityStat} for this ability";
         }
         else if (reward.upgradeType == UpgradeType.Multiplacation)
         {
-            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.upgradeType} for this tower";
+            rewardDescription.text = $"You will gain a x{reward.rewardAmount} bonus {reward.abilityStat} for this ability";
         }
     }
 }
