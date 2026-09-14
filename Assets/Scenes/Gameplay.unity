@@ -3737,10 +3737,6 @@ PrefabInstance:
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: 499f7868034dfeb4c9faa2271a0cdba7, type: 2}
-    - target: {fileID: 3946423251538879492, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3994836301466172996, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4269793232
@@ -3885,10 +3881,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 270698704}
-    - target: {fileID: 5227777534895250368, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5247732724450388709, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3984551355
@@ -3896,10 +3888,6 @@ PrefabInstance:
     - target: {fileID: 5259070258093645072, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4202551290
-      objectReference: {fileID: 0}
-    - target: {fileID: 5272680638379933178, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5312925637689014766, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
@@ -3932,10 +3920,6 @@ PrefabInstance:
     - target: {fileID: 5755686467467808589, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3984443354
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978053825031083909, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5995633660715932345, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
@@ -4065,10 +4049,6 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4236212186
       objectReference: {fileID: 0}
-    - target: {fileID: 7236984739357242890, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7513511455825650413, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3938309598
@@ -4085,10 +4065,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 270698704}
-    - target: {fileID: 7741478467275954950, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7783021646738948224, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -4124,10 +4100,6 @@ PrefabInstance:
     - target: {fileID: 8500421148500191712, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4231909271
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534075762080765259, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8628714991316173849, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
@@ -4204,10 +4176,6 @@ PrefabInstance:
     - target: {fileID: 9205197173239570681, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_VersionIndex
       value: 6005
-      objectReference: {fileID: 0}
-    - target: {fileID: 9222841992552792677, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-      propertyPath: interactTime
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
