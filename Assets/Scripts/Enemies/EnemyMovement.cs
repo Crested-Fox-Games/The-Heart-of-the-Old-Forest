@@ -194,7 +194,8 @@ public class EnemyMovement : NetworkBehaviour
         StartCoroutine(ChangeSpeedOverTime(agent.speed, originalSpeed, 2f));
 
         //Set the destination again
-        agent.SetDestination(GetComponent<EnemyBrain>().CurrentTarget.TargetTransform.position);
+        if (GetComponent<EnemyBrain>().CurrentTarget != null)
+            agent.SetDestination(GetComponent<EnemyBrain>().CurrentTarget.TargetTransform.position);
     }
 
     private IEnumerator ChangeSpeedOverTime(float startingSpeed, float endingSpeed, float timeToAdjust)
