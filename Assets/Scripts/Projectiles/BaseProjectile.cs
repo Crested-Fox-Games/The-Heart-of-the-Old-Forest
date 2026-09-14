@@ -87,4 +87,15 @@ public abstract class BaseProjectile : NetworkBehaviour
     {
         // Implementation for initializing the projectile with ricochet parameters
     }
+
+    /// <summary>
+    /// Initializes the projectile with the target position, damage value and the player
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="projectileDamage"></param>
+    /// <param name="basicAttack"></param>
+    public virtual void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
+    {
+        // Implementation for initializing the projectile that needs access to the player
+    }
 }

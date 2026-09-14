@@ -33,14 +33,18 @@ public class PlayerInput : MonoBehaviour
         //Finds the different player inputs
         interactAction = playerMap.FindAction("Interact");
         basicAttackAction = playerMap.FindAction("BasicAttack");
+        movementAbilityAction = playerMap.FindAction("MovementAbility");
+        specialAbilityAction = playerMap.FindAction("SpecialAbility");
         ultimateAbilityAction = playerMap.FindAction("UltimateAbility");
 
         //Subscribes to the interact input
         interactAction.started += playerInteraction.HandleInteractStarted;
         interactAction.canceled += playerInteraction.HandleInteractCancelled;
         
-        //Subscribes to the basic attack input
+        //Subscribes to the ability inputs
         basicAttackAction.started += playerAbilities.TryUseBasicAttack;
+        movementAbilityAction.started += playerAbilities.TryUseMovementAbility;
+        specialAbilityAction.started += playerAbilities.TryUseSpecialAbility;
         ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
 
     }
