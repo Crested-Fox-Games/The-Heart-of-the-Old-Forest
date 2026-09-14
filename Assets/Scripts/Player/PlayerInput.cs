@@ -24,6 +24,7 @@ public class PlayerInput : MonoBehaviour
 
         //Gets the players action map
         playerMap = InputSystem.actions.FindActionMap("Player");
+        playerMap.Enable();
         
         SubscribeToActions();
     }
@@ -47,6 +48,19 @@ public class PlayerInput : MonoBehaviour
         specialAbilityAction.started += playerAbilities.TryUseSpecialAbility;
         ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
 
+    }
+
+    private void OnDestroy()
+    {
+        //unsubscribes to the interact input
+        interactAction.started -= playerInteraction.HandleInteractStarted;
+        interactAction.canceled -= playerInteraction.HandleInteractCancelled;
+
+        //unsubscribes to the ability inputs
+        basicAttackAction.started -= playerAbilities.TryUseBasicAttack;
+        movementAbilityAction.started -= playerAbilities.TryUseMovementAbility;
+        specialAbilityAction.started -= playerAbilities.TryUseSpecialAbility;
+        ultimateAbilityAction.started -= playerAbilities.TryUseUltimateAttack;
     }
 
     public InputAction GetHotkeyFromSlot(AbilitySlot abilitySlot)
