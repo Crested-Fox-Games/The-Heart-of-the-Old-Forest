@@ -20,4 +20,4 @@ MonoBehaviour:
   abilitySO: {fileID: 11400000, guid: 8c5f74d738455514e93667762b695a75, type: 2}
   abilityStat: 0
   upgradeType: 0
-  rewardAmount: 0
+  rewardAmount: 20

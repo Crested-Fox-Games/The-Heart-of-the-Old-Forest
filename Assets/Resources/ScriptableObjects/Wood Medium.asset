@@ -16,5 +16,5 @@ MonoBehaviour:
   toolTierRequired: 0
   resourceName: Crystals
   resourceDescription: Its a Crystal
-  resourceDurability: 40
+  resourceDurability: 20
   resourceamountDropped: 1
