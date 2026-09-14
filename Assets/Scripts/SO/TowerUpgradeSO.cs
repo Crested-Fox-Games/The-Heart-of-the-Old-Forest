@@ -21,6 +21,15 @@ public abstract class TowerUpgradeSO : ScriptableObject
     /// </summary>
     public Sprite UpgradeIcon;
 
+    [Header("--- Cost ---")]
+    [SerializeField]
+    private List<ResourceCost> requiredResources;
+
+    /// <summary>
+    /// A dictionary containing the required resources and the amounts required
+    /// </summary>
+    public List<ResourceCost> RequiredResources => requiredResources;
+
     /// <summary>
     /// Grants the upgrade to the specified tower.
     /// </summary>

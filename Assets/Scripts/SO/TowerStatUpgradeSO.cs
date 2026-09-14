@@ -21,11 +21,6 @@ public class TowerStatUpgradeSO : TowerUpgradeSO
 
     public override void GrantUpgrade(TowerSO towerSO)
     {
-        TowerManager.Instance.AddGlobalUpgrade(
-            towerSO,
-            towerStat,
-            upgradeType,
-            upgradeAmount
-        );
+        TowerManager.Instance.AddGlobalUpgrade(towerSO, towerStat, upgradeType, upgradeAmount);
     }
 }

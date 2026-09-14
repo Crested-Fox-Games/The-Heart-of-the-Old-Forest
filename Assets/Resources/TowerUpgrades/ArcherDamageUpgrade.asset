@@ -15,6 +15,9 @@ MonoBehaviour:
   UpgradeName: Archer Damage Upgrade
   UpgradeId: 2
   UpgradeIcon: {fileID: 0}
+  requiredResources:
+  - resource: 0
+    cost: 10
   towerStat: 0
   upgradeType: 0
   upgradeAmount: 10

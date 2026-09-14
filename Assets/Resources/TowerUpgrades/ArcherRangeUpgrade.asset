@@ -15,6 +15,9 @@ MonoBehaviour:
   UpgradeName: Archer Range Upgrade
   UpgradeId: 1
   UpgradeIcon: {fileID: 0}
+  requiredResources:
+  - resource: 0
+    cost: 10
   towerStat: 3
   upgradeType: 0
   upgradeAmount: 5

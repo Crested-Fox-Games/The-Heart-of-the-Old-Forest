@@ -142,7 +142,10 @@ public class TowerManager : NetworkBehaviour
         // Milestone upgrade
         if (IsMilestoneUpgrade(path, progress.upgradeCount))
         {
-            return path.MilestoneUpgrade;
+            if (progress.milestoneUpgradeCount < path.MaxUniqueUpgrades)
+            {
+                return path.MilestoneUpgrade;
+            }
         }
 
         // Already selected a random upgrade.
@@ -175,6 +178,8 @@ public class TowerManager : NetworkBehaviour
             return;
         }
 
+        TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
+
         TowerUpgradeSO upgrade = GetNextUpgrade(towerSO, pathIndex);
 
         if (upgrade == null)
@@ -182,7 +187,10 @@ public class TowerManager : NetworkBehaviour
             return;
         }
 
-        // Let the upgrade apply itself.
+        //Check if max upgrades reached
+        
+
+        //Let the upgrade apply itself.
         upgrade.GrantUpgrade(towerSO);
 
         // Update progression.
@@ -192,6 +200,11 @@ public class TowerManager : NetworkBehaviour
 
         progress.upgradeCount++;
         progress.pendingUpgradeID = -1;
+
+        if (upgrade == path.MilestoneUpgrade)
+        {
+            progress.milestoneUpgradeCount++;
+        }
 
         upgradeProgress[key] = progress;
     }

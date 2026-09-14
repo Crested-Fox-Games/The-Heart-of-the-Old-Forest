@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SplitFirePath
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradePathSO
   pathName: Split Fire
+  maxUniqueUpgrades: 5
   milestoneUpgrade: {fileID: 11400000, guid: 97c57c30a817f5247aca2bad837bed5e, type: 2}
   randomUpgradePool:
   - {fileID: 11400000, guid: e9c370db7135ea740822ccbcac67f8fe, type: 2}
