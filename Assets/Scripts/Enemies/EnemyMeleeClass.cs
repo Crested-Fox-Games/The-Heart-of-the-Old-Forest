@@ -54,10 +54,12 @@ public class EnemyMeleeClass : Enemy
             }
         }
 
-        //Attempt attack
         TryAttack();
     }
 
+    /// <summary>
+    /// Attempt attack when the brain tells it to
+    /// </summary>
     public void StartAttacking()
     {
         Debug.Log("StartAttacking() called");
@@ -75,6 +77,9 @@ public class EnemyMeleeClass : Enemy
         TryAttack();
     }
 
+    /// <summary>
+    /// Stops attacking when brain tells it to
+    /// </summary>
     public void StopAttacking()
     {
         shouldAttack = false;
@@ -87,13 +92,11 @@ public class EnemyMeleeClass : Enemy
     {
         if (!shouldAttack)
         {
-            //Debug.Log("TryAttack blocked: shouldAttack is false");
             return;
         }
 
         if (isAttacking)
         {
-            //Debug.Log("TryAttack blocked: isAttacking is true");
             return;
         }
 
@@ -132,7 +135,5 @@ public class EnemyMeleeClass : Enemy
     public void EndAttack()
     {
         isAttacking = false;
-
-        Debug.Log("EnemyMeleeClass EndAttack() called. isAttacking = FALSE");
     }
 }

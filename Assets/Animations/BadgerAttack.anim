@@ -459,14 +459,14 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.33333334
+  - time: 0
     functionName: CallStartAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.55
+  - time: 0.76666665
     functionName: CallEndAttack
     data: 
     objectReferenceParameter: {fileID: 0}
