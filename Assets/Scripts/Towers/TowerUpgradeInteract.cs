@@ -30,7 +30,7 @@ public class TowerUpgradeInteract : NetworkBehaviour, IInteractable
     private void HandleInteraction(NetworkConnection conn)
     {
         //Brings up the tower placement UI
-        UiManager.Instance.ShowTowerUpgradeUi();
-        TowerPlacementUi.Instance.SetCurrentSlot(this);
+        TowerUpgradeUI.Instance.SetCurrentTower(this);
+        UiManager.Instance.ShowTowerUpgradeUi();  
     }
 }

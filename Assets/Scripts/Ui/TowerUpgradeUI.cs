@@ -42,27 +42,25 @@ public class TowerUpgradeUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        //Spawn them back in to ensure that they are all there
-        foreach (var path in towerUpgradePathSOs)
+        Tower tower = currentTower.GetComponent<Tower>();
+
+        for (int i = 0; i < towerUpgradePathSOs.Count; i++)
         {
             var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
 
-            slot.GetComponent<TowerUpgradePath>().Initialize(this, currentTower.GetComponent<Tower>().GetNextUpgrade(currentTower.GetComponent<Tower>().TowerSO, selectedPath));
-        }
+            TowerUpgradeSO upgrade = tower.GetNextUpgrade(i);
+
+            slot.GetComponent<TowerUpgradePath>().Initialize(this, upgrade, i);
+        } 
     }
 
-    public void SetCurrentTower(NetworkObject currentTower)
+    public void SetCurrentTower(NetworkObject tower)
     {
-        this.currentTower = currentTower;
+        currentTower = tower;
     }
 
-    public void SelectUpgrade()
+    public void SelectUpgrade(int pathIndex)
     {
-        TowerUpgradeSO so = currentTower.GetComponent<Tower>().GetNextUpgrade(currentTower.GetComponent<Tower>().TowerSO, selectedPath);
-        TowerStatUpgradeSO statSO = so as TowerStatUpgradeSO;
-        if (statSO != null)
-        {
-            PlayerRPCHandler.LocalInstance.CallSelectUpgrade(currentTower, statSO.towerStat.ToString(), statSO.upgradeType);
-        }
+        PlayerRPCHandler.LocalInstance.CallSelectUpgrade(currentTower, pathIndex);
     }
 }

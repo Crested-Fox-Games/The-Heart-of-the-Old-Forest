@@ -9,8 +9,8 @@ public class TowerProjectileUpgradeSO : TowerUpgradeSO
     [Header("--- Upgrade Info ---")]
     public int projectileAmount = 1;
 
-    public override void GrantUpgrade(TowerSO towerSO)
+    public override void GrantUpgrade(Tower tower)
     {
-        TowerManager.Instance.AddProjectileUpgrade(towerSO, projectileAmount);
+        tower.AddProjectileUpgrade(tower, projectileAmount);
     }
 }

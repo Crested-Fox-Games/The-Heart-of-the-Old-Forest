@@ -33,5 +33,5 @@ public abstract class TowerUpgradeSO : ScriptableObject
     /// <summary>
     /// Grants the upgrade to the specified tower.
     /// </summary>
-    public abstract void GrantUpgrade(TowerSO towerSO);
+    public abstract void GrantUpgrade(Tower tower);
 }

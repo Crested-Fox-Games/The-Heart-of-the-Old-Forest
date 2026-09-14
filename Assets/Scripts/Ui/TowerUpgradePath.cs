@@ -8,6 +8,8 @@ public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField]
     private TowerUpgradeSO towerUpgradeSO;
 
+    private int pathIndex;
+
     [SerializeField]
     private Image towerUpgradePanel;
 
@@ -21,20 +23,17 @@ public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private TowerUpgradeUI towerUpgradeUi;
 
 
-    public void Initialize(TowerUpgradeUI tpUi, TowerUpgradeSO so)
+    public void Initialize(TowerUpgradeUI towerUpgradeUi, TowerUpgradeSO so, int pathIndex)
     {
-        towerUpgradeSO = so;
+        this.towerUpgradeUi = towerUpgradeUi;
+        this.towerUpgradeSO = so;
+        this.pathIndex = pathIndex;
 
-        towerUpgradeUi = tpUi;
-
-        upgradeName.text = towerUpgradeSO.UpgradeName;
-
-        //TODO: add an image field
-        //towerImage = towerSO;
+        upgradeName.text = so.UpgradeName;
 
         string resourceString = "";
 
-        foreach (var resource in towerUpgradeSO.RequiredResources)
+        foreach (var resource in so.RequiredResources)
         {
             resourceString += $"{resource.resource.ToString()}: {resource.cost}\n";
         }
@@ -65,6 +64,6 @@ public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnClick()
     {
-        towerUpgradeUi.SelectUpgrade(towerUpgradeSO);
+        towerUpgradeUi.SelectUpgrade(pathIndex);
     }
 }

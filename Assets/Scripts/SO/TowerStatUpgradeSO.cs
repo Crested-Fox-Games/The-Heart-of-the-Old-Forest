@@ -19,8 +19,8 @@ public class TowerStatUpgradeSO : TowerUpgradeSO
     /// </summary>
     public float upgradeAmount;
 
-    public override void GrantUpgrade(TowerSO towerSO)
+    public override void GrantUpgrade(Tower tower)
     {
-        TowerManager.Instance.AddGlobalUpgrade(towerSO, towerStat, upgradeType, upgradeAmount);
+        tower.AddLocalUpgrade(towerStat, upgradeType, upgradeAmount);
     }
 }

@@ -74,23 +74,69 @@ public abstract class Tower : NetworkBehaviour
     protected bool stunned = false;
 
     //Upgrades
-    private readonly Dictionary<string, TowerPathProgress> upgradeProgress = new();
+    private readonly Dictionary<int, TowerPathProgress> upgradeProgress = new();
 
-    private readonly SyncDictionary<string, TowerUpgradesDC> localUpgrades = new();
+    private TowerUpgradesDC localUpgrades = TowerUpgradesDC.Default;
+
+    public void AddLocalUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
+    {
+        //Checks to ensure we are running this on the server
+        if (!InstanceFinder.IsServerStarted)
+            return;
+
+        
+        //Adds to the upgrades
+        if (upgradeType == UpgradeType.Addition)
+        {
+            switch (towerStat)
+            {
+                case TowerStats.Attack:
+                    localUpgrades.attackAdd += upgradeAmount;
+                    break;
+                case TowerStats.Health:
+                    localUpgrades.healthAdd += upgradeAmount;
+                    break;
+                case TowerStats.FireRate:
+                    localUpgrades.fireRateAdd += upgradeAmount;
+                    break;
+                case TowerStats.Range:
+                    localUpgrades.rangeAdd += upgradeAmount;
+                    break;
+            }
+        }
+        else
+        {
+            switch (towerStat)
+            {
+                case TowerStats.Attack:
+                    localUpgrades.attackMult += upgradeAmount;
+                    break;
+                case TowerStats.Health:
+                    localUpgrades.healthMult += upgradeAmount;
+                    break;
+                case TowerStats.FireRate:
+                    localUpgrades.fireRateMult += upgradeAmount;
+                    break;
+                case TowerStats.Range:
+                    localUpgrades.rangeMult += upgradeAmount;
+                    break;
+            }
+        }
+
+        OnUpgradesChanged();
+    }
 
     //Returns total projectile count of tower shots
     protected int GetProjectileCount()
     {
-        TowerUpgradesDC towerUpgrades = GetOrCreateLocalUpgrades(towerSO);
-
-        return 1 + towerUpgrades.projectileCountAdd;
+        return 1 + localUpgrades.projectileCountAdd;
     }
 
-    public TowerUpgradeSO GetNextUpgrade(TowerSO towerSO, int pathIndex)
+    public TowerUpgradeSO GetNextUpgrade(int pathIndex)
     {
         TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
 
-        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+        TowerPathProgress progress = GetPathProgress(pathIndex);
 
         // Milestone upgrade
         if (IsMilestoneUpgrade(path, progress.upgradeCount))
@@ -126,14 +172,12 @@ public abstract class Tower : NetworkBehaviour
 
         progress.pendingUpgradeID = randomUpgrade.UpgradeId;
 
-        string key = GetPathKey(towerSO, pathIndex);
-
-        upgradeProgress[key] = progress;
+        upgradeProgress[pathIndex] = progress;
 
         return randomUpgrade;
     }
 
-    public void PurchaseUpgrade(TowerSO towerSO, int pathIndex)
+    public void PurchaseUpgrade(int pathIndex)
     {
         if (!InstanceFinder.IsServerStarted)
         {
@@ -142,7 +186,7 @@ public abstract class Tower : NetworkBehaviour
 
         TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
 
-        TowerUpgradeSO upgrade = GetNextUpgrade(towerSO, pathIndex);
+        TowerUpgradeSO upgrade = GetNextUpgrade(pathIndex);
 
         if (upgrade == null)
         {
@@ -150,12 +194,9 @@ public abstract class Tower : NetworkBehaviour
         }
 
         //Let the upgrade apply itself.
-        upgrade.GrantUpgrade(towerSO);
+        upgrade.GrantUpgrade(this);
 
-        // Update progression.
-        string key = GetPathKey(towerSO, pathIndex);
-
-        TowerPathProgress progress = GetPathProgress(towerSO, pathIndex);
+        TowerPathProgress progress = GetPathProgress(pathIndex);
 
         progress.upgradeCount++;
         progress.pendingUpgradeID = -1;
@@ -165,21 +206,14 @@ public abstract class Tower : NetworkBehaviour
             progress.milestoneUpgradeCount++;
         }
 
-        upgradeProgress[key] = progress;
+        upgradeProgress[pathIndex] = progress;
 
         path.GetRandomUpgrade();
     }
 
-    private string GetPathKey(TowerSO towerSO, int pathIndex)
+    private TowerPathProgress GetPathProgress(int pathIndex)
     {
-        return $"{towerSO.TowerName}_{pathIndex}";
-    }
-
-    private TowerPathProgress GetPathProgress(TowerSO towerSO, int pathIndex)
-    {
-        string key = GetPathKey(towerSO, pathIndex);
-
-        if (!upgradeProgress.TryGetValue(key, out TowerPathProgress progress))
+        if (!upgradeProgress.TryGetValue(pathIndex, out TowerPathProgress progress))
         {
             progress = new TowerPathProgress
             {
@@ -187,7 +221,7 @@ public abstract class Tower : NetworkBehaviour
                 pendingUpgradeID = -1
             };
 
-            upgradeProgress.Add(key, progress);
+            upgradeProgress.Add(pathIndex, progress);
         }
 
         return progress;
@@ -213,18 +247,16 @@ public abstract class Tower : NetworkBehaviour
         return null;
     }
 
-    public void AddProjectileUpgrade(TowerSO towerSO, int amount)
+    public void AddProjectileUpgrade(Tower tower, int amount)
     {
         if (!InstanceFinder.IsServerStarted)
         {
             return;
         }
 
-        TowerUpgradesDC upgrades = GetOrCreateLocalUpgrades(towerSO);
+        localUpgrades.projectileCountAdd += amount;
 
-        upgrades.projectileCountAdd += amount;
-
-        localUpgrades[towerSO.TowerName] = upgrades;
+        OnUpgradesChanged();
     }
 
     /// <summary>
@@ -234,15 +266,7 @@ public abstract class Tower : NetworkBehaviour
     /// <returns></returns>
     public TowerUpgradesDC GetOrCreateLocalUpgrades(TowerSO towerSO)
     {
-        //If it cant find the tower upgrades DC then it creates a default one
-        if (!localUpgrades.TryGetValue(towerSO.TowerName, out TowerUpgradesDC upgrades))
-        {
-            upgrades = TowerUpgradesDC.Default;
-            localUpgrades.Add(towerSO.TowerName, upgrades);
-        }
-
-        //Either returns the created one, or the one from the try get values out
-        return upgrades;
+        return localUpgrades;
     }
 
     /// <summary>

@@ -47,12 +47,23 @@ public class PlayerRPCHandler : NetworkBehaviour
     /// <param name="currentTowerSlot"></param>
     /// <param name="towerName"></param>
     [ServerRpc]
-    public void CallSelectUpgrade(NetworkObject currentTower, string upgradeName, UpgradeType upgradeType)
+    public void CallSelectUpgrade(NetworkObject currentTower, int pathIndex)
     {
-        //NOTE: If the folder structure changes and this isnt changed, it will break
-        if (currentTower == null) return;
+        if (currentTower == null)
+        {
+            return;
+        }
 
-        currentTower.GetComponent<Tower>().SelectUpgrade(towerSO);
+
+        Tower tower = currentTower.GetComponent<Tower>();
+
+        if (tower == null)
+        {
+            return;
+        }
+
+        tower.PurchaseUpgrade(pathIndex);
+        
     }
 
     /// <summary>
