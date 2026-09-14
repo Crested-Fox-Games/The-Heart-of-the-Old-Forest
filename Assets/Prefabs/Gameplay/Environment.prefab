@@ -2018,9 +2018,9 @@ MonoBehaviour:
   - {fileID: 3672201414868947178}
   blightPrefab: {fileID: 5399148234845229741, guid: 5664f066181288b43a93293e563af6ca, type: 3}
   spawnConeRange: 90
-  minDistance: 20
-  maxDistance: 40
-  minTime: 70
+  minDistance: 15
+  maxDistance: 25
+  minTime: 60
   maxTime: 90
   blightBossRequirement: 0
   obstructionMask:
@@ -9035,8 +9035,8 @@ MonoBehaviour:
   - {fileID: 7463425739304626641}
   - {fileID: 8788780022070672874}
   - {fileID: 4324111776350838948}
-  baseSpawnInterval: 5
-  baseSpawnWeight: 25
+  baseSpawnInterval: 7
+  baseSpawnWeight: 20
   bossToSpawn: 0
 --- !u!1 &7279933334951146361
 GameObject:
@@ -12144,7 +12144,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 786ac8f0b1b3012438f4b96f35738dfb, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -14456,7 +14456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -14542,7 +14542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -15215,7 +15215,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 79010db8bee4c5c4d9e63a992c1b2f85, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16143,7 +16143,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 79010db8bee4c5c4d9e63a992c1b2f85, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16422,7 +16422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16508,7 +16508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -17446,7 +17446,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 786ac8f0b1b3012438f4b96f35738dfb, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
