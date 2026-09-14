@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24f0e9361d1c24e894c7b1b878ecfa, type: 3}
   m_Name: Wood
   m_EditorClassIdentifier: Assembly-CSharp::ResourceSO
-  resourceType: 0
+  resourceType: 2
   toolTierRequired: 0
   resourceName: Crystals
   resourceDescription: Its a Crystal
