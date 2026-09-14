@@ -181,6 +181,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: -4782274975291034526}
   _networkObjectCache: {fileID: -4782274975291034526}
+  blightRangeDistance: 30
 --- !u!114 &8565139607755284190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 9
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 16384431252896808769
+  <AssetPathHash>k__BackingField: 3403628892850779159
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0.81139004, y: 1.09, z: 4.1137}
