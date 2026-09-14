@@ -79,6 +79,18 @@ public class BlightManager : NetworkBehaviour
     public event Action<NetworkObject> BlightNodeSpawned;
 
     /// <summary>
+    /// The layers to detect for when spawning the blight node
+    /// </summary>
+    [SerializeField]
+    private LayerMask obstructionMask;
+
+    /// <summary>
+    /// The ground layer
+    /// </summary>
+    [SerializeField]
+    private LayerMask groundMask;
+
+    /// <summary>
     /// Setting up the pools that the blight nodes can spawn with
     /// </summary>
     private Dictionary<Rarity, float> Stage1Pool = new()
@@ -177,7 +189,6 @@ public class BlightManager : NetworkBehaviour
             float timer = Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(timer);
-
         }
     }
 
@@ -201,6 +212,8 @@ public class BlightManager : NetworkBehaviour
     {
         Transform jumpNode = SelectJumpPoint();
 
+        Rarity rarity = GetBlightRarity();
+
         //Get the direction from the selected node to the crystal
         Vector3 direction = heartCrystal.transform.position - jumpNode.position;
 
@@ -208,16 +221,47 @@ public class BlightManager : NetworkBehaviour
         direction.y = 0;
         direction.Normalize();
 
-        //Give it a cone range it can spawn in
-        float rangeOffset = Random.Range(-spawnConeRange, spawnConeRange);
+        bool validLocation = false;
+        int attempts = 0;
+        Vector3 finalDirection = Vector3.zero;
+        Vector3 targetPos = Vector3.zero;
 
-        //Min and max dist 
-        float distOffset = Random.Range(minDistance, maxDistance);
+        while (!validLocation && attempts < 10)
+        {
+            //Give it a cone range it can spawn in
+            float rangeOffset = Random.Range(-spawnConeRange, spawnConeRange);
 
-        Vector3 finalDirection = Quaternion.Euler(0f, rangeOffset, 0f) * direction;
+            //Min and max dist 
+            float distOffset = Random.Range(minDistance, maxDistance);
 
-        //Gets the position the node will spawn at
-        Vector3 targetPos = jumpNode.position + finalDirection * distOffset;
+            finalDirection = Quaternion.Euler(0f, rangeOffset, 0f) * direction;
+
+            //Gets the position the node will spawn at
+            targetPos = jumpNode.position + finalDirection * distOffset;
+
+            attempts++;
+
+            if(!CheckValidPosition(targetPos, rarity))
+            {
+                continue;
+            }
+
+            if(!GetLowestGroundPoint(targetPos, rarity, out float groundY))
+            {
+                continue;
+            }
+
+            Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+            //Move it into the ground with 0.1f below ground level
+            targetPos.y = groundY - halfExtents.y - 0.1f;
+
+            validLocation = true;
+        }
+
+        //If it doesnt find a valid location within the designated number of attempts, it will cancel trying to spawn 
+        if (!validLocation)
+            return;
 
         Quaternion lookDirection = Quaternion.LookRotation(finalDirection);
 
@@ -231,7 +275,7 @@ public class BlightManager : NetworkBehaviour
         BlightNodeSpawned?.Invoke(currentNode);
 
 
-        currentNode.Initialize(jumpNode, GetBlightRarity());
+        currentNode.Initialize(jumpNode, rarity);
 
         if(jumpNode.TryGetComponent<BlightNode>(out BlightNode node))
         {
@@ -241,6 +285,56 @@ public class BlightManager : NetworkBehaviour
         currentForwardNodes.Remove(jumpNode);
 
         currentForwardNodes.Add(currentNode.transform);
+    }
+
+    /// <summary>
+    /// Checks to make sure nothing is in the way of the blight node spawning
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="rarity"></param>
+    /// <returns></returns>
+    private bool CheckValidPosition(Vector3 pos, Rarity rarity)
+    {
+        Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+        Collider[] colliders = Physics.OverlapBox(pos, halfExtents, Quaternion.identity, obstructionMask, QueryTriggerInteraction.Ignore);
+
+        return colliders.Length == 0;
+    }
+
+    /// <summary>
+    /// Gets the lowest point of the ground 
+    /// </summary>
+    /// <returns></returns>
+    private bool GetLowestGroundPoint(Vector3 pos, Rarity rarity, out float lowestGroundY)
+    {
+        lowestGroundY = float.MaxValue;
+
+        Vector3 halfExtents = blightPrefab.GetPlacementHalfExtents(rarity);
+
+        //Number of samples across footprint
+        int samples = 3;
+
+        for(int i = 0; i < samples; i++)
+        {
+            for(int j = 0; j < samples; j++)
+            {
+                //Gets a position along the bottom of the bounding box
+                float xPos = Mathf.Lerp(pos.x - halfExtents.x, pos.x + halfExtents.x, i / (float)(samples - 1));
+                float zPos = Mathf.Lerp(pos.z - halfExtents.z, pos.z + halfExtents.z, j / (float)(samples - 1));
+
+                //Creates the ray origin point
+                Vector3 rayOrigin = new Vector3(xPos, pos.y + 100f, zPos);
+
+                //Checks where the ground is below the origin point
+                if(Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
+                {
+                    lowestGroundY = Mathf.Min(lowestGroundY, hit.point.y);
+                }
+            }
+        }
+
+        return lowestGroundY != float.MaxValue;
     }
 
     /// <summary>
