@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ArcherSplitFireUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerProjectileUpgradeSO
   UpgradeName: Multi Shot
+  Description: Increases amount of targets tower can hit at once
   UpgradeId: 0
   UpgradeIcon: {fileID: 0}
   requiredResources:

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ArcherDamageUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
   UpgradeName: Archer Damage Upgrade
+  Description: Add some damage
   UpgradeId: 2
   UpgradeIcon: {fileID: 0}
   requiredResources:

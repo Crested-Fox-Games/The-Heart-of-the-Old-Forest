@@ -12,6 +12,11 @@ public abstract class TowerUpgradeSO : ScriptableObject
     public string UpgradeName;
 
     /// <summary>
+    /// The description of the upgrade
+    /// </summary>
+    public string Description;
+
+    /// <summary>
     /// The ID of the upgrade.
     /// </summary>
     public int UpgradeId;

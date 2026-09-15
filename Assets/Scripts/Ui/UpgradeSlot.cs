@@ -19,6 +19,8 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField]
     private TextMeshProUGUI resourceText;
 
+    [SerializeField]
+    private TextMeshProUGUI descriptionText;
 
     private TowerUpgradeUI towerUpgradeUi;
 
@@ -31,7 +33,9 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         this.towerUpgradeSO = so;
         this.pathIndex = pathIndex;
 
+
         upgradeName.text = so.UpgradeName;
+        descriptionText.text = so.Description;
 
         string resourceString = "";
 

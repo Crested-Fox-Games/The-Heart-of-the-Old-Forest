@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ArcherRangeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
   UpgradeName: Archer Range Upgrade
+  Description: Add some range
   UpgradeId: 1
   UpgradeIcon: {fileID: 0}
   requiredResources:
