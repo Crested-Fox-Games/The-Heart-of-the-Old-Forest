@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,6 +43,13 @@ public class RewardManager : NetworkBehaviour
     /// </summary>
     [SerializeField]
     private float rewardCountdownTime = 30f;
+
+    /// <summary>
+    /// The current time for the countdown timer
+    /// </summary>
+    private readonly SyncVar<float> currentCountdownTime = new();
+
+    public SyncVar<float> CurrentCountdownTime => currentCountdownTime;
 
     /// <summary>
     /// The coroutine for tracking the countdown 
@@ -241,14 +249,17 @@ public class RewardManager : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator RewardCountdownTimer()
     {
-        float timer = 0f;
-        while(timer <= rewardCountdownTime)
+        currentCountdownTime.Value = 0f;
+
+        while(currentCountdownTime.Value <= rewardCountdownTime)
         {
-            timer += Time.deltaTime;
+            //Unscaled delta time due to game being paused during this
+            currentCountdownTime.Value += Time.unscaledDeltaTime;
 
             yield return null;
         }
 
+        UnpauseGame();
         rewardCountdownCoroutine = null;
     }
 }

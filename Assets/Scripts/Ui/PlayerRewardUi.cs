@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayerRewardUi : MonoBehaviour
@@ -29,6 +30,12 @@ public class PlayerRewardUi : MonoBehaviour
     [SerializeField]
     private GameObject raycastBlocker;
 
+    /// <summary>
+    /// The text object for the timer
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
     private void Start()
     {
         //Gets a dictionary of all rewardSO's 
@@ -43,6 +50,11 @@ public class PlayerRewardUi : MonoBehaviour
     {
         //Blocks the raycast onenable so that players dont click rewards by accident
         StartCoroutine(RaycastBlocker());
+    }
+
+    private void Update()
+    {
+        timerText.text = (30f - RewardManager.Instance.CurrentCountdownTime.Value).ToString("F1");
     }
 
     /// <summary>
