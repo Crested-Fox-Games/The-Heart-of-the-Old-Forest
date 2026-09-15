@@ -76,6 +76,8 @@ public abstract class Tower : NetworkBehaviour
     //Upgrades
     private readonly SyncDictionary<int, TowerPathProgress> upgradeProgress = new();
 
+    public SyncDictionary<int, TowerPathProgress> UpgradeProgress => upgradeProgress;
+
     private TowerUpgradesDC localUpgrades = TowerUpgradesDC.Default;
 
     public void AddLocalUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)

@@ -1,5 +1,8 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TowerUpgradeUI : MonoBehaviour
@@ -17,10 +20,17 @@ public class TowerUpgradeUI : MonoBehaviour
 
     private NetworkObject currentTower;
 
+    private Tower subscribedTower;
+
     [SerializeField]
     private List<TowerUpgradePathSO> towerUpgradePathSOs;
 
     private int selectedPath;
+
+    /// <summary>
+    /// A bool that tracks if a path has been selected for the current tower
+    /// </summary>
+    private bool pathSelected = false;
 
     private void Awake()
     {
@@ -49,14 +59,64 @@ public class TowerUpgradeUI : MonoBehaviour
 
         Tower tower = currentTower.GetComponent<Tower>();
 
-        for (int i = 0; i < towerUpgradePathSOs.Count; i++)
+        //Change logic based on if a path is selected
+        if (!pathSelected)
         {
+            //Spawn all paths if we havent selected one
+            for (int i = 0; i < towerUpgradePathSOs.Count; i++)
+            {
+                var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
+
+                TowerUpgradeSO upgrade = tower.GetNextUpgrade(i);
+
+                slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, i);
+            }
+        }
+        else
+        {
+            //Spawn only the selected path if we have selected one
             var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
+            
+            TowerUpgradeSO upgrade = tower.GetNextUpgrade(selectedPath);
 
-            TowerUpgradeSO upgrade = tower.GetNextUpgrade(i);
+            slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, selectedPath);
+        }
 
-            slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, i);
-        } 
+        //Subscribe to the current towers 
+        subscribedTower = tower;
+        subscribedTower.UpgradeProgress.OnChange += UpdateUpgradeUi;
+    }
+
+    private void OnDisable()
+    {
+        subscribedTower.UpgradeProgress.OnChange -= UpdateUpgradeUi;
+    }
+
+    private void UpdateUpgradeUi(SyncDictionaryOperation op, int key, TowerPathProgress value, bool asServer)
+    {
+        //Handle path not selected logic
+        if (!pathSelected)
+        {
+            List<UpgradeSlot> slots = GetComponentsInChildren<UpgradeSlot>().ToList();
+
+            //Deletes slots that havent been selected
+            foreach (UpgradeSlot slot in slots)
+            {
+                if(slot.PathIndex != key)
+                {
+                    Destroy(slot.gameObject);
+                }
+            }
+
+            //Updates to tell us path has been selected
+            pathSelected = true;
+            selectedPath = key;
+        }
+
+        UpgradeSlot currentSlot = GetComponentInChildren<UpgradeSlot>();
+
+        //Updates the ui for the current tower
+        currentSlot.Initialize(this, subscribedTower.GetNextUpgrade(selectedPath), key);
     }
 
     public void SetCurrentTower(NetworkObject tower)

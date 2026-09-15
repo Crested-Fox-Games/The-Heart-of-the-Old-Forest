@@ -22,6 +22,8 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private TowerUpgradeUI towerUpgradeUi;
 
+    public int PathIndex => pathIndex;
+
 
     public void Initialize(TowerUpgradeUI towerUpgradeUi, TowerUpgradeSO so, int pathIndex)
     {
