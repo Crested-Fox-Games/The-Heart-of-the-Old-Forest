@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TowerUpgradeUI : MonoBehaviour
 {
@@ -22,10 +23,9 @@ public class TowerUpgradeUI : MonoBehaviour
 
     private Tower subscribedTower;
 
-    [SerializeField]
     private List<TowerUpgradePathSO> towerUpgradePathSOs;
 
-    private int selectedPath;
+    private int selectedPath = -1;
 
     /// <summary>
     /// A bool that tracks if a path has been selected for the current tower
@@ -57,7 +57,14 @@ public class TowerUpgradeUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        if (currentTower == null)
+            return;
+
         Tower tower = currentTower.GetComponent<Tower>();
+
+        towerUpgradePathSOs = tower.TowerSO.UpgradePaths;
+
+        Debug.Log($"Tower upgrade path count {towerUpgradePathSOs.Count} and selected path is {selectedPath}");
 
         //Change logic based on if a path is selected
         if (!pathSelected)
@@ -67,7 +74,7 @@ public class TowerUpgradeUI : MonoBehaviour
             {
                 var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
 
-                TowerUpgradeSO upgrade = tower.GetNextUpgrade(i);
+                TowerUpgradeSO upgrade = tower.GetNextSelectedUpgrade(i);
 
                 slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, i);
             }
@@ -77,25 +84,37 @@ public class TowerUpgradeUI : MonoBehaviour
             //Spawn only the selected path if we have selected one
             var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
             
-            TowerUpgradeSO upgrade = tower.GetNextUpgrade(selectedPath);
+            TowerUpgradeSO upgrade = tower.GetNextSelectedUpgrade(selectedPath);
 
             slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, selectedPath);
         }
 
         //Subscribe to the current towers 
         subscribedTower = tower;
+        subscribedTower.UpgradeProgress.OnChange -= UpdateUpgradeUi;
         subscribedTower.UpgradeProgress.OnChange += UpdateUpgradeUi;
+        Debug.Log("Subscribed to onchange");
     }
 
     private void OnDisable()
     {
-        subscribedTower.UpgradeProgress.OnChange -= UpdateUpgradeUi;
+        if(subscribedTower != null)
+        {
+            subscribedTower.UpgradeProgress.OnChange -= UpdateUpgradeUi;
+            subscribedTower = null;
+        }
+            
     }
 
     private void UpdateUpgradeUi(SyncDictionaryOperation op, int key, TowerPathProgress value, bool asServer)
     {
+        Debug.Log("Update upgrade ui");
+
+        if (asServer)
+            return;
+
         //Handle path not selected logic
-        if (!pathSelected)
+        if (pathSelected)
         {
             List<UpgradeSlot> slots = GetComponentsInChildren<UpgradeSlot>().ToList();
 
@@ -108,15 +127,18 @@ public class TowerUpgradeUI : MonoBehaviour
                 }
             }
 
-            //Updates to tell us path has been selected
-            pathSelected = true;
-            selectedPath = key;
+            UpgradeSlot currentSlot = GetComponentInChildren<UpgradeSlot>();
+
+            //Updates the ui for the current tower
+            currentSlot.Initialize(this, subscribedTower.GetNextSelectedUpgrade(selectedPath), key);
         }
+    }
 
-        UpgradeSlot currentSlot = GetComponentInChildren<UpgradeSlot>();
-
-        //Updates the ui for the current tower
-        currentSlot.Initialize(this, subscribedTower.GetNextUpgrade(selectedPath), key);
+    private void SelectUpgradePath(int key)
+    {
+        //Updates to tell us path has been selected
+        pathSelected = true;
+        selectedPath = key;
     }
 
     public void SetCurrentTower(NetworkObject tower)
@@ -126,7 +148,9 @@ public class TowerUpgradeUI : MonoBehaviour
 
     public void SelectUpgrade(int pathIndex)
     {
-        Debug.Log("Tower Upgrade Ui, Calling RPC");
+        if(!pathSelected)
+            SelectUpgradePath(pathIndex);
+
         PlayerRPCHandler.LocalInstance.CallSelectUpgrade(currentTower, pathIndex);
     }
 }

@@ -132,6 +132,28 @@ public abstract class Tower : NetworkBehaviour
         return 1 + localUpgrades.projectileCountAdd;
     }
 
+    /// <summary>
+    /// A function that allows us to get the next upgrade in the path.
+    /// </summary>
+    /// <param name="pathIndex"></param>
+    /// <returns></returns>
+    public TowerUpgradeSO GetNextSelectedUpgrade(int pathIndex)
+    {
+        TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
+
+        TowerPathProgress progress = GetPathProgress(pathIndex);
+
+        if (IsMilestoneUpgrade(path, progress.upgradeCount))
+        {
+            if (progress.milestoneUpgradeCount < path.MaxUniqueUpgrades)
+            {
+                return path.MilestoneUpgrade;
+            }
+        }
+
+        return path.NextRandomUpgrade;
+    }
+
     public TowerUpgradeSO GetNextUpgrade(int pathIndex)
     {
         TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
@@ -238,7 +260,7 @@ public abstract class Tower : NetworkBehaviour
         return upgradeCount % cycleLength == 0;
     }
 
-    private TowerUpgradeSO FindUpgradeByID(TowerUpgradePathSO path, int upgradeID)
+    public TowerUpgradeSO FindUpgradeByID(TowerUpgradePathSO path, int upgradeID)
     {
         foreach (TowerUpgradeSO upgrade in path.RandomUpgradePool)
         {
