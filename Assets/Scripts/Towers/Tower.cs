@@ -74,7 +74,7 @@ public abstract class Tower : NetworkBehaviour
     protected bool stunned = false;
 
     //Upgrades
-    private readonly Dictionary<int, TowerPathProgress> upgradeProgress = new();
+    private readonly SyncDictionary<int, TowerPathProgress> upgradeProgress = new();
 
     private TowerUpgradesDC localUpgrades = TowerUpgradesDC.Default;
 
@@ -83,7 +83,6 @@ public abstract class Tower : NetworkBehaviour
         //Checks to ensure we are running this on the server
         if (!InstanceFinder.IsServerStarted)
             return;
-
         
         //Adds to the upgrades
         if (upgradeType == UpgradeType.Addition)
@@ -123,7 +122,6 @@ public abstract class Tower : NetworkBehaviour
             }
         }
 
-        OnUpgradesChanged();
     }
 
     //Returns total projectile count of tower shots
