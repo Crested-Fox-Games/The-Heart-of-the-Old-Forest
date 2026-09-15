@@ -62,6 +62,7 @@ public class PlayerRPCHandler : NetworkBehaviour
             return;
         }
 
+
         tower.PurchaseUpgrade(pathIndex);
         
     }

@@ -289,8 +289,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6726185326242547303}
-        m_TargetAssemblyTypeName: TowerSlot, Assembly-CSharp
-        m_MethodName: 
+        m_TargetAssemblyTypeName: UpgradeSlot, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradePath
   towerUpgradeSO: {fileID: 0}
-  towerUpgradePanel: {fileID: 1586119950368176343}
+  towerUpgradePanel: {fileID: 8976088428499964520}
   upgradeName: {fileID: 373384644373356211}
   resourceText: {fileID: 8938530606986840622}
 --- !u!1 &3624030022499040870

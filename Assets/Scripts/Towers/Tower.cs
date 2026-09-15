@@ -193,22 +193,26 @@ public abstract class Tower : NetworkBehaviour
             return;
         }
 
-        //Let the upgrade apply itself.
-        upgrade.GrantUpgrade(this);
-
-        TowerPathProgress progress = GetPathProgress(pathIndex);
-
-        progress.upgradeCount++;
-        progress.pendingUpgradeID = -1;
-
-        if (upgrade == path.MilestoneUpgrade)
+        if (BaseResourceController.Instance.RemoveResources(upgrade.RequiredResources))
         {
-            progress.milestoneUpgradeCount++;
+            //Let the upgrade apply itself.
+            upgrade.GrantUpgrade(this);
+
+            TowerPathProgress progress = GetPathProgress(pathIndex);
+
+            progress.upgradeCount++;
+            progress.pendingUpgradeID = -1;
+
+            if (upgrade == path.MilestoneUpgrade)
+            {
+                progress.milestoneUpgradeCount++;
+            }
+
+            upgradeProgress[pathIndex] = progress;
+
+            Debug.Log($"Upgrade {upgrade.UpgradeName} successfully purchased");
+            path.GetRandomUpgrade();
         }
-
-        upgradeProgress[pathIndex] = progress;
-
-        path.GetRandomUpgrade();
     }
 
     private TowerPathProgress GetPathProgress(int pathIndex)

@@ -34,6 +34,11 @@ public class TowerUpgradeUI : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnEnable()
     {
         //Destroy children and spawn in new slots for each SO
@@ -50,7 +55,7 @@ public class TowerUpgradeUI : MonoBehaviour
 
             TowerUpgradeSO upgrade = tower.GetNextUpgrade(i);
 
-            slot.GetComponent<TowerUpgradePath>().Initialize(this, upgrade, i);
+            slot.GetComponent<UpgradeSlot>().Initialize(this, upgrade, i);
         } 
     }
 
@@ -61,6 +66,7 @@ public class TowerUpgradeUI : MonoBehaviour
 
     public void SelectUpgrade(int pathIndex)
     {
+        Debug.Log("Tower Upgrade Ui, Calling RPC");
         PlayerRPCHandler.LocalInstance.CallSelectUpgrade(currentTower, pathIndex);
     }
 }

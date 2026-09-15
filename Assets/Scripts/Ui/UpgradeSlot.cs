@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private TowerUpgradeSO towerUpgradeSO;
@@ -64,6 +64,7 @@ public class TowerUpgradePath : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnClick()
     {
+        Debug.Log("Upgrade Slot, upgrade clicked");
         towerUpgradeUi.SelectUpgrade(pathIndex);
     }
 }
