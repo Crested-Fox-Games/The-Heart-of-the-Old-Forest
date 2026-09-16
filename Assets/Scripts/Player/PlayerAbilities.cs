@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
+using Random = UnityEngine.Random;
 
 public enum AbilitySlot
 {
@@ -24,7 +25,9 @@ public enum AbilityStat
 {
     Damage,
     Cooldown,
-    Range
+    Range,
+    CritChance,
+    CritDamage
 }
 
 /// <summary>
@@ -38,10 +41,14 @@ public struct AbilityUpgradesDC
         damageAdd = 0f,
         cooldownAdd = 0f,
         rangeAdd = 0f,
+        critChanceAdd = 1f,
+        //critDamageAdd = 0f,
 
         damageMult = 1f,
         cooldownMult = 1f,
         rangeMult = 1f,
+        //critChanceMult = 1f,
+        critDamageMult = 1.1f,
     };
 
     //Attack Modifiers
@@ -55,6 +62,14 @@ public struct AbilityUpgradesDC
     //Range Modifiers
     public float rangeAdd;
     public float rangeMult;
+
+    //Crit Damage Modifiers
+    public float critDamageAdd;
+    public float critDamageMult;
+
+    //Crit Chance Modifiers
+    public float critChanceAdd;
+    public float critChanceMult;
 }
 
 public class PlayerAbilities : NetworkBehaviour
@@ -326,16 +341,16 @@ public class PlayerAbilities : NetworkBehaviour
     {
         if (projectilePrefab.GetComponent<NormalProjectile>() != null)
         {
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage));
         }
         else if (projectilePrefab.GetComponent<RicochetProjectile>() != null)
         {
             //Initializes the projectiles values
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 1f, 3);
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), 1f, 3);
         }
         else if(projectilePrefab.GetComponent<VacuumProjectile>() != null)
         {
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), this);
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this);
         }
 
     }
@@ -359,6 +374,16 @@ public class PlayerAbilities : NetworkBehaviour
                 case AbilityStats.Cooldown:
                     upgrades.cooldownAdd += rewardAmount;
                     break;
+                case AbilityStats.Range:
+                    upgrades.rangeAdd += rewardAmount;
+                    break;
+                case AbilityStats.CritChance:
+                    upgrades.critChanceAdd += rewardAmount;
+                    break;
+                case AbilityStats.CritDamage:
+                    Debug.LogWarning("Crit Damage Add not functional, use Crit Damage Mult instead");
+                    upgrades.critDamageAdd += rewardAmount;
+                    break;
             }
         }
         else
@@ -370,6 +395,16 @@ public class PlayerAbilities : NetworkBehaviour
                     break;
                 case AbilityStats.Cooldown:
                     upgrades.cooldownMult += rewardAmount;
+                    break;
+                case AbilityStats.Range:
+                    upgrades.rangeMult += rewardAmount;
+                    break;
+                case AbilityStats.CritChance:
+                    Debug.LogWarning("Crit Chance Mult not functional, use Crit Chance Add instead");
+                    upgrades.critChanceMult += rewardAmount;
+                    break;
+                case AbilityStats.CritDamage:
+                    upgrades.critDamageMult += rewardAmount;
                     break;
             }
         }
@@ -396,8 +431,30 @@ public class PlayerAbilities : NetworkBehaviour
         return upgrades;
     }
 
+    /// <summary>
+    /// A function that checks for crits before returning the damage
+    /// </summary>
+    /// <param name="abilitySO"></param>
+    /// <param name="baseDamage"></param>
+    /// <returns></returns>
+    public float GetFinalDamage(AbilitySO abilitySO, float baseDamage)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
-    public float GetDamage(AbilitySO abilitySO, float baseDamage)
+        //Selects a random number
+        float randomSelection = Random.Range(0, 100f);
+
+        //Checks if the random number is at or above the crit chance
+        if(randomSelection >= GetCritChance(abilitySO))
+        {
+            return GetDamage(abilitySO, baseDamage) * GetCritDamage(abilitySO);
+        }
+
+        //Returns base damage if we dont crit
+        return GetDamage(abilitySO, baseDamage);
+    }
+
+    private float GetDamage(AbilitySO abilitySO, float baseDamage)
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
@@ -421,6 +478,20 @@ public class PlayerAbilities : NetworkBehaviour
         return Mathf.Max(0.1f, cooldown);
     }
 
-    
+    public float GetCritChance(AbilitySO abilitySO)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
+
+        //Currently only uses crit chance add for simplicity
+        return abilityUpgrades.critChanceAdd;
+    }
+
+    public float GetCritDamage(AbilitySO abilitySO)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
+
+        //Currently only uses crit damage mult for simplicity
+        return abilityUpgrades.critDamageMult;
+    }
 
 }
