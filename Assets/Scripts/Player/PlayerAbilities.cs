@@ -379,6 +379,7 @@ public class PlayerAbilities : NetworkBehaviour
                     break;
                 case AbilityStats.CritChance:
                     upgrades.critChanceAdd += rewardAmount;
+                    CritChanceOverflow(upgrades);
                     break;
                 case AbilityStats.CritDamage:
                     Debug.LogWarning("Crit Damage Add not functional, use Crit Damage Mult instead");
@@ -411,6 +412,26 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Updates the upgrades in the dictionary
         abilityUpgrades[GetSlotFromAbility(abilitySO)] = upgrades;
+    }
+
+    /// <summary>
+    /// Moves any crit chance over 100 to crit damage
+    /// </summary>
+    /// <param name="upgrades"></param>
+    private void CritChanceOverflow(AbilityUpgradesDC upgrades)
+    {
+        //Check if crit chance is above 100
+        if (upgrades.critChanceAdd > 100)
+        {
+            //Get overflow amount
+            float overflow = upgrades.critChanceAdd - 100;
+
+            //Remove overflow from crit chance
+            upgrades.critChanceAdd -= overflow;
+
+            //Add overflow to damage mult at a reduced rate (This is done because I'm unsure how it will work properly)
+            upgrades.critDamageMult += overflow * 0.01f;
+        }
     }
 
     /// <summary>
