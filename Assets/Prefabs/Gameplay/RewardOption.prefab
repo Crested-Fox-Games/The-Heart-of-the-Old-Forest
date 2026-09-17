@@ -480,6 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRewardInstanceUi
   rewardName: {fileID: 4943507454956545868}
   rewardDescription: {fileID: 7332473240168214913}
+  background: {fileID: 4798444606258167404}
   rewardIcon: {fileID: 7332679771303818636}
 --- !u!225 &1887305886476192087
 CanvasGroup:
