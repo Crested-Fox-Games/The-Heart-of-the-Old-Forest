@@ -19,13 +19,10 @@ public class AbilityStatRewardSO : RewardSO
     /// </summary>
     public UpgradeType upgradeType;
 
-    /// <summary>
-    /// The amount of the stat granted by the reward system
-    /// </summary>
-    public float rewardAmount;
-
     public override void GrantReward(PlayerRef player)
     {
-        player.playerAbilities.AddAbilityUpgrade(abilitySO, abilityStat, upgradeType, rewardAmount);
+        base.GrantReward(player);
+
+        player.playerAbilities.AddAbilityUpgrade(abilitySO, abilityStat, upgradeType, GetRewardAmount(selectedRarity));
     }
 }
