@@ -15,13 +15,11 @@ public class PlayerStatRewardSO : RewardSO
     /// </summary>
     public UpgradeType upgradeType;
 
-    /// <summary>
-    /// The amount of the stat granted by the reward system
-    /// </summary>
-    public float rewardAmount;
 
     public override void GrantReward(PlayerRef player)
     {
-        player.playerStatus.AddUpgrade(playerStat, upgradeType, rewardAmount);
+        base.GrantReward(player);
+
+        player.playerStatus.AddUpgrade(playerStat, upgradeType, GetRewardAmount(selectedRarity));
     }
 }
