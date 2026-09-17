@@ -168,7 +168,7 @@ public class PlayerMovement : NetworkBehaviour
     /// <param name="asServer"></param>
     private void OnSlidingChanged(bool prev, bool next, bool asServer)
     {
-        animator.SetBool("IsSliding", next);
+        //animator.SetBool("IsSliding", next);
     }
 
     #endregion

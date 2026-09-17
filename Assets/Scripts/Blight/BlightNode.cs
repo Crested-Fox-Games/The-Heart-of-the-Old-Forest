@@ -165,7 +165,7 @@ public class BlightNode : NetworkBehaviour
 
         //Fix the position of the node
         Renderer modelRender = blightModel.GetComponent<Renderer>();
-        blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
+        //blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
 
         healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, modelRender.bounds.max.y + healthBaroffset, modelRender.transform.position.z);
 
