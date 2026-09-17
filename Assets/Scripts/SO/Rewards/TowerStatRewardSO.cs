@@ -27,10 +27,8 @@ public class TowerStatRewardSO : RewardSO
     /// </summary>
     public UpgradeType rewardType;
 
-    public override void GrantReward(PlayerRef player)
+    public override void GrantReward(PlayerRef player, Rarity rarity)
     {
-        base.GrantReward(player);
-
-        TowerManager.Instance.AddGlobalUpgrade(towerSO ,towerStat, rewardType, GetRewardAmount(selectedRarity));
+        TowerManager.Instance.AddGlobalUpgrade(towerSO ,towerStat, rewardType, GetRewardAmount(rarity));
     }
 }

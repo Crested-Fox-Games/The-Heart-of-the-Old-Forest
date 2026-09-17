@@ -57,9 +57,9 @@ public class PlayerRPCHandler : NetworkBehaviour
     /// </summary>
     /// <param name="rewardIds"></param>
     [TargetRpc]
-    public void ShowNightlyRewards(NetworkConnection conn, int[] rewardIds)
+    public void ShowNightlyRewards(NetworkConnection conn, int[] rewardIds, int[] rarities)
     {
         //Calls the ui manager and get it to show the rewards
-        UiManager.Instance.OpenRewardScreen(rewardIds, GetComponent<PlayerRef>());
+        UiManager.Instance.OpenRewardScreen(rewardIds, rarities, GetComponent<PlayerRef>());
     }
 }

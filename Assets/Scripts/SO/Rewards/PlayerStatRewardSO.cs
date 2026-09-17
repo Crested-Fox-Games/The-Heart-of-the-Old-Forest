@@ -16,10 +16,8 @@ public class PlayerStatRewardSO : RewardSO
     public UpgradeType upgradeType;
 
 
-    public override void GrantReward(PlayerRef player)
+    public override void GrantReward(PlayerRef player, Rarity rarity)
     {
-        base.GrantReward(player);
-
-        player.playerStatus.AddUpgrade(playerStat, upgradeType, GetRewardAmount(selectedRarity));
+        player.playerStatus.AddUpgrade(playerStat, upgradeType, GetRewardAmount(rarity));
     }
 }

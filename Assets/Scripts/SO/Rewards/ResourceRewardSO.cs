@@ -9,11 +9,9 @@ public class ResourceRewardSO : RewardSO
     [Header("--- Reward Info ---")]
     public ResourceSO Resource;
 
-    public override void GrantReward(PlayerRef player)
+    public override void GrantReward(PlayerRef player, Rarity rarity)
     {
-        base.GrantReward(player);
-
         //Grant the player resources when this reward is selected
-        player.playerInteraction.AcquireResources(Resource.ResourceType, (int)GetRewardAmount(selectedRarity));
+        player.playerInteraction.AcquireResources(Resource.ResourceType, (int)GetRewardAmount(rarity));
     }
 }
