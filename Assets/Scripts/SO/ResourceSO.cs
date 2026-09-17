@@ -3,7 +3,8 @@ using UnityEngine;
 public enum ResourceType
 {
     Wood,
-    Stone
+    Stone,
+    Crystal
 }
 
 [CreateAssetMenu(fileName = "ResourceSO", menuName = "Resources/ResourceSO")]

@@ -241,12 +241,7 @@ public class BlightManager : NetworkBehaviour
 
             attempts++;
 
-            if(!CheckValidPosition(targetPos, rarity))
-            {
-                continue;
-            }
-
-            if(!GetLowestGroundPoint(targetPos, rarity, out float groundY))
+            if (!GetLowestGroundPoint(targetPos, rarity, out float groundY))
             {
                 continue;
             }
@@ -256,12 +251,21 @@ public class BlightManager : NetworkBehaviour
             //Move it into the ground with 0.1f below ground level
             targetPos.y = groundY - halfExtents.y - 0.1f;
 
+            if (!CheckValidPosition(targetPos, rarity))
+            {
+                continue;
+            }
+
             validLocation = true;
         }
 
         //If it doesnt find a valid location within the designated number of attempts, it will cancel trying to spawn 
         if (!validLocation)
+        {
+            Debug.LogWarning("Could not find a place to spawn the blight node after 10 attempts");
             return;
+        }
+            
 
         Quaternion lookDirection = Quaternion.LookRotation(finalDirection);
 
@@ -299,6 +303,8 @@ public class BlightManager : NetworkBehaviour
 
         Collider[] colliders = Physics.OverlapBox(pos, halfExtents, Quaternion.identity, obstructionMask, QueryTriggerInteraction.Ignore);
 
+        Debug.Log($"Trying to spawn blight node at {pos} with {colliders.Length} colliders in the way");
+
         return colliders.Length == 0;
     }
 
@@ -330,6 +336,8 @@ public class BlightManager : NetworkBehaviour
                 if(Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
                 {
                     lowestGroundY = Mathf.Min(lowestGroundY, hit.point.y);
+
+                    Debug.Log($"Hit ground object {hit.collider.gameObject.name} at Y {hit.point.y} for sample {i},{j}");
                 }
             }
         }
