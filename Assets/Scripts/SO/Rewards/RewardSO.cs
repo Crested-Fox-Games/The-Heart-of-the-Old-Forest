@@ -44,23 +44,15 @@ public abstract class RewardSO : ScriptableObject
     public RarityRewardEffect[] RarityEffects;
 
     /// <summary>
-    /// The rarity selected for this reward
-    /// </summary>
-    
-    protected Rarity selectedRarity;
-    /// <summary>
     /// The function that handles giving the player rewards
     /// </summary>
     /// <param name="player"></param>
-    public virtual void GrantReward(PlayerRef player)
-    {
-        SelectRarity();
-    }
+    public abstract void GrantReward(PlayerRef player, Rarity rarity);
 
     /// <summary>
     /// Selects the rarity for the reward when granting it
     /// </summary>
-    private void SelectRarity()
+    public Rarity SelectRarity()
     {
         float common = 50f, uncommon = 30f, rare = 15f, mythic = 5f;
 
@@ -70,31 +62,31 @@ public abstract class RewardSO : ScriptableObject
 
         if (val - common <= 0)
         {
-            selectedRarity = Rarity.common;
+            return Rarity.common;
         }
         else
         {
             val -= common;
             if (val - uncommon <= 0)
             {
-                selectedRarity = Rarity.uncommon;
+                return Rarity.uncommon;
             }
             else
             {
                 val -= uncommon;
                 if (val - rare <= 0)
                 {
-                    selectedRarity = Rarity.rare;
+                    return Rarity.rare;
                 }
                 else
                 {
-                    selectedRarity = Rarity.mythic;
+                    return Rarity.mythic;
                 }
             }
         }
     }
 
-    protected float GetRewardAmount(Rarity rarity)
+    public float GetRewardAmount(Rarity rarity)
     {
         foreach(RarityRewardEffect effect in RarityEffects)
         {

@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: 4_AT_FireRate_Common
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
   RewardName: Tower Fire Rate
-  RewardId: 4
+  RewardId: 1
   RewardWeight: 70
   RewardIcon: {fileID: 0}
-  rarity: 0
+  RarityEffects:
+  - Rarity: 0
+    RewardAmount: 0
+  - Rarity: 1
+    RewardAmount: 0
+  - Rarity: 2
+    RewardAmount: 0
+  - Rarity: 3
+    RewardAmount: 0
   towerStat: 2
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
   rewardType: 0
-  rewardAmount: 1
