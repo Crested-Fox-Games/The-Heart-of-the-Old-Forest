@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayerRewardUi : MonoBehaviour
@@ -22,6 +24,18 @@ public class PlayerRewardUi : MonoBehaviour
 
     private PlayerRef localPlayer;
 
+    /// <summary>
+    /// A gameobject that blocks raycasts, used to stop players accidentally clicking rewards when they pop up
+    /// </summary>
+    [SerializeField]
+    private GameObject raycastBlocker;
+
+    /// <summary>
+    /// The text object for the timer
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
     private void Start()
     {
         //Gets a dictionary of all rewardSO's 
@@ -30,6 +44,17 @@ public class PlayerRewardUi : MonoBehaviour
 
         //Closes it straight away
         gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        //Blocks the raycast onenable so that players dont click rewards by accident
+        StartCoroutine(RaycastBlocker());
+    }
+
+    private void Update()
+    {
+        timerText.text = (30f - RewardManager.Instance.CurrentCountdownTime.Value).ToString("F1");
     }
 
     /// <summary>
@@ -78,5 +103,19 @@ public class PlayerRewardUi : MonoBehaviour
     {
         localPlayer.playerRPCHandler.SelectNightlyReward(currentRewardOptions[2].RewardId);
         UiManager.Instance.CloseRewardScreen();
+    }
+
+    /// <summary>
+    /// Turns the raycast blocker on and off 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RaycastBlocker()
+    {
+        raycastBlocker.SetActive(true);
+
+        //Needs to be realtime as this happens while game paused
+        yield return new WaitForSecondsRealtime(1f);
+
+        raycastBlocker.SetActive(false);
     }
 }
