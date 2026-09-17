@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,34 @@ public class RewardManager : NetworkBehaviour
     private Dictionary<int, RewardSO> rewardsById;
 
     private List<PlayerRef> players;
+
+    /// <summary>
+    /// The player count when the rewards are generated
+    /// </summary>
+    private float currentPlayerCount;
+
+    /// <summary>
+    /// The amount of rewards selected by the players
+    /// </summary>
+    private float rewardSelectedAmount;
+
+    /// <summary>
+    /// The amount of time before the game is unpause for rewards if a player doesn't select
+    /// </summary>
+    [SerializeField]
+    private float rewardCountdownTime = 30f;
+
+    /// <summary>
+    /// The current time for the countdown timer
+    /// </summary>
+    private readonly SyncVar<float> currentCountdownTime = new();
+
+    public SyncVar<float> CurrentCountdownTime => currentCountdownTime;
+
+    /// <summary>
+    /// The coroutine for tracking the countdown 
+    /// </summary>
+    private Coroutine rewardCountdownCoroutine;
 
     private void Awake()
     {
@@ -116,6 +145,11 @@ public class RewardManager : NetworkBehaviour
 
             playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds);
         }
+
+        PauseGame();
+
+        if(rewardCountdownCoroutine == null)
+            rewardCountdownCoroutine = StartCoroutine(RewardCountdownTimer());
     }
 
     /// <summary>
@@ -181,5 +215,51 @@ public class RewardManager : NetworkBehaviour
 
         //Clears the rewards
         selectedNightlyRewards.Remove(player);
+
+        rewardSelectedAmount++;
+
+        if(rewardSelectedAmount >= currentPlayerCount)
+        {
+            UnpauseGame();
+        }
+    }
+
+    /// <summary>
+    /// Pauses the game when rewards pop up
+    /// </summary>
+    [ObserversRpc]
+    private void PauseGame()
+    {
+        //Stops the time for the player so that they 
+        Time.timeScale = 0f;
+    }
+
+    /// <summary>
+    /// Unpauses the game when all rewards have been selected or the timer expires
+    /// </summary>
+    [ObserversRpc]
+    private void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    /// <summary>
+    /// The countdown timer for the rewards
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RewardCountdownTimer()
+    {
+        currentCountdownTime.Value = 0f;
+
+        while(currentCountdownTime.Value <= rewardCountdownTime)
+        {
+            //Unscaled delta time due to game being paused during this
+            currentCountdownTime.Value += Time.unscaledDeltaTime;
+
+            yield return null;
+        }
+
+        UnpauseGame();
+        rewardCountdownCoroutine = null;
     }
 }
