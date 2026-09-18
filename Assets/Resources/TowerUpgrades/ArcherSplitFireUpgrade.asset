@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerProjectileUpgradeSO
   UpgradeName: Multi Shot
   Description: Increases amount of targets tower can hit at once
-  UpgradeId: 0
+  UpgradeId: 4
   UpgradeIcon: {fileID: 0}
   requiredResources:
   - resource: 0

@@ -18,4 +18,6 @@ MonoBehaviour:
   randomUpgradePool:
   - {fileID: 11400000, guid: e9c370db7135ea740822ccbcac67f8fe, type: 2}
   - {fileID: 11400000, guid: 07f8e7c3361ffb4439a687acdeb3a0f9, type: 2}
+  - {fileID: 11400000, guid: e0b8c6e82c28292469229ed41e0924a2, type: 2}
+  - {fileID: 11400000, guid: fc6d8c44822336b4ab3382e2804dcae8, type: 2}
   randomUpgradesBetweenMilestones: 2

@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a57f40743f7d1a84f8c118a9b7b1a979, type: 3}
   m_Name: TowerSniperUpgradeSO
   m_EditorClassIdentifier: Assembly-CSharp::TowerSniperUpgradeSO
-  UpgradeName: 
-  Description: 
-  UpgradeId: 0
+  UpgradeName: Sniper Shot
+  Description: Increases the range and damage of this tower significantly.
+  UpgradeId: 5
   UpgradeIcon: {fileID: 0}
-  requiredResources: []
-  damageIncrease: 10
-  rangeIncrease: 5
+  requiredResources:
+  - resource: 0
+    cost: 10
+  damageIncrease: 6
+  rangeIncrease: 4

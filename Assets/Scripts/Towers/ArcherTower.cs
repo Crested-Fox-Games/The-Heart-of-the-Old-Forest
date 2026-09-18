@@ -6,6 +6,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ArcherTower : Tower
 {
+    private int volleyNumber = 0;
+
     private void OnTriggerEnter(Collider collision)
     {
         if(!IsServerStarted)
@@ -17,6 +19,12 @@ public class ArcherTower : Tower
         if (enemy == null)
             return;
 
+        Debug.Log(
+       $"TRIGGER ENTER - Collider: {collision.name}, " +
+       $"Enemy: {enemy.name}, " +
+       $"Enemy ID: {enemy.gameObject.GetInstanceID()}"
+   );
+
         AddEnemyToTargets(enemy);
 
         //set the current target if none set already
@@ -24,8 +32,12 @@ public class ArcherTower : Tower
         {
             targetEnemy = enemy.gameObject;
         }
- 
-        Debug.Log($"Starting attack on {targetEnemy}");
+
+        Debug.Log(
+        $"Starting attack on {targetEnemy.name}. " +
+        $"Targets count: {targets.Count}"
+    );
+
         StartAttack();
     }
 
@@ -57,7 +69,7 @@ public class ArcherTower : Tower
                 //Update the target enemy to the first one in the list
                 //TODO: This is one of the places we need to implement tower targetting
                 targetEnemy = targets[0];
-                targets.RemoveAt(0);
+                //targets.RemoveAt(0);
             }
         }
 
@@ -74,6 +86,7 @@ public class ArcherTower : Tower
 
     private IEnumerator AttackLoop()
     {
+        Debug.Log("AttackLoop STARTED");
         //Checks to ensure there is a target to hit
         while (targetEnemy != null)
         {
@@ -83,26 +96,50 @@ public class ArcherTower : Tower
                 continue;
             }
 
-            int projectileCount = GetProjectileCount();
+            volleyNumber++;
 
-            for (int i = 0; i < projectileCount; i++)
+            int currentVolley = volleyNumber;
+
+            List<GameObject> splitFireTargets = GetSplitFireTargets();
+            //int projectileCount = GetProjectileCount();
+
+            Debug.Log(
+           $"=== VOLLEY {currentVolley} === " +
+           $"Target count: {splitFireTargets.Count}"
+            );
+
+            for (int i = 0; i < splitFireTargets.Count; i++)
             {
-                //Spawn projectile with stats
-                //For optimization turn projs off and on instead of destroying
-                GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
+                GameObject target = splitFireTargets[i];
 
-                //Initialize the projectile
-                proj.GetComponent<NormalProjectile>().InitializeProjectile(targetEnemy.transform.position, GetDamage());
+                Debug.Log(
+                    $"Volley {currentVolley} | " +
+                    $"Projectile {i + 1}/{splitFireTargets.Count} | " +
+                    $"Target: {(target != null ? target.name : "NULL")}"
+                );
 
-                //TODO: Add some sort of spread to the projectiles
+                if (target == null)
+                    continue;
+
+                GameObject proj = Instantiate(
+                    projectile,
+                    transform.position,
+                    transform.rotation
+                );
+
+                proj.GetComponent<NormalProjectile>().InitializeProjectile(
+                    target.transform.position,
+                    GetDamage()
+                );
 
                 Spawn(proj);
-                yield return new WaitForSeconds(0.25f);
             }
+
 
             //Activate cooldown
             yield return new WaitForSeconds(GetFireRate());
 
+            targets.RemoveAll(target => target == null);
 
             //Checks if the target enemy has been killed, and if so, adds a new target from the list
             if (targetEnemy == null && targets.Count > 0)
@@ -110,7 +147,7 @@ public class ArcherTower : Tower
                 while(targets.Count > 0)
                 {
                     targetEnemy = targets[0];
-                    targets.RemoveAt(0);
+                    //targets.RemoveAt(0);
 
                     if (targetEnemy != null)
                         break;
@@ -134,16 +171,35 @@ public class ArcherTower : Tower
     /// <param name="enemy"></param>
     private void AddEnemyToTargets(Enemy enemy)
     {
-        //Avoid duplication
-        if (targets.Contains(enemy.gameObject) || targetEnemy == enemy.gameObject)
-            return;
+        GameObject enemyObj = enemy.gameObject;
 
-        //Subscribes to the event so that when it dies it will be removed
+        Debug.Log(
+            $"AddEnemyToTargets called: {enemyObj.name} " +
+            $"ID: {enemyObj.GetInstanceID()} " +
+            $"Targets count: {targets.Count} " +
+            $"Current target: {(targetEnemy != null ? targetEnemy.name : "NULL")}"
+        );
+
+        // Avoid duplication
+        if (targets.Contains(enemyObj))
+        {
+            Debug.Log("Enemy already exists in targets.");
+            return;
+        }
+
+        if (targetEnemy == enemyObj)
+        {
+            Debug.Log("Enemy is already the current target.");
+            return;
+        }
+
         enemy.onEnemyKilled += RemoveEnemyFromTargets;
 
-        if(targetEnemy != null)
+        if (targetEnemy != null)
         {
-            targets.Add(enemy.gameObject);
+            targets.Add(enemyObj);
+
+            Debug.Log($"Added {enemyObj.name} to targets. New count: {targets.Count}");
         }
     }
 
@@ -164,4 +220,40 @@ public class ArcherTower : Tower
             targetEnemy = null;
         }
     }
-}
+
+    /// <summary>
+    /// Get list of enemies as targets for split fire ability
+    /// </summary>
+    /// <returns></returns>
+    private List<GameObject> GetSplitFireTargets()
+    {
+        List<GameObject> splitFireTargets = new List<GameObject>();
+
+        if (targetEnemy != null)
+        {
+            splitFireTargets.Add(targetEnemy);
+        }
+
+        foreach (GameObject target in targets)
+        {
+            if (target == null)
+            {
+                continue;
+            }
+
+            if (splitFireTargets.Contains(target))
+            {
+                continue;
+            }
+
+            splitFireTargets.Add(target);
+
+            if (splitFireTargets.Count >= GetProjectileCount())
+            {
+                break;
+            }
+        }
+        
+        return splitFireTargets;
+        }
+    }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: ArcherRangeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
   UpgradeName: Archer Range Upgrade
-  Description: Add some range
-  UpgradeId: 1
+  Description: Increases the range of this tower.
+  UpgradeId: 3
   UpgradeIcon: {fileID: 0}
   requiredResources:
   - resource: 0
     cost: 10
   towerStat: 3
   upgradeType: 0
-  upgradeAmount: 5
+  upgradeAmount: 2

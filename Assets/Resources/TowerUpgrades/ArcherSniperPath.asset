@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d330236a628a743b3825f312b8525d, type: 3}
   m_Name: ArcherSniperPath
   m_EditorClassIdentifier: Assembly-CSharp::TowerUpgradePathSO
-  pathName: 
+  pathName: Sniper Shot
   maxUniqueUpgrades: 3
-  milestoneUpgrade: {fileID: 0}
-  randomUpgradePool: []
+  milestoneUpgrade: {fileID: 11400000, guid: dc2c91ba976d21a4dbaf613ceedb256a, type: 2}
+  randomUpgradePool:
+  - {fileID: 11400000, guid: e9c370db7135ea740822ccbcac67f8fe, type: 2}
+  - {fileID: 11400000, guid: e0b8c6e82c28292469229ed41e0924a2, type: 2}
+  - {fileID: 11400000, guid: fc6d8c44822336b4ab3382e2804dcae8, type: 2}
+  - {fileID: 11400000, guid: 07f8e7c3361ffb4439a687acdeb3a0f9, type: 2}
   randomUpgradesBetweenMilestones: 2
