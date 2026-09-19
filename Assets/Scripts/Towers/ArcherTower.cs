@@ -19,11 +19,7 @@ public class ArcherTower : Tower
         if (enemy == null)
             return;
 
-        Debug.Log(
-       $"TRIGGER ENTER - Collider: {collision.name}, " +
-       $"Enemy: {enemy.name}, " +
-       $"Enemy ID: {enemy.gameObject.GetInstanceID()}"
-   );
+        Debug.Log($"TRIGGER ENTER - Collider: {collision.name}, " + $"Enemy: {enemy.name}, " + $"Enemy ID: {enemy.gameObject.GetInstanceID()}");
 
         AddEnemyToTargets(enemy);
 
@@ -33,10 +29,7 @@ public class ArcherTower : Tower
             targetEnemy = enemy.gameObject;
         }
 
-        Debug.Log(
-        $"Starting attack on {targetEnemy.name}. " +
-        $"Targets count: {targets.Count}"
-    );
+        Debug.Log($"Starting attack on {targetEnemy.name}. " + $"Targets count: {targets.Count}");
 
         StartAttack();
     }
@@ -103,20 +96,13 @@ public class ArcherTower : Tower
             List<GameObject> splitFireTargets = GetSplitFireTargets();
             //int projectileCount = GetProjectileCount();
 
-            Debug.Log(
-           $"=== VOLLEY {currentVolley} === " +
-           $"Target count: {splitFireTargets.Count}"
-            );
+            Debug.Log($"=== VOLLEY {currentVolley} === " + $"Target count: {splitFireTargets.Count}");
 
             for (int i = 0; i < splitFireTargets.Count; i++)
             {
                 GameObject target = splitFireTargets[i];
 
-                Debug.Log(
-                    $"Volley {currentVolley} | " +
-                    $"Projectile {i + 1}/{splitFireTargets.Count} | " +
-                    $"Target: {(target != null ? target.name : "NULL")}"
-                );
+                Debug.Log($"Volley {currentVolley} | " + $"Projectile {i + 1}/{splitFireTargets.Count} | " + $"Target: {(target != null ? target.name : "NULL")}");
 
                 if (target == null)
                     continue;
@@ -173,12 +159,7 @@ public class ArcherTower : Tower
     {
         GameObject enemyObj = enemy.gameObject;
 
-        Debug.Log(
-            $"AddEnemyToTargets called: {enemyObj.name} " +
-            $"ID: {enemyObj.GetInstanceID()} " +
-            $"Targets count: {targets.Count} " +
-            $"Current target: {(targetEnemy != null ? targetEnemy.name : "NULL")}"
-        );
+        Debug.Log($"AddEnemyToTargets called: {enemyObj.name} " + $"ID: {enemyObj.GetInstanceID()} " + $"Targets count: {targets.Count} " +$"Current target: {(targetEnemy != null ? targetEnemy.name : "NULL")}");
 
         // Avoid duplication
         if (targets.Contains(enemyObj))
