@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4165eafabc29038428cf582deaaac3bb, type: 3}
-  m_Name: 4_AT_FireRate_Common
+  m_Name: 0_AT_Damage
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
-  RewardName: Tower Fire Rate
-  RewardId: 1
+  RewardName: Tower Damage
+  RewardId: 0
   RewardWeight: 70
   RewardIcon: {fileID: 0}
   RarityEffects:
   - Rarity: 0
-    RewardAmount: 0
+    RewardAmount: 5
   - Rarity: 1
-    RewardAmount: 0
+    RewardAmount: 10
   - Rarity: 2
-    RewardAmount: 0
+    RewardAmount: 15
   - Rarity: 3
-    RewardAmount: 0
-  towerStat: 2
+    RewardAmount: 20
+  towerStat: 0
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
   rewardType: 0
