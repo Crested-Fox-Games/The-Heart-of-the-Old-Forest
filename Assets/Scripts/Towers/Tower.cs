@@ -80,6 +80,75 @@ public abstract class Tower : NetworkBehaviour
 
     private TowerUpgradesDC localUpgrades = TowerUpgradesDC.Default;
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        currentHealth.Value = towerMaxHealth;
+
+        StartCoroutine(GetTowerManager());
+    }
+
+    private IEnumerator GetTowerManager()
+    {
+        while (towerManager == null)
+        {
+            towerManager = FindFirstObjectByType<TowerManager>();
+            yield return null;
+        }
+
+        //Creates the sphere around the tower that they can attack in
+        towerRangeCollider = gameObject.AddComponent<SphereCollider>();
+        towerRangeCollider.radius = GetRange();
+        towerRangeCollider.isTrigger = true;
+
+        InitializeValues();
+    }
+
+    /// <summary>
+    /// Sets the initial values of the tower based on the SO
+    /// </summary>
+    private void InitializeValues()
+    {
+        //String
+        towerName = towerSO.TowerName;
+        towerDescription = towerSO.TowerDescription;
+
+        //Float
+        attackRange = towerSO.AttackRange;
+        towerDamage = towerSO.TowerDamage;
+        towerMaxHealth = towerSO.TowerHealth;
+        attackCooldown = towerSO.AttackCooldown;
+
+        //GameObjects
+        projectile = towerSO.Projectile;
+        displayObject = towerSO.DisplayObject;
+
+        if (towerManager.GlobalTowerUpgrades.ContainsKey(towerSO.TowerName))
+        {
+            OnUpgradesChanged();
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (!IsServerStarted)
+            return;
+
+        currentHealth.Value -= damage;
+
+        if (currentHealth.Value < 0)
+        {
+            //TODO: Need to create some sort of broken form 
+
+            //Tells the tower placement that this tower has died
+            TempTowerPlacement towerPlacement = GetComponentInParent<TempTowerPlacement>();
+
+            //TODO: Change this when above TODO's are done
+            towerPlacement.TowerDestroyed();
+        }
+    }
+
     public void AddLocalUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
     {
         //Checks to ensure we are running this on the server
@@ -126,14 +195,17 @@ public abstract class Tower : NetworkBehaviour
 
     }
 
-    //Returns total projectile count of tower shots
+    /// <summary>
+    /// Returns total projectile count of tower shots
+    /// </summary>
+    /// <returns></returns>
     protected int GetProjectileCount()
     {
         return 1 + localUpgrades.projectileCountAdd;
     }
 
     /// <summary>
-    /// A function that allows us to get the next upgrade in the path.
+    /// A function that allows us to get the next upgrade in the path for UI use
     /// </summary>
     /// <param name="pathIndex"></param>
     /// <returns></returns>
@@ -143,6 +215,7 @@ public abstract class Tower : NetworkBehaviour
 
         TowerPathProgress progress = GetPathProgress(pathIndex);
 
+        //Check for milestone upgrade
         if (IsMilestoneUpgrade(path, progress.upgradeCount))
         {
             if (progress.milestoneUpgradeCount < path.MaxUniqueUpgrades)
@@ -154,13 +227,18 @@ public abstract class Tower : NetworkBehaviour
         return path.NextRandomUpgrade;
     }
 
+    /// <summary>
+    /// Checks whether or not the next upgrade is a milestone upgrade or random upgrade
+    /// </summary>
+    /// <param name="pathIndex"></param>
+    /// <returns></returns>
     public TowerUpgradeSO GetNextUpgrade(int pathIndex)
     {
         TowerUpgradePathSO path = towerSO.UpgradePaths[pathIndex];
 
         TowerPathProgress progress = GetPathProgress(pathIndex);
 
-        // Milestone upgrade
+        //Check for milestone upgrade
         if (IsMilestoneUpgrade(path, progress.upgradeCount))
         {
             if (progress.milestoneUpgradeCount < path.MaxUniqueUpgrades)
@@ -199,6 +277,10 @@ public abstract class Tower : NetworkBehaviour
         return randomUpgrade;
     }
 
+    /// <summary>
+    /// Remove resources required and grants current upgrade
+    /// </summary>
+    /// <param name="pathIndex"></param>
     public void PurchaseUpgrade(int pathIndex)
     {
         if (!InstanceFinder.IsServerStarted)
@@ -215,6 +297,7 @@ public abstract class Tower : NetworkBehaviour
             return;
         }
 
+        //Grant upgrade if the base has enough resources
         if (BaseResourceController.Instance.RemoveResources(upgrade.RequiredResources))
         {
             //Let the upgrade apply itself.
@@ -232,11 +315,15 @@ public abstract class Tower : NetworkBehaviour
 
             upgradeProgress[pathIndex] = progress;
 
-            Debug.Log($"Upgrade {upgrade.UpgradeName} successfully purchased");
             path.GetRandomUpgrade();
         }
     }
 
+    /// <summary>
+    /// Returns the current progress of the upgrade path for this tower
+    /// </summary>
+    /// <param name="pathIndex"></param>
+    /// <returns></returns>
     private TowerPathProgress GetPathProgress(int pathIndex)
     {
         if (!upgradeProgress.TryGetValue(pathIndex, out TowerPathProgress progress))
@@ -253,6 +340,12 @@ public abstract class Tower : NetworkBehaviour
         return progress;
     }
 
+    /// <summary>
+    /// Checks if the current upgrade is a milestone upgrade or not
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="upgradeCount"></param>
+    /// <returns></returns>
     private bool IsMilestoneUpgrade(TowerUpgradePathSO path, int upgradeCount)
     {
         int cycleLength = path.RandomUpgradesBetweenMilestones + 1;
@@ -260,6 +353,12 @@ public abstract class Tower : NetworkBehaviour
         return upgradeCount % cycleLength == 0;
     }
 
+    /// <summary>
+    /// Returns all upgrades in the upgrade path so far
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="upgradeID"></param>
+    /// <returns></returns>
     public TowerUpgradeSO FindUpgradeByID(TowerUpgradePathSO path, int upgradeID)
     {
         foreach (TowerUpgradeSO upgrade in path.RandomUpgradePool)
@@ -273,6 +372,11 @@ public abstract class Tower : NetworkBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Adds to projectile count of tower
+    /// </summary>
+    /// <param name="tower"></param>
+    /// <param name="amount"></param>
     public void AddProjectileUpgrade(Tower tower, int amount)
     {
         if (!InstanceFinder.IsServerStarted)
@@ -305,75 +409,6 @@ public abstract class Tower : NetworkBehaviour
     private TowerManager towerManager;
 
     private SphereCollider towerRangeCollider;
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-
-        currentHealth.Value = towerMaxHealth;
-
-        StartCoroutine(GetTowerManager());
-    }
-
-    private IEnumerator GetTowerManager()
-    {
-        while(towerManager == null)
-        {
-            towerManager = FindFirstObjectByType<TowerManager>();
-            yield return null;
-        }
-
-        //Creates the sphere around the tower that they can attack in
-        towerRangeCollider = gameObject.AddComponent<SphereCollider>();
-        towerRangeCollider.radius = GetRange();
-        towerRangeCollider.isTrigger = true;
-
-        InitializeValues();
-    }
-
-    /// <summary>
-    /// Sets the initial values of the tower based on the SO
-    /// </summary>
-    private void InitializeValues()
-    {
-        //String
-        towerName = towerSO.TowerName;
-        towerDescription = towerSO.TowerDescription;
-
-        //Float
-        attackRange = towerSO.AttackRange;
-        towerDamage = towerSO.TowerDamage;
-        towerMaxHealth = towerSO.TowerHealth;
-        attackCooldown = towerSO.AttackCooldown;
-
-        //GameObjects
-        projectile = towerSO.Projectile;
-        displayObject = towerSO.DisplayObject;
-
-        if(towerManager.GlobalTowerUpgrades.ContainsKey(towerSO.TowerName))
-        {
-            OnUpgradesChanged();
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        if (!IsServerStarted)
-            return;
-
-        currentHealth.Value -= damage;
-
-        if (currentHealth.Value < 0)
-        {
-            //TODO: Need to create some sort of broken form 
-
-            //Tells the tower placement that this tower has died
-            TempTowerPlacement towerPlacement = GetComponentInParent<TempTowerPlacement>();
-
-            //TODO: Change this when above TODO's are done
-            towerPlacement.TowerDestroyed();
-        }
-    }
 
     /// <summary>
     /// Updates the range and health as they are set values.

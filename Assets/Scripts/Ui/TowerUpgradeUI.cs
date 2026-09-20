@@ -64,8 +64,6 @@ public class TowerUpgradeUI : MonoBehaviour
 
         towerUpgradePathSOs = tower.TowerSO.UpgradePaths;
 
-        Debug.Log($"Tower upgrade path count {towerUpgradePathSOs.Count} and selected path is {selectedPath}");
-
         //Change logic based on if a path is selected
         if (!pathSelected)
         {

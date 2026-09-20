@@ -42,7 +42,7 @@ public class PlayerRPCHandler : NetworkBehaviour
     }
 
     /// <summary>
-    /// Tells the server to place the tower in the slot
+    /// Tells the server that an upgrade was purchased
     /// </summary>
     /// <param name="currentTowerSlot"></param>
     /// <param name="towerName"></param>

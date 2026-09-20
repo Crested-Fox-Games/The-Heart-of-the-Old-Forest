@@ -26,7 +26,12 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public int PathIndex => pathIndex;
 
-
+    /// <summary>
+    /// Sets the relevant values of the text in the prefab slot
+    /// </summary>
+    /// <param name="towerUpgradeUi"></param>
+    /// <param name="so"></param>
+    /// <param name="pathIndex"></param>
     public void Initialize(TowerUpgradeUI towerUpgradeUi, TowerUpgradeSO so, int pathIndex)
     {
         this.towerUpgradeUi = towerUpgradeUi;
@@ -70,7 +75,6 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnClick()
     {
-        Debug.Log("Upgrade Slot, upgrade clicked");
         towerUpgradeUi.SelectUpgrade(pathIndex);
     }
 }
