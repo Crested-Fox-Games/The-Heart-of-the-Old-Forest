@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0195965f776f34bbd2cae70b373255, type: 3}
   m_Name: ArcherRangeUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
-  UpgradeName: Archer Range Upgrade
+  UpgradeName: Range Upgrade
   Description: Increases the range of this tower.
   UpgradeId: 3
   UpgradeIcon: {fileID: 0}

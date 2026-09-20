@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67968e7a9c711649a117e3ab373469b, type: 3}
   m_Name: ArcherSplitFireUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerProjectileUpgradeSO
-  UpgradeName: Multi Shot
+  UpgradeName: Split Fire Path
   Description: Increases amount of targets tower can hit at once
   UpgradeId: 4
   UpgradeIcon: {fileID: 0}

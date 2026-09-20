@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a57f40743f7d1a84f8c118a9b7b1a979, type: 3}
   m_Name: TowerSniperUpgradeSO
   m_EditorClassIdentifier: Assembly-CSharp::TowerSniperUpgradeSO
-  UpgradeName: Sniper Shot
+  UpgradeName: Sniper Shot Path
   Description: Increases the range and damage of this tower significantly.
   UpgradeId: 5
   UpgradeIcon: {fileID: 0}

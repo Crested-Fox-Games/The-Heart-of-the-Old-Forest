@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0195965f776f34bbd2cae70b373255, type: 3}
   m_Name: ArcherFireRateUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
-  UpgradeName: Fire Rate
+  UpgradeName: Fire Rate Upgrade
   Description: Increases the fire rate of this tower.
   UpgradeId: 1
   UpgradeIcon: {fileID: 0}

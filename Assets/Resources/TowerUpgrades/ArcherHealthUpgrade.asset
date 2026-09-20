@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0195965f776f34bbd2cae70b373255, type: 3}
   m_Name: ArcherHealthUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatUpgradeSO
-  UpgradeName: Health
+  UpgradeName: Health Upgrade
   Description: Increases the health of this tower.
   UpgradeId: 2
   UpgradeIcon: {fileID: 0}
