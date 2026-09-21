@@ -16,7 +16,9 @@ MonoBehaviour:
   Description: Increases the health of this tower.
   UpgradeId: 2
   UpgradeIcon: {fileID: 0}
-  requiredResources: []
+  requiredResources:
+  - resource: 2
+    cost: 10
   towerStat: 1
   upgradeType: 0
   upgradeAmount: 2
