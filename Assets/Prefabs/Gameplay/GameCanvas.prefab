@@ -4166,7 +4166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 504.74475
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4186,11 +4186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -122.36089
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -302.6245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4203,6 +4203,14 @@ PrefabInstance:
     - target: {fileID: 7555852585689020936, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041653312012928229, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4369618176447708395}
+    - target: {fileID: 8041653312012928229, guid: ee11ee2db09415a4eb6a4ceb665ddde5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HideTowerUpgradeUi
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

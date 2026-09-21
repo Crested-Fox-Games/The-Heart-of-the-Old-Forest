@@ -17,7 +17,7 @@ MonoBehaviour:
   UpgradeId: 0
   UpgradeIcon: {fileID: 0}
   requiredResources:
-  - resource: 0
+  - resource: 2
     cost: 10
   towerStat: 0
   upgradeType: 0

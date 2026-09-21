@@ -17,6 +17,6 @@ MonoBehaviour:
   UpgradeId: 4
   UpgradeIcon: {fileID: 0}
   requiredResources:
-  - resource: 0
+  - resource: 2
     cost: 10
   projectileAmount: 1

@@ -17,7 +17,7 @@ MonoBehaviour:
   UpgradeId: 5
   UpgradeIcon: {fileID: 0}
   requiredResources:
-  - resource: 0
+  - resource: 2
     cost: 10
   damageIncrease: 6
   rangeIncrease: 4
