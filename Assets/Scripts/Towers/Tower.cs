@@ -23,10 +23,10 @@ public struct TowerUpgradesDC
         healthAdd = 0f,
         rangeAdd = 0f,
 
-        attackMult = 1f,
-        fireRateMult = 1f,
-        healthMult = 1f,
-        rangeMult = 1f,
+        attackMult = 0f,
+        fireRateMult = 0f,
+        healthMult = 0f,
+        rangeMult = 0f,
 
         projectileCountAdd = 0,
     };
@@ -435,7 +435,7 @@ public abstract class Tower : NetworkBehaviour
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (towerDamage + globalUpgrades.attackAdd + localUpgrades.attackAdd) * (globalUpgrades.attackMult + localUpgrades.attackMult);
+        return (towerDamage + globalUpgrades.attackAdd + localUpgrades.attackAdd) * (1f + globalUpgrades.attackMult + localUpgrades.attackMult);
     }
 
     protected float GetFireRate()
@@ -443,7 +443,7 @@ public abstract class Tower : NetworkBehaviour
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return attackCooldown / ((1f + (globalUpgrades.fireRateAdd + localUpgrades.fireRateAdd) * 0.1f) * (globalUpgrades.fireRateMult + localUpgrades.fireRateMult));
+        return attackCooldown / ((1f + (globalUpgrades.fireRateAdd + localUpgrades.fireRateAdd) * 0.1f) * (1f + globalUpgrades.fireRateMult + localUpgrades.fireRateMult));
     }
 
     protected float GetRange()
@@ -451,7 +451,7 @@ public abstract class Tower : NetworkBehaviour
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (attackRange + globalUpgrades.rangeAdd + localUpgrades.rangeAdd) * (globalUpgrades.rangeMult + localUpgrades.rangeMult);
+        return (attackRange + globalUpgrades.rangeAdd + localUpgrades.rangeAdd) * (1f+ globalUpgrades.rangeMult + localUpgrades.rangeMult);
     }
 
     protected float GetHealth()
@@ -459,6 +459,6 @@ public abstract class Tower : NetworkBehaviour
         GlobalTowerUpgradesDC globalUpgrades = towerManager.GetOrCreateGlobalUpgrades(towerSO);
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
-        return (towerMaxHealth + globalUpgrades.healthAdd + localUpgrades.healthAdd) * (globalUpgrades.healthMult + localUpgrades.healthMult);
+        return (towerMaxHealth + globalUpgrades.healthAdd + localUpgrades.healthAdd) * (1f+ globalUpgrades.healthMult + localUpgrades.healthMult);
     }
 }
