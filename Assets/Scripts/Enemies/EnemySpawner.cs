@@ -44,6 +44,12 @@ public class EnemySpawner : NetworkBehaviour
 
     private List<EnemySO> unlockedEnemies;
 
+    /// <summary>
+    /// A list of all the bosses that can be spawned. For now will just be bigger prefabs of normal enemies
+    /// </summary>
+    [SerializeField]
+    private List<EnemySO> unlockedBosses;
+
     [SerializeField]
     private TimeCycleManager timeManager;
 
@@ -169,9 +175,14 @@ public class EnemySpawner : NetworkBehaviour
         //Check to see if we need to spawn a boss at the start of this night
         if(bossToSpawn)
         {
-            //TODO: Spawn boss here
+            //Select which boss enemy we will spawn
+            int selection = Random.Range(0, unlockedBosses.Count);
 
+            //Get a random spawn point
+            int spawnIndex = Random.Range(0, spawnPoints.Length);
 
+            //Spawns the boss
+            SpawnWaveEnemy(unlockedBosses[selection], 5, spawnPoints[spawnIndex]);
 
             //Reset boss check
             bossToSpawn = false;
