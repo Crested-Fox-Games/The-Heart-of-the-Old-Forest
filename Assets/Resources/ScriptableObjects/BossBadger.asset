@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5445be317fa88fc48b8544ba0b58628d, type: 3}
-  m_Name: Goblin
+  m_Name: BossBadger
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   enemyName: Basic Enemy
   enemyDescription: Enemy Ahhhh lookin ahhhhh
-  enemyHealth: 100
-  enemySpeed: 40
-  enemyDamage: 10
-  enemyAttackRate: 0.2
+  enemyHealth: 300
+  enemySpeed: 4
+  enemyDamage: 30
+  enemyAttackRate: 0.5
   enemyAttackRange: 1
   enemySpawnWeight: 5
   projectile: {fileID: 0}
-  enemyPrefab: {fileID: 4040599309909042413, guid: 74eae1828687d8040902a91a02431258, type: 3}
+  enemyPrefab: {fileID: 3457484458958593425, guid: 6c3fa2b1567f3154ba42c7bc9f2449b3, type: 3}

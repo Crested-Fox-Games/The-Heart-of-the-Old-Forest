@@ -2022,7 +2022,7 @@ MonoBehaviour:
   maxDistance: 25
   minTime: 50
   maxTime: 70
-  blightBossRequirement: 0
+  blightBossRequirement: 1
   obstructionMask:
     serializedVersion: 2
     m_Bits: 7689
@@ -9028,6 +9028,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2303001875477162613}
   _networkObjectCache: {fileID: 2303001875477162613}
   SpawnableEnemies:
+  - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
+  unlockedBosses:
   - {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
   timeManager: {fileID: 0}
   HeartCrystal: {fileID: 8005133743718769901}
