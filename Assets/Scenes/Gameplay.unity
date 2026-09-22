@@ -3864,6 +3864,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 3900655026
       objectReference: {fileID: 0}
+    - target: {fileID: 1532523220510147372, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 4173158294
+      objectReference: {fileID: 0}
     - target: {fileID: 1647490225072304625, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3884,6 +3888,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 323542169}
+    - target: {fileID: 1984741573156535336, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 3900663741
+      objectReference: {fileID: 0}
     - target: {fileID: 2062575132534612464, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3917477853

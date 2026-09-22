@@ -231,6 +231,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2142154000116834496}
   resourceSO: {fileID: 11400000, guid: 253ec946bd9eea04e9a42732604ba4d4, type: 2}
   interactTime: 2
+  respawnTime: 60
   model: {fileID: 5709635544021794050}
 --- !u!1 &5709635544021794050 stripped
 GameObject:

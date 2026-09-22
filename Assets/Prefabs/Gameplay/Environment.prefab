@@ -2020,8 +2020,8 @@ MonoBehaviour:
   spawnConeRange: 90
   minDistance: 15
   maxDistance: 25
-  minTime: 50
-  maxTime: 70
+  minTime: 30
+  maxTime: 60
   blightBossRequirement: 0
   obstructionMask:
     serializedVersion: 2
@@ -11939,7 +11939,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
