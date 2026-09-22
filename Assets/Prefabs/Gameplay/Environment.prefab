@@ -11169,7 +11169,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 79010db8bee4c5c4d9e63a992c1b2f85, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -11321,7 +11321,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 786ac8f0b1b3012438f4b96f35738dfb, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -12290,7 +12290,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 786ac8f0b1b3012438f4b96f35738dfb, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -14781,7 +14781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -14867,7 +14867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -15626,7 +15626,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 79010db8bee4c5c4d9e63a992c1b2f85, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16554,7 +16554,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 79010db8bee4c5c4d9e63a992c1b2f85, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16833,7 +16833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -16919,7 +16919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
@@ -17943,7 +17943,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 786ac8f0b1b3012438f4b96f35738dfb, type: 2}
     - target: {fileID: 3288795423111523816, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: interactTime
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4643527864869087815, guid: a768effe83910ee4c9871f5f915f4407, type: 3}
       propertyPath: m_Name
