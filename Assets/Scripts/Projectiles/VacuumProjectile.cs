@@ -104,13 +104,16 @@ public class VacuumProjectile : BaseProjectile
 
         List<Enemy> enemiesHit = GetHitEnemies();
 
+        //Gets damage at the start so that if we crit, it crits them all
+        float currDamage = owner.GetFinalDamage(owner.BasicAttack.AbilitySO, owner.BasicAttack.GetDamage());
+
         foreach (Enemy enemy in enemiesHit)
         {
             Debug.Log($"Enemy {enemy.name} has been hit, there are {enemiesHit.Count} total hits");
             //Get the direction to the pull point
             Vector3 dir = (transform.position - enemy.transform.position).normalized;
 
-            enemy.TakeDamage(owner.GetDamage(owner.BasicAttack.AbilitySO, owner.BasicAttack.GetDamage()) * damageMult);
+            enemy.TakeDamage(currDamage * damageMult);
             enemy.GetComponent<EnemyMovement>().PullTowards(dir, 2f, 0.5f);
         }
 

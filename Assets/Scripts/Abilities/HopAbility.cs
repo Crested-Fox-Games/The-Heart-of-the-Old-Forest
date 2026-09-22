@@ -49,9 +49,12 @@ public class HopAbility : Ability
     {
         List<Enemy> enemiesHit = GetHitEnemies();
 
+        //Gets damage at the start so that if we crit, it crits them all
+        float currDamage = owner.GetFinalDamage(abilitySO, damage);
+
         foreach (Enemy enemy in enemiesHit)
         {
-            enemy.TakeDamage(owner.GetDamage(abilitySO, damage));
+            enemy.TakeDamage(currDamage);
         }
 
         owner.GetComponent<PlayerMovement>().OnLaunchLanded -= OnLanded;

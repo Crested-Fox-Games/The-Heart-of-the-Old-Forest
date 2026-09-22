@@ -14,7 +14,10 @@ public enum PlayerStats
 public enum AbilityStats
 {
     Damage,
-    Cooldown
+    Cooldown,
+    Range,
+    CritChance,
+    CritDamage
 }   
 
 public class PlayerStatus : NetworkBehaviour, ITargetable
