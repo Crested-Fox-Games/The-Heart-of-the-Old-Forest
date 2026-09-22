@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerStatRewardSO
   RewardName: Tower Damage
   RewardId: 0
-  RewardWeight: 70
+  RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
   - Rarity: 0

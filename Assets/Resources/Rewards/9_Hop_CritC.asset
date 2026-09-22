@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityStatRewardSO
   RewardName: Hop Crit Chance
   RewardId: 9
-  RewardWeight: 0
+  RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
   - Rarity: 0
