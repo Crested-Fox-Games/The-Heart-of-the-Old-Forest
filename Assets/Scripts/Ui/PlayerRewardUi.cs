@@ -61,7 +61,7 @@ public class PlayerRewardUi : MonoBehaviour
     /// Gets the 3 rewards sent in through the int array 
     /// </summary>
     /// <param name="rewardIds"></param>
-    public void ReceiveRewardData(int[] rewardIds, PlayerRef player)
+    public void ReceiveRewardData(int[] rewardIds, int[] rarities, PlayerRef player)
     {
         currentRewardOptions.Clear();
 
@@ -69,22 +69,22 @@ public class PlayerRewardUi : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}"  );
+            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}");
             currentRewardOptions.Add(rewards[rewardIds[i]]);
         }
 
-        PopulateUi();
+        PopulateUi(rarities);
     }
 
     /// <summary>
     /// Populates 3 rewards screens with the info from their SO
     /// </summary>
     /// <param name="rewardList"></param>
-    private void PopulateUi()
+    private void PopulateUi(int[] rarities)
     {
-        option1.Populate(currentRewardOptions[0]);
-        option2.Populate(currentRewardOptions[1]);
-        option3.Populate(currentRewardOptions[2]);
+        option1.Populate(currentRewardOptions[0], (Rarity)rarities[0]);
+        option2.Populate(currentRewardOptions[1], (Rarity)rarities[1]);
+        option3.Populate(currentRewardOptions[2], (Rarity)rarities[2]);
     }
 
     public void SelectOption1()
