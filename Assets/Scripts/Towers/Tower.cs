@@ -149,7 +149,7 @@ public abstract class Tower : NetworkBehaviour
         }
     }
 
-    public void AddLocalUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
+    public void AddLocalStatUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
     {
         //Checks to ensure we are running this on the server
         if (!InstanceFinder.IsServerStarted)
@@ -193,6 +193,24 @@ public abstract class Tower : NetworkBehaviour
             }
         }
 
+    }
+
+
+    /// <summary>
+    /// Adds to projectile count of tower
+    /// </summary>
+    /// <param name="tower"></param>
+    /// <param name="amount"></param>
+    public void AddProjectileUpgrade(Tower tower, int amount)
+    {
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        localUpgrades.projectileCountAdd += amount;
+
+        OnUpgradesChanged();
     }
 
     /// <summary>
@@ -361,23 +379,6 @@ public abstract class Tower : NetworkBehaviour
         }
 
         return null;
-    }
-
-    /// <summary>
-    /// Adds to projectile count of tower
-    /// </summary>
-    /// <param name="tower"></param>
-    /// <param name="amount"></param>
-    public void AddProjectileUpgrade(Tower tower, int amount)
-    {
-        if (!InstanceFinder.IsServerStarted)
-        {
-            return;
-        }
-
-        localUpgrades.projectileCountAdd += amount;
-
-        OnUpgradesChanged();
     }
 
     /// <summary>

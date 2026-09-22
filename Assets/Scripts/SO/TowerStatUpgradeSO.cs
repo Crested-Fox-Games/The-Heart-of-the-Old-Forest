@@ -21,6 +21,6 @@ public class TowerStatUpgradeSO : TowerUpgradeSO
 
     public override void GrantUpgrade(Tower tower)
     {
-        tower.AddLocalUpgrade(towerStat, upgradeType, upgradeAmount);
+        tower.AddLocalStatUpgrade(towerStat, upgradeType, upgradeAmount);
     }
 }
