@@ -42,6 +42,32 @@ public class PlayerRPCHandler : NetworkBehaviour
     }
 
     /// <summary>
+    /// Tells the server that an upgrade was purchased
+    /// </summary>
+    /// <param name="currentTowerSlot"></param>
+    /// <param name="towerName"></param>
+    [ServerRpc]
+    public void CallSelectUpgrade(NetworkObject currentTower, int pathIndex)
+    {
+        if (currentTower == null)
+        {
+            return;
+        }
+
+
+        Tower tower = currentTower.GetComponent<Tower>();
+
+        if (tower == null)
+        {
+            return;
+        }
+
+
+        tower.PurchaseUpgrade(pathIndex);
+        
+    }
+
+    /// <summary>
     /// Tells the server which reward the player selected
     /// </summary>
     /// <param name="rewardId"></param>
