@@ -44,11 +44,11 @@ public struct AbilityUpgradesDC
         critChanceAdd = 1f,
         //critDamageAdd = 0f,
 
-        damageMult = 1f,
-        cooldownMult = 1f,
-        rangeMult = 1f,
+        damageMult = 0f,
+        cooldownMult = 0f,
+        rangeMult = 0f,
         //critChanceMult = 1f,
-        critDamageMult = 1.1f,
+        critDamageMult = 0.1f,
     };
 
     //Attack Modifiers
@@ -479,7 +479,7 @@ public class PlayerAbilities : NetworkBehaviour
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
-        return (baseDamage + abilityUpgrades.damageAdd) * abilityUpgrades.damageMult;
+        return (baseDamage + abilityUpgrades.damageAdd) * (1f + abilityUpgrades.damageMult);
     }
 
     public float GetCooldown(AbilitySO abilitySO, float baseCooldown)
@@ -490,7 +490,7 @@ public class PlayerAbilities : NetworkBehaviour
         float cooldown = baseCooldown - abilityUpgrades.cooldownAdd;
 
         //Percentage reduction with diminishing returns
-        float reduction = 1f - (1f / abilityUpgrades.cooldownMult);
+        float reduction = 1f - (1f / (1f + abilityUpgrades.cooldownMult));
 
         cooldown *= 1 - reduction;
 
@@ -512,7 +512,7 @@ public class PlayerAbilities : NetworkBehaviour
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
         //Currently only uses crit damage mult for simplicity
-        return abilityUpgrades.critDamageMult;
+        return 1f + abilityUpgrades.critDamageMult;
     }
 
 }
