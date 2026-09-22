@@ -3,7 +3,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
@@ -128,7 +127,6 @@ public class TowerManager : NetworkBehaviour
         //Updates the upgrades in the dictionary
         globalTowerUpgrades[towerSO.TowerName] = upgrades;
     }
-
 
     /// <summary>
     /// Applies the changes to the upgrades to all relevant towers

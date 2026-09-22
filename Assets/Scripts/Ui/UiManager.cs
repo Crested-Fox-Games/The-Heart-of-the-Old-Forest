@@ -23,6 +23,12 @@ public class UiManager : MonoBehaviour
     private GameObject tmpTowerPlacementUi;
 
     /// <summary>
+    /// The ui panel for the tower upgrade ui
+    /// </summary>
+    [SerializeField]
+    private GameObject towerUpgradeUi;
+
+    /// <summary>
     /// The panel that holds the functionality for the game over
     /// </summary>
     [SerializeField]
@@ -115,6 +121,24 @@ public class UiManager : MonoBehaviour
     public void HideTowerPlacementUi()
     {
         tmpTowerPlacementUi.SetActive(false);
+        UiElementClosed();
+    }
+
+    /// <summary>
+    /// Used to show the tower upgrade ui
+    /// </summary>
+    public void ShowTowerUpgradeUi()
+    {
+        towerUpgradeUi.SetActive(true);
+        UiElementOpened();
+    }
+
+    /// <summary>
+    /// Used to hide the tower upgrade ui
+    /// </summary>
+    public void HideTowerUpgradeUi()
+    {
+        towerUpgradeUi.SetActive(false);
         UiElementClosed();
     }
 
