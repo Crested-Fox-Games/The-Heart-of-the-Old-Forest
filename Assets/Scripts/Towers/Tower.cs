@@ -196,15 +196,6 @@ public abstract class Tower : NetworkBehaviour
     }
 
     /// <summary>
-    /// Returns total projectile count of tower shots
-    /// </summary>
-    /// <returns></returns>
-    protected int GetProjectileCount()
-    {
-        return 1 + localUpgrades.projectileCountAdd;
-    }
-
-    /// <summary>
     /// A function that allows us to get the next upgrade in the path for UI use
     /// </summary>
     /// <param name="pathIndex"></param>
@@ -460,5 +451,14 @@ public abstract class Tower : NetworkBehaviour
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
         return (towerMaxHealth + globalUpgrades.healthAdd + localUpgrades.healthAdd) * (globalUpgrades.healthMult + localUpgrades.healthMult);
+    }
+
+    /// <summary>
+    /// Returns total projectile count of tower shots
+    /// </summary>
+    /// <returns></returns>
+    protected int GetProjectileCount()
+    {
+        return 1 + localUpgrades.projectileCountAdd;
     }
 }
