@@ -50,14 +50,18 @@ public class GamePlayerSpawner : MonoBehaviour
     {
         yield return InstanceFinder.ServerManager.StartConnection();
 
+        while (!InstanceFinder.IsServerStarted)
+            yield return null;
+
         yield return InstanceFinder.ClientManager.StartConnection();
 
-       //InstanceFinder.SceneManager.LoadGlobalScenes(new FishNet.Managing.Scened.SceneLoadData("Gameplay"));
-
-        while(!InstanceFinder.IsServerStarted)
-        {
+        while (!InstanceFinder.IsClientStarted)
             yield return null;
-        }
+
+        InstanceFinder.SceneManager.LoadGlobalScenes(new FishNet.Managing.Scened.SceneLoadData("Gameplay"));
+
+        yield return null;
+
 
         RegisterConnections();
     }
