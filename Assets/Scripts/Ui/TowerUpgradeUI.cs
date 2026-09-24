@@ -19,12 +19,24 @@ public class TowerUpgradeUI : MonoBehaviour
     [SerializeField]
     private GameObject upgradePrefab;
 
+    /// <summary>
+    /// Reference to the current tower 
+    /// </summary>
     private NetworkObject currentTower;
 
+    /// <summary>
+    /// 
+    /// </summary>
     private Tower subscribedTower;
 
+    /// <summary>
+    /// List of tower upgrade paths
+    /// </summary>
     private List<TowerUpgradePathSO> towerUpgradePathSOs;
 
+    /// <summary>
+    /// Stores the selected path
+    /// </summary>
     private int selectedPath = -1;
 
     /// <summary>
