@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -22,14 +23,32 @@ public enum AbilityStats
 
 public class PlayerStatus : NetworkBehaviour, ITargetable
 {
-    [SerializeField] 
+    /// <summary>
+    /// The starting health for the player before upgrades are applied
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The starting health for the player before upgrades are applied")]
     private float baseMaxHealth = 100f;
+
+    /// <summary>
+    /// The delay in seconds before the players health starts coming back
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The delay in seconds before the players health starts coming back")]
+    private float healthRegenDelay = 5f;
+
+    /// <summary>
+    /// The amount of health the player gets back every second
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount of health the player gets back every second")]
+    private float healthRegenAmount = 5f;
 
     private float currentMaxHealth;
 
     private float moveSpeed = 5f;
 
-    private float damage = 10f;
+    private Coroutine healthRegenCoroutine;
 
     private readonly SyncVar<float> currentHealth = new();
 
@@ -83,12 +102,26 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
             return true;
 
         currentHealth.Value -= damage;
+
+
         //Debug.Log("Structure has taken damage");
         if (currentHealth.Value <= 0)
         {
             Destroyed();
             return false;
         }
+        else
+        {
+            //If the regen coroutine is started we end it
+            if(healthRegenCoroutine != null)
+            {
+                StopCoroutine(healthRegenCoroutine);
+            }
+
+            //Starts the health regen coroutine
+            healthRegenCoroutine = StartCoroutine(HealthRegen());
+        }
+
         return true;
     }
 
@@ -166,4 +199,23 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         return (moveSpeed + playerAdditiveUpgrades[PlayerStats.MoveSpeed]) * playerMultiplicativeUpgrades[PlayerStats.MoveSpeed];
     }
 
+
+    private IEnumerator HealthRegen()
+    {
+        //Waits for a delay after being hit to force the player to play safer to regen
+        yield return new WaitForSeconds(healthRegenDelay);
+
+        //Loops while health isnt at max
+        while(currentHealth.Value < currentMaxHealth)
+        {
+            //Currently gives players a flat amount of hp back per tick
+            //Also ensures we dont overflow the health regen over max health
+            currentHealth.Value = Mathf.Min(currentMaxHealth, currentHealth.Value + healthRegenAmount);
+
+            //The time between regen ticks
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+
+    }
 }
