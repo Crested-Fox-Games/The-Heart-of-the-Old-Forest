@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5445be317fa88fc48b8544ba0b58628d, type: 3}
-  m_Name: Basic Enemy
+  m_Name: Badger
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   enemyName: Basic Enemy
   enemyDescription: Enemy Ahhhh lookin ahhhhh
-  enemyHealth: 10
-  enemySpeed: 5
-  enemyDamage: 3
-  enemyAttackRate: 0
-  enemyAttackRange: 2
+  enemyHealth: 100
+  enemySpeed: 40
+  enemyDamage: 10
+  enemyAttackRate: 0.2
+  enemyAttackRange: 1
   enemySpawnWeight: 5
   projectile: {fileID: 0}
   enemyPrefab: {fileID: 4040599309909042413, guid: 74eae1828687d8040902a91a02431258, type: 3}
