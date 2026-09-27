@@ -130,11 +130,11 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         //Checks if the resource should be destroyed/disabled
         if (currentResourceDurability <= 0)
         {
-            //Disables hitting the node
-            depleted.Value = true;
-
             //This shouldnt need a validation check since this function shouldnt run once the node is depleted
             StartCoroutine(NodeRespawn());
+
+            //Disables hitting the node
+            depleted.Value = true;
         }
 
         //Returns the resources when node broken

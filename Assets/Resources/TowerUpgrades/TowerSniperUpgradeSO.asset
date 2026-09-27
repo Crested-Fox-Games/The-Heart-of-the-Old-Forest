@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a57f40743f7d1a84f8c118a9b7b1a979, type: 3}
+  m_Name: TowerSniperUpgradeSO
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSniperUpgradeSO
+  UpgradeName: Sniper Shot Path
+  Description: Increases the range and damage of this tower significantly.
+  UpgradeId: 5
+  UpgradeIcon: {fileID: 0}
+  requiredResources:
+  - resource: 2
+    cost: 10
+  damageIncrease: 6
+  rangeIncrease: 4
