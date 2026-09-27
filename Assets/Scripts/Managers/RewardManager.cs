@@ -7,6 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
+public struct SelectedReward
+{
+    public RewardSO reward;
+    public Rarity rarity;
+
+    public SelectedReward(RewardSO reward, Rarity rarity)
+    {
+        this.reward = reward;
+        this.rarity = rarity;
+    }
+
+}
+
 public class RewardManager : NetworkBehaviour
 {
     public static RewardManager Instance { get; private set; }
@@ -19,7 +33,7 @@ public class RewardManager : NetworkBehaviour
     /// <summary>
     /// The rewards that are selected for the current night
     /// </summary>
-    private Dictionary<PlayerRef , List<RewardSO>> selectedNightlyRewards = new Dictionary<PlayerRef, List<RewardSO>>();
+    private Dictionary<PlayerRef , List<SelectedReward>> selectedNightlyRewards = new Dictionary<PlayerRef, List<SelectedReward>>();
 
     /// <summary>
     /// Dictionary of rewards, used for selecting rewards quickly
@@ -109,12 +123,19 @@ public class RewardManager : NetworkBehaviour
         //Loops through for each player
         foreach (PlayerRef player in players)
         {
-            selectedNightlyRewards[player] = new List<RewardSO>();
+            selectedNightlyRewards[player] = new List<SelectedReward>();
 
             //Select rewards from the pool
             for (int i = 0; i < 3; i++)
             {
-                selectedNightlyRewards[player].Add(GetRandomReward(player));
+                RewardSO rewardSO = GetRandomReward(player);
+
+                if (rewardSO == null)
+                    return;
+
+                Rarity rarity = rewardSO.SelectRarity();
+
+                selectedNightlyRewards[player].Add(new SelectedReward(rewardSO, rarity));
             }
         }
 
@@ -136,14 +157,16 @@ public class RewardManager : NetworkBehaviour
         {
            
             //Get the rewards list for the current player
-            List<RewardSO> rewards = selectedNightlyRewards[player];
+            List<SelectedReward> rewards = selectedNightlyRewards[player];
 
             //Get the reward ids of the SO's
-            int[] rewardIds = rewards.Select(reward => reward.RewardId).ToArray();
+            int[] rewardIds = rewards.Select(reward => reward.reward.RewardId).ToArray();
+
+            int[] rarities = rewards.Select(reward => (int)reward.rarity).ToArray();
 
             PlayerRPCHandler playerRPCHandler = player.playerRPCHandler;
 
-            playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds);
+            playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds, rarities);
         }
 
         PauseGame();
@@ -159,7 +182,7 @@ public class RewardManager : NetworkBehaviour
     private RewardSO GetRandomReward(PlayerRef player)
     {
         //Creates a list of rewards that dont exist in selected nightly rewards
-        List<RewardSO> availableRewards = rewards.Where(reward => !selectedNightlyRewards[player].Contains(reward)).ToList();
+        List<RewardSO> availableRewards = rewards.Where(reward => !selectedNightlyRewards[player].Any(selected => selected.reward == reward)).ToList();
 
         if(availableRewards.Count ==0)
         {
@@ -207,11 +230,30 @@ public class RewardManager : NetworkBehaviour
             return;
         }
 
-        //Gets the reward from the dictionary
-        RewardSO selectedReward = rewardsById[rewardId];
+        //Checks to make sure the reward id is valid
+        if(!rewardsById.TryGetValue(rewardId, out RewardSO reward))
+        {
+            Debug.LogWarning($"Invalid reward ID {rewardId} selected by {player.name}");
+            return;
+        }
 
-        //Grants the reward for the player
-        selectedReward.GrantReward(player);
+        //Checks to make sure the player has nightly rewards available
+        if (!selectedNightlyRewards.TryGetValue(player, out List<SelectedReward> playerRewards))
+        {
+            Debug.LogWarning($"No nightly rewards found for {player.name}");
+            return;
+        }
+
+        SelectedReward selectedReward = playerRewards.FirstOrDefault(selected => selected.reward == reward);
+
+        //Checks to make sure the player picked a reward they were offered
+        if(selectedReward.reward == null)
+        {
+            Debug.LogWarning($"Player {player.name} attempted to pick a reward they weren't offered");
+            return;
+        }
+
+        selectedReward.reward.GrantReward(player, selectedReward.rarity);
 
         //Clears the rewards
         selectedNightlyRewards.Remove(player);

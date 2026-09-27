@@ -54,30 +54,55 @@ public struct TowerUpgradesDC
 public abstract class Tower : NetworkBehaviour
 {
     #region SO Fields
+
+    /// <summary>
+    /// Scriptable object that contains the tower's base stats, upgrade paths, projectile and display information
+    /// </summary>
     [SerializeField]
     protected TowerSO towerSO;
 
+    /// <summary>
+    /// Tower information
+    /// </summary>
     protected string towerName, towerDescription;
 
+    /// <summary>
+    /// Base stats of the tower
+    /// </summary>
     protected float attackRange, towerDamage, towerMaxHealth, attackCooldown;
 
+    /// <summary>
+    /// References to the projectile fired by the tower and game object used to display the tower
+    /// </summary>
     protected GameObject projectile, displayObject;
 
     #endregion
 
     public TowerSO TowerSO => towerSO;
 
+    /// <summary>
+    /// Reference to the enemy currently being targeted by the tower
+    /// </summary>
     protected GameObject targetEnemy;
 
+    /// <summary>
+    /// List of enemies currently detected within the tower's range
+    /// </summary>
     protected List<GameObject> targets = new List<GameObject>();
 
     protected bool stunned = false;
 
     //Upgrades
+    /// <summary>
+    /// Stores the tower's upgrade progress for each upgrade path
+    /// </summary>
     private readonly SyncDictionary<int, TowerPathProgress> upgradeProgress = new();
 
     public SyncDictionary<int, TowerPathProgress> UpgradeProgress => upgradeProgress;
 
+    /// <summary>
+    /// Stores stat upgrades that have been applied to this tower
+    /// </summary>
     private TowerUpgradesDC localUpgrades = TowerUpgradesDC.Default;
 
     public override void OnStartServer()
@@ -149,7 +174,7 @@ public abstract class Tower : NetworkBehaviour
         }
     }
 
-    public void AddLocalUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
+    public void AddLocalStatUpgrade(TowerStats towerStat, UpgradeType upgradeType, float upgradeAmount)
     {
         //Checks to ensure we are running this on the server
         if (!InstanceFinder.IsServerStarted)
@@ -195,13 +220,22 @@ public abstract class Tower : NetworkBehaviour
 
     }
 
+
     /// <summary>
-    /// Returns total projectile count of tower shots
+    /// Adds to projectile count of tower
     /// </summary>
-    /// <returns></returns>
-    protected int GetProjectileCount()
+    /// <param name="tower"></param>
+    /// <param name="amount"></param>
+    public void AddProjectileUpgrade(Tower tower, int amount)
     {
-        return 1 + localUpgrades.projectileCountAdd;
+        if (!InstanceFinder.IsServerStarted)
+        {
+            return;
+        }
+
+        localUpgrades.projectileCountAdd += amount;
+
+        OnUpgradesChanged();
     }
 
     /// <summary>
@@ -373,23 +407,6 @@ public abstract class Tower : NetworkBehaviour
     }
 
     /// <summary>
-    /// Adds to projectile count of tower
-    /// </summary>
-    /// <param name="tower"></param>
-    /// <param name="amount"></param>
-    public void AddProjectileUpgrade(Tower tower, int amount)
-    {
-        if (!InstanceFinder.IsServerStarted)
-        {
-            return;
-        }
-
-        localUpgrades.projectileCountAdd += amount;
-
-        OnUpgradesChanged();
-    }
-
-    /// <summary>
     /// Either creates or gets the upgrades for a specific tower type
     /// </summary>
     /// <param name="towerSO"></param>
@@ -460,5 +477,14 @@ public abstract class Tower : NetworkBehaviour
         TowerUpgradesDC localUpgrades = GetOrCreateLocalUpgrades(towerSO);
 
         return (towerMaxHealth + globalUpgrades.healthAdd + localUpgrades.healthAdd) * (globalUpgrades.healthMult + localUpgrades.healthMult);
+    }
+
+    /// <summary>
+    /// Returns total projectile count of tower shots
+    /// </summary>
+    /// <returns></returns>
+    protected int GetProjectileCount()
+    {
+        return 1 + localUpgrades.projectileCountAdd;
     }
 }

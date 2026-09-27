@@ -86,11 +86,11 @@ public class ArcherTower : Tower
                 continue;
             }
 
-            List<GameObject> splitFireTargets = GetSplitFireTargets();
+            List<GameObject> fireTargets = GetFireTargets();
 
-            for (int i = 0; i < splitFireTargets.Count; i++)
+            for (int i = 0; i < fireTargets.Count; i++)
             {
-                GameObject target = splitFireTargets[i];
+                GameObject target = fireTargets[i];
 
                 if (target == null)
                     continue;
@@ -181,7 +181,7 @@ public class ArcherTower : Tower
     /// Get list of enemies as targets for split fire ability
     /// </summary>
     /// <returns></returns>
-    private List<GameObject> GetSplitFireTargets()
+    private List<GameObject> GetFireTargets()
     {
         List<GameObject> splitFireTargets = new List<GameObject>();
 
