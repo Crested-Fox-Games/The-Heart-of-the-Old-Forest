@@ -42,7 +42,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     /// </summary>
     [SerializeField]
     [Tooltip("The amount of health the player gets back every second")]
-    private float healthRegenAmount = 5f;
+    private float healthRegenPercent = 5f;
 
     private float currentMaxHealth;
 
@@ -208,9 +208,10 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Loops while health isnt at max
         while(currentHealth.Value < currentMaxHealth)
         {
-            //Currently gives players a flat amount of hp back per tick
+            //Currently gives players a % of hp back per tick
             //Also ensures we dont overflow the health regen over max health
-            currentHealth.Value = Mathf.Min(currentMaxHealth, currentHealth.Value + healthRegenAmount);
+            float tempHealthCount = currentHealth.Value + (baseMaxHealth * healthRegenPercent / 100);
+            currentHealth.Value = Mathf.Min(currentMaxHealth, tempHealthCount);
 
             //The time between regen ticks
             yield return new WaitForSecondsRealtime(1f);
