@@ -5,25 +5,49 @@ using UnityEngine.UI;
 
 public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    /// <summary>
+    /// Scriptable object containing the upgrade's information
+    /// </summary>
     [SerializeField]
     private TowerUpgradeSO towerUpgradeSO;
 
+    /// <summary>
+    /// Index of the upgrade path this slot belongs to
+    /// </summary>
     private int pathIndex;
 
+    /// <summary>
+    /// Image used as the background for the upgrade slot
+    /// </summary>
     [SerializeField]
     private Image towerUpgradePanel;
 
+    /// <summary>
+    /// Text displaying the name of the upgrade
+    /// </summary>
     [SerializeField]
     private TextMeshProUGUI upgradeName;
 
+    /// <summary>
+    /// Text displaying the resource and cost required to purchase the upgrade
+    /// </summary>
     [SerializeField]
     private TextMeshProUGUI resourceText;
 
+    /// <summary>
+    /// Text displaying the description of the upgrade
+    /// </summary>
     [SerializeField]
     private TextMeshProUGUI descriptionText;
 
+    /// <summary>
+    /// Reference to the main tower upgrade UI that manages this slot
+    /// </summary>
     private TowerUpgradeUI towerUpgradeUi;
 
+    /// <summary>
+    /// Access to the upgrade path index used when selecting the upgrade
+    /// </summary>
     public int PathIndex => pathIndex;
 
     /// <summary>
