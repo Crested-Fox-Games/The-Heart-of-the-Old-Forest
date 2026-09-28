@@ -108,7 +108,7 @@ public class BlightNode : NetworkBehaviour
         }
 
         //Tells the blight manager that a blight node has been cleared
-        BlightManager.Instance.BlightCleared();
+        BlightManager.Instance.BlightCleared(nodeRarity);
 
         //Update the enemy logic
         UpdateEnemies();
