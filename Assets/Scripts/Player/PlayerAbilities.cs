@@ -369,6 +369,7 @@ public class PlayerAbilities : NetworkBehaviour
             switch (abilityStat)
             {
                 case AbilityStats.Damage:
+                    Debug.Log($"Adding {rewardAmount} damage");
                     upgrades.damageAdd += rewardAmount;
                     break;
                 case AbilityStats.Cooldown:

@@ -339,7 +339,7 @@ public class RewardManager : NetworkBehaviour
     /// <param name="selectedReward"></param>
     private void SendBlightRewardsToPlayers(SelectedReward selectedReward)
     {
-        Debug.Log($"Sending the reward of {selectedReward.reward.name} at the rarity of {selectedReward.rarity} to players");
+        Debug.Log($"Sending the reward of {selectedReward.reward.name} at the rarity of {selectedReward.rarity} with a value of to players");
         foreach (PlayerRef player in players)
         {
             selectedReward.reward.GrantReward(player, selectedReward.rarity);
