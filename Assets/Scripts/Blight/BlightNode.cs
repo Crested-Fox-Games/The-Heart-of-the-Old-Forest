@@ -17,17 +17,23 @@ public class BlightNode : NetworkBehaviour
 
     private Transform nextBlightNode, previousBlightNode;
 
+    /// <summary>
+    /// A list of any resource nodes that are being affected by this blight nodes
+    /// </summary>
     private List<ResourceNode> blightedNodes = new List<ResourceNode>();
 
+    /// <summary>
+    /// The amount the healthbar will be offset in the y axis
+    /// </summary>
     [SerializeField]
-    private float interactTime = 3f;
-
-    public float InteractTime => interactTime;
-
-    [SerializeField]
+    [Tooltip("The amount the healthbar will be offset in the y axis")]
     private float healthBaroffset = 1f;
 
+    /// <summary>
+    /// The base max health of the node
+    /// </summary>
     [SerializeField]
+    [Tooltip("The base max health of the node")]
     private float nodeMaxHealth = 50f;
 
     private float nodeCurrentHealth;
