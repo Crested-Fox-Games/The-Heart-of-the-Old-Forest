@@ -10,9 +10,9 @@ public class TowerSniperUpgradeSO : TowerUpgradeSO
 
     public override void GrantUpgrade(Tower tower)
     {
-        tower.AddLocalUpgrade(TowerStats.Attack, UpgradeType.Addition, damageIncrease);
+        tower.AddLocalStatUpgrade(TowerStats.Attack, UpgradeType.Addition, damageIncrease);
 
-        tower.AddLocalUpgrade(TowerStats.Range, UpgradeType.Addition, rangeIncrease);
+        tower.AddLocalStatUpgrade(TowerStats.Range, UpgradeType.Addition, rangeIncrease);
 
         //Update range
         tower.OnUpgradesChanged();

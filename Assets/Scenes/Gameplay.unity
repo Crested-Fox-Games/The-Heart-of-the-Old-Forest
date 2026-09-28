@@ -3884,6 +3884,18 @@ PrefabInstance:
       propertyPath: timeManager
       value: 
       objectReference: {fileID: 2145750216}
+    - target: {fileID: 1742815438686842935, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: unlockedBosses.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742815438686842935, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: 'unlockedBosses.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01653eb0071cf2b48b3b39d510623ad5, type: 2}
+    - target: {fileID: 1742815438686842935, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: 'SpawnableEnemies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
     - target: {fileID: 1796291799641158415, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 

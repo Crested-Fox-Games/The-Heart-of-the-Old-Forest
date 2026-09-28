@@ -20,22 +20,22 @@ public class TowerUpgradeUI : MonoBehaviour
     private GameObject upgradePrefab;
 
     /// <summary>
-    /// Reference to the current tower 
+    /// Network object of the tower that is currently being upgraded
     /// </summary>
     private NetworkObject currentTower;
 
     /// <summary>
-    /// 
+    /// Reference to the tower component currently being accessed for upgrades
     /// </summary>
     private Tower subscribedTower;
-
+    
     /// <summary>
-    /// List of tower upgrade paths
+    /// List of upgrade paths available for the current tower
     /// </summary>
     private List<TowerUpgradePathSO> towerUpgradePathSOs;
 
     /// <summary>
-    /// Stores the selected path
+    /// Index of the currently selected upgrade path, -1 means that no path is currently selected
     /// </summary>
     private int selectedPath = -1;
 
