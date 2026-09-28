@@ -33,6 +33,11 @@ public class BlightNode : NetworkBehaviour
     private float nodeCurrentHealth;
 
     /// <summary>
+    /// The rarity of the node
+    /// </summary>
+    private Rarity nodeRarity;
+
+    /// <summary>
     /// The factor that the rarity of the blight will scale it by
     /// </summary>
     [SerializeField]
@@ -143,6 +148,8 @@ public class BlightNode : NetworkBehaviour
     /// <param name="rarity"></param>
     private void SetRarityScales(Rarity rarity)
     {
+        nodeRarity = rarity;
+
         //Update the scale and buff the blight based on the rarity multiplier
         switch(rarity)
         {
