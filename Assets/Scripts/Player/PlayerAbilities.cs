@@ -466,8 +466,10 @@ public class PlayerAbilities : NetworkBehaviour
         //Selects a random number
         float randomSelection = Random.Range(0, 100f);
 
+        //Debug.Log($"Crit selection {randomSelection} crit chance {GetCritChance(abilitySO)} crit successful {randomSelection <= GetCritChance(abilitySO)}");
+
         //Checks if the random number is at or above the crit chance
-        if(randomSelection >= GetCritChance(abilitySO))
+        if(randomSelection <= GetCritChance(abilitySO))
         {
             return GetDamage(abilitySO, baseDamage) * GetCritDamage(abilitySO);
         }
@@ -495,7 +497,7 @@ public class PlayerAbilities : NetworkBehaviour
 
         cooldown *= 1 - reduction;
 
-        Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
+        //Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
         //Ensures that the cooldown never hits 0
         return Mathf.Max(0.1f, cooldown);
     }

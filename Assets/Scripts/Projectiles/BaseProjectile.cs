@@ -19,6 +19,8 @@ public abstract class BaseProjectile : NetworkBehaviour
     /// </summary>
     protected float projectileMaxTime = 5f;
 
+    protected bool projFinished = false;
+
     private void OnTriggerEnter(Collider other)
     {
         HandleTriggerLogic(other);
@@ -74,6 +76,7 @@ public abstract class BaseProjectile : NetworkBehaviour
     public virtual void InitializeProjectile(Vector3 target, float projectileDamage)
     {
         // Implementation for initializing the projectile
+        projFinished = false;
     }
 
     /// <summary>
@@ -86,6 +89,7 @@ public abstract class BaseProjectile : NetworkBehaviour
     public virtual void InitializeProjectile(Vector3 target, float projectileDamage, float maxDist, int maxRicochets)
     {
         // Implementation for initializing the projectile with ricochet parameters
+        projFinished = false;
     }
 
     /// <summary>
@@ -97,5 +101,6 @@ public abstract class BaseProjectile : NetworkBehaviour
     public virtual void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
     {
         // Implementation for initializing the projectile that needs access to the player
+        projFinished = false;
     }
 }

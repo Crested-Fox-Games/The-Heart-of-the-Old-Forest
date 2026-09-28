@@ -51,6 +51,8 @@ public class VacuumProjectile : BaseProjectile
     /// <param name="tower"></param>
     public override void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
     {
+        base.InitializeProjectile(target, projectileDamage, player);
+
         Debug.Log("Initializing vacuum proj");
         targetPosition = target;
         projDamage = projectileDamage;
