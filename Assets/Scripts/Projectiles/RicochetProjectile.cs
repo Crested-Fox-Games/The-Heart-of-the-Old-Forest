@@ -43,6 +43,8 @@ public class RicochetProjectile : BaseProjectile
 
     public override void InitializeProjectile(Vector3 target, float projectileDamage, float maxRicochetDist, int maxRicochets)
     {
+        base.InitializeProjectile(target, projectileDamage, maxRicochetDist, maxRicochets);
+
         targetPosition = target;
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;

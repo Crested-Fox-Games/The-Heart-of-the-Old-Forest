@@ -16,8 +16,15 @@ MonoBehaviour:
   RewardId: 22
   RewardWeight: 70
   RewardIcon: {fileID: 0}
-  rarity: 0
+  RarityEffects:
+  - Rarity: 0
+    RewardAmount: 3
+  - Rarity: 1
+    RewardAmount: 6
+  - Rarity: 2
+    RewardAmount: 9
+  - Rarity: 3
+    RewardAmount: 15
   abilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
   abilityStat: 0
   upgradeType: 0
-  rewardAmount: 5

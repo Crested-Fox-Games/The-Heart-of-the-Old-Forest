@@ -31,6 +31,13 @@ public class RewardManager : NetworkBehaviour
     private List<RewardSO> rewards;
 
     /// <summary>
+    /// The possible rewards the players can get when they clear a blight node
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The possible rewards the players can get when they clear a blight node")]
+    private List<RewardSO> blightClearRewards;
+
+    /// <summary>
     /// The rewards that are selected for the current night
     /// </summary>
     private Dictionary<PlayerRef , List<SelectedReward>> selectedNightlyRewards = new Dictionary<PlayerRef, List<SelectedReward>>();
@@ -303,5 +310,39 @@ public class RewardManager : NetworkBehaviour
 
         UnpauseGame();
         rewardCountdownCoroutine = null;
+    }
+
+    /// <summary>
+    /// Handles getting a random reward for the players clearing a blight node
+    /// </summary>
+    /// <param name="rarity"></param>
+    public void BlightClearedReward(Rarity rarity)
+    {
+        //This is here for redundancy
+        if (players.Count == 0)
+        {
+            UpdatePlayers();
+        }
+
+        //Gets a random blight reward from the list
+        int rand = Random.Range(0, blightClearRewards.Count);
+
+        //Creates the reward object
+        SelectedReward selected = new SelectedReward(blightClearRewards[rand], rarity);
+
+        SendBlightRewardsToPlayers(selected);
+    }
+
+    /// <summary>
+    /// Handles sending the rewards out to the players
+    /// </summary>
+    /// <param name="selectedReward"></param>
+    private void SendBlightRewardsToPlayers(SelectedReward selectedReward)
+    {
+        Debug.Log($"Sending the reward of {selectedReward.reward.name} at the rarity of {selectedReward.rarity} with a value of to players");
+        foreach (PlayerRef player in players)
+        {
+            selectedReward.reward.GrantReward(player, selectedReward.rarity);
+        }
     }
 }
