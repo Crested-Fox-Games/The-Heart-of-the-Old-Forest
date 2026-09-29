@@ -27,6 +27,11 @@ public class Enemy : NetworkBehaviour
 
     private GameObject heartCrystal;
 
+    [SerializeField]
+    private GameObject enemyModel;
+
+    public GameObject EnemyModel => enemyModel;
+
     /// <summary>
     /// The current health of the enemy, the syncvar allows this variable to be updated across
     /// the network whenever it is changed so that all of the clients have the same value

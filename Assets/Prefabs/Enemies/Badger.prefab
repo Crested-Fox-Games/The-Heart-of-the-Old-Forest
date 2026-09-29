@@ -58,6 +58,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 5789222092721587934}
   _networkObjectCache: {fileID: 5789222092721587934}
   enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
+  enemyModel: {fileID: 3352541118668478393}
 --- !u!114 &4320398274266217101
 MonoBehaviour:
   m_ObjectHideFlags: 0
