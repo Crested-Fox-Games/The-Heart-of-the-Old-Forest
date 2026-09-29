@@ -143,6 +143,11 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     /// </summary>
     public void HandePlayerDeath()
     {
+        //Stops any health regen that is happening
+        StopCoroutine(healthRegenCoroutine);
+
+        healthRegenCoroutine = null;
+
         //Disable the current players controls
         playerRef.playerInput.DisablePlayerMap();
 
