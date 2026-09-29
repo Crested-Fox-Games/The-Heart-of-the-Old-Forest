@@ -16,7 +16,7 @@ MonoBehaviour:
   towerDescription: Shoots arrows
   attackRange: 3
   towerHealth: 100
-  towerDamage: 20
+  towerDamage: 10
   attackCooldown: 2
   projectile: {fileID: 3723794516530627890, guid: e84d814c358edf34c9e9aadf7c28633e, type: 3}
   displayObject: {fileID: 0}
