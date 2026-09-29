@@ -361,9 +361,11 @@ public class BlightManager : NetworkBehaviour
     /// <summary>
     /// Handles adding to the amount of blight nodes cleared
     /// </summary>
-    public void BlightCleared()
+    public void BlightCleared(Rarity rarity)
     {
         blightNodesCleared++;
+
+        GrantBlightClearRewards(rarity);
 
         //Checks to see if the remainder of blight cleared divided by blight buff is 0, then does logic
         if (blightNodesCleared % blightBossRequirement == 0)
@@ -371,6 +373,15 @@ public class BlightManager : NetworkBehaviour
             //Tells the enemy spawner to spawn a boss on the next night
             FindFirstObjectByType<EnemySpawner>().bossToSpawn = true;
         }
+    }
+
+    private void GrantBlightClearRewards(Rarity rarity)
+    {
+        //Call a function in the reward manager to grant rewards to the players
+        RewardManager.Instance.BlightClearedReward(rarity);
+
+        //Grant blight resource to the player who killed it here, might need a rework for this system for that to work.
+        //Maybe we actually just send the blight directly to the base to make it easier
     }
 
     private void BuffBlightNodes()
