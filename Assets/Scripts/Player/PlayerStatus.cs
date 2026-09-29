@@ -144,9 +144,12 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     public void HandePlayerDeath()
     {
         //Stops any health regen that is happening
-        StopCoroutine(healthRegenCoroutine);
+        if(healthRegenCoroutine != null)
+        {
+            StopCoroutine(healthRegenCoroutine);
 
-        healthRegenCoroutine = null;
+            healthRegenCoroutine = null;
+        }
 
         //Disable the current players controls
         playerRef.playerInput.DisablePlayerMap();
@@ -175,8 +178,8 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     /// <returns></returns>
     private IEnumerator PlayerRespawn()
     {
-        yield return null;
         //Tell the ui to start a timer on screen that shows how long until the respawn happens
+        UiManager.Instance.OpenPlayerDeathUi(respawnTime);
 
         //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
         yield return new WaitForSeconds(respawnTime - 0.5f);

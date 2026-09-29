@@ -272,7 +272,11 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 5157244053637599692}
+  playerRef: {fileID: 6140876044436142698}
   baseMaxHealth: 100
+  healthRegenDelay: 5
+  healthRegenPercent: 5
+  respawnTime: 20
 --- !u!114 &3523095287178685474
 MonoBehaviour:
   m_ObjectHideFlags: 0
