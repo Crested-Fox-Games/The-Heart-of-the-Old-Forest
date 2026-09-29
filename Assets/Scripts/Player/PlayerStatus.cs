@@ -107,7 +107,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Debug.Log("Structure has taken damage");
         if (currentHealth.Value <= 0)
         {
-            Destroyed();
+            HandePlayerDeath();
             return false;
         }
         else
@@ -125,11 +125,50 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         return true;
     }
 
-    [ObserversRpc]
-    public void Destroyed()
+    /// <summary>
+    /// Handles what happens when the player dies
+    /// </summary>
+    public void HandePlayerDeath()
     {
-        Debug.Log($"{gameObject.name} has been destroyed");
-        gameObject.SetActive(false);
+        //Disable the current players controls
+
+        //Start an Ienumerator to respawn the player
+
+        //Start the death animation for the player that all players see
+
+        //Do any fancy camera stuff we want to do for the death event
+    }
+
+    /// <summary>
+    /// Tells all clients that this player has died and triggers that animation
+    /// </summary>
+    [ObserversRpc]
+    private void PlayerDiedAnimationTrigger()
+    {
+        //Set the animator variable for player death to true
+    }
+
+    /// <summary>
+    /// Handles the respawning of the player
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayerRespawn()
+    {
+        yield return null;
+        //Tell the ui to start a timer on screen that shows how long until the respawn happens
+
+        //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
+
+        //Reset players health (Unsure if resoruces are included in this)
+
+        //Reset player animation from the death animation to idle
+
+        //Move the player to their spawn position
+
+        //Reset camera if relevant
+
+        //Re-enable the players controls
+
     }
 
     /// <summary>
