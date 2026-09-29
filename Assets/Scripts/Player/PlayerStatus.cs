@@ -24,6 +24,12 @@ public enum AbilityStats
 public class PlayerStatus : NetworkBehaviour, ITargetable
 {
     /// <summary>
+    /// The reference to the player ref script
+    /// </summary>
+    [SerializeField]
+    private PlayerRef playerRef;
+
+    /// <summary>
     /// The starting health for the player before upgrades are applied
     /// </summary>
     [SerializeField]
@@ -131,6 +137,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     public void HandePlayerDeath()
     {
         //Disable the current players controls
+        playerRef.playerInput.DisablePlayerMap();
 
         //Start an Ienumerator to respawn the player
 
@@ -168,6 +175,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Reset camera if relevant
 
         //Re-enable the players controls
+        playerRef.playerInput.EnablePlayerMap();
 
     }
 
