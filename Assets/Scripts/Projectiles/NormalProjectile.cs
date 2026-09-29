@@ -23,6 +23,8 @@ public class NormalProjectile : BaseProjectile
     /// <param name="tower"></param>
     public override void InitializeProjectile(Vector3 target, float projectileDamage)
     {
+       base.InitializeProjectile(target, projectileDamage);
+
         targetPosition = target;
         projDamage = projectileDamage;
 
@@ -55,8 +57,13 @@ public class NormalProjectile : BaseProjectile
     protected override void HandleProjectileEnemyHit(Enemy enemy)
     {
         //Deal damage
-        enemy.TakeDamage(projDamage);
-        HandleProjectileFinished();
+        if(!projFinished)
+        {
+            projFinished = true;
+
+            enemy.TakeDamage(projDamage);
+            HandleProjectileFinished();
+        }
     }
 
     protected override void HandleProjectileBlightNodeHit(BlightNode blightNode)

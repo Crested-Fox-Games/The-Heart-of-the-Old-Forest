@@ -19,20 +19,31 @@ public class BlightNode : NetworkBehaviour
 
     private Transform nextBlightNode, previousBlightNode;
 
+    /// <summary>
+    /// A list of any resource nodes that are being affected by this blight nodes
+    /// </summary>
     private List<ResourceNode> blightedNodes = new List<ResourceNode>();
 
+    /// <summary>
+    /// The amount the healthbar will be offset in the y axis
+    /// </summary>
     [SerializeField]
-    private float interactTime = 3f;
-
-    public float InteractTime => interactTime;
-
-    [SerializeField]
+    [Tooltip("The amount the healthbar will be offset in the y axis")]
     private float healthBaroffset = 1f;
 
+    /// <summary>
+    /// The base max health of the node
+    /// </summary>
     [SerializeField]
+    [Tooltip("The base max health of the node")]
     private float nodeMaxHealth = 50f;
 
     private float nodeCurrentHealth;
+
+    /// <summary>
+    /// The rarity of the node
+    /// </summary>
+    private Rarity nodeRarity;
 
     /// <summary>
     /// The factor that the rarity of the blight will scale it by
@@ -99,7 +110,7 @@ public class BlightNode : NetworkBehaviour
         }
 
         //Tells the blight manager that a blight node has been cleared
-        BlightManager.Instance.BlightCleared();
+        BlightManager.Instance.BlightCleared(nodeRarity);
 
         //Update the enemy logic
         UpdateEnemies();
@@ -145,6 +156,8 @@ public class BlightNode : NetworkBehaviour
     /// <param name="rarity"></param>
     private void SetRarityScales(Rarity rarity)
     {
+        nodeRarity = rarity;
+
         //Update the scale and buff the blight based on the rarity multiplier
         switch(rarity)
         {

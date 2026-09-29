@@ -332,6 +332,9 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 980425232048405161}
   _networkObjectCache: {fileID: 0}
+  blightClearRewards:
+  - {fileID: 11400000, guid: 72318ad9578c0df42a29bf8c5a9469dc, type: 2}
+  rewardCountdownTime: 30
 --- !u!114 &980425232048405161
 MonoBehaviour:
   m_ObjectHideFlags: 0
