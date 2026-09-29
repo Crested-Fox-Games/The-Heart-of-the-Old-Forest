@@ -4887,14 +4887,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d4763c0dbe9ff4eac8f6f039d56379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlightNode
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8241820923283046721}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 8241820923283046721}
   healthBar: {fileID: 7906261649160348802}
-  blightModel: {fileID: 6153315338577916489}
+  blightModel: {fileID: 4207836996203099246}
   healthBarObject: {fileID: 6613893399596499759}
   interactTime: 3
-  healthBaroffset: 1
+  healthBaroffset: 3.5
   nodeMaxHealth: 50
   blightUncommonMult: 1.5
   blightRareMult: 2
@@ -4918,7 +4918,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 5399148234845229741}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -4929,7 +4930,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 1
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584109509520028696
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -4948,15 +4949,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 4174818333615753777
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!135 &8599355456424762268
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5289,10 +5290,30 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 193323465437373562, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
     - target: {fileID: 919132149155446097, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: m_Name
       value: EyeTorchPlant
       objectReference: {fileID: 0}
+    - target: {fileID: 1602564128540957456, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+    - target: {fileID: 6684295394808222897, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+    - target: {fileID: 7202271454713460447, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+    - target: {fileID: 7205140776170859923, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5306,6 +5327,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2811369373449239347}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3987865941249355053}
   m_SourcePrefab: {fileID: 100100000, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
 --- !u!4 &3544031471672946388 stripped
 Transform:
@@ -5392,3 +5416,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RevealController
   revealProgress: 0
+--- !u!136 &3987865941249355053
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4207836996203099246}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.12, z: 0}
