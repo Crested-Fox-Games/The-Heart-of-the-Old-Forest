@@ -50,6 +50,13 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     [Tooltip("The amount of health the player gets back every second")]
     private float healthRegenPercent = 5f;
 
+    /// <summary>
+    /// The amount of time it takes a player to respawn
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount of time it takes a player to respawn")]
+    private float respawnTime = 20f;
+
     private float currentMaxHealth;
 
     private float moveSpeed = 5f;
@@ -140,8 +147,10 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         playerRef.playerInput.DisablePlayerMap();
 
         //Start an Ienumerator to respawn the player
+        StartCoroutine(PlayerRespawn());
 
         //Start the death animation for the player that all players see
+        PlayerDiedAnimationTrigger();
 
         //Do any fancy camera stuff we want to do for the death event
     }
@@ -165,12 +174,21 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Tell the ui to start a timer on screen that shows how long until the respawn happens
 
         //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
+        yield return new WaitForSeconds(respawnTime - 0.5f);
 
         //Reset players health (Unsure if resoruces are included in this)
+        currentHealth.Value = currentMaxHealth;
 
         //Reset player animation from the death animation to idle
 
         //Move the player to their spawn position
+        GamePlayerSpawner spawner = FindFirstObjectByType<GamePlayerSpawner>();
+
+        int rand = Random.Range(0, spawner.SpawnPoints.Length);
+
+        Vector3 spawnPoint = spawner.SpawnPoints[rand].transform.position;
+
+        transform.position = spawnPoint;
 
         //Reset camera if relevant
 
