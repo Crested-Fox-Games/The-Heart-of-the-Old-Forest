@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8319801651687791310}
-  - component: {fileID: 8278425775287035667}
+  - component: {fileID: 7628766155720966437}
   - component: {fileID: 1472432106933192333}
   - component: {fileID: 3144413720199810069}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ Transform:
   - {fileID: 4675850250127916932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8278425775287035667
+--- !u!114 &7628766155720966437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,15 +46,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1139239771061714748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d0abf71c4a56e24a947dc415f02add1, type: 3}
+  m_Script: {fileID: 11500000, guid: d8b5c38733604734f927daaba67be3e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StructureHealth
+  m_EditorClassIdentifier: Assembly-CSharp::NewNetworkBehaviourTemplate
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1472432106933192333}
   _networkObjectCache: {fileID: 0}
-  maxHealth: 100
-  childObject: {fileID: 3316369194175827092}
-  interactTime: 3
+  interactTime: 1
+  animator: {fileID: 3144413720199810069}
 --- !u!114 &1472432106933192333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +145,7 @@ GameObject:
   - component: {fileID: 1707610513028361486}
   - component: {fileID: 311787120792705069}
   - component: {fileID: 495828075211946894}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: RightDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +258,7 @@ GameObject:
   - component: {fileID: 6804825721179709152}
   - component: {fileID: 741846824941447462}
   - component: {fileID: 3356502741519026844}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +386,7 @@ GameObject:
   - component: {fileID: 671360502559264037}
   - component: {fileID: 3733116329976084799}
   - component: {fileID: 8181050877996771740}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LeftDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
