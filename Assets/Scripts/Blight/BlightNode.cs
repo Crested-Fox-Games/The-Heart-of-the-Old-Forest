@@ -12,6 +12,8 @@ public class BlightNode : NetworkBehaviour
     [SerializeField]
     private GameObject blightModel;
 
+    public GameObject BlightModel => blightModel;
+
     [SerializeField]
     private GameObject healthBarObject;
 
