@@ -77,6 +77,30 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
 
     public Transform TargetTransform => transform;
 
+    /// <summary>
+    /// The pivot point used for the camera when the player is alive
+    /// </summary>
+    [SerializeField]
+    private Transform normalPivot;
+
+    /// <summary>
+    /// The pivot point used for the camera when the player is dead
+    /// </summary>
+    [SerializeField]
+    private Transform deathPivot;
+
+    /// <summary>
+    /// The localPosition that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Vector3 cameraNormalPos;
+
+    /// <summary>
+    /// The localRotation that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Quaternion cameraNormalRot;
+
+    private Coroutine deathCamRoutine;
+
     public override void OnStartServer()
     {
         InitializeUpgradeDictionaries();
@@ -161,6 +185,24 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         PlayerDiedAnimationTrigger();
 
         //Do any fancy camera stuff we want to do for the death event
+        Camera cam = Camera.main;
+
+        //Save the pos and rotation of the camera
+        cameraNormalPos = cam.transform.localPosition;
+        cameraNormalRot = cam.transform.localRotation;
+
+        //Changes the parent
+        cam.transform.parent = deathPivot;
+
+        //Updates the position of the camera
+        cam.transform.position = new Vector3(deathPivot.transform.position.x + 5f, deathPivot.transform.position.y + 2.5f, deathPivot.transform.position.z);
+
+        //Makes the camera look down
+        cam.transform.LookAt(deathPivot.transform.position);
+
+        //Start the cam movement coroutine
+        deathCamRoutine = StartCoroutine(DeathCam());
+
     }
 
     /// <summary>
@@ -199,7 +241,14 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         transform.position = spawnPoint;
 
         //Reset camera if relevant
+        StopCoroutine(deathCamRoutine);
+        
+        Camera.main.transform.parent = normalPivot;
 
+        Camera.main.transform.localPosition = cameraNormalPos;
+        Camera.main.transform.localRotation = cameraNormalRot;
+
+        
         //Re-enable the players controls
         playerRef.playerInput.EnablePlayerMap();
 
@@ -289,7 +338,22 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
             //The time between regen ticks
             yield return new WaitForSecondsRealtime(1f);
         }
+    }
 
+    /// <summary>
+    /// An ienumerator that rotates the camera around the player while they are dead
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeathCam()
+    {
 
+        while(true)
+        {
+            float angle = 5 * Time.deltaTime;
+
+            deathPivot.transform.Rotate(Vector3.up, angle);
+
+            yield return null;
+        }
     }
 }
