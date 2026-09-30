@@ -351,6 +351,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         {
             float angle = 5 * Time.deltaTime;
 
+            //This rotates the pivot point, making the camera rotate around it when the camera is a child of the pivot
             deathPivot.transform.Rotate(Vector3.up, angle);
 
             yield return null;
