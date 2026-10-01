@@ -4,7 +4,8 @@ public enum ResourceType
 {
     Wood,
     Stone,
-    Crystal
+    Crystal,
+    Blight
 }
 
 [CreateAssetMenu(fileName = "ResourceSO", menuName = "Resources/ResourceSO")]
