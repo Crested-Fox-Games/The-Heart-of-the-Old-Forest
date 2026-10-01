@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
@@ -38,6 +39,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip nighttimeMusic;
 
+    /// <summary>
+    /// The SFX group for the audio mixer
+    /// </summary>
+    [SerializeField]
+    private AudioMixerGroup sfxGroup;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -64,6 +71,10 @@ public class AudioManager : MonoBehaviour
             {
                 PlayMusic(daytimeMusic);
             }
+            else
+            {
+                Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic.name}");
+            }
         }
         else
         {
@@ -71,6 +82,29 @@ public class AudioManager : MonoBehaviour
             {
                 PlayMusic(menuMusic);
             }
+            else
+            {
+                Debug.LogWarning($"The audio clip doesnt exist for {menuMusic.name}");
+            }
+        }
+
+        //Subscribe to day night cycle for switching music, as long as the audio clips exist
+        if(daytimeMusic != null)
+        {
+            TimeCycleManager.Instance.OnNightEnd += () => PlayMusic(daytimeMusic);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic.name}");
+        }
+
+        if(nighttimeMusic != null)
+        {
+            TimeCycleManager.Instance.OnNightStart += () => PlayMusic(nighttimeMusic);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {nighttimeMusic.name}");
         }
     }
 
@@ -132,6 +166,28 @@ public class AudioManager : MonoBehaviour
 
         //Sets the active source as the new source
         activeSource = newSource;
+    }
 
+    /// <summary>
+    /// Handles playing audio clips in world space
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="position"></param>
+    public void PlayAudioClip(AudioClip clip, Vector3 position)
+    {
+        if(clip == null) 
+            return;
+
+        GameObject soundObj = new GameObject("TmpAudio");
+        soundObj.transform.position = position;
+
+        AudioSource source = soundObj.AddComponent<AudioSource>();  
+
+        source.clip = clip;
+        source.outputAudioMixerGroup = sfxGroup;
+        source.spatialBlend = 1f;
+        source.Play();
+
+        Destroy(soundObj, clip.length);
     }
 }

@@ -46,7 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e6b9500e4c4db4e9244c829ad69c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  musicSource: {fileID: 0}
+  musicSourceA: {fileID: 7228244060915238496}
+  musicSourceB: {fileID: 8827436751906157169}
+  crossfadeDuration: 2
+  menuMusic: {fileID: 0}
+  daytimeMusic: {fileID: 0}
+  nighttimeMusic: {fileID: 0}
+  sfxGroup: {fileID: -4689996880261346907, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
 --- !u!1 &5695587547071467139
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +97,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 4617559917993890037, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -220,7 +226,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 4617559917993890037, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
