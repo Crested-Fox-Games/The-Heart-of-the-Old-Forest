@@ -4000,6 +4000,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 3967670173
       objectReference: {fileID: 0}
+    - target: {fileID: 2842080755050553377, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 4190076319
+      objectReference: {fileID: 0}
     - target: {fileID: 2914199851127782808, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -4581,7 +4585,8 @@ PrefabInstance:
       value: 6005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1909324685257845748, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2274419729146170343, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
