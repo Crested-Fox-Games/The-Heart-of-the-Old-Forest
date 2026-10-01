@@ -18,5 +18,6 @@ public class PlayerRef : MonoBehaviour
         playerInteraction = GetComponent<PlayerInteraction>();
         playerRPCHandler = GetComponent<PlayerRPCHandler>();
         playerStatus = GetComponent<PlayerStatus>();
+
     }
 }

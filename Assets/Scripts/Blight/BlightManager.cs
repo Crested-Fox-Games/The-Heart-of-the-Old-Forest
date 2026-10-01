@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 public enum Rarity
 {
-    common,
+    common = 1,
     uncommon,
     rare,
     mythic,
@@ -382,6 +382,7 @@ public class BlightManager : NetworkBehaviour
 
         //Grant blight resource to the player who killed it here, might need a rework for this system for that to work.
         //Maybe we actually just send the blight directly to the base to make it easier
+        BaseResourceController.Instance.AddResources(ResourceType.Blight, 1 * (int)rarity);
     }
 
     private void BuffBlightNodes()
