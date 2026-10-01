@@ -1,6 +1,7 @@
 using UnityEngine;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections;
 
 public class GateInteract : NetworkBehaviour, IInteractable
 {
@@ -13,7 +14,7 @@ public class GateInteract : NetworkBehaviour, IInteractable
     //}
 
     [SerializeField]
-    private float interactTime = 1f;
+    private float interactTime = 0.25f;
 
     public float InteractTime => interactTime;
 
@@ -27,6 +28,7 @@ public class GateInteract : NetworkBehaviour, IInteractable
     /// Door open or closed
     /// </summary>
     private bool isOpen = false;
+    private bool gateAnim = false;
 
     /// <summary>
     /// Reference for the transform to determine the direction of the gate
@@ -118,16 +120,9 @@ public class GateInteract : NetworkBehaviour, IInteractable
     [Server]
     private void ToggleGate(NetworkObject player)
     {
-        Debug.Log("Entered toggle function");
-        if (!isOpen)
-        {
-            animator.Play("GateOpenBack");
-            return;
-        }
-        else
-        {
-            animator.Play("GateCloseBack");
-        }
+        gateAnim = true;
+
+        StartCoroutine(GateAnimation());
 
         //Vector3 directionToPlayer = player.transform.position - gateDirection.position;
 
@@ -148,6 +143,28 @@ public class GateInteract : NetworkBehaviour, IInteractable
         //{
         //    gateState.Value = GateState.OpenBack;
         //}
+    }
+
+    private IEnumerator GateAnimation()
+    {
+        while (gateAnim == true)
+        {
+            Debug.Log("Entered toggle function");
+            if (!isOpen)
+            {
+                animator.Play("GateOpenBack");
+                yield return new WaitForSeconds(2f);
+                isOpen = true;
+                gateAnim = false;
+            }
+            else
+            {
+                animator.Play("GateCloseBack");
+                yield return new WaitForSeconds(2f);
+                isOpen = false;
+                gateAnim = false;
+            }
+        }
     }
 
     public bool CanInteract(NetworkObject player)
