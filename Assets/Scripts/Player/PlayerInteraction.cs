@@ -292,6 +292,14 @@ public class PlayerInteraction : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when the player dies
+    /// </summary>
+    public void LoseAllResources()
+    {
+        resourceAmounts.Clear();
+    }
+
     private void OnResourcedChanged(SyncDictionaryOperation op, ResourceType key, int value, bool asServer)
     {
 

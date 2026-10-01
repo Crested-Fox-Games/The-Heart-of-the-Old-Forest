@@ -226,8 +226,11 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
         yield return new WaitForSeconds(respawnTime - 0.5f);
 
-        //Reset players health (Unsure if resoruces are included in this)
+        //Reset players health
         currentHealth.Value = currentMaxHealth;
+
+        //Gets rid of all the resources the player has on them when they die. 
+        playerRef.playerInteraction.LoseAllResources();
 
         //Reset player animation from the death animation to idle
 
