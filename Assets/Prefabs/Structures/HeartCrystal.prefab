@@ -395,6 +395,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
+  takeDamageAudio: {fileID: 0}
 --- !u!208 &6852539084324569251
 NavMeshObstacle:
   m_ObjectHideFlags: 0
