@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.7176471, g: 0.7176471, b: 0.7176471, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.63529414, g: 0.62352943, b: 0.4901961, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
   m_LinearFogStart: 0
@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.7546386, g: 0.9924528, b: 0.9924528, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: fc425be81506a3c49ac4e897b2310e08, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -3936,6 +3936,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 698469242}
+    - target: {fileID: 2140388927474812163, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2152448052248249614, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4290641817
@@ -4436,6 +4440,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2126321445}
+    - target: {fileID: 7043271325446063225, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 4194295762
+      objectReference: {fileID: 0}
     - target: {fileID: 7126950750168537773, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4236212186
@@ -4467,6 +4475,14 @@ PrefabInstance:
     - target: {fileID: 7583094151763731234, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3980224506
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583094151763731234, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647118998075677416, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: SceneId
+      value: 4257052056
       objectReference: {fileID: 0}
     - target: {fileID: 7783021646738948224, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
