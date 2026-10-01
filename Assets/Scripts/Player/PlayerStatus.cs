@@ -64,6 +64,12 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
 
     public Transform TargetTransform => transform;
 
+    /// <summary>
+    /// Audio clip for when the player takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
+
     public override void OnStartServer()
     {
         InitializeUpgradeDictionaries();
@@ -103,6 +109,14 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
 
         currentHealth.Value -= damage;
 
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+        }
 
         //Debug.Log("Structure has taken damage");
         if (currentHealth.Value <= 0)
