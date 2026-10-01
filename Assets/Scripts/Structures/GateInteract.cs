@@ -145,6 +145,10 @@ public class GateInteract : NetworkBehaviour, IInteractable
         //}
     }
 
+    /// <summary>
+    /// Starts gate animation then waits for 2 seconds so that the animations can't overlap
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator GateAnimation()
     {
         while (gateAnim == true)
