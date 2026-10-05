@@ -40,10 +40,25 @@ public class AudioManager : MonoBehaviour
     private AudioClip nighttimeMusic;
 
     /// <summary>
+    /// The audio clip for when a ui button is clicked
+    /// </summary>
+    [SerializeField]
+    private AudioClip uiButtonClickSound;
+
+    public AudioClip UiButtonClickSound => uiButtonClickSound;
+
+    /// <summary>
     /// The SFX group for the audio mixer
     /// </summary>
     [SerializeField]
     private AudioMixerGroup sfxGroup;
+
+    /// <summary>
+    /// The Ui group for the audio mixer
+    /// </summary>
+    [SerializeField]
+    private AudioMixerGroup uiGroup;
+
 
     private void Awake()
     {
@@ -185,6 +200,29 @@ public class AudioManager : MonoBehaviour
 
         source.clip = clip;
         source.outputAudioMixerGroup = sfxGroup;
+        source.spatialBlend = 1f;
+        source.Play();
+
+        Destroy(soundObj, clip.length);
+    }
+
+    /// <summary>
+    /// Handles playing audio clips in world space
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="position"></param>
+    public void PlayUIAudioClip(AudioClip clip, Vector3 position)
+    {
+        if (clip == null)
+            return;
+
+        GameObject soundObj = new GameObject("TmpAudio");
+        soundObj.transform.position = position;
+
+        AudioSource source = soundObj.AddComponent<AudioSource>();
+
+        source.clip = clip;
+        source.outputAudioMixerGroup = uiGroup;
         source.spatialBlend = 1f;
         source.Play();
 

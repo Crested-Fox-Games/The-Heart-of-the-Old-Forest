@@ -52,7 +52,9 @@ MonoBehaviour:
   menuMusic: {fileID: 0}
   daytimeMusic: {fileID: 0}
   nighttimeMusic: {fileID: 0}
+  uiButtonClickSound: {fileID: 0}
   sfxGroup: {fileID: -4689996880261346907, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
+  uiGroup: {fileID: -5112542117754259306, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
 --- !u!1 &5695587547071467139
 GameObject:
   m_ObjectHideFlags: 0

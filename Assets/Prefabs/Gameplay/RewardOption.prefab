@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 2910912109368560798}
   - component: {fileID: 7875314048769958418}
   - component: {fileID: 1887305886476192087}
-  - component: {fileID: 7806405424078618539}
+  - component: {fileID: 3056561043302077102}
   m_Layer: 5
   m_Name: RewardOption
   m_TagString: Untagged
@@ -494,7 +494,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &7806405424078618539
+--- !u!114 &3056561043302077102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -503,9 +503,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8736226530724879062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a984d1a56aaf704584cfd1e864e4276, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_EditorClassIdentifier: Assembly-CSharp::SFXButton
   m_Navigation:
     m_Mode: 3
     m_WrapAround: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4798444606258167404}
+  m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
