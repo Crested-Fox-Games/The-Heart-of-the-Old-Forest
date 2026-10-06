@@ -9703,7 +9703,7 @@ MonoBehaviour:
   - {fileID: 8788780022070672874}
   - {fileID: 4324111776350838948}
   baseSpawnInterval: 7
-  baseSpawnWeight: 20
+  baseSpawnWeight: 15
   bossToSpawn: 0
 --- !u!1 &7279933334951146361
 GameObject:
