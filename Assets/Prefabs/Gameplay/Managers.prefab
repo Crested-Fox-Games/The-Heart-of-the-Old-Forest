@@ -334,7 +334,14 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   blightClearRewards:
   - {fileID: 11400000, guid: 72318ad9578c0df42a29bf8c5a9469dc, type: 2}
-  rewardCountdownTime: 30
+  - {fileID: 11400000, guid: 65cea68aac2904640a274619895fee8f, type: 2}
+  - {fileID: 11400000, guid: 65cea68aac2904640a274619895fee8f, type: 2}
+  - {fileID: 11400000, guid: ef0ac1c12b7726d4faab40873dcce79b, type: 2}
+  - {fileID: 11400000, guid: 63f13ca537dcc7d42993e54deeee8ff9, type: 2}
+  - {fileID: 11400000, guid: 388f24cca96c5fb49a55803e7a58312e, type: 2}
+  - {fileID: 11400000, guid: a15b1cb7e0919c141a09ebc6f6bead49, type: 2}
+  - {fileID: 11400000, guid: bf1756228249cf2459ab2c7322d24bab, type: 2}
+  rewardCountdownTime: 5
 --- !u!114 &980425232048405161
 MonoBehaviour:
   m_ObjectHideFlags: 0
