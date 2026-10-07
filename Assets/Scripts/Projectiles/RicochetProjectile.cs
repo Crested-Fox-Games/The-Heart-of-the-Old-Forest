@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RicochetProjectile : BaseProjectile
@@ -43,6 +44,8 @@ public class RicochetProjectile : BaseProjectile
 
     public override void InitializeProjectile(Vector3 target, float projectileDamage, float maxRicochetDist, int maxRicochets)
     {
+        base.InitializeProjectile(target, projectileDamage, maxRicochetDist, maxRicochets);
+
         targetPosition = target;
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;
@@ -130,7 +133,18 @@ public class RicochetProjectile : BaseProjectile
             currentRicochets++;
             //Set the new target position and direction and move the projectile towards it
             targetPosition = possibleTargets[0].transform.position;
-            targetPosition.y = transform.position.y;
+
+            if (possibleTargets[0].GetComponentInParent<BlightNode>() != null)
+            {
+                targetPosition.y = possibleTargets[0].GetComponentInParent<BlightNode>().BlightModel.
+                    GetComponentInChildren<Renderer>().bounds.center.y;
+            }
+            else if(possibleTargets[0].GetComponentInParent<Enemy>() != null)
+            {
+                targetPosition.y = possibleTargets[0].GetComponentInParent<Enemy>().EnemyModel.
+                    GetComponentInChildren<Renderer>().bounds.center.y;
+            }
+
             direction = (targetPosition - transform.position).normalized;
 
             Debug.DrawRay(transform.position, direction * 5f, Color.red, 2f);

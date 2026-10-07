@@ -14,6 +14,11 @@ public class EnemyPathfinder : MonoBehaviour
     //private bool gizmoHit;
     //private Vector3 gizmoHitPoint;
 
+    /// <summary>
+    /// Checks for any obstruction between enemy and heart crystal, and sets target to obstruction if one exists
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <returns></returns>
     public ITargetable FindDirectObstruction(ITargetable destination)
     {
         if (destination == null)

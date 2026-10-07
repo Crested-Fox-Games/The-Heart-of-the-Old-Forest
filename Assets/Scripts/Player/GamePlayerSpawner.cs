@@ -2,6 +2,7 @@ using FishNet;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,6 @@ public class GamePlayerSpawner : MonoBehaviour
     #if UNITY_EDITOR
         if(!InstanceFinder.IsServerStarted && !InstanceFinder.IsClientStarted)
         {
-            Debug.Log("Starting game from in scene");
             StartCoroutine(InSceneStartup());
             return;
         }
@@ -43,47 +43,70 @@ public class GamePlayerSpawner : MonoBehaviour
         if (!InstanceFinder.IsServerStarted)
             return;
 
-        SpawnPlayers();
+        RegisterConnections();
     }
 
     private IEnumerator InSceneStartup()
     {
-        if (!InstanceFinder.IsServerStarted)
-        {
-            yield return InstanceFinder.ServerManager.StartConnection();
+        yield return InstanceFinder.ServerManager.StartConnection();
 
-            yield return InstanceFinder.ClientManager.StartConnection();
-
-            InstanceFinder.SceneManager.LoadGlobalScenes(new SceneLoadData("Gameplay"));
-        }
-
-        while(!InstanceFinder.IsServerStarted)
-        {
+        while (!InstanceFinder.IsServerStarted)
             yield return null;
+
+        yield return InstanceFinder.ClientManager.StartConnection();
+
+        while (!InstanceFinder.IsClientStarted)
+            yield return null;
+
+        InstanceFinder.SceneManager.LoadGlobalScenes(new FishNet.Managing.Scened.SceneLoadData("Gameplay"));
+
+        yield return null;
+
+
+        RegisterConnections();
+    }
+
+    private void RegisterConnections()
+    {
+        foreach (NetworkConnection conn in InstanceFinder.ServerManager.Clients.Values)
+        {
+            RegisterConnection(conn);
+        }
+    }
+
+    private void RegisterConnection(NetworkConnection conn)
+    {
+        if(conn.LoadedStartScenes())
+        {
+            SpawnPlayer(conn);
+            return;
         }
 
-        yield return new WaitForSeconds(0.5f);
-
-        SpawnPlayers();
+        conn.OnLoadedStartScenes -= OnConnectionLoadedStartScenes;
+        conn.OnLoadedStartScenes += OnConnectionLoadedStartScenes;
     }
 
 
-
-    private void SpawnPlayers()
+    private void OnConnectionLoadedStartScenes(NetworkConnection conn, bool asServer)
     {
-        Debug.Log("spawning player");
-        int spawnIndex = 0;
+        if (!asServer)
+            return;
 
-        foreach (NetworkConnection connection in InstanceFinder.ServerManager.Clients.Values)
-        {
-            Transform spawnpoint = spawnPoints[spawnIndex % spawnPoints.Length];
+        conn.OnLoadedStartScenes -= OnConnectionLoadedStartScenes;
 
-            NetworkObject player = Instantiate(playerPrefab, spawnpoint.position, spawnpoint.rotation);
+        SpawnPlayer(conn);
 
-            InstanceFinder.ServerManager.Spawn(player, connection, gameObject.scene);
+    }
 
-            spawnIndex++;
-        }
+    private void SpawnPlayer(NetworkConnection conn)
+    {
+        int spawnIndex = conn.ClientId % spawnPoints.Length;
+
+        Transform spawnPoint = spawnPoints[spawnIndex];
+
+        NetworkObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        InstanceFinder.ServerManager.Spawn(player, conn, gameObject.scene);
     }
 
     public void DespawnPlayers()
@@ -96,6 +119,17 @@ public class GamePlayerSpawner : MonoBehaviour
         foreach (PlayerRef player in players)
         {
             player.GetComponent<NetworkObject>().Despawn();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (!InstanceFinder.IsServerStarted)
+            return;
+
+        foreach (NetworkConnection conn in InstanceFinder.ServerManager.Clients.Values)
+        {
+            conn.OnLoadedStartScenes -= OnConnectionLoadedStartScenes;
         }
     }
 }

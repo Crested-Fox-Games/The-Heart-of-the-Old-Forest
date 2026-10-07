@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +25,9 @@ public class TowerSO : ScriptableObject
 
     [SerializeField]
     private List<ResourceCost> requiredResources;
+
+    [SerializeField]
+    private List<TowerUpgradePathSO> upgradePaths;
 
     /// <summary>
     /// The name of the tower
@@ -76,4 +78,9 @@ public class TowerSO : ScriptableObject
     /// A dictionary containing the required resources and the amounts required
     /// </summary>
     public List<ResourceCost> RequiredResources => requiredResources;
+
+    /// <summary>
+    /// List of upgrade paths
+    /// </summary>
+    public List<TowerUpgradePathSO> UpgradePaths => upgradePaths;
 }

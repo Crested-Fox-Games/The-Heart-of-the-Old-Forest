@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
+using Random = UnityEngine.Random;
 
 public enum AbilitySlot
 {
@@ -24,7 +25,9 @@ public enum AbilityStat
 {
     Damage,
     Cooldown,
-    Range
+    Range,
+    CritChance,
+    CritDamage
 }
 
 /// <summary>
@@ -38,10 +41,14 @@ public struct AbilityUpgradesDC
         damageAdd = 0f,
         cooldownAdd = 0f,
         rangeAdd = 0f,
+        critChanceAdd = 1f,
+        //critDamageAdd = 0f,
 
-        damageMult = 1f,
-        cooldownMult = 1f,
-        rangeMult = 1f,
+        damageMult = 0f,
+        cooldownMult = 0f,
+        rangeMult = 0f,
+        //critChanceMult = 1f,
+        critDamageMult = 0.1f,
     };
 
     //Attack Modifiers
@@ -55,6 +62,14 @@ public struct AbilityUpgradesDC
     //Range Modifiers
     public float rangeAdd;
     public float rangeMult;
+
+    //Crit Damage Modifiers
+    public float critDamageAdd;
+    public float critDamageMult;
+
+    //Crit Chance Modifiers
+    public float critChanceAdd;
+    public float critChanceMult;
 }
 
 public class PlayerAbilities : NetworkBehaviour
@@ -98,11 +113,10 @@ public class PlayerAbilities : NetworkBehaviour
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
+        movementAbility = AddAbility(movementAbilitySO); //NOT IMPLEMENTED
+        specialAbility = AddAbility(specialAbilitySO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
-
-        //FOR TESTING UPDATE WHEN OTHER ABILITIES MADE
-        movementAbility = AddAbility(basicAttackSO);
-        specialAbility = AddAbility(basicAttackSO);
+        
     }
 
     private void Update()
@@ -112,10 +126,14 @@ public class PlayerAbilities : NetworkBehaviour
 
         //Ticks down the basic attacks cooldown timer
         basicAttack.Tick(Time.deltaTime);
+        movementAbility.Tick(Time.deltaTime);
+        specialAbility.Tick(Time.deltaTime);
         ultimateAbility.Tick(Time.deltaTime);
 
         //Updates the sync var to let the client know how much time is left on the cooldown
         basicAttackCooldownRemaining.Value = basicAttack.CooldownRemaining;
+        movementAbilityCooldownRemaining.Value = movementAbility.CooldownRemaining;
+        specialAbilityCooldownRemaining.Value = specialAbility.CooldownRemaining;
         ultimateAbilityCooldownRemaining.Value = ultimateAbility.CooldownRemaining;
     }
 
@@ -194,15 +212,15 @@ public class PlayerAbilities : NetworkBehaviour
         TryUseAbility(AbilitySlot.BasicAttack);
     }
 
-    //public void TryUseFirstAbility()
-    //{
-    //    TryUseAbility(AbilitySlot.FirstAbility);
-    //}
+    public void TryUseMovementAbility(InputAction.CallbackContext context)
+    {
+        TryUseAbility(AbilitySlot.MovementAbility);
+    }
 
-    //public void TryUseSecondAbility()
-    //{
-    //    TryUseAbility(AbilitySlot.SecondAbility);
-    //}
+    public void TryUseSpecialAbility(InputAction.CallbackContext context)
+    {
+        TryUseAbility(AbilitySlot.SpecialAbility);
+    }
 
     public void TryUseUltimateAttack(InputAction.CallbackContext context)
     {
@@ -234,7 +252,7 @@ public class PlayerAbilities : NetworkBehaviour
     /// <param name="ability"></param>
     /// <returns></returns>
     /// <exception cref="System.ArgumentException"></exception>
-    private AbilitySlot GetSlotFromAbility(AbilitySO ability)
+    public AbilitySlot GetSlotFromAbility(AbilitySO ability)
     {
         //This is basically a streamlined if statement that checks to see if the ability matches the one in each slot
         //The _ checks to see if it matches anything, and then the when checks to see if the boolean expression is true
@@ -323,13 +341,18 @@ public class PlayerAbilities : NetworkBehaviour
     {
         if (projectilePrefab.GetComponent<NormalProjectile>() != null)
         {
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage));
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage));
         }
         else if (projectilePrefab.GetComponent<RicochetProjectile>() != null)
         {
             //Initializes the projectiles values
-            newProjectile.InitializeProjectile(target, GetDamage(abilitySO, baseDamage), 1f, 3);
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), 1f, 3);
         }
+        else if(projectilePrefab.GetComponent<VacuumProjectile>() != null)
+        {
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this);
+        }
+
     }
 
     public void AddAbilityUpgrade(AbilitySO abilitySO, AbilityStats abilityStat, UpgradeType rewardType, float rewardAmount)
@@ -346,10 +369,22 @@ public class PlayerAbilities : NetworkBehaviour
             switch (abilityStat)
             {
                 case AbilityStats.Damage:
+                    Debug.Log($"Adding {rewardAmount} damage");
                     upgrades.damageAdd += rewardAmount;
                     break;
                 case AbilityStats.Cooldown:
                     upgrades.cooldownAdd += rewardAmount;
+                    break;
+                case AbilityStats.Range:
+                    upgrades.rangeAdd += rewardAmount;
+                    break;
+                case AbilityStats.CritChance:
+                    upgrades.critChanceAdd += rewardAmount;
+                    CritChanceOverflow(upgrades);
+                    break;
+                case AbilityStats.CritDamage:
+                    Debug.LogWarning("Crit Damage Add not functional, use Crit Damage Mult instead");
+                    upgrades.critDamageAdd += rewardAmount;
                     break;
             }
         }
@@ -363,11 +398,41 @@ public class PlayerAbilities : NetworkBehaviour
                 case AbilityStats.Cooldown:
                     upgrades.cooldownMult += rewardAmount;
                     break;
+                case AbilityStats.Range:
+                    upgrades.rangeMult += rewardAmount;
+                    break;
+                case AbilityStats.CritChance:
+                    Debug.LogWarning("Crit Chance Mult not functional, use Crit Chance Add instead");
+                    upgrades.critChanceMult += rewardAmount;
+                    break;
+                case AbilityStats.CritDamage:
+                    upgrades.critDamageMult += rewardAmount;
+                    break;
             }
         }
 
         //Updates the upgrades in the dictionary
         abilityUpgrades[GetSlotFromAbility(abilitySO)] = upgrades;
+    }
+
+    /// <summary>
+    /// Moves any crit chance over 100 to crit damage
+    /// </summary>
+    /// <param name="upgrades"></param>
+    private void CritChanceOverflow(AbilityUpgradesDC upgrades)
+    {
+        //Check if crit chance is above 100
+        if (upgrades.critChanceAdd > 100)
+        {
+            //Get overflow amount
+            float overflow = upgrades.critChanceAdd - 100;
+
+            //Remove overflow from crit chance
+            upgrades.critChanceAdd -= overflow;
+
+            //Add overflow to damage mult at a reduced rate (This is done because I'm unsure how it will work properly)
+            upgrades.critDamageMult += overflow * 0.01f;
+        }
     }
 
     /// <summary>
@@ -388,12 +453,36 @@ public class PlayerAbilities : NetworkBehaviour
         return upgrades;
     }
 
-
-    public float GetDamage(AbilitySO abilitySO, float baseDamage)
+    /// <summary>
+    /// A function that checks for crits before returning the damage
+    /// </summary>
+    /// <param name="abilitySO"></param>
+    /// <param name="baseDamage"></param>
+    /// <returns></returns>
+    public float GetFinalDamage(AbilitySO abilitySO, float baseDamage)
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
-        return (baseDamage + abilityUpgrades.damageAdd) * abilityUpgrades.damageMult;
+        //Selects a random number
+        float randomSelection = Random.Range(0, 100f);
+
+        //Debug.Log($"Crit selection {randomSelection} crit chance {GetCritChance(abilitySO)} crit successful {randomSelection <= GetCritChance(abilitySO)}");
+
+        //Checks if the random number is at or above the crit chance
+        if(randomSelection <= GetCritChance(abilitySO))
+        {
+            return GetDamage(abilitySO, baseDamage) * GetCritDamage(abilitySO);
+        }
+
+        //Returns base damage if we dont crit
+        return GetDamage(abilitySO, baseDamage);
+    }
+
+    private float GetDamage(AbilitySO abilitySO, float baseDamage)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
+
+        return (baseDamage + abilityUpgrades.damageAdd) * (1f + abilityUpgrades.damageMult);
     }
 
     public float GetCooldown(AbilitySO abilitySO, float baseCooldown)
@@ -404,15 +493,29 @@ public class PlayerAbilities : NetworkBehaviour
         float cooldown = baseCooldown - abilityUpgrades.cooldownAdd;
 
         //Percentage reduction with diminishing returns
-        float reduction = 1f - (1f / abilityUpgrades.cooldownMult);
+        float reduction = 1f - (1f / (1f + abilityUpgrades.cooldownMult));
 
         cooldown *= 1 - reduction;
 
-        Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
+        //Debug.Log($"cooldown for {abilitySO.AbilityName} cooldown: {cooldown}");
         //Ensures that the cooldown never hits 0
         return Mathf.Max(0.1f, cooldown);
     }
 
-    
+    public float GetCritChance(AbilitySO abilitySO)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
+
+        //Currently only uses crit chance add for simplicity
+        return abilityUpgrades.critChanceAdd;
+    }
+
+    public float GetCritDamage(AbilitySO abilitySO)
+    {
+        AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
+
+        //Currently only uses crit damage mult for simplicity
+        return 1f + abilityUpgrades.critDamageMult;
+    }
 
 }

@@ -12,31 +12,50 @@ public class BlightNode : NetworkBehaviour
     [SerializeField]
     private GameObject blightModel;
 
+    public GameObject BlightModel => blightModel;
+
     [SerializeField]
     private GameObject healthBarObject;
 
     private Transform nextBlightNode, previousBlightNode;
 
+    /// <summary>
+    /// A list of any resource nodes that are being affected by this blight nodes
+    /// </summary>
     private List<ResourceNode> blightedNodes = new List<ResourceNode>();
 
+    /// <summary>
+    /// The amount the healthbar will be offset in the y axis
+    /// </summary>
     [SerializeField]
-    private float interactTime = 3f;
-
-    public float InteractTime => interactTime;
-
-    [SerializeField]
+    [Tooltip("The amount the healthbar will be offset in the y axis")]
     private float healthBaroffset = 1f;
 
+    /// <summary>
+    /// The base max health of the node
+    /// </summary>
     [SerializeField]
+    [Tooltip("The base max health of the node")]
     private float nodeMaxHealth = 50f;
 
     private float nodeCurrentHealth;
+
+    /// <summary>
+    /// The rarity of the node
+    /// </summary>
+    private Rarity nodeRarity;
 
     /// <summary>
     /// The factor that the rarity of the blight will scale it by
     /// </summary>
     [SerializeField]
     private float blightUncommonMult = 1.5f, blightRareMult = 2f, blightMythicMult = 3f;
+
+    /// <summary>
+    /// The collider for the blight node
+    /// </summary>
+    [SerializeField]
+    private Collider placementCollider;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -91,7 +110,7 @@ public class BlightNode : NetworkBehaviour
         }
 
         //Tells the blight manager that a blight node has been cleared
-        BlightManager.Instance.BlightCleared();
+        BlightManager.Instance.BlightCleared(nodeRarity);
 
         //Update the enemy logic
         UpdateEnemies();
@@ -137,6 +156,8 @@ public class BlightNode : NetworkBehaviour
     /// <param name="rarity"></param>
     private void SetRarityScales(Rarity rarity)
     {
+        nodeRarity = rarity;
+
         //Update the scale and buff the blight based on the rarity multiplier
         switch(rarity)
         {
@@ -159,7 +180,7 @@ public class BlightNode : NetworkBehaviour
 
         //Fix the position of the node
         Renderer modelRender = blightModel.GetComponent<Renderer>();
-        blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
+        //blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
 
         healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, modelRender.bounds.max.y + healthBaroffset, modelRender.transform.position.z);
 
@@ -256,4 +277,25 @@ public class BlightNode : NetworkBehaviour
         }
         return false;
     }
+
+    public Vector3 GetPlacementHalfExtents(Rarity rarity)
+    {
+        float scale = GetScaleFromRarity(rarity);
+
+        Bounds bounds = placementCollider.bounds;
+
+        return bounds.extents * scale;
+    }
+
+    private float GetScaleFromRarity(Rarity rarity)
+    {
+        return rarity switch
+        {
+            Rarity.uncommon => blightUncommonMult,
+            Rarity.rare => blightRareMult,
+            Rarity.mythic => blightMythicMult,
+            _ => 1f
+        };
+    }
+
 }

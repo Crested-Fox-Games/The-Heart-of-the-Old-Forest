@@ -1,10 +1,25 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+[System.Serializable]
+public struct SelectedReward
+{
+    public RewardSO reward;
+    public Rarity rarity;
+
+    public SelectedReward(RewardSO reward, Rarity rarity)
+    {
+        this.reward = reward;
+        this.rarity = rarity;
+    }
+
+}
 
 public class RewardManager : NetworkBehaviour
 {
@@ -16,9 +31,16 @@ public class RewardManager : NetworkBehaviour
     private List<RewardSO> rewards;
 
     /// <summary>
+    /// The possible rewards the players can get when they clear a blight node
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The possible rewards the players can get when they clear a blight node")]
+    private List<RewardSO> blightClearRewards;
+
+    /// <summary>
     /// The rewards that are selected for the current night
     /// </summary>
-    private Dictionary<PlayerRef , List<RewardSO>> selectedNightlyRewards = new Dictionary<PlayerRef, List<RewardSO>>();
+    private Dictionary<PlayerRef , List<SelectedReward>> selectedNightlyRewards = new Dictionary<PlayerRef, List<SelectedReward>>();
 
     /// <summary>
     /// Dictionary of rewards, used for selecting rewards quickly
@@ -26,6 +48,34 @@ public class RewardManager : NetworkBehaviour
     private Dictionary<int, RewardSO> rewardsById;
 
     private List<PlayerRef> players;
+
+    /// <summary>
+    /// The player count when the rewards are generated
+    /// </summary>
+    private float currentPlayerCount;
+
+    /// <summary>
+    /// The amount of rewards selected by the players
+    /// </summary>
+    private float rewardSelectedAmount;
+
+    /// <summary>
+    /// The amount of time before the game is unpause for rewards if a player doesn't select
+    /// </summary>
+    [SerializeField]
+    private float rewardCountdownTime = 30f;
+
+    /// <summary>
+    /// The current time for the countdown timer
+    /// </summary>
+    private readonly SyncVar<float> currentCountdownTime = new();
+
+    public SyncVar<float> CurrentCountdownTime => currentCountdownTime;
+
+    /// <summary>
+    /// The coroutine for tracking the countdown 
+    /// </summary>
+    private Coroutine rewardCountdownCoroutine;
 
     private void Awake()
     {
@@ -80,12 +130,19 @@ public class RewardManager : NetworkBehaviour
         //Loops through for each player
         foreach (PlayerRef player in players)
         {
-            selectedNightlyRewards[player] = new List<RewardSO>();
+            selectedNightlyRewards[player] = new List<SelectedReward>();
 
             //Select rewards from the pool
             for (int i = 0; i < 3; i++)
             {
-                selectedNightlyRewards[player].Add(GetRandomReward(player));
+                RewardSO rewardSO = GetRandomReward(player);
+
+                if (rewardSO == null)
+                    return;
+
+                Rarity rarity = rewardSO.SelectRarity();
+
+                selectedNightlyRewards[player].Add(new SelectedReward(rewardSO, rarity));
             }
         }
 
@@ -107,15 +164,22 @@ public class RewardManager : NetworkBehaviour
         {
            
             //Get the rewards list for the current player
-            List<RewardSO> rewards = selectedNightlyRewards[player];
+            List<SelectedReward> rewards = selectedNightlyRewards[player];
 
             //Get the reward ids of the SO's
-            int[] rewardIds = rewards.Select(reward => reward.RewardId).ToArray();
+            int[] rewardIds = rewards.Select(reward => reward.reward.RewardId).ToArray();
+
+            int[] rarities = rewards.Select(reward => (int)reward.rarity).ToArray();
 
             PlayerRPCHandler playerRPCHandler = player.playerRPCHandler;
 
-            playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds);
+            playerRPCHandler.ShowNightlyRewards(playerRPCHandler.Owner, rewardIds, rarities);
         }
+
+        PauseGame();
+
+        if(rewardCountdownCoroutine == null)
+            rewardCountdownCoroutine = StartCoroutine(RewardCountdownTimer());
     }
 
     /// <summary>
@@ -125,7 +189,7 @@ public class RewardManager : NetworkBehaviour
     private RewardSO GetRandomReward(PlayerRef player)
     {
         //Creates a list of rewards that dont exist in selected nightly rewards
-        List<RewardSO> availableRewards = rewards.Where(reward => !selectedNightlyRewards[player].Contains(reward)).ToList();
+        List<RewardSO> availableRewards = rewards.Where(reward => !selectedNightlyRewards[player].Any(selected => selected.reward == reward)).ToList();
 
         if(availableRewards.Count ==0)
         {
@@ -173,13 +237,112 @@ public class RewardManager : NetworkBehaviour
             return;
         }
 
-        //Gets the reward from the dictionary
-        RewardSO selectedReward = rewardsById[rewardId];
+        //Checks to make sure the reward id is valid
+        if(!rewardsById.TryGetValue(rewardId, out RewardSO reward))
+        {
+            Debug.LogWarning($"Invalid reward ID {rewardId} selected by {player.name}");
+            return;
+        }
 
-        //Grants the reward for the player
-        selectedReward.GrantReward(player);
+        //Checks to make sure the player has nightly rewards available
+        if (!selectedNightlyRewards.TryGetValue(player, out List<SelectedReward> playerRewards))
+        {
+            Debug.LogWarning($"No nightly rewards found for {player.name}");
+            return;
+        }
+
+        SelectedReward selectedReward = playerRewards.FirstOrDefault(selected => selected.reward == reward);
+
+        //Checks to make sure the player picked a reward they were offered
+        if(selectedReward.reward == null)
+        {
+            Debug.LogWarning($"Player {player.name} attempted to pick a reward they weren't offered");
+            return;
+        }
+
+        selectedReward.reward.GrantReward(player, selectedReward.rarity);
 
         //Clears the rewards
         selectedNightlyRewards.Remove(player);
+
+        rewardSelectedAmount++;
+
+        if(rewardSelectedAmount >= currentPlayerCount)
+        {
+            UnpauseGame();
+        }
+    }
+
+    /// <summary>
+    /// Pauses the game when rewards pop up
+    /// </summary>
+    [ObserversRpc]
+    private void PauseGame()
+    {
+        //Stops the time for the player so that they 
+        Time.timeScale = 0f;
+    }
+
+    /// <summary>
+    /// Unpauses the game when all rewards have been selected or the timer expires
+    /// </summary>
+    [ObserversRpc]
+    private void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    /// <summary>
+    /// The countdown timer for the rewards
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RewardCountdownTimer()
+    {
+        currentCountdownTime.Value = 0f;
+
+        while(currentCountdownTime.Value <= rewardCountdownTime)
+        {
+            //Unscaled delta time due to game being paused during this
+            currentCountdownTime.Value += Time.unscaledDeltaTime;
+
+            yield return null;
+        }
+
+        UnpauseGame();
+        rewardCountdownCoroutine = null;
+    }
+
+    /// <summary>
+    /// Handles getting a random reward for the players clearing a blight node
+    /// </summary>
+    /// <param name="rarity"></param>
+    public void BlightClearedReward(Rarity rarity)
+    {
+        //This is here for redundancy
+        if (players.Count == 0)
+        {
+            UpdatePlayers();
+        }
+
+        //Gets a random blight reward from the list
+        int rand = Random.Range(0, blightClearRewards.Count);
+
+        //Creates the reward object
+        SelectedReward selected = new SelectedReward(blightClearRewards[rand], rarity);
+
+        SendBlightRewardsToPlayers(selected);
+    }
+
+    /// <summary>
+    /// Handles sending the rewards out to the players
+    /// </summary>
+    /// <param name="selectedReward"></param>
+    private void SendBlightRewardsToPlayers(SelectedReward selectedReward)
+    {
+        Debug.Log($"Sending the reward of {selectedReward.reward.name} at the rarity of {selectedReward.rarity} with a value of to players");
+        foreach (PlayerRef player in players)
+        {
+            selectedReward.reward.GrantReward(player, selectedReward.rarity);
+        }
     }
 }

@@ -42,6 +42,8 @@ public abstract class Ability : NetworkBehaviour
     {
         owner = player;
         abilitySO = abilityData;
+
+        PassiveAbilitySetup();
     }
 
     /// <summary>
@@ -150,16 +152,52 @@ public abstract class Ability : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Called whenever the passive is actually triggered
+    /// </summary>
+    protected virtual void PassiveTriggered()
+    {
+
+    }
+
+    /// <summary>
+    /// An overridebable method for setting up subscriptions to the passive activation
+    /// </summary>
+    public virtual void PassiveAbilitySetup()
+    {
+
+    }
+
+    /// An overridable method for getting damage from abilities
+    /// </summary>
+    /// <returns></returns>
+    public virtual float GetDamage()
+    {
+        return 0f;
+    }
+
+    /// <summary>
+    /// Returns whether the ability has an active
+    /// </summary>
+    /// <returns></returns>
     public bool HasActive()
     {
         return hasActive;
     }
 
+    /// <summary>
+    /// Returns the active time remaining on the ability
+    /// </summary>
+    /// <returns></returns>
     public float ActiveRemaining()
     {
         return activeRemaining;
     }
 
+    /// <summary>
+    /// Returns the active time for the ability
+    /// </summary>
+    /// <returns></returns>
     public float ActiveTime()
     {
         return activeTimer;

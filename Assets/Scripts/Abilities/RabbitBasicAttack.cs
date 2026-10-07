@@ -45,7 +45,7 @@ public class RabbitBasicAttack : Ability
         // Spawns the projectile on the server
         BaseProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<BaseProjectile>();
 
-        newProjectile.InitializeProjectile(target, owner.GetDamage(abilitySO, baseDamage));
+        newProjectile.InitializeProjectile(target, owner.GetFinalDamage(abilitySO, baseDamage));
 
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
@@ -54,5 +54,10 @@ public class RabbitBasicAttack : Ability
     public override void SetProjectile(GameObject proj)
     {
         projectile = proj.GetComponent<BaseProjectile>();
+    }
+
+    public override float GetDamage()
+    {
+        return damage;
     }
 }

@@ -23,6 +23,12 @@ public class UiManager : MonoBehaviour
     private GameObject tmpTowerPlacementUi;
 
     /// <summary>
+    /// The ui panel for the tower upgrade ui
+    /// </summary>
+    [SerializeField]
+    private GameObject towerUpgradeUi;
+
+    /// <summary>
     /// The panel that holds the functionality for the game over
     /// </summary>
     [SerializeField]
@@ -119,6 +125,24 @@ public class UiManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Used to show the tower upgrade ui
+    /// </summary>
+    public void ShowTowerUpgradeUi()
+    {
+        towerUpgradeUi.SetActive(true);
+        UiElementOpened();
+    }
+
+    /// <summary>
+    /// Used to hide the tower upgrade ui
+    /// </summary>
+    public void HideTowerUpgradeUi()
+    {
+        towerUpgradeUi.SetActive(false);
+        UiElementClosed();
+    }
+
+    /// <summary>
     /// Used to update the player's resource display
     /// </summary>
     /// <param name="resourceAmounts"></param>
@@ -139,12 +163,12 @@ public class UiManager : MonoBehaviour
     /// Opens the nightly reward panel and sends it the reward ids
     /// </summary>
     /// <param name="rewardIDs"></param>
-    public void OpenRewardScreen(int[] rewardIDs, PlayerRef player)
+    public void OpenRewardScreen(int[] rewardIDs, int[] rarities, PlayerRef player)
     {
         //TODO: Rework this so that opening and populating are seperate
 
         //Send the rewards to a reward Ui script so that it can get the rewards to generate
-        nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, player);
+        nightlyRewardPanel.GetComponent<PlayerRewardUi>().ReceiveRewardData(rewardIDs, rarities, player);
         
         nightlyRewardPanel.SetActive(true);
 

@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayerRewardUi : MonoBehaviour
@@ -22,6 +24,18 @@ public class PlayerRewardUi : MonoBehaviour
 
     private PlayerRef localPlayer;
 
+    /// <summary>
+    /// A gameobject that blocks raycasts, used to stop players accidentally clicking rewards when they pop up
+    /// </summary>
+    [SerializeField]
+    private GameObject raycastBlocker;
+
+    /// <summary>
+    /// The text object for the timer
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
     private void Start()
     {
         //Gets a dictionary of all rewardSO's 
@@ -32,11 +46,22 @@ public class PlayerRewardUi : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        //Blocks the raycast onenable so that players dont click rewards by accident
+        StartCoroutine(RaycastBlocker());
+    }
+
+    private void Update()
+    {
+        timerText.text = (30f - RewardManager.Instance.CurrentCountdownTime.Value).ToString("F1");
+    }
+
     /// <summary>
     /// Gets the 3 rewards sent in through the int array 
     /// </summary>
     /// <param name="rewardIds"></param>
-    public void ReceiveRewardData(int[] rewardIds, PlayerRef player)
+    public void ReceiveRewardData(int[] rewardIds, int[] rarities, PlayerRef player)
     {
         currentRewardOptions.Clear();
 
@@ -44,22 +69,22 @@ public class PlayerRewardUi : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}"  );
+            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}");
             currentRewardOptions.Add(rewards[rewardIds[i]]);
         }
 
-        PopulateUi();
+        PopulateUi(rarities);
     }
 
     /// <summary>
     /// Populates 3 rewards screens with the info from their SO
     /// </summary>
     /// <param name="rewardList"></param>
-    private void PopulateUi()
+    private void PopulateUi(int[] rarities)
     {
-        option1.Populate(currentRewardOptions[0]);
-        option2.Populate(currentRewardOptions[1]);
-        option3.Populate(currentRewardOptions[2]);
+        option1.Populate(currentRewardOptions[0], (Rarity)rarities[0]);
+        option2.Populate(currentRewardOptions[1], (Rarity)rarities[1]);
+        option3.Populate(currentRewardOptions[2], (Rarity)rarities[2]);
     }
 
     public void SelectOption1()
@@ -78,5 +103,19 @@ public class PlayerRewardUi : MonoBehaviour
     {
         localPlayer.playerRPCHandler.SelectNightlyReward(currentRewardOptions[2].RewardId);
         UiManager.Instance.CloseRewardScreen();
+    }
+
+    /// <summary>
+    /// Turns the raycast blocker on and off 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RaycastBlocker()
+    {
+        raycastBlocker.SetActive(true);
+
+        //Needs to be realtime as this happens while game paused
+        yield return new WaitForSecondsRealtime(1f);
+
+        raycastBlocker.SetActive(false);
     }
 }
