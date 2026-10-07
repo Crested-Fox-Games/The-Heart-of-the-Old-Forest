@@ -25,12 +25,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - ADDITIONAL_LIGHTS_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses:
@@ -81,10 +80,12 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SPECULAR: 0
+    - _Shadow_Normal_Offset: 0.03
     - _Smoothness: 0.5
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _Test: 0.03
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
