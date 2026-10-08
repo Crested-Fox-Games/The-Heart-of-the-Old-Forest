@@ -31,9 +31,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|ArmatureAction
-      takeName: Armature|ArmatureAction
-      internalID: 4781951162920444690
+      name: Armature|Armature|ArmatureAction
+      takeName: Armature|Armature|ArmatureAction
+      internalID: -7475982098165885343
       firstFrame: 0
       lastFrame: 24
       wrapMode: 0
@@ -60,38 +60,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|ArmatureAction
-      takeName: Armature.001|ArmatureAction
-      internalID: -960898424075949690
-      firstFrame: 0
-      lastFrame: 24
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature.002|ArmatureAction
-      takeName: Armature.002|ArmatureAction
-      internalID: -3997514183246978980
+      name: Armature.001|Armature|ArmatureAction
+      takeName: Armature.001|Armature|ArmatureAction
+      internalID: -6347255221114447692
       firstFrame: 0
       lastFrame: 24
       wrapMode: 0
@@ -118,9 +89,38 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.003|ArmatureAction
-      takeName: Armature.003|ArmatureAction
-      internalID: 7738622313493689335
+      name: Armature.002|Armature|ArmatureAction
+      takeName: Armature.002|Armature|ArmatureAction
+      internalID: 9167453303317289959
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0.5
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature.003|Armature|ArmatureAction
+      takeName: Armature.003|Armature|ArmatureAction
+      internalID: 4323230515503424420
       firstFrame: 0
       lastFrame: 24
       wrapMode: 0
