@@ -15,6 +15,8 @@ public class GamePlayerSpawner : MonoBehaviour
     [SerializeField]
     private Transform[] spawnPoints;
 
+    public Transform[] SpawnPoints => spawnPoints;
+
     [SerializeField]
     private NetworkObject playerPrefab;
 
