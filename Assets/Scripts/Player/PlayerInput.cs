@@ -29,6 +29,22 @@ public class PlayerInput : MonoBehaviour
         SubscribeToActions();
     }
 
+    /// <summary>
+    /// Allows scripts like player status to disable the player map
+    /// </summary>
+    public void DisablePlayerMap()
+    {
+        playerMap.Disable();
+    }
+
+    /// <summary>
+    /// Allows scripts like player status to enable the player map
+    /// </summary>
+    public void EnablePlayerMap()
+    {
+        playerMap.Enable();
+    }
+
     private void SubscribeToActions()
     {
         //Finds the different player inputs
