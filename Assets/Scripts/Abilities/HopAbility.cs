@@ -43,10 +43,28 @@ public class HopAbility : Ability
         owner.GetComponent<PlayerMovement>().Launch(launchVelocity);
 
         owner.GetComponent<PlayerMovement>().OnLaunchLanded += OnLanded;
+
+        if (abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.ActivationAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.ActivationAudio.name}");
+        }
     }
 
     private void OnLanded()
     {
+        if (abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.EffectAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.EffectAudio.name}");
+        }
+
         List<Enemy> enemiesHit = GetHitEnemies();
 
         //Gets damage at the start so that if we crit, it crits them all

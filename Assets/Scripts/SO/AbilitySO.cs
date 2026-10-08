@@ -21,6 +21,12 @@ public class AbilitySO : ScriptableObject
     [SerializeField]
     private string abilityTypeName;
 
+    [SerializeField]
+    private AudioClip activationAudio;
+
+    [SerializeField]
+    private AudioClip effectAudio;
+
     /// <summary>
     /// The name of the ability
     /// </summary>
@@ -55,4 +61,14 @@ public class AbilitySO : ScriptableObject
     /// The c# type name
     /// </summary>
     public string AbilityTypeName => abilityTypeName;
+
+    /// <summary>
+    /// The audio that is played when the ability is activated
+    /// </summary>
+    public AudioClip ActivationAudio => activationAudio;
+
+    /// <summary>
+    /// The audio that is played for a specific effect of the ability
+    /// </summary>
+    public AudioClip EffectAudio => effectAudio;
 }

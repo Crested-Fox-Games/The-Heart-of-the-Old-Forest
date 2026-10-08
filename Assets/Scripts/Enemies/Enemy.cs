@@ -43,6 +43,12 @@ public class Enemy : NetworkBehaviour
     private bool isWaveEnemy;
     public bool IsWaveEnemy => isWaveEnemy;
 
+    /// <summary>
+    /// Audio clip for when the enemy takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -116,6 +122,15 @@ public class Enemy : NetworkBehaviour
         Debug.Log($"{damage} damage dealt");
 
         currentHealth.Value -= damage;
+
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+        }
 
         if (currentHealth.Value <= 0)
         {

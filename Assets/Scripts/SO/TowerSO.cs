@@ -29,6 +29,9 @@ public class TowerSO : ScriptableObject
     [SerializeField]
     private List<TowerUpgradePathSO> upgradePaths;
 
+    [SerializeField]
+    private AudioClip firingAudio;
+
     /// <summary>
     /// The name of the tower
     /// </summary>
@@ -83,4 +86,9 @@ public class TowerSO : ScriptableObject
     /// List of upgrade paths
     /// </summary>
     public List<TowerUpgradePathSO> UpgradePaths => upgradePaths;
+
+    /// <summary>
+    /// The audio that is played when the tower attacks
+    /// </summary>
+    public AudioClip FiringAudio => firingAudio;
 }

@@ -14,6 +14,12 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
 
     private HealthBar healthBar;
 
+    /// <summary>
+    /// Audio clip for when the player takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
+
     public override void OnStartServer()
     {
         //Initializes the health
@@ -43,6 +49,16 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
             return true;
 
         currentHealth.Value -= damage;
+
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+        }
+
         Debug.Log($"{gameObject.name} has been damaged");
         if (currentHealth.Value <= 0)
         {
