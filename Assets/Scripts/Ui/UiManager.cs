@@ -69,6 +69,11 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.OnGameOver += OpenGameOverScreen;
     }
 
+    public void SetLocalPlayer(PlayerRef player)
+    {
+        uiHandler.SetLocalPlayer(player);
+    }
+
     private void UiElementOpened()
     {
         //Enable the cursor
