@@ -24,6 +24,12 @@ public enum AbilityStats
 public class PlayerStatus : NetworkBehaviour, ITargetable
 {
     /// <summary>
+    /// The reference to the player ref script
+    /// </summary>
+    [SerializeField]
+    private PlayerRef playerRef;
+
+    /// <summary>
     /// The starting health for the player before upgrades are applied
     /// </summary>
     [SerializeField]
@@ -44,6 +50,13 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     [Tooltip("The amount of health the player gets back every second")]
     private float healthRegenPercent = 5f;
 
+    /// <summary>
+    /// The amount of time it takes a player to respawn
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount of time it takes a player to respawn")]
+    private float respawnTime = 20f;
+
     private float currentMaxHealth;
 
     private float moveSpeed = 5f;
@@ -63,6 +76,30 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     private readonly SyncDictionary<PlayerStats, float> playerMultiplicativeUpgrades = new();
 
     public Transform TargetTransform => transform;
+
+    /// <summary>
+    /// The pivot point used for the camera when the player is alive
+    /// </summary>
+    [SerializeField]
+    private Transform normalPivot;
+
+    /// <summary>
+    /// The pivot point used for the camera when the player is dead
+    /// </summary>
+    [SerializeField]
+    private Transform deathPivot;
+
+    /// <summary>
+    /// The localPosition that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Vector3 cameraNormalPos;
+
+    /// <summary>
+    /// The localRotation that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Quaternion cameraNormalRot;
+
+    private Coroutine deathCamRoutine;
 
     public override void OnStartServer()
     {
@@ -107,7 +144,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Debug.Log("Structure has taken damage");
         if (currentHealth.Value <= 0)
         {
-            Destroyed();
+            HandePlayerDeath();
             return false;
         }
         else
@@ -125,11 +162,99 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         return true;
     }
 
-    [ObserversRpc]
-    public void Destroyed()
+    /// <summary>
+    /// Handles what happens when the player dies
+    /// </summary>
+    public void HandePlayerDeath()
     {
-        Debug.Log($"{gameObject.name} has been destroyed");
-        gameObject.SetActive(false);
+        //Stops any health regen that is happening
+        if(healthRegenCoroutine != null)
+        {
+            StopCoroutine(healthRegenCoroutine);
+
+            healthRegenCoroutine = null;
+        }
+
+        //Disable the current players controls
+        playerRef.playerInput.DisablePlayerMap();
+
+        //Start an Ienumerator to respawn the player
+        StartCoroutine(PlayerRespawn());
+
+        //Start the death animation for the player that all players see
+        PlayerDiedAnimationTrigger();
+
+        //Do any fancy camera stuff we want to do for the death event
+        Camera cam = Camera.main;
+
+        //Save the pos and rotation of the camera
+        cameraNormalPos = cam.transform.localPosition;
+        cameraNormalRot = cam.transform.localRotation;
+
+        //Changes the parent
+        cam.transform.parent = deathPivot;
+
+        //Updates the position of the camera
+        cam.transform.position = new Vector3(deathPivot.transform.position.x + 5f, deathPivot.transform.position.y + 2.5f, deathPivot.transform.position.z);
+
+        //Makes the camera look down
+        cam.transform.LookAt(deathPivot.transform.position);
+
+        //Start the cam movement coroutine
+        deathCamRoutine = StartCoroutine(DeathCam());
+
+    }
+
+    /// <summary>
+    /// Tells all clients that this player has died and triggers that animation
+    /// </summary>
+    [ObserversRpc]
+    private void PlayerDiedAnimationTrigger()
+    {
+        //Set the animator variable for player death to true
+    }
+
+    /// <summary>
+    /// Handles the respawning of the player
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayerRespawn()
+    {
+        //Tell the ui to start a timer on screen that shows how long until the respawn happens
+        UiManager.Instance.OpenPlayerDeathUi(respawnTime);
+
+        //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
+        yield return new WaitForSeconds(respawnTime - 0.5f);
+
+        //Reset players health
+        currentHealth.Value = currentMaxHealth;
+
+        //Gets rid of all the resources the player has on them when they die. 
+        playerRef.playerInteraction.LoseAllResources();
+
+        //Reset player animation from the death animation to idle
+
+        //Move the player to their spawn position
+        GamePlayerSpawner spawner = FindFirstObjectByType<GamePlayerSpawner>();
+
+        int rand = Random.Range(0, spawner.SpawnPoints.Length);
+
+        Vector3 spawnPoint = spawner.SpawnPoints[rand].transform.position;
+
+        transform.position = spawnPoint;
+
+        //Reset camera if relevant
+        StopCoroutine(deathCamRoutine);
+        
+        Camera.main.transform.parent = normalPivot;
+
+        Camera.main.transform.localPosition = cameraNormalPos;
+        Camera.main.transform.localRotation = cameraNormalRot;
+
+        
+        //Re-enable the players controls
+        playerRef.playerInput.EnablePlayerMap();
+
     }
 
     /// <summary>
@@ -216,7 +341,23 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
             //The time between regen ticks
             yield return new WaitForSecondsRealtime(1f);
         }
+    }
 
+    /// <summary>
+    /// An ienumerator that rotates the camera around the player while they are dead
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeathCam()
+    {
 
+        while(true)
+        {
+            float angle = 5 * Time.deltaTime;
+
+            //This rotates the pivot point, making the camera rotate around it when the camera is a child of the pivot
+            deathPivot.transform.Rotate(Vector3.up, angle);
+
+            yield return null;
+        }
     }
 }
