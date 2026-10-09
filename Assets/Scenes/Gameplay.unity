@@ -184,7 +184,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e5b43966e2f30664aaeb24613187bc28, type: 2}
+  - {fileID: 2100000, guid: dd7435e998cb9a7438b5cca32cda2f5f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4088,6 +4088,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4240432571
       objectReference: {fileID: 0}
+    - target: {fileID: 2478607897696609635, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2519002265878877777, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 3959414235
@@ -4149,9 +4153,13 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3204352750764256225, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3204352750764256225, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e5b43966e2f30664aaeb24613187bc28, type: 2}
+      objectReference: {fileID: 2100000, guid: dd7435e998cb9a7438b5cca32cda2f5f, type: 2}
     - target: {fileID: 3267901748625861312, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -4288,6 +4296,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4215103478
       objectReference: {fileID: 0}
+    - target: {fileID: 4195303885714696999, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dd7435e998cb9a7438b5cca32cda2f5f, type: 2}
     - target: {fileID: 4201971767667503366, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -4423,7 +4435,7 @@ PrefabInstance:
     - target: {fileID: 5529262819564805765, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7a42017d635daa146b2cb027669ac01d, type: 2}
+      objectReference: {fileID: 2100000, guid: dd7435e998cb9a7438b5cca32cda2f5f, type: 2}
     - target: {fileID: 5605993374590848715, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4026488826
