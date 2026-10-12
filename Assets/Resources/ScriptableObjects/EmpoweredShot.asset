@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: EmpoweredShot
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Empowered Shot
-  abilityIcon: {fileID: 0}
+  abilityIcon: {fileID: 21300000, guid: 2eb9286447df3b949a3da39606aebc61, type: 3}
   cooldown: 10
   castTime: 0.5
   projectile: {fileID: 4887008083236010489, guid: c26573638182bc248b01912655f8e88e, type: 3}
   needDirection: 1
   abilityTypeName: EmpoweredShot, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
+  activationAudio: {fileID: 0}
+  effectAudio: {fileID: 0}

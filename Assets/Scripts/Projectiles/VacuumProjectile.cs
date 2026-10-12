@@ -118,7 +118,7 @@ public class VacuumProjectile : BaseProjectile
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.EffectAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
         }
 
         //Gets damage at the start so that if we crit, it crits them all
