@@ -37,12 +37,12 @@ public class TowerUpgradeUI : MonoBehaviour
     /// <summary>
     /// Index of the currently selected upgrade path, -1 means that no path is currently selected
     /// </summary>
-    private int selectedPath = -1;
+    //private int selectedPath = -1;
 
     /// <summary>
     /// A bool that tracks if a path has been selected for the current tower
     /// </summary>
-    private bool pathSelected = false;
+    //private bool pathSelected = false;
 
     private void Awake()
     {
@@ -77,7 +77,7 @@ public class TowerUpgradeUI : MonoBehaviour
         towerUpgradePathSOs = tower.TowerSO.UpgradePaths;
 
         //Change logic based on if a path is selected
-        if (!pathSelected)
+        if (!tower.PathSelected)
         {
             //Spawn all paths if we havent selected one
             for (int i = 0; i < towerUpgradePathSOs.Count; i++)
@@ -92,6 +92,8 @@ public class TowerUpgradeUI : MonoBehaviour
         else
         {
             //Spawn only the selected path if we have selected one
+            int selectedPath = tower.SelectedPath;
+
             var slot = Instantiate(upgradePrefab, parent: towerUpgradePanel.transform);
             
             TowerUpgradeSO upgrade = tower.GetNextSelectedUpgrade(selectedPath);
@@ -124,7 +126,7 @@ public class TowerUpgradeUI : MonoBehaviour
             return;
 
         //Handle path not selected logic
-        if (pathSelected)
+        if (subscribedTower != null && subscribedTower.PathSelected)
         {
             List<UpgradeSlot> slots = GetComponentsInChildren<UpgradeSlot>().ToList();
 
@@ -140,15 +142,8 @@ public class TowerUpgradeUI : MonoBehaviour
             UpgradeSlot currentSlot = GetComponentInChildren<UpgradeSlot>();
 
             //Updates the ui for the current tower
-            currentSlot.Initialize(this, subscribedTower.GetNextSelectedUpgrade(selectedPath), key);
+            currentSlot.Initialize(this, subscribedTower.GetNextSelectedUpgrade(subscribedTower.SelectedPath), subscribedTower.SelectedPath);
         }
-    }
-
-    private void SelectUpgradePath(int key)
-    {
-        //Updates to tell us path has been selected
-        pathSelected = true;
-        selectedPath = key;
     }
 
     public void SetCurrentTower(NetworkObject tower)
@@ -158,8 +153,20 @@ public class TowerUpgradeUI : MonoBehaviour
 
     public void SelectUpgrade(int pathIndex)
     {
-        if(!pathSelected)
-            SelectUpgradePath(pathIndex);
+        if (currentTower == null)
+        {
+            return;
+        }
+
+        Tower tower = currentTower.GetComponent<Tower>();
+
+        if (tower == null)
+        {
+            return;
+        }
+
+        if (!tower.PathSelected)
+            tower.SelectUpgradePath(pathIndex);
 
         PlayerRPCHandler.LocalInstance.CallSelectUpgrade(currentTower, pathIndex);
     }
