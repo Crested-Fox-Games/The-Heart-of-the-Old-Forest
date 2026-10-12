@@ -50,7 +50,7 @@ public class HopAbility : Ability
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.ActivationAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
         }
     }
 
@@ -62,7 +62,7 @@ public class HopAbility : Ability
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.EffectAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
         }
 
         List<Enemy> enemiesHit = GetHitEnemies();

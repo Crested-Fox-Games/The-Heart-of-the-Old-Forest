@@ -32,7 +32,7 @@ public class RabbitBasicAttack : Ability
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.ActivationAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
         }
     }
 

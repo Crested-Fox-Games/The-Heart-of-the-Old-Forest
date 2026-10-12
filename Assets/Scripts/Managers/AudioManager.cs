@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic.name}");
+                Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic}");
             }
         }
         else
@@ -99,7 +99,7 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"The audio clip doesnt exist for {menuMusic.name}");
+                Debug.LogWarning($"The audio clip doesnt exist for {menuMusic}");
             }
         }
 
@@ -110,7 +110,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic}");
         }
 
         if(nighttimeMusic != null)
@@ -119,7 +119,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {nighttimeMusic.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {nighttimeMusic}");
         }
     }
 

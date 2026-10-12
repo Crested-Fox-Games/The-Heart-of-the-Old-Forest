@@ -129,7 +129,7 @@ public class Enemy : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio}");
         }
 
         if (currentHealth.Value <= 0)
