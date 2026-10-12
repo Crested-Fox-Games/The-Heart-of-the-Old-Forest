@@ -7,6 +7,9 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
+    private string abilityDescription;
+
+    [SerializeField]
     private Sprite abilityIcon;
 
     [SerializeField]
@@ -31,6 +34,11 @@ public class AbilitySO : ScriptableObject
     /// The name of the ability
     /// </summary>
     public string AbilityName => abilityName;
+
+    /// <summary>
+    /// The description of the ability
+    /// </summary>
+    public string AbilityDescription => abilityDescription;
 
     /// <summary>
     /// The icon for the ability that is displayed in the UI

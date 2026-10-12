@@ -1,11 +1,16 @@
 using FishNet.Object;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public PlayerRef localPlayer;
 
     /// <summary>
     /// The event that triggers game over across subscribed systems
@@ -23,6 +28,22 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
     }
+
+    private void Start()
+    {
+        List<PlayerRef> players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.None).ToList();
+
+        //Finds the local player and sets it to the localPlayer variable
+        foreach (PlayerRef player in players)
+        {
+            if (player.GetComponent<NetworkObject>().IsOwner)
+            {
+                localPlayer = player;
+                break;
+            }
+        }
+    }
+
 
     /// <summary>
     /// The function that invokes the game over event, anything we decide that happens upon game ending 
