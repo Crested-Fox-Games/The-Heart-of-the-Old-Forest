@@ -21,11 +21,24 @@ public class DayNightProgressBar : MonoBehaviour
 
     private TimeCycleManager timeManager;
 
+    /// <summary>
+    /// The icon that shows whether it is day or night
+    /// </summary>
+    [SerializeField]
+    private Image iconImage;
+
+    /// <summary>
+    /// The icons for the time of day
+    /// </summary>
+    [SerializeField]
+    private Sprite dayIcon, nightIcon;
+
     private void Start()
     {
         timeManager = TimeCycleManager.Instance;
 
         timeManager.OnNightEnd += OnNewDay;
+        timeManager.OnNightStart += OnNightStart;
     }
 
     private void Update()
@@ -48,5 +61,12 @@ public class DayNightProgressBar : MonoBehaviour
         nightBar.fillAmount = 0;
         dayBar.fillAmount = 0;
         dayText.text = $"Day {TimeCycleManager.Instance.CurrentDay}";
+
+        iconImage.sprite = dayIcon;
+    }
+
+    private void OnNightStart()
+    {
+        iconImage.sprite = nightIcon;
     }
 }
