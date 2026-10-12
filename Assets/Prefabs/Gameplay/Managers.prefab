@@ -448,6 +448,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1442235007829568966}
   _networkObjectCache: {fileID: 1442235007829568966}
   sceneLight: {fileID: 0}
+  skyController: {fileID: 0}
 --- !u!114 &1442235007829568966
 MonoBehaviour:
   m_ObjectHideFlags: 0
