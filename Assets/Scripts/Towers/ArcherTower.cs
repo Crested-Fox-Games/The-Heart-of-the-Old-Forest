@@ -100,6 +100,15 @@ public class ArcherTower : Tower
                 proj.GetComponent<NormalProjectile>().InitializeProjectile(target.transform.position, GetDamage());
 
                 Spawn(proj);
+
+                if (towerSO.FiringAudio != null)
+                {
+                    AudioManager.Instance.PlayAudioClip(towerSO.FiringAudio, transform.position);
+                }
+                else
+                {
+                    Debug.LogWarning($"The audio clip doesnt exist for {towerSO.FiringAudio.name}");
+                }
             }
 
 

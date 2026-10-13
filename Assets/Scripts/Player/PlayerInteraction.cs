@@ -74,14 +74,20 @@ public class PlayerInteraction : NetworkBehaviour
 
         //This fires whenever any action on the player map is triggered
         playerMap.actionTriggered += UpdateInputDevice;
+
     }
 
     override public void OnStartClient()
     {
         base.OnStartClient();
 
-        if(IsOwner)
+        if (IsOwner)
+        {
+            //Tells the ui to set this as the local player
+            UiManager.Instance.SetLocalPlayer(GetComponent<PlayerRef>());
+
             resourceAmounts.OnChange += OnResourcedChanged;
+        }
     }
 
     override public void OnStopClient()
@@ -290,6 +296,14 @@ public class PlayerInteraction : NetworkBehaviour
             controller.AddResources(resource.Key, resource.Value);
             resourceAmounts[resource.Key] = 0;
         }
+    }
+
+    /// <summary>
+    /// Called when the player dies
+    /// </summary>
+    public void LoseAllResources()
+    {
+        resourceAmounts.Clear();
     }
 
     private void OnResourcedChanged(SyncDictionaryOperation op, ResourceType key, int value, bool asServer)

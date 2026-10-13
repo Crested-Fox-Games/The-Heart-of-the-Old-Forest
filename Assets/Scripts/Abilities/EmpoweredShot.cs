@@ -20,6 +20,15 @@ public class EmpoweredShot : Ability
 
         //Spawn Projectile that fires in the direction the player is aiming at
         owner.SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
+
+        if(abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.ActivationAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.ActivationAudio.name}");
+        }
     }
 
     /// <summary>

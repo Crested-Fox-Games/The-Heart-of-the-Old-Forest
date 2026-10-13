@@ -42,6 +42,10 @@ public class VacuumProjectile : BaseProjectile
     /// </summary>
     private PlayerAbilities owner;
 
+    /// <summary>
+    /// The ability that created this projectile
+    /// </summary>
+    private AbilitySO abilitySO;
 
     /// <summary>
     /// Initializes the projectiles initial values
@@ -49,14 +53,16 @@ public class VacuumProjectile : BaseProjectile
     /// <param name="target"></param>
     /// <param name="projectileDamage"></param>
     /// <param name="tower"></param>
-    public override void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
+    public override void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player, AbilitySO SO)
     {
-        base.InitializeProjectile(target, projectileDamage, player);
+        base.InitializeProjectile(target, projectileDamage, player, SO);
 
         Debug.Log("Initializing vacuum proj");
         targetPosition = target;
         projDamage = projectileDamage;
         owner = player;
+
+        abilitySO = SO;
 
         direction = (targetPosition - transform.position).normalized;
         StartCoroutine(MoveToTarget());
@@ -105,6 +111,15 @@ public class VacuumProjectile : BaseProjectile
         Debug.Log($"Vacuum Proj detected that it has hit {other.gameObject.name} which it considers valid");
 
         List<Enemy> enemiesHit = GetHitEnemies();
+
+        if (abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.EffectAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO.EffectAudio.name}");
+        }
 
         //Gets damage at the start so that if we crit, it crits them all
         float currDamage = owner.GetFinalDamage(owner.BasicAttack.AbilitySO, owner.BasicAttack.GetDamage());

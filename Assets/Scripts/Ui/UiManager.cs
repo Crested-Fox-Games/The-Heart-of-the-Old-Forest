@@ -39,6 +39,12 @@ public class UiManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject nightlyRewardPanel;
+
+    /// <summary>
+    /// The panel for when the player dies
+    /// </summary>
+    [SerializeField]
+    private GameObject playerDeathPanel;
     
     [SerializeField]
     private ResourceUiHandler uiHandler;
@@ -61,6 +67,11 @@ public class UiManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameOver += OpenGameOverScreen;
+    }
+
+    public void SetLocalPlayer(PlayerRef player)
+    {
+        uiHandler.SetLocalPlayer(player);
     }
 
     private void UiElementOpened()
@@ -188,5 +199,16 @@ public class UiManager : MonoBehaviour
     public void UpdatePlayerHealthBar(float currentHealth, float maxHealth)
     {
         healthBar.TriggerHealthBarUpdate(currentHealth, maxHealth);
+    }
+
+    public void OpenPlayerDeathUi(float timer)
+    {
+        playerDeathPanel.SetActive(true);
+        playerDeathPanel.GetComponent<PlayerDeathUi>().PlayerDeath(timer);
+    }
+
+    public void ClosePlayerDeathUi()
+    {
+        playerDeathPanel.SetActive(false);
     }
 }

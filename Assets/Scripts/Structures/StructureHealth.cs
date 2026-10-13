@@ -18,6 +18,12 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
 
     private HealthBar healthBar;
 
+    /// <summary>
+    /// Audio clip for when the player takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
+
     public override void OnStartServer()
     {
         //Initialises the health of the structure
@@ -49,6 +55,15 @@ public class StructureHealth : NetworkBehaviour, ITargetable, IRepairable, IInte
             return true;
 
         currentHealth.Value -= damage;
+
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+        }
 
         if (currentHealth.Value <= 0)
         {
