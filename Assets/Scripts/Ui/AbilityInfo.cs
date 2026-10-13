@@ -31,6 +31,7 @@ public class AbilityInfo : MonoBehaviour
     private void Start()
     {
         Initialize();
+
     }
 
     private void Initialize()
@@ -45,6 +46,7 @@ public class AbilityInfo : MonoBehaviour
 
         Ability ability =  player.GetAbilityFromSlot(slotOfAbility);
 
+        Debug.Log($"Initializing AbilityInfo for slot {slotOfAbility} with ability: {ability?.AbilitySO.AbilityName ?? "None"}");
         if (ability != null)
         {
             abilityIcon.sprite = ability.AbilitySO.AbilityIcon;
@@ -55,10 +57,11 @@ public class AbilityInfo : MonoBehaviour
         {
             Debug.LogError($"No ability found in slot {slotOfAbility}.");
         }
+
     }
 
     private PlayerAbilities GetPlayerAbilities()
     {
-        return GameManager.Instance.localPlayer.GetComponent<PlayerAbilities>();
+        return GameManager.Instance.LocalPlayer.GetComponent<PlayerAbilities>();
     }
 }

@@ -10,7 +10,26 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public PlayerRef localPlayer;
+    public event Action localPlayerSet;
+
+    private PlayerRef localPlayer;
+
+    /// <summary>
+    /// The reference to the local player
+    /// </summary>
+    public PlayerRef LocalPlayer
+    {
+        //Custom logic for setting so that we can fire an event 
+        set
+        {
+            localPlayer = value;
+            localPlayerSet?.Invoke();
+        }
+        get
+        {
+            return localPlayer;
+        }
+    }
 
     /// <summary>
     /// The event that triggers game over across subscribed systems
@@ -26,21 +45,6 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        List<PlayerRef> players = FindObjectsByType<PlayerRef>(FindObjectsSortMode.None).ToList();
-
-        //Finds the local player and sets it to the localPlayer variable
-        foreach (PlayerRef player in players)
-        {
-            if (player.GetComponent<NetworkObject>().IsOwner)
-            {
-                localPlayer = player;
-                break;
-            }
         }
     }
 

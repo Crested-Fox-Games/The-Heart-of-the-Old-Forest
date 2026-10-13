@@ -52,6 +52,9 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private PlayerHealthBar healthBar;
 
+    [SerializeField]
+    private GameObject tutorialOverlayUi;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -210,5 +213,15 @@ public class UiManager : MonoBehaviour
     public void ClosePlayerDeathUi()
     {
         playerDeathPanel.SetActive(false);
+    }
+
+    public void OpenTutorialOverlayUi(InputAction.CallbackContext context)
+    {
+        tutorialOverlayUi.SetActive(true);
+    }
+
+    public void CloseTutorialOverlayUI(InputAction.CallbackContext context)
+    {
+        tutorialOverlayUi.SetActive(false);
     }
 }

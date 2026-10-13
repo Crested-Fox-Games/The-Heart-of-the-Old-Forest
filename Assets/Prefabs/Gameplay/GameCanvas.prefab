@@ -978,7 +978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4775087830247216641
 Transform:
   m_ObjectHideFlags: 0
@@ -1492,6 +1492,7 @@ MonoBehaviour:
   playerDeathPanel: {fileID: 7619942750369944988}
   uiHandler: {fileID: 5605942388875197870}
   healthBar: {fileID: 4127909989188542592}
+  tutorialOverlayUi: {fileID: 2077289680516892255}
 --- !u!1 &3717244105816463055
 GameObject:
   m_ObjectHideFlags: 0
@@ -2656,7 +2657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3595100147035096512
 RectTransform:
   m_ObjectHideFlags: 0
