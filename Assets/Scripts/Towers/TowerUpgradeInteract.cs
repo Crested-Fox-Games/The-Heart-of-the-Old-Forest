@@ -29,8 +29,9 @@ public class TowerUpgradeInteract : NetworkBehaviour, IInteractable
     [TargetRpc]
     private void HandleInteraction(NetworkConnection conn)
     {
-        //Brings up the tower placement UI
+        //Sets current tower to interacted tower
         TowerUpgradeUI.Instance.SetCurrentTower(this);
+        //Brings up the tower upgrade UI
         UiManager.Instance.ShowTowerUpgradeUi();  
     }
 }

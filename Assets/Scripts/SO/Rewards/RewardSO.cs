@@ -54,7 +54,7 @@ public abstract class RewardSO : ScriptableObject
     /// </summary>
     public Rarity SelectRarity()
     {
-        float common = 50f, uncommon = 30f, rare = 15f, mythic = 5f;
+        float common = 70f, uncommon = 20f, rare = 8f, mythic = 2f;
 
         float sum = common + uncommon + rare + mythic;
 
