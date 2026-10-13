@@ -478,7 +478,7 @@ public class PlayerAbilities : NetworkBehaviour
         return GetDamage(abilitySO, baseDamage);
     }
 
-    private float GetDamage(AbilitySO abilitySO, float baseDamage)
+    public float GetDamage(AbilitySO abilitySO, float baseDamage)
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 
