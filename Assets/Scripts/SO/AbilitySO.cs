@@ -7,6 +7,7 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
+    [TextArea]
     private string abilityDescription;
 
     [SerializeField]
