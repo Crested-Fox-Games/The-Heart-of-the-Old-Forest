@@ -184,7 +184,11 @@ public class EnemyBrain : NetworkBehaviour
             return;
         }
 
-        ReevaluateTargets();
+        if (enemy.IsWaveEnemy)
+        {
+            SetBlightTarget(target);
+        }
+        //ReevaluateTargets();
     }
 
     /// <summary>
