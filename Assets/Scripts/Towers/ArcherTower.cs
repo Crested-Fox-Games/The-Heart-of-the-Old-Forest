@@ -107,7 +107,7 @@ public class ArcherTower : Tower
                 }
                 else
                 {
-                    Debug.LogWarning($"The audio clip doesnt exist for {towerSO.FiringAudio.name}");
+                    Debug.LogWarning($"The audio clip doesnt exist for {towerSO}");
                 }
             }
 

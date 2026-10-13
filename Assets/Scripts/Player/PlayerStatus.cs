@@ -152,7 +152,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio}");
         }
 
         //Debug.Log("Structure has taken damage");
