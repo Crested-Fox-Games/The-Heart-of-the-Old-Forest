@@ -18,6 +18,6 @@ MonoBehaviour:
   UpgradeIcon: {fileID: 0}
   requiredResources:
   - resource: 2
-    cost: 10
-  damageIncrease: 6
-  rangeIncrease: 4
+    cost: 20
+  damageIncrease: 10
+  rangeIncrease: 1

@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [System.Serializable]
+/// <summary>
+/// A data class used for the dictionary of local tower upgrades and paths
+/// </summary>
 public struct TowerPathProgress
 {
     public int upgradeCount;
