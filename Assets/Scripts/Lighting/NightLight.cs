@@ -3,6 +3,9 @@ using UnityEngine;
 /// <summary>
 /// Makes natural light sources (wisps) glow at night.
 /// Follows the time of day from DynamicSkyController, runs locally on every client.
+/// Code from:
+/// - https://gist.github.com/sinbad/4a9ded6b00cf6063c36a4837b15df969?permalink_comment_id=4614158
+/// - https://discussions.unity.com/t/move/856924
 /// </summary>
 public class NightLight : MonoBehaviour
 {

@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Controls the skybox, sun, moon and fog based on the time of day.
 /// Time still set in TimeCycleManager
+/// Original by Kevin van Hoorn: https://kelvinvanhoorn.com/tutorials/unity_skybox_shader/ 
 /// </summary>
 [ExecuteAlways]
 public class DynamicSkyController : MonoBehaviour
