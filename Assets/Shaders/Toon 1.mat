@@ -80,6 +80,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SPECULAR: 0
+    - _ShadingSmoothness: 0.249
     - _Shadow_Normal_Offset: 0.03
     - _Smoothness: 0.5
     - _SrcBlend: 1
