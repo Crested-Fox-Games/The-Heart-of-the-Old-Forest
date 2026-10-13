@@ -1968,6 +1968,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 0}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!33 &4981427999055102428
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4612,6 +4613,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 0}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!33 &8969571210677705716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5531,7 +5533,7 @@ Transform:
   m_GameObject: {fileID: 3646875310788353540}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 120.44, y: -4.212, z: 135.53}
+  m_LocalPosition: {x: 120.44, y: 1.2, z: 135.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7053,7 +7055,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 11255
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -7064,7 +7066,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.05
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 0a25337297bb5d745aa75b5109f6bc9f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a0ab98997e19ab44e8589b032fc178e8, type: 2}
   m_BuildHeightMesh: 1
 --- !u!1 &4826687660064011117
 GameObject:
@@ -8160,6 +8162,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 0}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!33 &6158775511986237711
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9939,7 +9942,7 @@ Transform:
   m_GameObject: {fileID: 7279933334951146361}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.37, y: -3.23, z: 188.66}
+  m_LocalPosition: {x: -4.37, y: 1.2, z: 188.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11451,7 +11454,7 @@ Transform:
   m_GameObject: {fileID: 8188154462012755989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -112.81, y: -3.92, z: 134.1}
+  m_LocalPosition: {x: -112.81, y: 1.2, z: 134.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11701,6 +11704,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 0}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!33 &4919481395477365317
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14765,6 +14769,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 0}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!1001 &1643866734669325951
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15209,6 +15214,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4087036553716210926}
     m_Modifications:
+    - target: {fileID: 1752544780816265332, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2783713558440574615, guid: 0b6a939cb9709fa459ad2c600a942a8f, type: 3}
       propertyPath: m_Enabled
       value: 0

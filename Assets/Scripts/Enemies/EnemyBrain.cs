@@ -122,6 +122,7 @@ public class EnemyBrain : NetworkBehaviour
     private void InitializeWaveEnemy()
     {
         SetTarget(defaultTarget);
+        ReevaluateTargets();
     }
 
     /// <summary>
