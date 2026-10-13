@@ -224,8 +224,8 @@ GameObject:
   - component: {fileID: 6785712681910127669}
   - component: {fileID: 7526778878951843044}
   - component: {fileID: 922728185825097527}
-  - component: {fileID: 4233754246880238026}
   - component: {fileID: 1195460266590002874}
+  - component: {fileID: 3575597088316334643}
   m_Layer: 0
   m_Name: TowerSlot
   m_TagString: Untagged
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &4233754246880238026
+--- !u!114 &1195460266590002874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,9 +328,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3824767915112945437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 6722e18f994d5dd4d841b9a7e30c1fd7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
+  towerSO: {fileID: 0}
+  towerSlotPanel: {fileID: 7526778878951843044}
+  towerName: {fileID: 7703996879606887039}
+  resourceText: {fileID: 6071524715873307773}
+  towerImage: {fileID: 3839929518157360622}
+--- !u!114 &3575597088316334643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3824767915112945437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a984d1a56aaf704584cfd1e864e4276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXButton
   m_Navigation:
     m_Mode: 3
     m_WrapAround: 0
@@ -375,23 +392,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1195460266590002874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3824767915112945437}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6722e18f994d5dd4d841b9a7e30c1fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
-  towerSO: {fileID: 0}
-  towerSlotPanel: {fileID: 7526778878951843044}
-  towerName: {fileID: 7703996879606887039}
-  resourceText: {fileID: 6071524715873307773}
-  towerImage: {fileID: 3839929518157360622}
 --- !u!1 &5390436494160420750
 GameObject:
   m_ObjectHideFlags: 0
