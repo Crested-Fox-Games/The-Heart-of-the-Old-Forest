@@ -9,6 +9,46 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Empty.001
     second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.002
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.003
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.004
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.005
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.006
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.007
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.008
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Empty.009
+    second: {fileID: 2100000, guid: d6646668ee306c74e94d66121b1cb730, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

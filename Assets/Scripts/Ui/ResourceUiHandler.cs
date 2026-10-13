@@ -11,14 +11,31 @@ public class ResourceUiHandler : MonoBehaviour
     [SerializeField]
     private GameObject resourceIndexUiPrefab;
 
+    private PlayerRef localPlayer;
+
     private void Start()
     {
         BaseResourceController.Instance.ResourceAmounts.OnChange += BaseResourceChanges;
     }
 
+    public void SetLocalPlayer(PlayerRef player)
+    {
+        localPlayer = player;
+    }
+
     private void BaseResourceChanges(SyncDictionaryOperation op, ResourceType key, int val, bool asServer)
     {
-        UpdateOrCreateDisplayedResource(key, val);
+        int playerResource = 0;
+
+        if(localPlayer.playerInteraction.resourceAmounts.TryGetValue(key, out int resouce))
+        {
+            playerResource = resouce;
+        }
+
+        if (val == 0 && playerResource == 0)
+            return;
+
+        UpdateOrCreateDisplayedResource(key, playerResource);
     }
 
     public void UpdateOrCreateDisplayedResource(ResourceType resource, int playerResourceAmount)

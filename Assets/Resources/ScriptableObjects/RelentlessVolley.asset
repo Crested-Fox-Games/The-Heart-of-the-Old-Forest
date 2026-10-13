@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: RelentlessVolley
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Relentless Volley
-  icon: {fileID: 0}
+  abilityIcon: {fileID: 21300000, guid: 00f5867726e8c754c9149856cc14d95c, type: 3}
   cooldown: 50
   castTime: 0
   projectile: {fileID: 2318843439141175615, guid: 6fdb742f749d1784bb2fb587705cc76d, type: 3}
   needDirection: 0
   abilityTypeName: RelentlessVolley, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
+  activationAudio: {fileID: 0}
+  effectAudio: {fileID: 0}

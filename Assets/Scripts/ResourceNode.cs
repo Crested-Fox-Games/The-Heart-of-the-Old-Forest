@@ -49,6 +49,18 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     [SerializeField]
     private GameObject model;
 
+    /// <summary>
+    /// Audio clip for when the resource node is harvested
+    /// </summary>
+    [SerializeField]
+    private AudioClip nodeHarvestAudio;
+
+    /// <summary>
+    /// Audio clip for when the resource node is depleted
+    /// </summary>
+    [SerializeField]
+    private AudioClip nodeDepletedAudio;
+
     private void Start()
     {
         InitializeValues();
@@ -125,6 +137,15 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         if(depleted.Value)
             return 0;
 
+        if (nodeHarvestAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(nodeHarvestAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {nodeHarvestAudio}");
+        }
+
         //Reduces the durability left on the resource
         currentResourceDurability--;
 
@@ -161,6 +182,15 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         {
             //Node is depleted
             model.SetActive(false);
+
+            if (nodeDepletedAudio != null)
+            {
+                AudioManager.Instance.PlayAudioClip(nodeDepletedAudio, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning($"The audio clip doesnt exist for {nodeDepletedAudio}");
+            }
         }
         else
         {

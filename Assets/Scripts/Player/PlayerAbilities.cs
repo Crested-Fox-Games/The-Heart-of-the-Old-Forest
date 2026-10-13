@@ -350,7 +350,7 @@ public class PlayerAbilities : NetworkBehaviour
         }
         else if(projectilePrefab.GetComponent<VacuumProjectile>() != null)
         {
-            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this);
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this, abilitySO);
         }
 
     }
