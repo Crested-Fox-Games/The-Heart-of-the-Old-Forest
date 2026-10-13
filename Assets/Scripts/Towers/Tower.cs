@@ -92,6 +92,15 @@ public abstract class Tower : NetworkBehaviour
 
     protected bool stunned = false;
 
+    /// <summary>
+    /// The selected upgrade path for this tower, -1 means no path is selected
+    /// </summary>
+    private int selectedPath = -1;
+
+    public int SelectedPath => selectedPath;
+
+    public bool PathSelected => selectedPath != -1;
+
     //Upgrades
     /// <summary>
     /// Stores the tower's upgrade progress for each upgrade path
@@ -351,6 +360,16 @@ public abstract class Tower : NetworkBehaviour
 
             path.GetRandomUpgrade();
         }
+    }
+
+    public void SelectUpgradePath(int pathIndex)
+    {
+        if (selectedPath != -1)
+        {
+            return;
+        }
+
+        selectedPath = pathIndex;
     }
 
     /// <summary>

@@ -18,6 +18,12 @@ public class PlayerRewardInstanceUi : MonoBehaviour
     [SerializeField]
     private Image rewardIcon;
 
+    /// <summary>
+    /// The sprites used for the background of the reward ui
+    /// </summary>
+    [SerializeField]
+    private Sprite commonBg, uncommonBg, rareBg, mythicBg;
+
     public void Populate(RewardSO reward, Rarity rarity)
     {
         rewardName.text = reward.RewardName;
@@ -39,28 +45,26 @@ public class PlayerRewardInstanceUi : MonoBehaviour
             PopulateAbilityUpgrades(abilityReward, rarity);
         }
 
-        background.color = GetRarityColour(rarity);
+        background.sprite = GetRarityColour(rarity);
     }
 
     /// <summary>
-    /// Gets color of the rarity
+    /// Gets sprite of the rarity
     /// </summary>
     /// <param name="rarity"></param>
     /// <returns></returns>
-    private Color GetRarityColour(Rarity rarity)
+    private Sprite GetRarityColour(Rarity rarity)
     {
-        Color color = rarity switch
+        Sprite sprite = rarity switch
         {
-            Rarity.common => Color.white,
-            Rarity.uncommon => Color.green,
-            Rarity.rare => Color.blue,
-            Rarity.mythic => Color.gold,
-            _ => Color.white
+            Rarity.common => commonBg,
+            Rarity.uncommon => uncommonBg,
+            Rarity.rare => rareBg,
+            Rarity.mythic => mythicBg,
+            _ => commonBg
         };
 
-        color.a = 0.5f;
-
-        return color;
+        return sprite;
     }
 
     private void PopulateResource(ResourceRewardSO reward, Rarity rarity)

@@ -43,6 +43,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     /// <summary>
     /// The time it takes for the node to respawn after being depleted
     /// </summary>
+    [SerializeField]
     private float respawnTime = 20f;
 
     [SerializeField]
@@ -142,7 +143,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {nodeHarvestAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {nodeHarvestAudio}");
         }
 
         //Reduces the durability left on the resource
@@ -188,7 +189,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
             }
             else
             {
-                Debug.LogWarning($"The audio clip doesnt exist for {nodeDepletedAudio.name}");
+                Debug.LogWarning($"The audio clip doesnt exist for {nodeDepletedAudio}");
             }
         }
         else
