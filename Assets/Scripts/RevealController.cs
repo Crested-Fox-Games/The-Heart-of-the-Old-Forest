@@ -8,7 +8,7 @@ public class RevealController : MonoBehaviour
     [Range(0, 1)]
     public float revealProgress;
 
-    private Renderer rend;
+    private Renderer[] renderers;
 
     /// <summary>
     /// Container for custom material values
@@ -17,7 +17,7 @@ public class RevealController : MonoBehaviour
 
     private void Awake()
     {
-        rend = GetComponent<Renderer>();
+        renderers = GetComponentsInChildren<Renderer>();
 
         block = new MaterialPropertyBlock();
 
@@ -26,31 +26,48 @@ public class RevealController : MonoBehaviour
 
     public void UpdateRender()
     {
-        //Gets the objects size
-        Bounds bounds = rend.bounds;
+        if (renderers.Length == 0)
+            return;
 
-        //Gets the current shader properties from the renderer
-        rend.GetPropertyBlock(block);
+        //Gets the initial bounds for the renderer
+        Bounds bounds = renderers[0].bounds;
 
-        //Sends the values to the shader
-        block.SetFloat("_ObjectBottom", bounds.min.y);
-        block.SetFloat("_ObjectHeight", bounds.size.y);
+        //Combine all the bounds for the renderers
+        for (int i = 1; i < renderers.Length; i++)
+        {
+            bounds.Encapsulate(renderers[i].bounds);
+        }
 
-        //Applies changes to the renderer
-        rend.SetPropertyBlock(block);
+        //Apply the bounds to every renderer
+        foreach (Renderer renderer in renderers)
+        {
+            //Gets the current shader properties from the renderer
+            renderer.GetPropertyBlock(block);
+
+            //Sends the values to the shader
+            block.SetFloat("_ObjectBottom", bounds.min.y);
+            block.SetFloat("_ObjectHeight", bounds.size.y);
+
+            //Applies changes to the renderer
+            renderer.SetPropertyBlock(block);
+        }
     }
 
     public void SetReveal(float value)
     {
         revealProgress = value;
 
-        //Gets the current shader properties from the renderer
-        rend.GetPropertyBlock(block);
+        //Apply reveal to all renderers
+        foreach (Renderer renderer in renderers)
+        {
+            //Gets the current shader properties from the renderer
+            renderer.GetPropertyBlock(block);
 
-        //Sends the values to the shader
-        block.SetFloat("_Reveal", revealProgress);
+            //Sends the values to the shader
+            block.SetFloat("_Reveal", revealProgress);
 
-        //Applies changes to the renderer
-        rend.SetPropertyBlock(block);
+            //Applies changes to the renderer
+            renderer.SetPropertyBlock(block);
+        }
     }
 }

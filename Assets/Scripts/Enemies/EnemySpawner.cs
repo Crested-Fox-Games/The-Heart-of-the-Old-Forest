@@ -87,7 +87,7 @@ public class EnemySpawner : NetworkBehaviour
     /// <summary>
     /// The base amount of enemies that can be spawned at once
     /// </summary>
-    private int baseMaxSpawnCount = 20;
+    private int baseMaxSpawnCount = 30;
 
     /// <summary>
     /// Bool that checks if we need to spawn a boss on this night

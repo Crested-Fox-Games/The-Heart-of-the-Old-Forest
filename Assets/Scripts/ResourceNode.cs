@@ -43,6 +43,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     /// <summary>
     /// The time it takes for the node to respawn after being depleted
     /// </summary>
+    [SerializeField]
     private float respawnTime = 20f;
 
     [SerializeField]
