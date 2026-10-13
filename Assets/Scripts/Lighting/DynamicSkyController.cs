@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Controls the skybox, sun, moon and fog based on the time of day.
-/// Time is set by TimeCycleManager, this script just handles the visuals.
+/// Time still set in TimeCycleManager
 /// </summary>
 [ExecuteAlways]
 public class DynamicSkyController : MonoBehaviour
@@ -13,7 +13,7 @@ public class DynamicSkyController : MonoBehaviour
     public Material skyMaterial;
 
     /// <summary>
-    /// 0 = midnight, 0.25 = sunrise, 0.5 = noon, 0.75 = sunset. Drag in edit mode to preview
+    /// 0 = midnight, 0.25 = sunrise, 0.5 = noon, 0.75 = sunset.
     /// </summary>
     [Header("Time")]
     [Range(0f, 1f)] public float timeOfDay = 0.35f;
@@ -96,7 +96,7 @@ public class DynamicSkyController : MonoBehaviour
 
     private void UpdateLights(float sunHeight, float moonHeight, float twilightWidth)
     {
-        //Fade lights out as they reach the horizon, and turn off when below it
+        //Fade lights out as they reach the horizon, turn off when below it
         if (sun != null)
         {
             sun.intensity = maxSunIntensity * Mathf.Clamp01(sunHeight / twilightWidth);
@@ -131,7 +131,7 @@ public class DynamicSkyController : MonoBehaviour
 
     private void UpdateAmbient()
     {
-        //Ambient lighting is expensive to update, so only do it every so often (always in edit mode)
+        //Ambient lighting update at intervals
         ambientTimer -= Application.isPlaying ? Time.deltaTime : ambientRefreshInterval;
         if (ambientTimer > 0f) return;
         ambientTimer = ambientRefreshInterval;

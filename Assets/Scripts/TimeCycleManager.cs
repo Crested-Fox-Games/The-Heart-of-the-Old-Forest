@@ -63,7 +63,7 @@ public class TimeCycleManager : NetworkBehaviour
             Instance = this;
         }
 
-        //Done here instead of OnStartServer so clients have it too
+        //Done here instead of OnStartServer
         if (sceneLight != null)
         {
             lightRotation = sceneLight.transform.localEulerAngles;
@@ -152,7 +152,7 @@ public class TimeCycleManager : NetworkBehaviour
         }
         else if (sceneLight != null)
         {
-            //No sky controller found, just rotate the light like before
+            //if no sky controller found, just rotate the light like before
             sceneLight.transform.localRotation = Quaternion.Euler(sunAngle, lightRotation.y, lightRotation.z);
         }
     }

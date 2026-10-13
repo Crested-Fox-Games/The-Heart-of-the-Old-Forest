@@ -1,13 +1,13 @@
 using UnityEngine;
 
 /// <summary>
-/// Makes natural light sources (wisps, crystals, glowing plants, fireflies) glow at night.
-/// Follows the time of day from DynamicSkyController and runs locally on every client.
+/// Makes natural light sources (wisps) glow at night.
+/// Follows the time of day from DynamicSkyController, runs locally on every client.
 /// </summary>
 public class NightLight : MonoBehaviour
 {
     [Header("Light")]
-    public Light targetLight; // Optional, uses a Light on this object or its children if empty
+    public Light targetLight; //uses a Light on this object or its children if empty
     public float nightIntensity = 2f;
 
     [Header("Glow")]
@@ -16,7 +16,7 @@ public class NightLight : MonoBehaviour
     public Color glowColour = new Color(0.4f, 2.5f, 2.2f);
 
     [Header("Particles")]
-    public ParticleSystem[] nightParticles; // Fireflies, spores etc. Only emit at night
+    public ParticleSystem[] nightParticles; // wisps etc. Only emit at night
     public float particleRate = 10f;
 
     [Header("Pulse")]
