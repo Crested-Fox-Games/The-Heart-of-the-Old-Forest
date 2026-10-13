@@ -21,16 +21,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon 3
-  m_Shader: {fileID: -6465566751694194690, guid: 2753d56cee62e1e4c815b7d92a3a0328, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 80690513024447544ae9af92b692e8ed, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - ADDITIONAL_LIGHTS_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses:
@@ -81,6 +80,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SPECULAR: 0
+    - _ShadingSmoothness: 0.5
     - _Smoothness: 0.5
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
