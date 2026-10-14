@@ -1157,7 +1157,7 @@ Shader "Toon/Toon" {
         Pass {
             Name "Outline"
             Tags {
-                "LightMode" = "SRPDefaultUnlit"
+                "LightMode" = "UTSOutline"
             }
             Cull [_SRPDefaultUnlitColMode]
             ColorMask [_SPRDefaultUnlitColorMask]

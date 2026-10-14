@@ -4653,6 +4653,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.2005308
       objectReference: {fileID: 0}
+    - target: {fileID: 1115371819129934757, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_DrawTreesAndFoliage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115371819129934757, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_BakeLightProbesForTrees
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1152734712121124457, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4244588464
@@ -5125,6 +5133,14 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4223620562
       objectReference: {fileID: 0}
+    - target: {fileID: 4436641249909465988, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_DrawTreesAndFoliage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436641249909465988, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_BakeLightProbesForTrees
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4513605450204079535, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4265476058
@@ -5476,6 +5492,14 @@ PrefabInstance:
     - target: {fileID: 6845975147243164420, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4190068667
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854476669555031014, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_DrawTreesAndFoliage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854476669555031014, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_BakeLightProbesForTrees
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6855918834711318681, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
