@@ -3,7 +3,17 @@ guid: 990802b05f2fc104aacb14ce0cc6f6c1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vines
+    second: {fileID: 2100000, guid: 5527b043e3c17c94b97dd5968af71e13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall
+    second: {fileID: 2100000, guid: 7f805e96d64b15f43aee83a37cbbf563, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
