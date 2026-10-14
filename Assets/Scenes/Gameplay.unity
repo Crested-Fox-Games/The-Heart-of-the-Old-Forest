@@ -1638,63 +1638,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1001 &964756848
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.2267647
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.0027387387
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 12.588216
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 294905765763580549, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6213053515141679392, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
-      propertyPath: m_Name
-      value: BlightSpreader
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 02a0062f58e541348af9051dfdb60b71, type: 3}
 --- !u!43 &1003585370
 Mesh:
   m_ObjectHideFlags: 0
@@ -5326,6 +5269,10 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 1.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5420013143737335331, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5432050388186278061, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4189969853
@@ -5350,6 +5297,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5527b043e3c17c94b97dd5968af71e13, type: 2}
+    - target: {fileID: 5523235856944486317, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
     - target: {fileID: 5523235856944486317, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5770,6 +5721,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4e2d2139ee12a0245a91f095860504e1, type: 2}
+    - target: {fileID: 8939662293296777822, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayersMask.m_Bits
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8949954691075386984, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6337,4 +6292,3 @@ SceneRoots:
   - {fileID: 1115177660}
   - {fileID: 281383608}
   - {fileID: 374867116}
-  - {fileID: 964756848}
