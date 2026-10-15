@@ -5269,6 +5269,10 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 1.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5420013143737335331, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5432050388186278061, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4189969853
@@ -5293,6 +5297,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5527b043e3c17c94b97dd5968af71e13, type: 2}
+    - target: {fileID: 5523235856944486317, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
     - target: {fileID: 5523235856944486317, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5713,6 +5721,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4e2d2139ee12a0245a91f095860504e1, type: 2}
+    - target: {fileID: 8939662293296777822, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: m_RenderingLayersMask.m_Bits
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8949954691075386984, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
