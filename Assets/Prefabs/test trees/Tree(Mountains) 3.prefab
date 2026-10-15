@@ -48,10 +48,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 423fb0b62584a524cbdddf457558dc75, type: 3}
-      propertyPath: m_RenderingLayerMask
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: -5355856302556543306, guid: 423fb0b62584a524cbdddf457558dc75, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -116,6 +112,11 @@ PrefabInstance:
 --- !u!4 &983607518874444320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 423fb0b62584a524cbdddf457558dc75, type: 3}
+  m_PrefabInstance: {fileID: 733172696238998987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2156473319844862287 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 423fb0b62584a524cbdddf457558dc75, type: 3}
   m_PrefabInstance: {fileID: 733172696238998987}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7540678635645868957
@@ -237,19 +238,7 @@ LODGroup:
   - screenRelativeHeight: 0.013647193
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
-    - renderer: {fileID: 0}
+    - renderer: {fileID: 2156473319844862287}
   - screenRelativeHeight: 0.013647193
     fadeTransitionWidth: 0
     renderers: []
