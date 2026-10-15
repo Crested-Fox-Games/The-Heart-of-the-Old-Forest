@@ -79,7 +79,9 @@ public class PlayerInput : MonoBehaviour
         tutorialOverlayAction.canceled += UiManager.Instance.CloseTutorialOverlayUI;
 
         //Subscribes to the ability inputs
-        basicAttackAction.started += playerAbilities.TryUseBasicAttack;
+        basicAttackAction.started += playerAbilities.StartBasicAttack;
+        basicAttackAction.canceled += playerAbilities.StopBasicAttack;
+
         movementAbilityAction.started += playerAbilities.TryUseMovementAbility;
         specialAbilityAction.started += playerAbilities.TryUseSpecialAbility;
         ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
@@ -99,7 +101,9 @@ public class PlayerInput : MonoBehaviour
         tutorialOverlayAction.canceled -= UiManager.Instance.CloseTutorialOverlayUI;
 
         //unsubscribes to the ability inputs
-        basicAttackAction.started -= playerAbilities.TryUseBasicAttack;
+        basicAttackAction.started -= playerAbilities.StartBasicAttack;
+        basicAttackAction.canceled -= playerAbilities.StopBasicAttack;
+
         movementAbilityAction.started -= playerAbilities.TryUseMovementAbility;
         specialAbilityAction.started -= playerAbilities.TryUseSpecialAbility;
         ultimateAbilityAction.started -= playerAbilities.TryUseUltimateAttack;
