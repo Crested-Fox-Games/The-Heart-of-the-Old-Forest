@@ -21,7 +21,7 @@ public static class KCollisionsFunction
     private static float gravityFactor;
 
     private static readonly int collisionMask =
-        Physics.DefaultRaycastLayers & ~(1 << LayerMask.NameToLayer("Gate"));
+        Physics.DefaultRaycastLayers;
     
     //Collision Checks
     public static List<Vector3> CollisionAdjustMovementCords(Vector3 velocity, CapsuleCollider capsule, Rigidbody rb, bool useGravity, float gravity, bool enableSliding)
