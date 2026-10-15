@@ -31,6 +31,14 @@ public class SettingsUi : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI uiVolText;
 
+    //Sliders for the sensitivity
+    [Header("Sensitivity References")]
+    [SerializeField]
+    private Slider sensitivitySlider;
+
+    [SerializeField]
+    private TextMeshProUGUI sensitivityText;
+
     private void OnEnable()
     {
         //Sets the sliders to the values in the settings manager when the settings ui is enabled
@@ -76,5 +84,12 @@ public class SettingsUi : MonoBehaviour
         float value = uiVolSlider.value;
         SettingsManager.Instance.UIVolumeSliderVal = value;
         uiVolText.text = value.ToString("0");
+    }
+
+    public void OnSensitivityChanged()
+    {
+        int value = (int)sensitivitySlider.value;
+        SettingsManager.Instance.MouseSensitivitySliderVal = value;
+        sensitivityText.text = value.ToString("0");
     }
 }

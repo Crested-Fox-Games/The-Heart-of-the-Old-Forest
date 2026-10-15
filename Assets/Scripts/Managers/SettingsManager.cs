@@ -16,7 +16,7 @@ public class SettingsManager : MonoBehaviour
     /// <summary>
     /// The value that is shown on the slider
     /// </summary>
-    private float masterVolumeSliderVal = 50;
+    private float masterVolumeSliderVal = 50f;
     public float MasterVolumeSliderVal
     {
         get => masterVolumeSliderVal;
@@ -29,7 +29,7 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    private float musicVolumeSliderVal = 50;
+    private float musicVolumeSliderVal = 50f;
     public float MusicVolumeSliderVal
     {
         get => musicVolumeSliderVal;
@@ -41,7 +41,7 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    private float sfxVolumeSliderVal = 50;
+    private float sfxVolumeSliderVal = 50f;
     public float SFXVolumeSliderVal
     {
         get => sfxVolumeSliderVal;
@@ -53,7 +53,7 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    private float uiVolumeSliderVal = 50;
+    private float uiVolumeSliderVal = 50f;
     public float UIVolumeSliderVal
     {
         get => uiVolumeSliderVal;
@@ -74,6 +74,19 @@ public class SettingsManager : MonoBehaviour
     private float uiVolumeDb;
 
     #endregion
+
+    private int mouseSensitivitySliderVal = 1;
+
+    public int MouseSensitivitySliderVal
+    {
+        get => mouseSensitivitySliderVal;
+        set
+        {
+            mouseSensitivitySliderVal = value;
+            SetSensitivityValue(mouseSensitivitySliderVal);
+            PlayerPrefs.SetInt("MouseSensitivity", mouseSensitivitySliderVal);
+        }
+    }
 
     private void Awake()
     {
@@ -112,6 +125,9 @@ public class SettingsManager : MonoBehaviour
 
         uiVolumeSliderVal = PlayerPrefs.GetFloat("UIVolume", 50);
         SetUIVolumeDecibels(uiVolumeSliderVal);
+
+        // --- Mouse Initialization ---
+        mouseSensitivitySliderVal = PlayerPrefs.GetInt("MouseSensitivity", 1);
     }
 
     #region Sound Settings Functions
@@ -168,4 +184,9 @@ public class SettingsManager : MonoBehaviour
     }
 
     #endregion
+
+    private void SetSensitivityValue(int sensValue)
+    {
+        GameManager.Instance.LocalPlayer.playerMovement.SetSensitivityMultiplier(sensValue);
+    }
 }
