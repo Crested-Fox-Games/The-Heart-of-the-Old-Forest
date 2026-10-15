@@ -110,6 +110,10 @@ public class PlayerAbilities : NetworkBehaviour
     [SerializeField]
     private LayerMask aimMask;
 
+    private Coroutine basicAttackRoutine;
+
+    private bool isBasicAttackHeld;
+
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
@@ -207,7 +211,7 @@ public class PlayerAbilities : NetworkBehaviour
         ability.UseAbility(direction);
     }
 
-    public void TryUseBasicAttack(InputAction.CallbackContext context)
+    public void TryUseBasicAttack()
     {
         TryUseAbility(AbilitySlot.BasicAttack);
     }
@@ -225,6 +229,50 @@ public class PlayerAbilities : NetworkBehaviour
     public void TryUseUltimateAttack(InputAction.CallbackContext context)
     {
         TryUseAbility(AbilitySlot.UltimateAbility);
+    }
+
+    /// <summary>
+    /// Handles starting the basic attack loop
+    /// </summary>
+    /// <param name="context"></param>
+    public void StartBasicAttack(InputAction.CallbackContext context)
+    {
+        isBasicAttackHeld = true;
+
+        if(basicAttackRoutine == null)
+        {
+            basicAttackRoutine = StartCoroutine(BasicAttackLoop());
+        }
+    }
+
+    /// <summary>
+    /// Handles stopping the basic attack loop
+    /// </summary>
+    /// <param name="context"></param>
+    public void StopBasicAttack(InputAction.CallbackContext context)
+    {
+        isBasicAttackHeld = false;
+
+        if(basicAttackRoutine != null)
+        {
+            basicAttackRoutine = null;
+            StopCoroutine(basicAttackRoutine);
+        }
+        
+    }
+
+    private IEnumerator BasicAttackLoop()
+    {
+        while(isBasicAttackHeld)
+        {
+            TryUseBasicAttack();
+  
+            yield return new WaitForSeconds(basicAttackCooldownRemaining.Value);
+
+            yield return null;
+        }
+
+        basicAttackRoutine = null; 
     }
 
     /// <summary>
