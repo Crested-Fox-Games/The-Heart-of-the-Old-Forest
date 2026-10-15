@@ -47,29 +47,33 @@ public class SettingsUi : MonoBehaviour
     }
 
     //Updates the values in the settings manager when the sliders are changed
-    public void OnMasterVolumeChanged(float value)
+    public void OnMasterVolumeChanged()
     {
+        float value = masterVolSlider.value;
         SettingsManager.Instance.MasterVolumeSliderVal = value;
         masterVolText.text = value.ToString("0");
     }
 
     //Updates the values in the settings manager when the sliders are changed
-    public void OnMusicVolumeChanged(float value)
+    public void OnMusicVolumeChanged()
     {
+        float value = musicVolSlider.value;
         SettingsManager.Instance.MusicVolumeSliderVal = value;
         musicVolText.text = value.ToString("0");
     }
 
     //Updates the values in the settings manager when the sliders are changed
-    public void OnSFXVolumeChanged(float value)
+    public void OnSFXVolumeChanged()
     {
+        float value = sfxVolSlider.value;
         SettingsManager.Instance.SFXVolumeSliderVal = value;
         sfxVolText.text = value.ToString("0");
     }
 
     //Updates the values in the settings manager when the sliders are changed
-    public void OnUIVolumeChanged(float value)
+    public void OnUIVolumeChanged()
     {
+        float value = uiVolSlider.value;
         SettingsManager.Instance.UIVolumeSliderVal = value;
         uiVolText.text = value.ToString("0");
     }

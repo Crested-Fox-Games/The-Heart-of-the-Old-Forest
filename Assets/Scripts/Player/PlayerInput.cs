@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
+    #region Player Input Variables
     /// <summary>
     /// The action map for all of the player inputs
     /// </summary>
@@ -18,6 +19,16 @@ public class PlayerInput : MonoBehaviour
 
     private PlayerAbilities playerAbilities;
 
+    #endregion
+
+    #region Ui Input Variables
+
+    private InputActionMap uiMap;
+
+    private InputAction ExitAction;
+
+    #endregion
+
     private void Start()
     {
         //Gets references to the other scripts
@@ -27,7 +38,9 @@ public class PlayerInput : MonoBehaviour
         //Gets the players action map
         playerMap = InputSystem.actions.FindActionMap("Player");
         playerMap.Enable();
-        
+
+        uiMap = InputSystem.actions.FindActionMap("UI");
+
         SubscribeToActions();
     }
 
@@ -70,6 +83,9 @@ public class PlayerInput : MonoBehaviour
         movementAbilityAction.started += playerAbilities.TryUseMovementAbility;
         specialAbilityAction.started += playerAbilities.TryUseSpecialAbility;
         ultimateAbilityAction.started += playerAbilities.TryUseUltimateAttack;
+
+        ExitAction = uiMap.FindAction("Exit");
+        ExitAction.started += UiManager.Instance.HandleExitButtonPressed;
 
     }
 
