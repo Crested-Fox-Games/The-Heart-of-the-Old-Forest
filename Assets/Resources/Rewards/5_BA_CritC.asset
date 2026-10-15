@@ -15,7 +15,7 @@ MonoBehaviour:
   RewardName: Basic Attack Crit Chance
   RewardId: 5
   RewardWeight: 0
-  RewardIcon: {fileID: 0}
+  RewardIcon: {fileID: 21300000, guid: 40b90b44cf4e07f4984fd96c417752b3, type: 3}
   RarityEffects:
   - Rarity: 1
     RewardAmount: 1
