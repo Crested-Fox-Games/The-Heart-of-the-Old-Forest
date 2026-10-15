@@ -55,6 +55,11 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private GameObject tutorialOverlayUi;
 
+    [SerializeField]
+    private GameObject settingsOverlayUI;
+
+    private bool UiElementOpen => tmpTowerPlacementUi.activeSelf || towerUpgradeUi.activeSelf || nightlyRewardPanel.activeSelf || tutorialOverlayUi.activeSelf || settingsOverlayUI.activeSelf;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -223,5 +228,45 @@ public class UiManager : MonoBehaviour
     public void CloseTutorialOverlayUI(InputAction.CallbackContext context)
     {
         tutorialOverlayUi.SetActive(false);
+    }
+
+    public void OpenSettingsOverlayUI()
+    {
+        settingsOverlayUI.SetActive(true);
+        UiElementOpened();
+    }
+
+    public void CloseSettingsOverlayUI()
+    {
+        settingsOverlayUI.SetActive(false);
+        UiElementClosed();
+    }
+
+    public void HandleExitButtonPressed(InputAction.CallbackContext context)
+    {
+        if(UiElementOpen)
+        {
+            // Handle exit button logic
+            if (tmpTowerPlacementUi.activeSelf)
+            {
+                HideTowerPlacementUi();
+            }
+            else if (towerUpgradeUi.activeSelf)
+            {
+                HideTowerUpgradeUi();
+            }
+            else if (tutorialOverlayUi.activeSelf)
+            {
+                CloseTutorialOverlayUI(new InputAction.CallbackContext());
+            }
+            else if (settingsOverlayUI.activeSelf)
+            {
+                CloseSettingsOverlayUI();
+            }
+        }
+        else
+        {
+            OpenSettingsOverlayUI();
+        }
     }
 }
