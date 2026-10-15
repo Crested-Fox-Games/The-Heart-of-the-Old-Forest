@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public event Action OnGameOver;
 
+    public bool isGameOver = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,6 +48,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        isGameOver = false;
     }
 
 
@@ -58,6 +62,8 @@ public class GameManager : MonoBehaviour
         //TODO: Decide if players and towers are killed or what happens to them
 
         OnGameOver?.Invoke();
+
+        isGameOver = true;
 
         //Disables the player map, stopping all gameplay inputs and activating ui inputs
         InputSystem.actions.FindActionMap("Player").Disable();
