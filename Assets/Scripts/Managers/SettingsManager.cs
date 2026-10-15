@@ -3,7 +3,9 @@ using UnityEngine.Audio;
 
 public class SettingsManager : MonoBehaviour
 {
-    #region Sound Settings
+    public static SettingsManager Instance { get; private set; }
+
+    #region Sound Settings Variables
     /// <summary>
     /// The audio mixer that controls volumes
     /// </summary>
@@ -15,9 +17,53 @@ public class SettingsManager : MonoBehaviour
     /// The value that is shown on the slider
     /// </summary>
     private float masterVolumeSliderVal = 50;
+    public float MasterVolumeSliderVal
+    {
+        get => masterVolumeSliderVal;
+        set
+        {
+            //Updates all the values in the settings manager when the slider values are changed, and saves the values to player prefs
+            masterVolumeSliderVal = value;
+            SetMasterVolumeDecibels(masterVolumeSliderVal);
+            PlayerPrefs.SetFloat("MasterVolume", masterVolumeSliderVal);
+        }
+    }
+
     private float musicVolumeSliderVal = 50;
+    public float MusicVolumeSliderVal
+    {
+        get => musicVolumeSliderVal;
+        set
+        {
+            musicVolumeSliderVal = value;
+            SetMusicVolumeDecibels(musicVolumeSliderVal);
+            PlayerPrefs.SetFloat("MusicVolume", musicVolumeSliderVal);
+        }
+    }
+
     private float sfxVolumeSliderVal = 50;
+    public float SFXVolumeSliderVal
+    {
+        get => sfxVolumeSliderVal;
+        set
+        {
+            sfxVolumeSliderVal = value;
+            SetSFXVolumeDecibels(sfxVolumeSliderVal);
+            PlayerPrefs.SetFloat("SFXVolume", sfxVolumeSliderVal);
+        }
+    }
+
     private float uiVolumeSliderVal = 50;
+    public float UIVolumeSliderVal
+    {
+        get => uiVolumeSliderVal;
+        set
+        {
+            uiVolumeSliderVal = value;
+            SetUIVolumeDecibels(uiVolumeSliderVal);
+            PlayerPrefs.SetFloat("UIVolume", uiVolumeSliderVal);
+        }
+    }
 
     /// <summary>
     /// The decibels for the mixer group
@@ -29,7 +75,17 @@ public class SettingsManager : MonoBehaviour
 
     #endregion
 
-
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -58,6 +114,7 @@ public class SettingsManager : MonoBehaviour
         SetUIVolumeDecibels(uiVolumeSliderVal);
     }
 
+    #region Sound Settings Functions
     /// <summary>
     /// Sets the volume for the Master mixer group in the audio mixer
     /// </summary>
@@ -109,4 +166,6 @@ public class SettingsManager : MonoBehaviour
 
         return Mathf.Log10(sliderValue / 100) * 20;
     }
+
+    #endregion
 }
