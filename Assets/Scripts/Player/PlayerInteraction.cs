@@ -146,7 +146,7 @@ public class PlayerInteraction : NetworkBehaviour
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, interactDistance, aimMask, QueryTriggerInteraction.Ignore))
         {
             //Checks to see if the player is looking at an interactable object(In parent checks up the hierarchy for the object)
-            currentInteractHover = hit.transform.GetComponentInParent<IInteractable>();
+            currentInteractHover = hit.transform.GetComponentsInParent<MonoBehaviour>(true).OfType<IInteractable>().FirstOrDefault(i => i.CanInteract(GetComponent<NetworkObject>()));
 
             if (currentInteractHover != null)
             {
@@ -237,13 +237,12 @@ public class PlayerInteraction : NetworkBehaviour
         if (target == null)
             return;
 
-        //Ensures the object is still interactable
-        if (!target.TryGetComponent<IInteractable>(out var interactable))
-        {
-            Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but it is no longer interactable");
-            return;
-        }
-            
+        ////Ensures the object is still interactable
+        //if (!target.TryGetComponent<IInteractable>(out var interactable))
+        //{
+        //    Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but it is no longer interactable");
+        //    return;
+        //}    
 
         //Ensures the player is still within range of the object
         if (Vector3.Distance(transform.position, target.transform.position) > interactDistance)
@@ -252,12 +251,28 @@ public class PlayerInteraction : NetworkBehaviour
             return;
         }
 
-        //Does a final check to ensure if the player meets the conditions to interact with the object
-        if (!interactable.CanInteract(this))
+        //Find interactables on the target and its children
+        IInteractable[] interactables = target.GetComponentsInChildren<MonoBehaviour>(true).OfType<IInteractable>().ToArray();
+
+        //Find interactables on the target's parent
+        IInteractable[] parentInteractables = target.GetComponentsInParent<MonoBehaviour>(true).OfType<IInteractable>().ToArray();
+
+        //Pick the first allowed interaction
+        IInteractable interactable = interactables.Concat(parentInteractables).Distinct().FirstOrDefault(i => i.CanInteract(this));
+
+
+        if (interactable == null)
         {
-            Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but they do not meet the conditions to interact");
+            Debug.Log("No eligible interactable found");
             return;
         }
+
+        ////Does a final check to ensure if the player meets the conditions to interact with the object
+        //if (!interactable.CanInteract(this))
+        //{
+        //    Debug.LogWarning($"Player {Owner.ClientId} tried to interact with {target.name}, but they do not meet the conditions to interact");
+        //    return;
+        //}
 
         interactable.Interact(this);
         

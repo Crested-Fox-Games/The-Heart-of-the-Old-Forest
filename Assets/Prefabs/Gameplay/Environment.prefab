@@ -5794,13 +5794,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3646875310788353540}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.010471772, z: 0, w: 0.99994516}
   m_LocalPosition: {x: 120.44, y: -4.212, z: 135.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5628115468555364463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1.2, z: 0}
 --- !u!1 &3662743648621441499
 GameObject:
   m_ObjectHideFlags: 0
@@ -7430,7 +7430,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 27639
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -7441,7 +7441,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.05
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 0a25337297bb5d745aa75b5109f6bc9f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4b2d3370c56b9484ea209087e333f47a, type: 2}
   m_BuildHeightMesh: 1
 --- !u!1 &4826687660064011117
 GameObject:
@@ -10471,13 +10471,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7279933334951146361}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.010471772, z: 0, w: 0.99994516}
   m_LocalPosition: {x: -4.37, y: -3.23, z: 188.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5628115468555364463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1.2, z: 0}
 --- !u!1 &7314835654917708839
 GameObject:
   m_ObjectHideFlags: 0
@@ -12146,13 +12146,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8188154462012755989}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.010471772, z: 0, w: 0.99994516}
   m_LocalPosition: {x: -112.81, y: -3.92, z: 134.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5628115468555364463}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 1.2, z: 0}
 --- !u!1 &8404852858049132568
 GameObject:
   m_ObjectHideFlags: 0
