@@ -352,12 +352,15 @@ public class PlayerAbilities : NetworkBehaviour
         //Checks to see if the ray hits anything in the aimMask layer (ignoring triggers)
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, aimMask, QueryTriggerInteraction.Ignore))
         {
-            //Returns the point at which the ray hit something
-            return hit.point;
+            if(hit.distance > 5f)
+            {
+                //Returns the point at which the ray hit something
+                return hit.point;
+            }
         }
 
         //returns a point 100 units away in the direction the player is aiming if nothing is hit
-        return ray.origin + ray.direction * 100f;
+        return ray.origin + ray.direction * 50f;
     }
 
     /// <summary>
