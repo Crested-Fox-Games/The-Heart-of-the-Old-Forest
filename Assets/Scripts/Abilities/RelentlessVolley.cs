@@ -62,4 +62,19 @@ public class RelentlessVolley : Ability
 
         Deactivate();
     }
+
+    public override string GetStatString()
+    {
+        PlayerAbilities abilities = GameManager.Instance.LocalPlayer.playerAbilities;
+
+        AbilityUpgradesDC upgradesDC = abilities.GetOrCreateGlobalUpgrades(abilitySO);
+
+        return $"{abilitySO.AbilityName} \n" +
+            $"Active Time: {activeTimer} \n" +
+            $"Damage Buff: 50% \n" +
+            $"Cooldown Buff: 50% \n" +
+            $"Cooldown: {abilities.GetCooldown(abilitySO, abilitySO.Cooldown)} \n" +
+            $"Crit Chance: {upgradesDC.critChanceAdd}\n" +
+            $"Crit Mult: {upgradesDC.critChanceMult}";
+    }
 }

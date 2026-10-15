@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RabbitBasicAttack
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Basic Attack
+  abilityDescription: Fire a projectile in the direction you are facing.
   abilityIcon: {fileID: 21300000, guid: 40b90b44cf4e07f4984fd96c417752b3, type: 3}
   cooldown: 1
   castTime: 0.5
