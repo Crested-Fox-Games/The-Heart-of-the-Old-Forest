@@ -4893,7 +4893,6 @@ MonoBehaviour:
   healthBar: {fileID: 7906261649160348802}
   blightModel: {fileID: 4207836996203099246}
   healthBarObject: {fileID: 6613893399596499759}
-  interactTime: 3
   healthBaroffset: 3.5
   nodeMaxHealth: 50
   blightUncommonMult: 1.5
@@ -5293,7 +5292,7 @@ PrefabInstance:
     - target: {fileID: 193323465437373562, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+      objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     - target: {fileID: 919132149155446097, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: m_Name
       value: EyeTorchPlant
@@ -5301,19 +5300,19 @@ PrefabInstance:
     - target: {fileID: 1602564128540957456, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+      objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     - target: {fileID: 6684295394808222897, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+      objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     - target: {fileID: 7202271454713460447, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+      objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     - target: {fileID: 7205140776170859923, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}
+      objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5376,7 +5375,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 82adb8261ae2982479403baf74cbc237, type: 2}

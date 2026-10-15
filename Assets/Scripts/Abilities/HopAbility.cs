@@ -129,4 +129,18 @@ public class HopAbility : Ability
 
         passiveCoroutine = null;
     }
+
+    public override string GetStatString()
+    {
+        PlayerAbilities abilities = GameManager.Instance.LocalPlayer.playerAbilities;
+
+        AbilityUpgradesDC upgradesDC = abilities.GetOrCreateGlobalUpgrades(abilitySO);
+
+        return $"{abilitySO.AbilityName} \n" +
+            $"Damage: {abilities.GetDamage(abilitySO, damage)} \n" +
+            $"Cooldown: {abilities.GetCooldown(abilitySO, abilitySO.Cooldown)} \n" +
+            $"Crit Chance: {upgradesDC.critChanceAdd}\n" +
+            $"Crit Mult: {upgradesDC.critChanceMult}\n" +
+            $"AOE: {AOE}m";
+    }
 }

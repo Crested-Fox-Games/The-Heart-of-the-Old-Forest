@@ -54,4 +54,20 @@ public class EmpoweredShot : Ability
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
     }
+
+    public override string GetStatString()
+    {
+        PlayerAbilities abilities = GameManager.Instance.LocalPlayer.playerAbilities;
+
+        AbilityUpgradesDC upgradesDC = abilities.GetOrCreateGlobalUpgrades(abilitySO);
+
+        return $"{abilitySO.AbilityName} \n" +
+            $"Damage: {abilities.GetDamage(abilitySO, damage)} \n" +
+            $"Cooldown: {abilities.GetCooldown(abilitySO, abilitySO.Cooldown)} \n" +
+            $"Crit Chance: {upgradesDC.critChanceAdd}\n" +
+            $"Crit Mult: {upgradesDC.critChanceMult} \n" +
+            $"AOE: 3m";
+
+        //TODO: make the AOE properly when there are upgrades for it
+    }
 }

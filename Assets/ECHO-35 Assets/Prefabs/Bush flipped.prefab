@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 437804388506397956, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 948391491f8cbae4fb2bd0df3d25bc77, type: 2}
+      objectReference: {fileID: 2100000, guid: cbcbc5d577b12b246b7e6e80066ada36, type: 2}
     - target: {fileID: 705031656392900473, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.587
@@ -79,9 +79,66 @@ PrefabInstance:
     - target: {fileID: 7870087916386569459, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 47ea43315636d5240b32eedfd3907a6a, type: 2}
+      objectReference: {fileID: 2100000, guid: f1e9811e17e71e746b3aca69d1309a74, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6004185384970747862}
   m_SourcePrefab: {fileID: 100100000, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
+--- !u!1 &4223888372395939053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9c02a11f233f41249832b6d0a8a6e0d2, type: 3}
+  m_PrefabInstance: {fileID: 3917900544623847868}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6004185384970747862
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223888372395939053}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}

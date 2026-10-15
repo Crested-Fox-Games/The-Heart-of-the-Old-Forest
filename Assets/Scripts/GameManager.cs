@@ -1,11 +1,35 @@
 using FishNet.Object;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public event Action localPlayerSet;
+
+    private PlayerRef localPlayer;
+
+    /// <summary>
+    /// The reference to the local player
+    /// </summary>
+    public PlayerRef LocalPlayer
+    {
+        //Custom logic for setting so that we can fire an event 
+        set
+        {
+            localPlayer = value;
+            localPlayerSet?.Invoke();
+        }
+        get
+        {
+            return localPlayer;
+        }
+    }
 
     /// <summary>
     /// The event that triggers game over across subscribed systems
@@ -23,6 +47,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
     }
+
 
     /// <summary>
     /// The function that invokes the game over event, anything we decide that happens upon game ending 
