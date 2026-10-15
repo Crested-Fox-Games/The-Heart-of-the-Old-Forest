@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EmpoweredShot
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Empowered Shot
+  abilityDescription: Your next shot will pull enemies towards the arrow in an AOE.
   abilityIcon: {fileID: 21300000, guid: 2eb9286447df3b949a3da39606aebc61, type: 3}
   cooldown: 10
   castTime: 0.5
