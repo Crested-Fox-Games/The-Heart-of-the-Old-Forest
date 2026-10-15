@@ -328,12 +328,12 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         }
     }
 
-    private float GetHealth()
+    public float GetHealth()
     {
         return (baseMaxHealth + playerAdditiveUpgrades[PlayerStats.Health]) * playerMultiplicativeUpgrades[PlayerStats.Health];
     }
 
-    private float GetSpeed()
+    public float GetSpeed()
     {
         return (moveSpeed + playerAdditiveUpgrades[PlayerStats.MoveSpeed]) * playerMultiplicativeUpgrades[PlayerStats.MoveSpeed];
     }

@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     private InputAction basicAttackAction, movementAbilityAction, specialAbilityAction, ultimateAbilityAction;
 
+    private InputAction tutorialOverlayAction;
+
     private PlayerInteraction playerInteraction;
 
     private PlayerAbilities playerAbilities;
@@ -54,10 +56,15 @@ public class PlayerInput : MonoBehaviour
         specialAbilityAction = playerMap.FindAction("SpecialAbility");
         ultimateAbilityAction = playerMap.FindAction("UltimateAbility");
 
+        tutorialOverlayAction = playerMap.FindAction("TutorialOverlay");
+
         //Subscribes to the interact input
         interactAction.started += playerInteraction.HandleInteractStarted;
         interactAction.canceled += playerInteraction.HandleInteractCancelled;
-        
+
+        tutorialOverlayAction.started += UiManager.Instance.OpenTutorialOverlayUi;
+        tutorialOverlayAction.canceled += UiManager.Instance.CloseTutorialOverlayUI;
+
         //Subscribes to the ability inputs
         basicAttackAction.started += playerAbilities.TryUseBasicAttack;
         movementAbilityAction.started += playerAbilities.TryUseMovementAbility;
@@ -71,6 +78,9 @@ public class PlayerInput : MonoBehaviour
         //unsubscribes to the interact input
         interactAction.started -= playerInteraction.HandleInteractStarted;
         interactAction.canceled -= playerInteraction.HandleInteractCancelled;
+
+        tutorialOverlayAction.started -= UiManager.Instance.OpenTutorialOverlayUi;
+        tutorialOverlayAction.canceled -= UiManager.Instance.CloseTutorialOverlayUI;
 
         //unsubscribes to the ability inputs
         basicAttackAction.started -= playerAbilities.TryUseBasicAttack;

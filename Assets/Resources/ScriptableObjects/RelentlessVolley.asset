@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: RelentlessVolley
   m_EditorClassIdentifier: Assembly-CSharp::AbilitySO
   abilityName: Relentless Volley
+  abilityDescription: For the next five seconds, your fire rate is increased, damage
+    is increased and your shots have ricochet.
   abilityIcon: {fileID: 21300000, guid: 00f5867726e8c754c9149856cc14d95c, type: 3}
   cooldown: 50
   castTime: 0
