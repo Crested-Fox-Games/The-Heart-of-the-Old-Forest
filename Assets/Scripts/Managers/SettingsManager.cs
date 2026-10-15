@@ -85,10 +85,8 @@ public class SettingsManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
 
-    private void Start()
-    {
+
         InitializeSettings();
     }
 
