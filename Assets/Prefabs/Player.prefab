@@ -250,7 +250,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
@@ -369,6 +369,7 @@ MonoBehaviour:
   healthRegenDelay: 5
   healthRegenPercent: 5
   respawnTime: 20
+  takeDamageAudio: {fileID: 0}
   normalPivot: {fileID: 6935078648139966938}
   deathPivot: {fileID: 8883159309133473407}
 --- !u!114 &3523095287178685474
@@ -655,6 +656,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6652725513331149018, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4157524182732408741, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3900854673316301269, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -1253996098385199550, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.178
@@ -670,6 +683,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
       propertyPath: m_Name
       value: Character model
+      objectReference: {fileID: 0}
+    - target: {fileID: 1525539152500033246, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261936489591180932, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
