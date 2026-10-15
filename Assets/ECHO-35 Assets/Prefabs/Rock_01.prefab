@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3ab0758b88c33b644a23551cde33495b, type: 2}
+      objectReference: {fileID: 2100000, guid: 9646fc12acdf45c4f9b27c2fe2731830, type: 2}
     - target: {fileID: 919132149155446097, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
       propertyPath: m_Name
       value: Rock_01
@@ -63,7 +63,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1614541865321262748}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5285173236689738172}
   m_SourcePrefab: {fileID: 100100000, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
+--- !u!23 &2363834934912613288 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
+  m_PrefabInstance: {fileID: 3967551393568220972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4309658048389995133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8f67c026e4af1824e93a3fa02da3f23f, type: 3}
@@ -85,3 +93,28 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.001, y: -0.001, z: -0.001}
   m_TimeToStationary: 0.5
+--- !u!205 &5285173236689738172
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4309658048389995133}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2363834934912613288}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 0

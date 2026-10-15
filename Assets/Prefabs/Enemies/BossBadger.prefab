@@ -125,6 +125,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2912149506095092759}
   enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
   enemyModel: {fileID: 5201697585234600967}
+  takeDamageAudio: {fileID: 0}
 --- !u!114 &1064832501306988346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,7 +912,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
