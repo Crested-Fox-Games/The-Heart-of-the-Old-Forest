@@ -17,13 +17,13 @@ MonoBehaviour:
   RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 1
   - Rarity: 1
-    RewardAmount: 2
+    RewardAmount: 1
   - Rarity: 2
-    RewardAmount: 3
+    RewardAmount: 2
   - Rarity: 3
+    RewardAmount: 3
+  - Rarity: 4
     RewardAmount: 5
   abilitySO: {fileID: 11400000, guid: 8c5f74d738455514e93667762b695a75, type: 2}
   abilityStat: 4
