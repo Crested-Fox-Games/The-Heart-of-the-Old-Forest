@@ -15,15 +15,15 @@ MonoBehaviour:
   RewardName: Basic Attack Cooldown
   RewardId: 4
   RewardWeight: 0
-  RewardIcon: {fileID: 0}
+  RewardIcon: {fileID: 21300000, guid: 40b90b44cf4e07f4984fd96c417752b3, type: 3}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 1
   - Rarity: 1
-    RewardAmount: 2
+    RewardAmount: 1
   - Rarity: 2
-    RewardAmount: 3
+    RewardAmount: 2
   - Rarity: 3
+    RewardAmount: 3
+  - Rarity: 4
     RewardAmount: 5
   abilitySO: {fileID: 11400000, guid: fd179c7a6da2026438a774e547e7031f, type: 2}
   abilityStat: 1
