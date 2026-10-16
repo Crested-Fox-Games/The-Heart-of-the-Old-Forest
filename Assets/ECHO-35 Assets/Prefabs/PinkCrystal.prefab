@@ -243,7 +243,7 @@ MonoBehaviour:
   model: {fileID: 5709635544021794050}
   nodeHarvestAudio: {fileID: 8300000, guid: bb5e5a8951af26842880acd3e54d553f, type: 3}
   nodeDepletedAudio: {fileID: 8300000, guid: 216a91c692318e044b42001e1a6d11d6, type: 3}
-  harvestVFX: {fileID: 0}
+  harvestVFX: {fileID: 5554622109535534254, guid: 1ef6d359dc4d50d4b99cef73108bb5b3, type: 3}
 --- !u!1 &5709635544021794050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 255796341139548692, guid: 9bb94172ddd13984b88411a06dca8abb, type: 3}
