@@ -255,8 +255,8 @@ public class PlayerAbilities : NetworkBehaviour
 
         if(basicAttackRoutine != null)
         {
-            basicAttackRoutine = null;
             StopCoroutine(basicAttackRoutine);
+            basicAttackRoutine = null;
         }
         
     }
@@ -379,7 +379,7 @@ public class PlayerAbilities : NetworkBehaviour
         Quaternion projRotation = Quaternion.LookRotation(dir);
 
         // Spawns the projectile on the server
-        BaseProjectile newProjectile = Instantiate(projectilePrefab, firingPosition.position, projRotation).GetComponent<BaseProjectile>();
+        BaseProjectile newProjectile = NetworkManager.GetPooledInstantiated(projectilePrefab, firingPosition.position, projRotation, true).GetComponent<BaseProjectile>();
 
         InitializeProjectiles(newProjectile, target, abilitySO, baseDamage, projectilePrefab);
 

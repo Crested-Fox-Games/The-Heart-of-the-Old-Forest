@@ -15,15 +15,15 @@ MonoBehaviour:
   RewardName: Relentless Volley Crit Chance
   RewardId: 17
   RewardWeight: 1
-  RewardIcon: {fileID: 0}
+  RewardIcon: {fileID: 21300000, guid: 760f434a268f4e241bb9e4b5b5c44ce7, type: 3}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 1
   - Rarity: 1
-    RewardAmount: 2
+    RewardAmount: 1
   - Rarity: 2
-    RewardAmount: 3
+    RewardAmount: 2
   - Rarity: 3
+    RewardAmount: 3
+  - Rarity: 4
     RewardAmount: 5
   abilitySO: {fileID: 11400000, guid: a42917d512f143347b88fa7d6015a6b9, type: 2}
   abilityStat: 3

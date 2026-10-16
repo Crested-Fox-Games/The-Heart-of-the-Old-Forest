@@ -109,6 +109,14 @@ public class GateInteract : NetworkBehaviour, IInteractable
             return;
         }
 
+        StructureHealth structureHealth = GetComponentInParent<StructureHealth>();
+
+        if (structureHealth.CanRepair())
+        {
+            Debug.Log("Structure is broken");
+            return;
+        }
+
         Debug.Log("Interaction occurring");
         ToggleGate(player);
     }

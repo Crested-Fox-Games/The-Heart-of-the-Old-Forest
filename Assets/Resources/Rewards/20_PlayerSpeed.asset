@@ -17,13 +17,13 @@ MonoBehaviour:
   RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 1.1
   - Rarity: 1
-    RewardAmount: 1.2
+    RewardAmount: 1.1
   - Rarity: 2
-    RewardAmount: 1.3
+    RewardAmount: 1.2
   - Rarity: 3
+    RewardAmount: 1.3
+  - Rarity: 4
     RewardAmount: 1.5
   playerStat: 1
   upgradeType: 1

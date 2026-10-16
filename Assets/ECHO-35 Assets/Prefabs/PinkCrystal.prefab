@@ -241,8 +241,8 @@ MonoBehaviour:
   interactTime: 2
   respawnTime: 60
   model: {fileID: 5709635544021794050}
-  nodeHarvestAudio: {fileID: 0}
-  nodeDepletedAudio: {fileID: 0}
+  nodeHarvestAudio: {fileID: 8300000, guid: 5f64b9e2e505256498be83e8c73f81f9, type: 3}
+  nodeDepletedAudio: {fileID: 8300000, guid: 216a91c692318e044b42001e1a6d11d6, type: 3}
 --- !u!1 &5709635544021794050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 255796341139548692, guid: 9bb94172ddd13984b88411a06dca8abb, type: 3}

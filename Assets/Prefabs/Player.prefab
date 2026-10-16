@@ -369,7 +369,7 @@ MonoBehaviour:
   healthRegenDelay: 5
   healthRegenPercent: 5
   respawnTime: 20
-  takeDamageAudio: {fileID: 0}
+  takeDamageAudio: {fileID: 8300000, guid: 52b53413ffeb92947964a4c9a872c589, type: 3}
   normalPivot: {fileID: 6935078648139966938}
   deathPivot: {fileID: 8883159309133473407}
 --- !u!114 &3523095287178685474
@@ -391,7 +391,7 @@ MonoBehaviour:
   baseInteractRate: 0.5
   aimMask:
     serializedVersion: 2
-    m_Bits: 4097
+    m_Bits: 5121
 --- !u!114 &5157244053637599692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +418,7 @@ MonoBehaviour:
   - {fileID: 1680321782225394051}
   - {fileID: 5854695226715694454}
   - {fileID: 5131311982947011687}
+  - {fileID: 6140876044436142698}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -428,7 +429,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584122181914855043
+  _initializedTimestamp: -8584094730567134650
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -580,9 +581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f9364db2870ed944b79833702883b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRef
-  _componentIndexCache: 255
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 5157244053637599692}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5157244053637599692}
 --- !u!1001 &3395379367022362236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -646,6 +647,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8d2b689f2e0eb9e4d833a4d9dd5c804b, type: 3}
       propertyPath: m_Name
       value: Character Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633253267746993225, guid: 8d2b689f2e0eb9e4d833a4d9dd5c804b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -746,7 +751,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 102379642450558872, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: -4102302345768921993, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: -8700617353114198275, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: -259972160606440404, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: 65702495048144492, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: 635547659545568360, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
+    - {fileID: 4831018558786363571, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3888beee517f1f643a9ba7d500b38c30, type: 3}
