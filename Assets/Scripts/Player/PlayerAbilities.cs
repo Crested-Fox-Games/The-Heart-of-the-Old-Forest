@@ -255,8 +255,8 @@ public class PlayerAbilities : NetworkBehaviour
 
         if(basicAttackRoutine != null)
         {
-            basicAttackRoutine = null;
             StopCoroutine(basicAttackRoutine);
+            basicAttackRoutine = null;
         }
         
     }
