@@ -3,7 +3,22 @@ guid: 8d2b689f2e0eb9e4d833a4d9dd5c804b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Character
+    second: {fileID: 2100000, guid: e01450601d906e54d86fa2928609d914, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Staff
+    second: {fileID: 2100000, guid: fe7817ba2a86dad4bb59308474fbcd81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tree_leg
+    second: {fileID: 2100000, guid: 325ce483c189e254c84278024154da35, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

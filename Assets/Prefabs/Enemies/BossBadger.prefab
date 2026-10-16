@@ -172,7 +172,7 @@ MonoBehaviour:
   castRadius: 0.5
   structureLayer:
     serializedVersion: 2
-    m_Bits: 1032
+    m_Bits: 8
 --- !u!114 &2912149506095092759
 MonoBehaviour:
   m_ObjectHideFlags: 0
