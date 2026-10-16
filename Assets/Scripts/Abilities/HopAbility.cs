@@ -65,6 +65,16 @@ public class HopAbility : Ability
             Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
         }
 
+        if(abilitySO.EffectVFX != null)
+        {
+            GameObject effectVFX = Instantiate(abilitySO.EffectVFX, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            Destroy(effectVFX, 3f);
+        }
+        else
+        {
+            Debug.LogWarning($"The effect VFX doesnt exist for {abilitySO}");
+        }
+
         List<Enemy> enemiesHit = GetHitEnemies();
 
         //Gets damage at the start so that if we crit, it crits them all
