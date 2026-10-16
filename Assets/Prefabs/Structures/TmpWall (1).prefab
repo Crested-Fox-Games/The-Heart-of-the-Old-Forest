@@ -274,7 +274,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 4478768221777409560}
   interactTime: 1
-  takeDamageAudio: {fileID: 0}
+  takeDamageAudio: {fileID: 8300000, guid: a629bd2eed679ef42b5b4f8052018861, type: 3}
 --- !u!114 &786817633764024185
 MonoBehaviour:
   m_ObjectHideFlags: 0
