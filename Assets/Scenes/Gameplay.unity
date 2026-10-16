@@ -3291,11 +3291,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6541622091204992989, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
   m_PrefabInstance: {fileID: 1905318642101308237}
   m_PrefabAsset: {fileID: 0}
---- !u!108 &1905318642101308246 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 5420013143737335331, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-  m_PrefabInstance: {fileID: 1905318642101308237}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3534941824682450870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3817,4 +3812,3 @@ SceneRoots:
   - {fileID: 369380102}
   - {fileID: 1684495441}
   - {fileID: 3534941824682450870}
-  - {fileID: 715119993}
