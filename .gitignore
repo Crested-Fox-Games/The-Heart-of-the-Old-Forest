@@ -128,3 +128,4 @@ Assets/FishNet/Runtime/Transporting/Transports/Tugboat/LiteNetLib/LiteNetLib.csp
 .github/copilot-instructions.md
 # Unity ProBuilder user settings (avoids constant merge conflicts)
 /[Pp]roject[Ss]ettings/[Pp]ackages/com.unity.probuilder/
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
