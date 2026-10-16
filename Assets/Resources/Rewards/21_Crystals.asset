@@ -17,12 +17,12 @@ MonoBehaviour:
   RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 5
   - Rarity: 1
-    RewardAmount: 10
+    RewardAmount: 5
   - Rarity: 2
-    RewardAmount: 15
+    RewardAmount: 10
   - Rarity: 3
+    RewardAmount: 15
+  - Rarity: 4
     RewardAmount: 20
   Resource: {fileID: 11400000, guid: 253ec946bd9eea04e9a42732604ba4d4, type: 2}

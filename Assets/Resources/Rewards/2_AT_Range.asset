@@ -17,14 +17,14 @@ MonoBehaviour:
   RewardWeight: 1
   RewardIcon: {fileID: 0}
   RarityEffects:
-  - Rarity: 0
-    RewardAmount: 1
   - Rarity: 1
-    RewardAmount: 2
+    RewardAmount: 0.3
   - Rarity: 2
-    RewardAmount: 3
+    RewardAmount: 0.5
   - Rarity: 3
-    RewardAmount: 5
+    RewardAmount: 0.7
+  - Rarity: 4
+    RewardAmount: 1
   towerStat: 3
   towerSO: {fileID: 11400000, guid: 4aae0bea92424a041b560bab42de80f3, type: 2}
   rewardType: 0
