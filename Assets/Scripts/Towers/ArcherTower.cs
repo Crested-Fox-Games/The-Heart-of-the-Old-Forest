@@ -95,7 +95,7 @@ public class ArcherTower : Tower
                 if (target == null)
                     continue;
 
-                GameObject proj = Instantiate(projectile, transform.position, transform.rotation);
+                var proj = NetworkManager.GetPooledInstantiated(projectile, transform.position, transform.rotation, true);
 
                 proj.GetComponent<NormalProjectile>().InitializeProjectile(target.transform.position, GetDamage());
 
