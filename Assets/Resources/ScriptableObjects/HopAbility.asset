@@ -24,3 +24,5 @@ MonoBehaviour:
     PublicKeyToken=null
   activationAudio: {fileID: 0}
   effectAudio: {fileID: 8300000, guid: 9608bfb6b6ea7d14bbac753153696fc4, type: 3}
+  activationVFX: {fileID: 0}
+  effectVFX: {fileID: 2724786727063637257, guid: b308bdbd5b7ef14419b7c8546be2ad58, type: 3}
