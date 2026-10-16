@@ -20,6 +20,15 @@ public class EmpoweredShot : Ability
 
         //Spawn Projectile that fires in the direction the player is aiming at
         owner.SpawnProjectile(projectile.gameObject, direction, damage, abilitySO);
+
+        if(abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.ActivationAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
+        }
     }
 
     /// <summary>
@@ -44,5 +53,21 @@ public class EmpoweredShot : Ability
 
         //Spawns the projectile on the network
         Spawn(newProjectile.gameObject);
+    }
+
+    public override string GetStatString()
+    {
+        PlayerAbilities abilities = GameManager.Instance.LocalPlayer.playerAbilities;
+
+        AbilityUpgradesDC upgradesDC = abilities.GetOrCreateGlobalUpgrades(abilitySO);
+
+        return $"{abilitySO.AbilityName} \n" +
+            $"Damage: {abilities.GetDamage(abilitySO, damage)} \n" +
+            $"Cooldown: {abilities.GetCooldown(abilitySO, abilitySO.Cooldown)} \n" +
+            $"Crit Chance: {upgradesDC.critChanceAdd}\n" +
+            $"Crit Mult: {upgradesDC.critChanceMult} \n" +
+            $"AOE: 3m";
+
+        //TODO: make the AOE properly when there are upgrades for it
     }
 }

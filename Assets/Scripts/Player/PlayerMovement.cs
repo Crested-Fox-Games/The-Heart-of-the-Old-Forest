@@ -10,6 +10,8 @@ public class PlayerMovement : NetworkBehaviour
 {
     #region Variables
 
+    private float playerSensMultiplier = 1f;
+
     [SerializeField] private float sensitivity = 2.8f;
     [SerializeField] private float rotationSmooth = 60f;
     [SerializeField] private float minPivotRotation = -30f;
@@ -297,7 +299,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         //Delta multiplied by sensitivity and (a random number?)
-        delta *= sensitivity * 0.0066f;
+        delta *= sensitivity * playerSensMultiplier * 0.0066f;
 
         //Updates the player rotation and pivot rotation based on delta values
         targetPlayerRotation += delta.x;
@@ -468,6 +470,11 @@ public class PlayerMovement : NetworkBehaviour
         isJumping = true;
         isLaunched = true;
         hasLeftGround = false;
+    }
+
+    public void SetSensitivityMultiplier(int value)
+    {
+        playerSensMultiplier = 1 + (value - 1) * 0.1f;
     }
 }
 

@@ -39,12 +39,26 @@ public class UiManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject nightlyRewardPanel;
+
+    /// <summary>
+    /// The panel for when the player dies
+    /// </summary>
+    [SerializeField]
+    private GameObject playerDeathPanel;
     
     [SerializeField]
     private ResourceUiHandler uiHandler;
 
     [SerializeField]
     private PlayerHealthBar healthBar;
+
+    [SerializeField]
+    private GameObject tutorialOverlayUi;
+
+    [SerializeField]
+    private GameObject settingsOverlayUI;
+
+    private bool UiElementOpen => tmpTowerPlacementUi.activeSelf || towerUpgradeUi.activeSelf || nightlyRewardPanel.activeSelf || tutorialOverlayUi.activeSelf || settingsOverlayUI.activeSelf;
 
     private void Awake()
     {
@@ -61,6 +75,11 @@ public class UiManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameOver += OpenGameOverScreen;
+    }
+
+    public void SetLocalPlayer(PlayerRef player)
+    {
+        uiHandler.SetLocalPlayer(player);
     }
 
     private void UiElementOpened()
@@ -188,5 +207,66 @@ public class UiManager : MonoBehaviour
     public void UpdatePlayerHealthBar(float currentHealth, float maxHealth)
     {
         healthBar.TriggerHealthBarUpdate(currentHealth, maxHealth);
+    }
+
+    public void OpenPlayerDeathUi(float timer)
+    {
+        playerDeathPanel.SetActive(true);
+        playerDeathPanel.GetComponent<PlayerDeathUi>().PlayerDeath(timer);
+    }
+
+    public void ClosePlayerDeathUi()
+    {
+        playerDeathPanel.SetActive(false);
+    }
+
+    public void OpenTutorialOverlayUi(InputAction.CallbackContext context)
+    {
+        tutorialOverlayUi.SetActive(true);
+    }
+
+    public void CloseTutorialOverlayUI(InputAction.CallbackContext context)
+    {
+        tutorialOverlayUi.SetActive(false);
+    }
+
+    public void OpenSettingsOverlayUI()
+    {
+        settingsOverlayUI.SetActive(true);
+        UiElementOpened();
+    }
+
+    public void CloseSettingsOverlayUI()
+    {
+        settingsOverlayUI.SetActive(false);
+        UiElementClosed();
+    }
+
+    public void HandleExitButtonPressed(InputAction.CallbackContext context)
+    {
+        if(UiElementOpen)
+        {
+            // Handle exit button logic
+            if (tmpTowerPlacementUi.activeSelf)
+            {
+                HideTowerPlacementUi();
+            }
+            else if (towerUpgradeUi.activeSelf)
+            {
+                HideTowerUpgradeUi();
+            }
+            else if (tutorialOverlayUi.activeSelf)
+            {
+                CloseTutorialOverlayUI(new InputAction.CallbackContext());
+            }
+            else if (settingsOverlayUI.activeSelf)
+            {
+                CloseSettingsOverlayUI();
+            }
+        }
+        else
+        {
+            OpenSettingsOverlayUI();
+        }
     }
 }

@@ -98,7 +98,7 @@ public abstract class BaseProjectile : NetworkBehaviour
     /// <param name="target"></param>
     /// <param name="projectileDamage"></param>
     /// <param name="basicAttack"></param>
-    public virtual void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player)
+    public virtual void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player, AbilitySO abilitySO)
     {
         // Implementation for initializing the projectile that needs access to the player
         projFinished = false;

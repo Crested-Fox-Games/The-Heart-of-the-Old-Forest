@@ -7,6 +7,10 @@ public class AbilitySO : ScriptableObject
     private string abilityName;
 
     [SerializeField]
+    [TextArea]
+    private string abilityDescription;
+
+    [SerializeField]
     private Sprite abilityIcon;
 
     [SerializeField]
@@ -21,10 +25,21 @@ public class AbilitySO : ScriptableObject
     [SerializeField]
     private string abilityTypeName;
 
+    [SerializeField]
+    private AudioClip activationAudio;
+
+    [SerializeField]
+    private AudioClip effectAudio;
+
     /// <summary>
     /// The name of the ability
     /// </summary>
     public string AbilityName => abilityName;
+
+    /// <summary>
+    /// The description of the ability
+    /// </summary>
+    public string AbilityDescription => abilityDescription;
 
     /// <summary>
     /// The icon for the ability that is displayed in the UI
@@ -55,4 +70,14 @@ public class AbilitySO : ScriptableObject
     /// The c# type name
     /// </summary>
     public string AbilityTypeName => abilityTypeName;
+
+    /// <summary>
+    /// The audio that is played when the ability is activated
+    /// </summary>
+    public AudioClip ActivationAudio => activationAudio;
+
+    /// <summary>
+    /// The audio that is played for a specific effect of the ability
+    /// </summary>
+    public AudioClip EffectAudio => effectAudio;
 }

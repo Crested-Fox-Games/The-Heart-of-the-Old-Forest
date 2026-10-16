@@ -110,6 +110,10 @@ public class PlayerAbilities : NetworkBehaviour
     [SerializeField]
     private LayerMask aimMask;
 
+    private Coroutine basicAttackRoutine;
+
+    private bool isBasicAttackHeld;
+
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
@@ -207,7 +211,7 @@ public class PlayerAbilities : NetworkBehaviour
         ability.UseAbility(direction);
     }
 
-    public void TryUseBasicAttack(InputAction.CallbackContext context)
+    public void TryUseBasicAttack()
     {
         TryUseAbility(AbilitySlot.BasicAttack);
     }
@@ -225,6 +229,50 @@ public class PlayerAbilities : NetworkBehaviour
     public void TryUseUltimateAttack(InputAction.CallbackContext context)
     {
         TryUseAbility(AbilitySlot.UltimateAbility);
+    }
+
+    /// <summary>
+    /// Handles starting the basic attack loop
+    /// </summary>
+    /// <param name="context"></param>
+    public void StartBasicAttack(InputAction.CallbackContext context)
+    {
+        isBasicAttackHeld = true;
+
+        if(basicAttackRoutine == null)
+        {
+            basicAttackRoutine = StartCoroutine(BasicAttackLoop());
+        }
+    }
+
+    /// <summary>
+    /// Handles stopping the basic attack loop
+    /// </summary>
+    /// <param name="context"></param>
+    public void StopBasicAttack(InputAction.CallbackContext context)
+    {
+        isBasicAttackHeld = false;
+
+        if(basicAttackRoutine != null)
+        {
+            basicAttackRoutine = null;
+            StopCoroutine(basicAttackRoutine);
+        }
+        
+    }
+
+    private IEnumerator BasicAttackLoop()
+    {
+        while(isBasicAttackHeld)
+        {
+            TryUseBasicAttack();
+  
+            yield return new WaitForSeconds(basicAttackCooldownRemaining.Value);
+
+            yield return null;
+        }
+
+        basicAttackRoutine = null; 
     }
 
     /// <summary>
@@ -304,12 +352,15 @@ public class PlayerAbilities : NetworkBehaviour
         //Checks to see if the ray hits anything in the aimMask layer (ignoring triggers)
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, aimMask, QueryTriggerInteraction.Ignore))
         {
-            //Returns the point at which the ray hit something
-            return hit.point;
+            if(hit.distance > 5f)
+            {
+                //Returns the point at which the ray hit something
+                return hit.point;
+            }
         }
 
         //returns a point 100 units away in the direction the player is aiming if nothing is hit
-        return ray.origin + ray.direction * 100f;
+        return ray.origin + ray.direction * 50f;
     }
 
     /// <summary>
@@ -350,7 +401,7 @@ public class PlayerAbilities : NetworkBehaviour
         }
         else if(projectilePrefab.GetComponent<VacuumProjectile>() != null)
         {
-            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this);
+            newProjectile.InitializeProjectile(target, GetFinalDamage(abilitySO, baseDamage), this, abilitySO);
         }
 
     }
@@ -478,7 +529,7 @@ public class PlayerAbilities : NetworkBehaviour
         return GetDamage(abilitySO, baseDamage);
     }
 
-    private float GetDamage(AbilitySO abilitySO, float baseDamage)
+    public float GetDamage(AbilitySO abilitySO, float baseDamage)
     {
         AbilityUpgradesDC abilityUpgrades = GetOrCreateGlobalUpgrades(abilitySO);
 

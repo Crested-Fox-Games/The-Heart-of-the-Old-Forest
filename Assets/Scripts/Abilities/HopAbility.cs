@@ -43,10 +43,28 @@ public class HopAbility : Ability
         owner.GetComponent<PlayerMovement>().Launch(launchVelocity);
 
         owner.GetComponent<PlayerMovement>().OnLaunchLanded += OnLanded;
+
+        if (abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.ActivationAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
+        }
     }
 
     private void OnLanded()
     {
+        if (abilitySO.ActivationAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(abilitySO.EffectAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
+        }
+
         List<Enemy> enemiesHit = GetHitEnemies();
 
         //Gets damage at the start so that if we crit, it crits them all
@@ -110,5 +128,19 @@ public class HopAbility : Ability
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier - speedMult);
 
         passiveCoroutine = null;
+    }
+
+    public override string GetStatString()
+    {
+        PlayerAbilities abilities = GameManager.Instance.LocalPlayer.playerAbilities;
+
+        AbilityUpgradesDC upgradesDC = abilities.GetOrCreateGlobalUpgrades(abilitySO);
+
+        return $"{abilitySO.AbilityName} \n" +
+            $"Damage: {abilities.GetDamage(abilitySO, damage)} \n" +
+            $"Cooldown: {abilities.GetCooldown(abilitySO, abilitySO.Cooldown)} \n" +
+            $"Crit Chance: {upgradesDC.critChanceAdd}\n" +
+            $"Crit Mult: {upgradesDC.critChanceMult}\n" +
+            $"AOE: {AOE}m";
     }
 }

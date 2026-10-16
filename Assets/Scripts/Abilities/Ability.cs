@@ -202,4 +202,7 @@ public abstract class Ability : NetworkBehaviour
     {
         return activeTimer;
     }
+
+    public abstract string GetStatString();
+    
 }

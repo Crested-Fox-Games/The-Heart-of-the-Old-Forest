@@ -36,6 +36,7 @@ Transform:
   - {fileID: 449048604079643057}
   - {fileID: 7348628000234079634}
   - {fileID: 3803631900828161207}
+  - {fileID: 2775154576704751296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2740888728002477915
@@ -284,6 +285,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12a629cd67d7ab428ff1b9a740ccc1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigator
+--- !u!1 &4372326780451939885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2775154576704751296}
+  - component: {fileID: 5818516114164633256}
+  m_Layer: 0
+  m_Name: SettingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2775154576704751296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4372326780451939885}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334535752938320680}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5818516114164633256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4372326780451939885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c7354cbd208d7459ca2a7d38e4f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
+  audioMixer: {fileID: 24100000, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
 --- !u!1 &5013903228671553796
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +380,14 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   blightClearRewards:
   - {fileID: 11400000, guid: 72318ad9578c0df42a29bf8c5a9469dc, type: 2}
-  rewardCountdownTime: 30
+  - {fileID: 11400000, guid: 65cea68aac2904640a274619895fee8f, type: 2}
+  - {fileID: 11400000, guid: 65cea68aac2904640a274619895fee8f, type: 2}
+  - {fileID: 11400000, guid: ef0ac1c12b7726d4faab40873dcce79b, type: 2}
+  - {fileID: 11400000, guid: 63f13ca537dcc7d42993e54deeee8ff9, type: 2}
+  - {fileID: 11400000, guid: 388f24cca96c5fb49a55803e7a58312e, type: 2}
+  - {fileID: 11400000, guid: a15b1cb7e0919c141a09ebc6f6bead49, type: 2}
+  - {fileID: 11400000, guid: bf1756228249cf2459ab2c7322d24bab, type: 2}
+  rewardCountdownTime: 5
 --- !u!114 &980425232048405161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +494,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1442235007829568966}
   _networkObjectCache: {fileID: 1442235007829568966}
   sceneLight: {fileID: 0}
+  transitionSeconds: 15
 --- !u!114 &1442235007829568966
 MonoBehaviour:
   m_ObjectHideFlags: 0
