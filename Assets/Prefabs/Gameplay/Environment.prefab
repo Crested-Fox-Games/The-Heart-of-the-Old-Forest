@@ -2413,7 +2413,7 @@ MonoBehaviour:
   maxDistance: 25
   minTime: 50
   maxTime: 70
-  blightBossRequirement: 10
+  blightBossRequirement: 5
   obstructionMask:
     serializedVersion: 2
     m_Bits: 24073
@@ -8614,7 +8614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &527429176123471718
 Transform:
   m_ObjectHideFlags: 0
@@ -8651,7 +8651,7 @@ Terrain:
   m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
-  m_DrawHeightmap: 1
+  m_DrawHeightmap: 0
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0

@@ -16,9 +16,9 @@ MonoBehaviour:
   enemyDescription: Enemy Ahhhh lookin ahhhhh
   enemyHealth: 300
   enemySpeed: 80
-  enemyDamage: 30
-  enemyAttackRate: 0.2
-  enemyAttackRange: 1
+  enemyDamage: 50
+  enemyAttackRate: 0.3
+  enemyAttackRange: 3
   enemySpawnWeight: 5
   projectile: {fileID: 0}
   enemyPrefab: {fileID: 3457484458958593425, guid: 6c3fa2b1567f3154ba42c7bc9f2449b3, type: 3}
