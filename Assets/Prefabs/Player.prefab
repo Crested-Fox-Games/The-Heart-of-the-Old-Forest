@@ -202,7 +202,6 @@ GameObject:
   - component: {fileID: 1478582881670916179}
   - component: {fileID: 5131311982947011687}
   - component: {fileID: 6140876044436142698}
-  - component: {fileID: 1227784790451732708}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -584,14 +583,6 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 5157244053637599692}
   _networkObjectCache: {fileID: 0}
---- !u!81 &1227784790451732708
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7604874821253831385}
-  m_Enabled: 1
 --- !u!1001 &3395379367022362236
 PrefabInstance:
   m_ObjectHideFlags: 0

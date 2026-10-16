@@ -127,7 +127,7 @@ public class TimeCycleManager : NetworkBehaviour
         }
 
         //Night events only fire on the server
-        if (IsServerStarted && nightNow != isNight)
+        if (IsServerStarted && nightNow != isNight && !GameManager.Instance.isGameOver)
         {
             isNight = nightNow;
             if (isNight)

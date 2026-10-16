@@ -136,7 +136,7 @@ public class AudioManager : MonoBehaviour
             return;
 
         //Checks whether source A or B is the active one
-        AudioSource newSource = activeSource == musicSourceA ? musicSourceA : musicSourceB;
+        AudioSource newSource = activeSource != musicSourceA ? musicSourceA : musicSourceB;
         
         StopAllCoroutines();
         StartCoroutine(Crossfade(newSource, clip));
