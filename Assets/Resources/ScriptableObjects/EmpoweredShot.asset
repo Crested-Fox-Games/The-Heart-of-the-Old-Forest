@@ -21,5 +21,5 @@ MonoBehaviour:
   needDirection: 1
   abilityTypeName: EmpoweredShot, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
-  activationAudio: {fileID: 0}
-  effectAudio: {fileID: 0}
+  activationAudio: {fileID: 8300000, guid: 88ad98eb9b75b6042ab4690bdbdf40f2, type: 3}
+  effectAudio: {fileID: 8300000, guid: 822d93886a3b97646a999af43abb421e, type: 3}
