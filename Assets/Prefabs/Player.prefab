@@ -391,7 +391,7 @@ MonoBehaviour:
   baseInteractRate: 0.5
   aimMask:
     serializedVersion: 2
-    m_Bits: 4097
+    m_Bits: 5121
 --- !u!114 &5157244053637599692
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -122,6 +122,7 @@ public class EnemyBrain : NetworkBehaviour
     private void InitializeWaveEnemy()
     {
         SetTarget(defaultTarget);
+        ReevaluateTargets();
     }
 
     /// <summary>
@@ -180,11 +181,15 @@ public class EnemyBrain : NetworkBehaviour
                 return;
             }
 
-            SetBlightTarget(target);
+            SetEnemyTarget(target);
             return;
         }
 
-        ReevaluateTargets();
+        if (enemy.IsWaveEnemy)
+        {
+            SetEnemyTarget(target);
+        }
+        //ReevaluateTargets();
     }
 
     /// <summary>
@@ -207,7 +212,7 @@ public class EnemyBrain : NetworkBehaviour
                 }
                 else
                 {
-                    SetBlightTarget(FindBlightTarget());
+                    SetEnemyTarget(FindBlightTarget());
                 }
             }
             return;
@@ -217,10 +222,10 @@ public class EnemyBrain : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets blight enemy target to any object implementing ITargetable (typically player)
+    /// Sets enemy target to any object implementing ITargetable (typically player)
     /// </summary>
     /// <param name="target"></param>
-    private void SetBlightTarget(ITargetable target)
+    private void SetEnemyTarget(ITargetable target)
     {
         if (target == null)
         {
@@ -558,7 +563,7 @@ public class EnemyBrain : NetworkBehaviour
 
         if (target != null)
         {
-            SetBlightTarget(target);
+            SetEnemyTarget(target);
         }
         else
         {
