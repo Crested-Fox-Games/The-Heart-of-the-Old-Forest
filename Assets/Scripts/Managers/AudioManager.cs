@@ -129,6 +129,7 @@ public class AudioManager : MonoBehaviour
         //Subscribe to day night cycle for switching music, as long as the audio clips exist
         if (daytimeMusic != null)
         {
+            TimeCycleManager.Instance.OnNightEnd -= HandleOnNightEnd;
             TimeCycleManager.Instance.OnNightEnd += HandleOnNightEnd;
         }
         else
@@ -138,6 +139,7 @@ public class AudioManager : MonoBehaviour
 
         if (nighttimeMusic != null)
         {
+            TimeCycleManager.Instance.OnNightStart -= HandleOnNightStart;
             TimeCycleManager.Instance.OnNightStart += HandleOnNightStart;
         }
         else
