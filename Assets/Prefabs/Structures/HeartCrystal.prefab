@@ -394,9 +394,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeartCrystal
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 1752544780816265332}
   _networkObjectCache: {fileID: 0}
-  takeDamageAudio: {fileID: 0}
+  takeDamageAudio: {fileID: 8300000, guid: a629bd2eed679ef42b5b4f8052018861, type: 3}
 --- !u!208 &6852539084324569251
 NavMeshObstacle:
   m_ObjectHideFlags: 0

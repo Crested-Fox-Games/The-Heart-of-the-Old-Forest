@@ -56,7 +56,7 @@ public class HopAbility : Ability
 
     private void OnLanded()
     {
-        if (abilitySO.ActivationAudio != null)
+        if (abilitySO.EffectAudio != null)
         {
             AudioManager.Instance.PlayAudioClip(abilitySO.EffectAudio, transform.position);
         }

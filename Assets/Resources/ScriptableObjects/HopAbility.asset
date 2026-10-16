@@ -23,4 +23,4 @@ MonoBehaviour:
   abilityTypeName: HopAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
   activationAudio: {fileID: 0}
-  effectAudio: {fileID: 0}
+  effectAudio: {fileID: 8300000, guid: 9608bfb6b6ea7d14bbac753153696fc4, type: 3}
