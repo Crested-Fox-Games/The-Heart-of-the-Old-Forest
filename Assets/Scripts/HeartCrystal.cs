@@ -56,7 +56,7 @@ public class HeartCrystal : NetworkBehaviour, ITargetable
         }
         else
         {
-            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio.name}");
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio}");
         }
 
         Debug.Log($"{gameObject.name} has been damaged");
