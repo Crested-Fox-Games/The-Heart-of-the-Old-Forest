@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9203307236487096363}
   - component: {fileID: 3701660196290643462}
   m_Layer: 0
-  m_Name: ImplosionSphere
+  m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

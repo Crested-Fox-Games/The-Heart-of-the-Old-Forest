@@ -211,6 +211,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 5257
+  spawnedVFX: {fileID: 2809171941781742568, guid: 165bf8435e3229c4ea0df07d23cf0bef, type: 3}
 --- !u!1 &2297780040246376761
 GameObject:
   m_ObjectHideFlags: 0
