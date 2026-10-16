@@ -2784,6 +2784,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4248829429
       objectReference: {fileID: 0}
+    - target: {fileID: 3132399829437823015, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: takeDamageAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: a629bd2eed679ef42b5b4f8052018861, type: 3}
     - target: {fileID: 3136736223661537657, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3289,11 +3293,6 @@ Transform:
 --- !u!4 &1905318642101308242 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6541622091204992989, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
-  m_PrefabInstance: {fileID: 1905318642101308237}
-  m_PrefabAsset: {fileID: 0}
---- !u!108 &1905318642101308246 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 5420013143737335331, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
   m_PrefabInstance: {fileID: 1905318642101308237}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3534941824682450870
@@ -3817,4 +3816,3 @@ SceneRoots:
   - {fileID: 369380102}
   - {fileID: 1684495441}
   - {fileID: 3534941824682450870}
-  - {fileID: 715119993}
