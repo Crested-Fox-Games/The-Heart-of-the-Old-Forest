@@ -65,6 +65,7 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
+            return;
         }
         else
         {
@@ -79,10 +80,27 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         //Plays day time music if we are in gameplay scene when starting & menu music if we are not in gameplay scene
-        if(SceneManager.GetActiveScene().name == "Gameplay")
+        if (scene.name == "Gameplay")
         {
-            if(daytimeMusic != null)
+            SubscribeToTimeCycle();
+
+            if (daytimeMusic != null)
             {
                 PlayMusic(daytimeMusic);
             }
@@ -93,7 +111,9 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            if(menuMusic != null)
+            UnsubscribeFromTimeCycle();
+
+            if (menuMusic != null)
             {
                 PlayMusic(menuMusic);
             }
@@ -102,24 +122,58 @@ public class AudioManager : MonoBehaviour
                 Debug.LogWarning($"The audio clip doesnt exist for {menuMusic}");
             }
         }
+    }
 
+    private void SubscribeToTimeCycle()
+    {
         //Subscribe to day night cycle for switching music, as long as the audio clips exist
-        if(daytimeMusic != null)
+        if (daytimeMusic != null)
         {
-            TimeCycleManager.Instance.OnNightEnd += () => PlayMusic(daytimeMusic);
+            TimeCycleManager.Instance.OnNightEnd += HandleOnNightEnd;
         }
         else
         {
             Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic}");
         }
 
-        if(nighttimeMusic != null)
+        if (nighttimeMusic != null)
         {
-            TimeCycleManager.Instance.OnNightStart += () => PlayMusic(nighttimeMusic);
+            TimeCycleManager.Instance.OnNightStart += HandleOnNightStart;
         }
         else
         {
             Debug.LogWarning($"The audio clip doesnt exist for {nighttimeMusic}");
+        }
+    }
+
+    private void HandleOnNightEnd()
+    {
+        if(daytimeMusic == null)
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {daytimeMusic}");
+            return;
+        }
+
+        PlayMusic(daytimeMusic);
+    }
+
+    private void HandleOnNightStart()
+    {
+        if(nighttimeMusic == null)
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {nighttimeMusic}");
+            return;
+        }
+
+        PlayMusic(nighttimeMusic);
+    }
+
+    private void UnsubscribeFromTimeCycle()
+    {
+        if (TimeCycleManager.Instance != null)
+        {
+            TimeCycleManager.Instance.OnNightEnd -= HandleOnNightEnd;
+            TimeCycleManager.Instance.OnNightStart -= HandleOnNightStart;
         }
     }
 
