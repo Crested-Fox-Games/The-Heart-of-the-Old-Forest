@@ -51,7 +51,7 @@ MonoBehaviour:
   crossfadeDuration: 2
   menuMusic: {fileID: 8300000, guid: 4c9fbff706643134687b97861b2d4817, type: 3}
   daytimeMusic: {fileID: 8300000, guid: e4ead409f0e2567458c802fda783b22e, type: 3}
-  nighttimeMusic: {fileID: 8300000, guid: 4c9fbff706643134687b97861b2d4817, type: 3}
+  nighttimeMusic: {fileID: 8300000, guid: ecdd876339b89fc47977007513d913b3, type: 3}
   uiButtonClickSound: {fileID: 8300000, guid: 25e4401733877434492db1d1a53fd1a2, type: 3}
   sfxGroup: {fileID: -4689996880261346907, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
   uiGroup: {fileID: -5112542117754259306, guid: 7c45661f4721c40449240a2c20a0ad63, type: 2}
