@@ -201,6 +201,7 @@ public class AudioManager : MonoBehaviour
         source.clip = clip;
         source.outputAudioMixerGroup = sfxGroup;
         source.spatialBlend = 1f;
+        source.pitch = Random.Range(0.9f, 1.1f);
         source.Play();
 
         Destroy(soundObj, clip.length);
