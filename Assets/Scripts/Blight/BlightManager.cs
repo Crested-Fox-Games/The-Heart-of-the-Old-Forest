@@ -96,14 +96,12 @@ public class BlightManager : NetworkBehaviour
     private Dictionary<Rarity, float> Stage1Pool = new()
     {
         [Rarity.common] = 95f,
-        [Rarity.uncommon] = 5f
     };
 
     private Dictionary<Rarity, float> Stage2Pool = new()
     {
         [Rarity.common] = 75f,
         [Rarity.uncommon] = 20f,
-        [Rarity.rare] = 5f
     };
 
     private Dictionary<Rarity, float> Stage3Pool = new()
@@ -111,7 +109,6 @@ public class BlightManager : NetworkBehaviour
         [Rarity.common] = 35f,
         [Rarity.uncommon] = 40f,
         [Rarity.rare] = 20f,
-        [Rarity.mythic] = 5f
     };
 
     private Dictionary<Rarity, float> Stage4Pool = new()
@@ -427,15 +424,15 @@ public class BlightManager : NetworkBehaviour
     private Dictionary<Rarity, float> GetCurrentRarityPool()
     {
         //TODO: Probably want to design this better
-        if (TimeCycleManager.Instance.CurrentDay < 2)
+        if (TimeCycleManager.Instance.CurrentDay < 1)
         {
             return Stage1Pool;
         }
-        else if (TimeCycleManager.Instance.CurrentDay < 4)
+        else if (TimeCycleManager.Instance.CurrentDay < 2)
         {
             return Stage2Pool;
         }
-        else if (TimeCycleManager.Instance.CurrentDay < 6)
+        else if (TimeCycleManager.Instance.CurrentDay < 5)
         {
             return Stage3Pool;
         }
