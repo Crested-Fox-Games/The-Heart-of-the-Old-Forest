@@ -6,7 +6,7 @@ public class EmpoweredShot : Ability
 
     private Transform firingPosition;
 
-    private float damage = 20f;
+    private float damage = 30f;
 
     private void Start()
     {
