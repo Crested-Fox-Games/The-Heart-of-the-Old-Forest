@@ -392,12 +392,14 @@ public class PlayerMovement : NetworkBehaviour
 
         movementCords.Clear();
 
+        Vector3 velocity = FindPlayerVelocity();
+
         //Updates the boolean for the animator
-        if (playerVelocity.magnitude > 0.1 && !isMoving)
+        if (velocity.magnitude > 0.1f)
         {
             isMoving = true;
         }
-        else if (playerVelocity.magnitude < 0.1 && isMoving)
+        else
         {
             isMoving = false;
         }
