@@ -31,6 +31,12 @@ public class AbilitySO : ScriptableObject
     [SerializeField]
     private AudioClip effectAudio;
 
+    [SerializeField]
+    private GameObject activationVFX;
+
+    [SerializeField]
+    private GameObject effectVFX;
+
     /// <summary>
     /// The name of the ability
     /// </summary>
@@ -80,4 +86,16 @@ public class AbilitySO : ScriptableObject
     /// The audio that is played for a specific effect of the ability
     /// </summary>
     public AudioClip EffectAudio => effectAudio;
+
+    /// <summary>
+    /// The GameObject to play or instantiate as the visual effect when the object is activated.
+    /// </summary>
+    /// <remarks>May be null if no effect is assigned. Assign a prefab or scene instance; instantiate runtime
+    /// copies when needed to avoid modifying the original asset.</remarks>
+    public GameObject ActivationVFX => activationVFX;
+
+    /// <summary>
+    /// Special VFX that is triggered at a specific effect of the ability
+    /// </summary>
+    public GameObject EffectVFX => effectVFX;
 }

@@ -284,7 +284,7 @@ public class EnemySpawner : NetworkBehaviour
         Vector3 pos = GetSpawnPosition(spawnRadius, selectedPoint);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
-        currentEnemy = Instantiate(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+        currentEnemy = NetworkManager.GetPooledInstantiated(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity, true).GetComponent<Enemy>();
 
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
