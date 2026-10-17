@@ -60,7 +60,7 @@ public class DayNightProgressBar : MonoBehaviour
     {
         nightBar.fillAmount = 0;
         dayBar.fillAmount = 0;
-        dayText.text = $"Day {TimeCycleManager.Instance.CurrentDay}";
+        dayText.text = $"Day {TimeCycleManager.Instance.CurrentDay + 1}";
 
         iconImage.sprite = dayIcon;
     }
