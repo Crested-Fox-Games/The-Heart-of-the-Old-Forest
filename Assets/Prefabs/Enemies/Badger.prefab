@@ -59,7 +59,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 5789222092721587934}
   enemySO: {fileID: 11400000, guid: cf14f5d4e78609442a4ded729a575aab, type: 2}
   enemyModel: {fileID: 3352541118668478393}
-  takeDamageAudio: {fileID: 0}
+  takeDamageAudio: {fileID: 8300000, guid: 34a5d3f12360fc344b269f548f3761d2, type: 3}
 --- !u!114 &4320398274266217101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 1
-  _initializedTimestamp: -8584109531841809799
+  _initializedTimestamp: -8584094790977216442
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
