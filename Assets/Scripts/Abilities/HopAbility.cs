@@ -123,6 +123,9 @@ public class HopAbility : Ability
     /// <returns></returns>
     private IEnumerator PassiveEffect(PlayerMovement playerMovement)
     {
+        //Turn on VFX for the passive
+        MovementVFXManager.Instance.EnableVFX();
+
         //Increase the player speed
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier +  speedMult);
 
@@ -136,6 +139,9 @@ public class HopAbility : Ability
 
         //Decrease the player speed
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier - speedMult);
+
+        //Turn off VFX for the passive
+        MovementVFXManager.Instance.DisableVFX();
 
         passiveCoroutine = null;
     }
