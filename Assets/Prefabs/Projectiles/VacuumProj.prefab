@@ -56,7 +56,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3132622912939496552
 Rigidbody:
@@ -84,7 +84,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 14
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &1386836487319192276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +253,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2297780040246376761}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 65d1eeb4f0ea89d4bb84eba555f19063, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: eb18107ea22c9684abf908657a7954a9, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
