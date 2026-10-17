@@ -57,6 +57,16 @@ public class BlightNode : NetworkBehaviour
     [SerializeField]
     private Collider placementCollider;
 
+    /// <summary>
+    /// Prefab to spawn
+    /// </summary>
+    [SerializeField] private BlightSpreadShader SpreadPrefab;
+
+    /// <summary>
+    /// The spawned prefab
+    /// </summary>
+    private BlightSpreadShader SpreadInstance;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.TryGetComponent<ResourceNode>(out ResourceNode node))
@@ -76,6 +86,9 @@ public class BlightNode : NetworkBehaviour
         SetRarityScales(rarity);
         nodeCurrentHealth = nodeMaxHealth;
         healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
+
+        //Spawn spread prefab
+        SpreadInstance = Instantiate(SpreadPrefab, transform.position, SpreadPrefab.transform.rotation);
     }
 
     /// <summary>
@@ -114,6 +127,12 @@ public class BlightNode : NetworkBehaviour
 
         //Update the enemy logic
         UpdateEnemies();
+
+        //Tells the blight shader to shrink, then destroy itself.
+        if (SpreadInstance != null)
+        {
+            SpreadInstance.Shrink();
+        }
 
         //Despawn the blight node
         Despawn(this);
