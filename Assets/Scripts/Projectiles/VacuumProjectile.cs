@@ -63,6 +63,8 @@ public class VacuumProjectile : BaseProjectile
     {
         base.InitializeProjectile(target, projectileDamage, player, SO);
 
+        hasHit = false;
+
         Debug.Log("Initializing vacuum proj");
         targetPosition = target;
         projDamage = projectileDamage;
