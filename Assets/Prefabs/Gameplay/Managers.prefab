@@ -342,7 +342,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 388f24cca96c5fb49a55803e7a58312e, type: 2}
   - {fileID: 11400000, guid: a15b1cb7e0919c141a09ebc6f6bead49, type: 2}
   - {fileID: 11400000, guid: bf1756228249cf2459ab2c7322d24bab, type: 2}
-  rewardCountdownTime: 5
+  rewardCountdownTime: 30
 --- !u!114 &980425232048405161
 MonoBehaviour:
   m_ObjectHideFlags: 0
