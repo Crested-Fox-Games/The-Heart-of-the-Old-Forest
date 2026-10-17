@@ -61,6 +61,9 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     [SerializeField]
     private AudioClip nodeDepletedAudio;
 
+    [SerializeField]
+    private GameObject harvestVFX;
+
     private void Start()
     {
         InitializeValues();
@@ -148,6 +151,7 @@ public class ResourceNode : NetworkBehaviour, IInteractable
 
         //Reduces the durability left on the resource
         currentResourceDurability--;
+        StartCoroutine(NodeHarvestVFX());
 
         //Checks if the resource should be destroyed/disabled
         if (currentResourceDurability <= 0)
@@ -217,5 +221,15 @@ public class ResourceNode : NetworkBehaviour, IInteractable
     public void UpdateNodeCorruption(bool corruptionState)
     {
         isCorrupted.Value = corruptionState;
+    }
+
+    private IEnumerator NodeHarvestVFX()
+    {
+        if (harvestVFX != null)
+        {
+            GameObject vfx = Instantiate(harvestVFX, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(interactTime);
+            Destroy(vfx);
+        }
     }
 }
