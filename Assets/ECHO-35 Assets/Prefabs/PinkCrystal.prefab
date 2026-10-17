@@ -179,7 +179,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584122377986721914
+  _initializedTimestamp: -8584094523778619697
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -198,7 +198,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 15
+  <PrefabId>k__BackingField: 16
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16005986045075008461
   SceneId: 0
@@ -241,8 +241,9 @@ MonoBehaviour:
   interactTime: 2
   respawnTime: 60
   model: {fileID: 5709635544021794050}
-  nodeHarvestAudio: {fileID: 0}
-  nodeDepletedAudio: {fileID: 0}
+  nodeHarvestAudio: {fileID: 8300000, guid: bb5e5a8951af26842880acd3e54d553f, type: 3}
+  nodeDepletedAudio: {fileID: 8300000, guid: 216a91c692318e044b42001e1a6d11d6, type: 3}
+  harvestVFX: {fileID: 5554622109535534254, guid: 1ef6d359dc4d50d4b99cef73108bb5b3, type: 3}
 --- !u!1 &5709635544021794050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 255796341139548692, guid: 9bb94172ddd13984b88411a06dca8abb, type: 3}

@@ -95,28 +95,28 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     private Dictionary<Rarity, float> Stage1Pool = new()
     {
-        [Rarity.common] = 95f,
+        [Rarity.common] = 100f,
     };
 
     private Dictionary<Rarity, float> Stage2Pool = new()
     {
-        [Rarity.common] = 75f,
+        [Rarity.common] = 80f,
         [Rarity.uncommon] = 20f,
     };
 
     private Dictionary<Rarity, float> Stage3Pool = new()
     {
-        [Rarity.common] = 35f,
-        [Rarity.uncommon] = 40f,
-        [Rarity.rare] = 20f,
+        [Rarity.common] = 60f,
+        [Rarity.uncommon] = 30f,
+        [Rarity.rare] = 10f,
     };
 
     private Dictionary<Rarity, float> Stage4Pool = new()
     {
-        [Rarity.common] = 10f,
+        [Rarity.common] = 40f,
         [Rarity.uncommon] = 30f,
-        [Rarity.rare] = 40f,
-        [Rarity.mythic] = 20f
+        [Rarity.rare] = 20f,
+        [Rarity.mythic] = 10f
     };
 
     private void Awake()

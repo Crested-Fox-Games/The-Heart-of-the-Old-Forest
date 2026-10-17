@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class VacuumProjectile : BaseProjectile
 {
@@ -47,6 +48,11 @@ public class VacuumProjectile : BaseProjectile
     /// </summary>
     private AbilitySO abilitySO;
 
+    ///<summary>
+    ///The spawned VFX upon impact.
+    /// </summary>
+    [SerializeField] private GameObject spawnedVFX;
+
     /// <summary>
     /// Initializes the projectiles initial values
     /// </summary>
@@ -56,6 +62,8 @@ public class VacuumProjectile : BaseProjectile
     public override void InitializeProjectile(Vector3 target, float projectileDamage, PlayerAbilities player, AbilitySO SO)
     {
         base.InitializeProjectile(target, projectileDamage, player, SO);
+
+        hasHit = false;
 
         Debug.Log("Initializing vacuum proj");
         targetPosition = target;
@@ -86,7 +94,7 @@ public class VacuumProjectile : BaseProjectile
 
             yield return null;
         }
-
+        SpawnVFX();
         HandleProjectileFinished();
     }
 
@@ -133,7 +141,7 @@ public class VacuumProjectile : BaseProjectile
             enemy.TakeDamage(currDamage * damageMult);
             enemy.GetComponent<EnemyMovement>().PullTowards(dir, 2f, 0.5f);
         }
-
+        SpawnVFX();
         HandleProjectileFinished();
     }
 
@@ -156,5 +164,11 @@ public class VacuumProjectile : BaseProjectile
             .Distinct()
             .OrderBy(go => (go.transform.position - transform.position).sqrMagnitude)
             .ToList();
+    }
+
+    //Spawn the VFX
+    private void SpawnVFX()
+    {
+        GameObject instance = Instantiate(spawnedVFX, transform.position, Quaternion.identity); //Instantiate the prefab
     }
 }

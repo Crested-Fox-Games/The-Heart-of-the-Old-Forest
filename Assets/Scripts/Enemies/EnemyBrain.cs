@@ -28,7 +28,7 @@ public class EnemyBrain : NetworkBehaviour
     private Vector3 blightSpawnPos;
 
     //Blight leash range
-    [SerializeField] private float blightRangeDistance = 30f;
+    [SerializeField] private float blightRangeDistance = 15f;
 
     //State machine
     private enum EnemyState

@@ -56,13 +56,23 @@ public class HopAbility : Ability
 
     private void OnLanded()
     {
-        if (abilitySO.ActivationAudio != null)
+        if (abilitySO.EffectAudio != null)
         {
             AudioManager.Instance.PlayAudioClip(abilitySO.EffectAudio, transform.position);
         }
         else
         {
             Debug.LogWarning($"The audio clip doesnt exist for {abilitySO}");
+        }
+
+        if(abilitySO.EffectVFX != null)
+        {
+            GameObject effectVFX = Instantiate(abilitySO.EffectVFX, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            Destroy(effectVFX, 3f);
+        }
+        else
+        {
+            Debug.LogWarning($"The effect VFX doesnt exist for {abilitySO}");
         }
 
         List<Enemy> enemiesHit = GetHitEnemies();
@@ -113,6 +123,9 @@ public class HopAbility : Ability
     /// <returns></returns>
     private IEnumerator PassiveEffect(PlayerMovement playerMovement)
     {
+        //Turn on VFX for the passive
+        MovementVFXManager.Instance.EnableVFX();
+
         //Increase the player speed
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier +  speedMult);
 
@@ -126,6 +139,9 @@ public class HopAbility : Ability
 
         //Decrease the player speed
         playerMovement.SetMovementSpeedMultiplier(playerMovement.MovementSpeedMultiplier - speedMult);
+
+        //Turn off VFX for the passive
+        MovementVFXManager.Instance.DisableVFX();
 
         passiveCoroutine = null;
     }
