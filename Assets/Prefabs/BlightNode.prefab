@@ -5291,6 +5291,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 193323465437373562, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 193323465437373562, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
@@ -5299,17 +5303,33 @@ PrefabInstance:
       value: EyeTorchPlant
       objectReference: {fileID: 0}
     - target: {fileID: 1602564128540957456, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602564128540957456, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
+    - target: {fileID: 6684295394808222897, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6684295394808222897, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
     - target: {fileID: 7202271454713460447, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202271454713460447, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 118a0fdbe8046394ea5874fd9a3f0b95, type: 2}
+    - target: {fileID: 7205140776170859923, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7205140776170859923, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
