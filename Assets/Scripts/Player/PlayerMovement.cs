@@ -74,6 +74,7 @@ public class PlayerMovement : NetworkBehaviour
     private bool isMoving;
     private bool isSliding;
     private bool isJumping;
+    private bool hasLeftGroundDuringJump;
 
     /// <summary>
     /// A bool for if the player has been launched
@@ -333,6 +334,12 @@ public class PlayerMovement : NetworkBehaviour
         if (KCollisionsFunction.CheckGrounded(capsule, rb.position))
         {
             isJumping = true;
+            hasLeftGroundDuringJump = false;
+
+            animator.SetBool("IsJumping", true);
+            animator.SetBool("IsInAir", false);
+            animator.SetBool("IsLanding", false);
+
             residualVelocity.y = residualVelocity.y + .2f;
 
             //Trigger the event for anything that is affected by jumped
@@ -394,15 +401,19 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector3 velocity = FindPlayerVelocity();
 
-        //Updates the boolean for the animator
-        if (velocity.magnitude > 0.1f)
-        {
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-        }
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+
+        isMoving = isGrounded && horizontalVelocity.magnitude > 0.1f;
+
+        ////Updates the boolean for the animator
+        //if (velocity.magnitude > 0.1f)
+        //{
+        //    isMoving = true;
+        //}
+        //else
+        //{
+        //    isMoving = false;
+        //}
     }
 
     /// <summary>
@@ -428,6 +439,15 @@ public class PlayerMovement : NetworkBehaviour
         //Enable gravity if not grounded
         if (!isGrounded)
         {
+            if (isLaunched || isJumping)
+            {
+                hasLeftGroundDuringJump = true;
+
+                animator.SetBool("IsJumping", false);
+                animator.SetBool("IsInAir", true);
+                animator.SetBool("IsLanding", false);
+            }
+
             if(isLaunched)
             {
                 hasLeftGround = true;
@@ -444,6 +464,16 @@ public class PlayerMovement : NetworkBehaviour
                 launchVelocity = Vector3.zero;
 
                 OnLaunchLanded?.Invoke();
+            }
+
+            if (!isLaunched && hasLeftGroundDuringJump)
+            {
+                isJumping = false;
+                hasLeftGroundDuringJump = false;
+
+                animator.SetBool("IsJumping", false);
+                animator.SetBool("IsInAir", false);
+                animator.SetBool("IsLanding", true);
             }
 
             if (residualVelocity.y < 0f)
@@ -472,6 +502,11 @@ public class PlayerMovement : NetworkBehaviour
         isJumping = true;
         isLaunched = true;
         hasLeftGround = false;
+        hasLeftGroundDuringJump = false;
+
+        animator.SetBool("IsJumping", true);
+        animator.SetBool("IsInAir", false);
+        animator.SetBool("IsLanding", false);
     }
 
     public void SetSensitivityMultiplier(int value)
