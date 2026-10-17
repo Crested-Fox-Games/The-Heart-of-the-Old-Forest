@@ -3,7 +3,12 @@ guid: 423fb0b62584a524cbdddf457558dc75
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EvilTree
+    second: {fileID: 2100000, guid: 314c65b91928dca44819bf0e43b54a14, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
