@@ -7,12 +7,12 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Empty.003
-    second: {fileID: 2100000, guid: 3df9208c330bde34e8c03a82510f6af6, type: 2}
+      name: HeartCrystal
+    second: {fileID: 2100000, guid: 4e2d2139ee12a0245a91f095860504e1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Empty.004
+      name: Leaves
     second: {fileID: 2100000, guid: 3df9208c330bde34e8c03a82510f6af6, type: 2}
   materials:
     materialImportMode: 2
