@@ -28,7 +28,7 @@ public class TimeCycleManager : NetworkBehaviour
     private float cycleDayDuration = 120f; // 2 minutes in seconds
     private float cycleNightDuration = 120f; // 2 minutes in seconds
     private float sunAngle = 0; // Used in calculating sun position
-    private int currentDay = 0;
+    private int currentDay = 1;
 
     public float CycleDuration => cycleDuration;
     public float CycleDayDuration => cycleDayDuration;
