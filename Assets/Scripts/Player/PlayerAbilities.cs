@@ -112,6 +112,13 @@ public class PlayerAbilities : NetworkBehaviour
 
     private Coroutine basicAttackRoutine;
 
+    private Coroutine abilityAnimationRoutine;
+
+    /// <summary>
+    /// Reference to player animator
+    /// </summary>
+    private Animator animator;
+
     private bool isBasicAttackHeld;
 
     private void Awake()
@@ -121,6 +128,7 @@ public class PlayerAbilities : NetworkBehaviour
         specialAbility = AddAbility(specialAbilitySO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
         
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -172,6 +180,19 @@ public class PlayerAbilities : NetworkBehaviour
         if (GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
         {
             UseAbility(abilitySlot, GetAimPoint());
+
+            animator.SetBool("IsUsingAbility", true);
+
+            if (abilityAnimationRoutine == null)
+            {
+                //Enter ability animation
+                if (abilityAnimationRoutine != null)
+                {
+                    StopCoroutine(abilityAnimationRoutine);
+                }
+
+                abilityAnimationRoutine = StartCoroutine(WaitForAbilityAnimation());
+            }
         }
         else
         {
@@ -239,6 +260,8 @@ public class PlayerAbilities : NetworkBehaviour
     {
         isBasicAttackHeld = true;
 
+        animator.SetBool("IsUsingAbility", true);
+
         if(basicAttackRoutine == null)
         {
             basicAttackRoutine = StartCoroutine(BasicAttackLoop());
@@ -258,7 +281,15 @@ public class PlayerAbilities : NetworkBehaviour
             StopCoroutine(basicAttackRoutine);
             basicAttackRoutine = null;
         }
-        
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            if (abilityAnimationRoutine == null)
+            {
+                abilityAnimationRoutine = StartCoroutine(WaitForAbilityAnimation());
+            }
+        }
+
     }
 
     private IEnumerator BasicAttackLoop()
@@ -267,12 +298,38 @@ public class PlayerAbilities : NetworkBehaviour
         {
             TryUseBasicAttack();
   
-            yield return new WaitForSeconds(basicAttackCooldownRemaining.Value);
+            float cooldown = Mathf.Max(0.05f, basicAttackCooldownRemaining.Value);
 
-            yield return null;
+            yield return new WaitForSeconds(cooldown);
         }
 
         basicAttackRoutine = null; 
+    }
+
+    private IEnumerator WaitForAbilityAnimation()
+    {
+        // Wait until the Animator enters the ability animation state.
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            yield return null;
+        }
+
+        // Wait until the animation finishes playing.
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (stateInfo.normalizedTime >= 1f)
+            {
+                break;
+            }
+            
+            yield return null;
+        }
+
+        // Return to the normal animation state.
+        animator.SetBool("IsUsingAbility", false);
+        abilityAnimationRoutine = null;
     }
 
     /// <summary>
