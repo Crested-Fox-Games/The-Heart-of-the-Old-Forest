@@ -62,7 +62,6 @@ public class RewardManager : NetworkBehaviour
     /// <summary>
     /// The amount of time before the game is unpause for rewards if a player doesn't select
     /// </summary>
-    [SerializeField]
     private float rewardCountdownTime = 30f;
 
     /// <summary>
@@ -290,6 +289,12 @@ public class RewardManager : NetworkBehaviour
     private void UnpauseGame()
     {
         Time.timeScale = 1f;
+
+        if(rewardCountdownCoroutine != null)
+        {
+            StopCoroutine(rewardCountdownCoroutine);
+            rewardCountdownCoroutine = null;
+        }
     }
 
     /// <summary>
@@ -299,6 +304,7 @@ public class RewardManager : NetworkBehaviour
     private IEnumerator RewardCountdownTimer()
     {
         currentCountdownTime.Value = 0f;
+        Debug.Log($"Starting reward countdown timer and current countdown time: {currentCountdownTime.Value}");
 
         while(currentCountdownTime.Value <= rewardCountdownTime)
         {
