@@ -445,12 +445,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\"Unity VFX Graph - Stylized Orb - Effect Tutorial\" by Gabriel Aguiar
-    Prod. - https://www.youtube.com/watch?v=Y19LzouHe7I\r\n\"Creating Zelda: Breath
-    of the Wild's Remote Bomb in Unity Shader Graph & VFX Graph\" by Daniel Ilett
-    - https://www.youtube.com/watch?v=bjZr7gzyvt8\r\n \r\nCurious Goblin [idle], 
-    \u2014 13:53\r\nAudio Credits \r\n\r\nBadger Grunt - Original sound \"Animal
-    Grunt\" by Dragon Studio https://pixabay.com/sound-effects/nature-animal-grunt-382728/\r\n\r\nProjectile
+  m_text: "The Team:\r\nProducer, Designer - Ben Jackson\r\n\r\n3D Art, Tech Art
+    - Cassidy Fletcher \r\n\r\nConcept Art, 3D Art, Animation - Gilition Chen\r\n\r\nConcept
+    Art, UI, Texture Art - Claudine Yao\r\n\r\nProgramming, Sound Design - Liam Allen\r\n\r\nProgramming,
+    Animation - Marcus Steenberg\r\n\r\nVFX:\r\n\"Unity VFX Graph - Stylized Orb
+    - Effect Tutorial\" by Gabriel Aguiar Prod. - https://www.youtube.com/watch?v=Y19LzouHe7I\r\n\r\nSkybox
+    from tutorial by Kevin van Hoorn - https://kelvinvanhoorn.com/tutorials/unity_skybox_shader/
+    \r\n\r\n\"Creating Zelda: Breath of the Wild's Remote Bomb in Unity Shader Graph
+    & VFX Graph\" by Daniel Ilett - https://www.youtube.com/watch?v=bjZr7gzyvt8\r\n\r\nAudio:\r\nBadger
+    Grunt - Original sound \"Animal Grunt\" by Dragon Studio https://pixabay.com/sound-effects/nature-animal-grunt-382728/\r\n\r\nProjectile
     Firing - Original sound \"Magical Whoosh\" by KoiRoylers https://pixabay.com/sound-effects/film-special-effects-magical-whoosh-355988/\r\n\r\nCrystal
     Depleted - Original sound \"Crystal\" by MagiaZ https://pixabay.com/sound-effects/film-special-effects-crystal-388664/\r\n\r\nCrystal
     Mine - Original sound \"Crystal Glass\" by Yajhaira https://pixabay.com/sound-effects/film-special-effects-crystal-glass-37350/\r\n\r\nVacuum
@@ -460,19 +463,17 @@ MonoBehaviour:
     Taking Damage - Original sound \"Giant axe strike hitting solid wood (4)\" by
     Yodguard https://pixabay.com/sound-effects/giant-axe-strike-hitting-solid-wood-4-450248/\r\n\r\nPlayer
     Taking Damage - Original sound \"RPG Female Attack Grunt! - No Ai\" by PhatPhrogStudio
-    https://pixabay.com/sound-effects/giant-axe-strike-hitting-solid-wood-4-450248/\r\nCurious
-    Guy \u2014 13:54\r\nDaytime Music - Original music \"Infested Lands - Flesh &
-    Rust\" by Phat Phrog Studio https://www.phatphrogstudio.com/\r\nNighttime Music
-    - Original music \"Dark Abyss - Shadows Beyond\" by Phat Phrog Studio https://www.phatphrogstudio.com/\r\nMenu
-    Music - Original music \"Infested Lands - Black Soil\" by Phat Phrog Studio https://www.phatphrogstudio.com/\r\n\r\nCharacter
-    Controller by Karanbir Singh @CrestedFoxGames\r\nSkybox from tutorial by Kevin
-    van Hoorn - https://kelvinvanhoorn.com/tutorials/unity_skybox_shader/ \r\nNightlight
-    (Wisps) code from - https://gist.github.com/sinbad/4a9ded6b00cf6063c36a4837b15df969?permalink_comment_id=4614158
-    & https://discussions.unity.com/t/move/856924\r\n\r\nRock, Bush & Crystal Models
-    from our previous project - Mission: Echo35\r\nGround Textures by Chromisu -
-    https://assetstore.unity.com/packages/2d/textures-materials/nature/handpainted-grass-ground-textures-free-terrain-tool-urp-hdrp-187634
-    \r\ngurt: curiyo \u2014 13:56\r\n\"Unity | How to melee attack\" by DarkWing
-    - https://www.youtube.com/watch?v=IwzLvJtlJxI"
+    https://pixabay.com/sound-effects/giant-axe-strike-hitting-solid-wood-4-450248/\r\n\r\nDaytime
+    Music - Original music \"Infested Lands - Flesh & Rust\" by Phat Phrog Studio
+    https://www.phatphrogstudio.com/\r\n\r\nNighttime Music - Original music \"Dark
+    Abyss - Shadows Beyond\" by Phat Phrog Studio https://www.phatphrogstudio.com/\r\n\r\nMenu
+    Music - Original music \"Infested Lands - Black Soil\" by Phat Phrog Studio https://www.phatphrogstudio.com/\r\n\r\nProgramming:\r\nCharacter
+    Controller by Karanbir Singh @CrestedFoxGames\r\n\r\nNightlight (Wisps) code
+    from - https://gist.github.com/sinbad/4a9ded6b00cf6063c36a4837b15df969?permalink_comment_id=4614158
+    & https://discussions.unity.com/t/move/856924\r\n\r\nModels & Textures:\r\nRock,
+    Bush & Crystal Models from our previous project - Mission: ECHO-35\r\n\r\nGround
+    Textures by Chromisu - https://assetstore.unity.com/packages/2d/textures-materials/nature/handpainted-grass-ground-textures-free-terrain-tool-urp-hdrp-187634\r\n\r\nPlayer
+    animation base: https://actionforge.app/ "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1311,7 +1312,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6729289128628799176}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5769332
+  m_Size: 0.4011686
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
