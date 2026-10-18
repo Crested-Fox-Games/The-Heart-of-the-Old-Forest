@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
       propertyPath: m_Name
-      value: EyeTorchPlant
+      value: Blight Node
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -99,12 +99,11 @@ Animation:
   m_GameObject: {fileID: 3642600929480712005}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: -920377160153285008, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
   m_Animations:
-  - {fileID: -960898424075949690, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
-  - {fileID: -3997514183246978980, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
-  - {fileID: 7738622313493689335, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
-  - {fileID: 4781951162920444690, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+  - {fileID: 7004622582441729214, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+  - {fileID: 8933307138346625508, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
+  - {fileID: 832444028742319476, guid: eba7d6031649b7948ba5a3eabd9ea498, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

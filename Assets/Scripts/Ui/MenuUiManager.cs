@@ -5,7 +5,7 @@ public class MenuUiManager : MonoBehaviour
     public static MenuUiManager Instance { get; private set; }
 
     [SerializeField]
-    private GameObject onlinePanel, browserPanel, lobbyPanel;
+    private GameObject onlinePanel, browserPanel, lobbyPanel, settingsPanel;
 
     private void Awake()
     {
@@ -55,4 +55,10 @@ public class MenuUiManager : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.Save();
     }
+
+    public void ToggleSettingsPanel()
+    {
+        settingsPanel.SetActive(!settingsPanel.activeSelf);
+    }
+
 }

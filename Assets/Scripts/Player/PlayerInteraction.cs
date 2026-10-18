@@ -57,6 +57,11 @@ public class PlayerInteraction : NetworkBehaviour
     private LayerMask aimMask;
 
     /// <summary>
+    /// Reference to player animator
+    /// </summary>
+    private Animator animator;
+
+    /// <summary>
     /// The resources the player has on hand
     /// <para>The resource type is the key, the int is the amount of that resource</para>
     /// </summary>
@@ -74,6 +79,8 @@ public class PlayerInteraction : NetworkBehaviour
 
         //This fires whenever any action on the player map is triggered
         playerMap.actionTriggered += UpdateInputDevice;
+
+        animator = GetComponentInChildren<Animator>();
 
     }
 
@@ -197,12 +204,28 @@ public class PlayerInteraction : NetworkBehaviour
             //Sets next interact time to a default value if one isnt found
             nextInteractTime = Time.time + baseInteractRate;
         }
-            
+
+        //Check if we're interacting with a resource
+        if (interact is ResourceNode)
+        {
+            //Enter collect animation
+            animator.SetBool("IsCollecting", true);
+        }
     }
 
     public void HandleInteractCancelled(InputAction.CallbackContext context)
     {
         interactHeld = false;
+        
+        StopAnimations();
+    }
+
+    /// <summary>
+    /// Stops collect animation
+    /// </summary>
+    private void StopAnimations()
+    {
+        animator.SetBool("IsCollecting", false);
     }
 
     /// <summary>
@@ -213,7 +236,10 @@ public class PlayerInteraction : NetworkBehaviour
     private void TryInteract()
     {
         if (!hoverInteracting)
+        {
+            StopAnimations();
             return;
+        }
 
         //Gets the network object of the interactable object
         NetworkObject networkObject = (currentInteractHover as MonoBehaviour).GetComponent<NetworkObject>();
