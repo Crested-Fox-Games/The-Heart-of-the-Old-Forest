@@ -50,6 +50,7 @@ public class RicochetProjectile : BaseProjectile
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;
         this.maxRicochetDistance = maxRicochetDist;
+        currentRicochets = 0;
         hitTargets.Clear();
 
         direction = (targetPosition - transform.position).normalized;
