@@ -124,10 +124,19 @@ public class Enemy : NetworkBehaviour
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-
-        animator.SetBool("isDead", false);
-        animator.SetBool("isAttacking", false);
-        animator.SetBool("isMoving", false);
+        if (isWaveEnemy)
+        {
+            animator.SetBool("isDead", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isDead", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isMoving", false);
+        }
+        
         
     }
 
@@ -158,23 +167,25 @@ public class Enemy : NetworkBehaviour
 
     private void Death()
     {
-        StartCoroutine(DeathCoroutine()); 
-    }
-
-    private IEnumerator DeathCoroutine()
-    {
-        enemyBrain.enabled = false;
-        enemyMovement.Agent.enabled = false;
-        enemyMovement.enabled = false;
-        enemyCollider.enabled = false;
-   
-        animator.SetBool("isDead", true);
-
-        yield return new WaitForSeconds(2.5f);
         onEnemyKilled?.Invoke(this);
         ServerManager.Despawn(gameObject);
-        yield return null;
+        //StartCoroutine(DeathCoroutine()); 
     }
+
+    //private IEnumerator DeathCoroutine()
+    //{
+    //    enemyBrain.enabled = false;
+    //    enemyMovement.Agent.enabled = false;
+    //    enemyMovement.enabled = false;
+    //    enemyCollider.enabled = false;
+   
+    //    animator.SetBool("isDead", true);
+
+    //    yield return new WaitForSeconds(2.5f);
+    //    onEnemyKilled?.Invoke(this);
+    //    ServerManager.Despawn(gameObject);
+    //    yield return null;
+    //}
 
     /// <summary>
     /// This will be run by the game when day starts so that enemies will be removed without giving rewards
@@ -197,7 +208,9 @@ public class Enemy : NetworkBehaviour
         }
 
         //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
-        StartCoroutine(DeathCoroutine());
+        onEnemyKilled?.Invoke(this);
+        ServerManager.Despawn(gameObject);
+        //StartCoroutine(DeathCoroutine());
     }
 
     public void ScaleBlightStats(float healthScale, float damageScale)

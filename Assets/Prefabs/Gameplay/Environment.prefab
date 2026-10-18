@@ -2413,8 +2413,8 @@ MonoBehaviour:
   spawnConeRange: 90
   minDistance: 15
   maxDistance: 25
-  minTime: 50
-  maxTime: 70
+  minTime: 45
+  maxTime: 65
   blightBossRequirement: 5
   obstructionMask:
     serializedVersion: 2
