@@ -56,6 +56,8 @@ public class PlayerInteraction : NetworkBehaviour
     [SerializeField]
     private LayerMask aimMask;
 
+    private Animator animator;
+
     /// <summary>
     /// The resources the player has on hand
     /// <para>The resource type is the key, the int is the amount of that resource</para>
@@ -74,6 +76,8 @@ public class PlayerInteraction : NetworkBehaviour
 
         //This fires whenever any action on the player map is triggered
         playerMap.actionTriggered += UpdateInputDevice;
+
+        animator = GetComponentInChildren<Animator>();
 
     }
 
@@ -197,12 +201,23 @@ public class PlayerInteraction : NetworkBehaviour
             //Sets next interact time to a default value if one isnt found
             nextInteractTime = Time.time + baseInteractRate;
         }
-            
+
+        if (interact is ResourceNode)
+        {
+            animator.SetBool("IsMining", true);
+        }
     }
 
     public void HandleInteractCancelled(InputAction.CallbackContext context)
     {
         interactHeld = false;
+        
+        StopAnimations();
+    }
+
+    private void StopAnimations()
+    {
+        animator.SetBool("IsMining", false);
     }
 
     /// <summary>
@@ -213,7 +228,10 @@ public class PlayerInteraction : NetworkBehaviour
     private void TryInteract()
     {
         if (!hoverInteracting)
+        {
+            StopAnimations();
             return;
+        }
 
         //Gets the network object of the interactable object
         NetworkObject networkObject = (currentInteractHover as MonoBehaviour).GetComponent<NetworkObject>();
