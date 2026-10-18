@@ -210,8 +210,8 @@ public class PlayerMovement : NetworkBehaviour
         lookAction.performed += OnCameraMovement;
         lookAction.canceled += OnCameraMovement;
 
-        slideAction.started += OnSlide;
-        slideAction.canceled += OnSlide;
+        //slideAction.started += OnSlide;
+        //slideAction.canceled += OnSlide;
 
         jumpAction.started += OnJump;
     }
