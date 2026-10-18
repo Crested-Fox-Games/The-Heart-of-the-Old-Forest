@@ -24,7 +24,8 @@ public class Enemy : NetworkBehaviour
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
     private HealthBar healthBar;
-    private EnemyMeleeClass enemyMeleeClass;
+    private Animator animator;
+    private Collider enemyCollider;
 
     private GameObject heartCrystal;
 
@@ -64,8 +65,9 @@ public class Enemy : NetworkBehaviour
 
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
-        enemyMeleeClass = GetComponentInChildren<EnemyMeleeClass>();
         healthBar = GetComponentInChildren<HealthBar>();
+        animator = GetComponentInChildren<Animator>();
+        enemyCollider = GetComponentInChildren<Collider>();
 
         currentHealth.OnChange += UpdateHealthBar;
 
@@ -112,11 +114,21 @@ public class Enemy : NetworkBehaviour
         //Sets the enemies health after initializing it
         currentHealth.Value = enemyMaxHealth;
 
+        enemyBrain.enabled = true;
+        enemyMovement.enabled = true;
+        enemyMovement.Agent.enabled = true;
+        enemyCollider.enabled = true;
+
+        //Intialise brain for both types of enemy
+        enemyBrain.Initialize(HeartCrystal);
+
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
 
-        //Intialise brain for both types of enemy
-        enemyBrain.Initialize(HeartCrystal);    
+        animator.SetBool("isDead", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isMoving", false);
+        
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
@@ -146,10 +158,22 @@ public class Enemy : NetworkBehaviour
 
     private void Death()
     {
-        onEnemyKilled?.Invoke(this);
+        StartCoroutine(DeathCoroutine()); 
+    }
 
+    private IEnumerator DeathCoroutine()
+    {
+        enemyBrain.enabled = false;
+        enemyMovement.Agent.enabled = false;
+        enemyMovement.enabled = false;
+        enemyCollider.enabled = false;
+   
+        animator.SetBool("isDead", true);
+
+        yield return new WaitForSeconds(2.5f);
+        onEnemyKilled?.Invoke(this);
         ServerManager.Despawn(gameObject);
-        
+        yield return null;
     }
 
     /// <summary>
@@ -172,10 +196,8 @@ public class Enemy : NetworkBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        onEnemyKilled?.Invoke(this);
-
         //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
-        ServerManager.Despawn(gameObject);
+        StartCoroutine(DeathCoroutine());
     }
 
     public void ScaleBlightStats(float healthScale, float damageScale)

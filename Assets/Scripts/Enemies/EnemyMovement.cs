@@ -13,6 +13,7 @@ public class EnemyMovement : NetworkBehaviour
 
     //References
     private NavMeshAgent agent;
+    public NavMeshAgent Agent => agent;
 
     /// <summary>
     /// Runs on the client side
@@ -147,7 +148,9 @@ public class EnemyMovement : NetworkBehaviour
         //}
     }
 
-    //Stop enemy movement completely
+    /// <summary>
+    /// Stop enemy movement
+    /// </summary>
     public void StopMoving()
     {
         if (!IsServerStarted)

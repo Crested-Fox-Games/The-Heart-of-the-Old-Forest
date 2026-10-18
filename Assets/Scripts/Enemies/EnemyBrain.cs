@@ -17,6 +17,7 @@ public class EnemyBrain : NetworkBehaviour
     private TargetDetector targetDetector;
     private EnemyPathfinder enemyPathfinder;
     private EnemyMeleeClass enemyMeleeClass;
+    private Animator animator;
 
     //Heart crystal will be the default target position
     private ITargetable defaultTarget;
@@ -61,6 +62,7 @@ public class EnemyBrain : NetworkBehaviour
         enemyPathfinder = GetComponent<EnemyPathfinder>();
         targetDetector = GetComponentInChildren<TargetDetector>();
         enemyMeleeClass = GetComponent<EnemyMeleeClass>();
+        animator = GetComponentInChildren<Animator>();
 
         //Reset target detector
         if (targetDetector != null)
@@ -522,6 +524,7 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void EnterMoving()
     {
+        animator.SetBool("isMoving", true);
         if (!IsOutsideBlightLeash())
         {
             Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
@@ -546,6 +549,7 @@ public class EnemyBrain : NetworkBehaviour
     private void ExitMoving()
     {
         Debug.Log("Exiting Moving state");
+        animator.SetBool("isMoving", false);
         // connect to melee attack in enemymeleeclass
         enemyMovement.StopMoving();
     }
