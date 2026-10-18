@@ -23,6 +23,13 @@ public class TargetDetector : MonoBehaviour
     /// </summary>
     public event Action<ITargetable> TargetExited;
 
+    /// <summary>
+    /// Initializes the target detector
+    /// </summary>
+    public void Initialize()
+    {
+        nearbyTargets.Clear();
+    }
 
     /// <summary>
     /// Adds target to Hashset collection that enemy evaluates as possible new targets

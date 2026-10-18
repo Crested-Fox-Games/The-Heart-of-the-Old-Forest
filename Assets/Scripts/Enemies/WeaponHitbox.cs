@@ -27,6 +27,18 @@ public class WeaponHitbox : NetworkBehaviour
     public void Initialise(EnemyMeleeClass melee)
     {
         owner = melee;
+
+        hitTargets.Clear();
+        attackActive = false;
+
+        if (hitboxCollider != null)
+        {
+            hitboxCollider.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("WeaponHitbox: No Collider found on" + gameObject.name, this);
+        }
     }
 
     /// <summary>
