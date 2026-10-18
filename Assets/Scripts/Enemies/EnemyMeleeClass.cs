@@ -125,7 +125,7 @@ public class EnemyMeleeClass : Enemy
             attackCooldown = 0f;
         }
 
-        enemyAnimator.Play("BadgerAttack");
+        enemyAnimator.Play("Badger_Attack");
     }
 
     
