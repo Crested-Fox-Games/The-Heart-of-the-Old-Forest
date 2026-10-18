@@ -5565,7 +5565,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -8238,8 +8238,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -60}
-  m_SizeDelta: {x: 550, y: 100}
+  m_AnchoredPosition: {x: 300, y: -117.5}
+  m_SizeDelta: {x: 550, y: 215}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8938989766312830767
 CanvasRenderer:
@@ -8269,9 +8269,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hero, you must protect the heart crystal at all costs. Collect crystals
-    from outside the base to build your towers to help you protect the heart crystal.
-    Go out and defeat the blight nodes and push back the enemy advance. '
+  m_text: "An evil Blight is spreading across the land. \nYou must defend the Heart
+    Crystal Tree, \nthe final, untouched part of the forest.\n\nCollect crystals
+    to build and upgrade towers.\nBeware, the spreading Blight will fight back.\nLarge
+    groups of enemies will attack at night."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8298,7 +8299,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.45
+  m_fontSize: 24.85
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8337,7 +8338,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 15.432217}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9102,7 +9103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9138,7 +9139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -488
+      value: -490
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9208,7 +9209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9244,7 +9245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -274
+      value: -340
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9565,7 +9566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9601,7 +9602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -167
+      value: -265
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10165,7 +10166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10201,7 +10202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -381
+      value: -415
       objectReference: {fileID: 0}
     - target: {fileID: 6547704534917817632, guid: d2fa0253fe9e8c748a7e5f30d110f93a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
