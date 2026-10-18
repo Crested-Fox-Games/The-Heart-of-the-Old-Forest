@@ -594,7 +594,7 @@ PrefabInstance:
     - target: {fileID: -5989218571505577401, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 27206baf75f2020439f1ad4c52d76ab3, type: 2}
+      objectReference: {fileID: 2100000, guid: 47692b40025245c4d8cc6c1237592275, type: 2}
     - target: {fileID: -5568371526223589888, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -602,11 +602,11 @@ PrefabInstance:
     - target: {fileID: -5452268426013630409, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e82ff4f3369dbbe4d96b8ec2d7705c3a, type: 2}
+      objectReference: {fileID: 2100000, guid: f90a11b53d3fa2e44babc9435b707b36, type: 2}
     - target: {fileID: -4622761401671004385, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e82ff4f3369dbbe4d96b8ec2d7705c3a, type: 2}
+      objectReference: {fileID: 2100000, guid: f90a11b53d3fa2e44babc9435b707b36, type: 2}
     - target: {fileID: -4133100360274578523, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -646,7 +646,7 @@ PrefabInstance:
     - target: {fileID: 5944144027281156921, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 27206baf75f2020439f1ad4c52d76ab3, type: 2}
+      objectReference: {fileID: 2100000, guid: 47692b40025245c4d8cc6c1237592275, type: 2}
     - target: {fileID: 7071182760956848314, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -662,11 +662,11 @@ PrefabInstance:
     - target: {fileID: 8110968695798105108, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90536bb9c00e14a4ba49aeed2bbc96f5, type: 2}
+      objectReference: {fileID: 2100000, guid: 2177731638fde3548912e4f865d42dc9, type: 2}
     - target: {fileID: 8167494408416665196, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 90536bb9c00e14a4ba49aeed2bbc96f5, type: 2}
+      objectReference: {fileID: 2100000, guid: 2177731638fde3548912e4f865d42dc9, type: 2}
     - target: {fileID: 8179647756643497973, guid: fd4eb817d2f592f4180bc26a3edf05ba, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -725,8 +725,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.054133564, y: 0.03276204, z: 0.004192192}
-  m_Center: {x: -0.0016517399, y: -0.0015304108, z: 0.000000030424697}
+  m_Size: {x: 3.7493477, y: 0.5030629, z: 6.4960284}
+  m_Center: {x: 1.9737043, y: 0.00000016391276, z: 3.41622}
 --- !u!208 &4223908004727374904
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -737,11 +737,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.02706678, y: 0.01638102, z: 0.002096096}
+  m_Extents: {x: 1.8750001, y: 0.252, z: 3.2480001}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.00165174, y: -0.001530411, z: 0.0000000304247}
+  m_Center: {x: 1.9740001, y: 0, z: 3.4160001}
   m_TimeToStationary: 0.5
 --- !u!1 &1398576266345553009 stripped
 GameObject:
@@ -794,8 +794,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.054133564, y: 0.033965863, z: 0.004192191}
-  m_Center: {x: -0.0016517377, y: -0.0021323161, z: 5.0314064e-10}
+  m_Size: {x: 3.7493477, y: 0.5030629, z: 6.4960284}
+  m_Center: {x: -1.9737043, y: -0.000000044703476, z: 3.4315026}
 --- !u!208 &9126955462773703236
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -806,11 +806,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.02706678, y: 0.01698293, z: 0.0020960956}
+  m_Extents: {x: 1.8750001, y: 0.252, z: 3.2480001}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.001651738, y: -0.002132316, z: 5.031406e-10}
+  m_Center: {x: -1.9740001, y: 0, z: 3.4320002}
   m_TimeToStationary: 0.5
 --- !u!1 &6338495416284672834 stripped
 GameObject:
