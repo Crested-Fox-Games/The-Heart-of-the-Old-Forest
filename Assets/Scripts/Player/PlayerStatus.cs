@@ -236,6 +236,9 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         animator.SetBool("IsDead", true);
     }
 
+    /// <summary>
+    /// Tells all clients that this player has respawned and triggers transition to idle animation
+    /// </summary>
     [ObserversRpc]
     private void PlayerRespawnAnimationTrigger()
     {

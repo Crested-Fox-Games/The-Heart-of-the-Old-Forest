@@ -336,6 +336,7 @@ public class PlayerMovement : NetworkBehaviour
             isJumping = true;
             hasLeftGroundDuringJump = false;
 
+            //Enter jump animation
             animator.SetBool("IsJumping", true);
             animator.SetBool("IsInAir", false);
             animator.SetBool("IsLanding", false);
@@ -439,10 +440,12 @@ public class PlayerMovement : NetworkBehaviour
         //Enable gravity if not grounded
         if (!isGrounded)
         {
+            //Check if player has left the ground through jumping or launching
             if (isLaunched || isJumping)
             {
                 hasLeftGroundDuringJump = true;
 
+                //Enter in air looping animation
                 animator.SetBool("IsJumping", false);
                 animator.SetBool("IsInAir", true);
                 animator.SetBool("IsLanding", false);
@@ -465,12 +468,13 @@ public class PlayerMovement : NetworkBehaviour
 
                 OnLaunchLanded?.Invoke();
             }
-
+            
             if (!isLaunched && hasLeftGroundDuringJump)
             {
                 isJumping = false;
                 hasLeftGroundDuringJump = false;
 
+                //Enter Landing animation
                 animator.SetBool("IsJumping", false);
                 animator.SetBool("IsInAir", false);
                 animator.SetBool("IsLanding", true);
@@ -504,6 +508,7 @@ public class PlayerMovement : NetworkBehaviour
         hasLeftGround = false;
         hasLeftGroundDuringJump = false;
 
+        //Enter jump animation
         animator.SetBool("IsJumping", true);
         animator.SetBool("IsInAir", false);
         animator.SetBool("IsLanding", false);

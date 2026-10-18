@@ -56,6 +56,9 @@ public class PlayerInteraction : NetworkBehaviour
     [SerializeField]
     private LayerMask aimMask;
 
+    /// <summary>
+    /// Reference to player animator
+    /// </summary>
     private Animator animator;
 
     /// <summary>
@@ -202,9 +205,11 @@ public class PlayerInteraction : NetworkBehaviour
             nextInteractTime = Time.time + baseInteractRate;
         }
 
+        //Check if we're interacting with a resource
         if (interact is ResourceNode)
         {
-            animator.SetBool("IsMining", true);
+            //Enter collect animation
+            animator.SetBool("IsCollecting", true);
         }
     }
 
@@ -215,9 +220,12 @@ public class PlayerInteraction : NetworkBehaviour
         StopAnimations();
     }
 
+    /// <summary>
+    /// Stops collect animation
+    /// </summary>
     private void StopAnimations()
     {
-        animator.SetBool("IsMining", false);
+        animator.SetBool("IsCollecting", false);
     }
 
     /// <summary>
