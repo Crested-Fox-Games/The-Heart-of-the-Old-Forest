@@ -65,6 +65,7 @@ public class Enemy : NetworkBehaviour
 
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
+        enemyMeleeClass = GetComponentInChildren<EnemyMeleeClass>();
         healthBar = GetComponentInChildren<HealthBar>();
         animator = GetComponentInChildren<Animator>();
         enemyCollider = GetComponentInChildren<Collider>();

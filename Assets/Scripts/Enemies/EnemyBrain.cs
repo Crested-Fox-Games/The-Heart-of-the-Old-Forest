@@ -63,6 +63,12 @@ public class EnemyBrain : NetworkBehaviour
         targetDetector = GetComponentInChildren<TargetDetector>();
         enemyMeleeClass = GetComponent<EnemyMeleeClass>();
         animator = GetComponentInChildren<Animator>();
+
+        //Reset target detector
+        if (targetDetector != null)
+        {
+            targetDetector.Initialize();
+        }
     }
 
     /// <summary>
@@ -99,6 +105,34 @@ public class EnemyBrain : NetworkBehaviour
     /// <param name="heartCrystal"></param>
     public void Initialize(GameObject heartCrystal)
     {
+        //Refresh references
+        GetReferences();
+
+        //Stop previous movement or attack
+        if (enemyMovement != null)
+        {
+            enemyMovement.StopMoving();
+        }
+
+        if (enemyMeleeClass != null)
+        {
+            enemyMeleeClass.StopAttacking();
+        }
+
+        //Reset previous target and state information
+        currentTarget = null;
+        defaultTarget = null;
+
+        currentState = EnemyState.Idle;
+
+        lastDist = 0f;
+        stuckTimer = 0f;
+
+        if (heartCrystal == null)
+        {
+            return;
+        }
+
         ITargetable target = heartCrystal.GetComponent<ITargetable>();
 
         if (target == null)
@@ -123,7 +157,6 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void InitializeWaveEnemy()
     {
-        SetTarget(defaultTarget);
         ReevaluateTargets();
     }
 
