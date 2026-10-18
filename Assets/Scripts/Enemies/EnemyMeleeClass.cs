@@ -16,15 +16,29 @@ public class EnemyMeleeClass : Enemy
     //Attack timer
     private float attackCooldown;
 
-
-    private void Awake()
+    /// <summary>
+    /// Initializes the enemy melee class
+    /// </summary>
+    public void Initialize()
     {
         //Initialise vital components
         enemyAnimator = GetComponentInChildren<Animator>();
-
         weaponHitbox = GetComponentInChildren<WeaponHitbox>();
 
-        weaponHitbox.Initialise(this);
+        //Initialize attack hitbox
+        if (weaponHitbox != null)
+        {
+            weaponHitbox.Initialise(this);
+        }
+        else
+        {
+            Debug.LogWarning("EnemyMeleeClass: WeaponHitbox not found!", this);
+        }
+
+        // Reset attack state
+        shouldAttack = false;
+        isAttacking = false;
+        attackCooldown = 0f;
     }
 
     private void Update()

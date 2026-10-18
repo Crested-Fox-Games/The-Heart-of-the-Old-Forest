@@ -24,6 +24,7 @@ public class Enemy : NetworkBehaviour
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
     private HealthBar healthBar;
+    private EnemyMeleeClass enemyMeleeClass;
 
     private GameObject heartCrystal;
 
@@ -63,6 +64,7 @@ public class Enemy : NetworkBehaviour
 
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
+        enemyMeleeClass = GetComponentInChildren<EnemyMeleeClass>();
         healthBar = GetComponentInChildren<HealthBar>();
 
         currentHealth.OnChange += UpdateHealthBar;
@@ -110,12 +112,12 @@ public class Enemy : NetworkBehaviour
         //Sets the enemies health after initializing it
         currentHealth.Value = enemyMaxHealth;
 
-        //Intialise brain for both types of enemy
-        enemyBrain.Initialize(HeartCrystal);
-
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-        
+        enemyMeleeClass.Initialize();
+
+        //Intialise brain for both types of enemy
+        enemyBrain.Initialize(HeartCrystal);    
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
