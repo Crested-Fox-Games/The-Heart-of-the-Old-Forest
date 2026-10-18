@@ -473,7 +473,9 @@ MonoBehaviour:
     & https://discussions.unity.com/t/move/856924\r\n\r\nModels & Textures:\r\nRock,
     Bush & Crystal Models from our previous project - Mission: ECHO-35\r\n\r\nGround
     Textures by Chromisu - https://assetstore.unity.com/packages/2d/textures-materials/nature/handpainted-grass-ground-textures-free-terrain-tool-urp-hdrp-187634\r\n\r\nPlayer
-    animation base: https://actionforge.app/ "
+    animation base: https://actionforge.app/\r\n\r\nFonts:\r\nTension w00 Font from
+    https://www.onlinewebfonts.com/download/15eaadae97a8cf6f3501ab6b1f5b143c\r\n\r\nRosemary
+    Font from Sensatype Studio - https://sensatype.com/product/rosemary-handlettered-serif-font"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6657c742632ab1848826a95abc06526e, type: 2}
   m_sharedMaterial: {fileID: -7785516814006663058, guid: 6657c742632ab1848826a95abc06526e, type: 2}
