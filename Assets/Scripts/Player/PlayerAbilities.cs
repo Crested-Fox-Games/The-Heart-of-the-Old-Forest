@@ -121,10 +121,12 @@ public class PlayerAbilities : NetworkBehaviour
 
     private bool isBasicAttackHeld;
 
+    private AnimationClip attackClip;
+
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
-        movementAbility = AddAbility(movementAbilitySO); //NOT IMPLEMENTED
+        movementAbility = AddAbility(movementAbilitySO);
         specialAbility = AddAbility(specialAbilitySO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
         
@@ -183,6 +185,9 @@ public class PlayerAbilities : NetworkBehaviour
 
             animator.SetBool("IsUsingAbility", true);
 
+            //NOTE: This is definitely not a good way to do this (Hard coded basic attack), but it works for now. I will need to find a better way to do this later
+            animator.SetFloat("AttackSpeed", GetAnimationAttackSpeed(AbilitySlot.BasicAttack));
+
             if (abilityAnimationRoutine == null)
             {
                 //Enter ability animation
@@ -198,6 +203,37 @@ public class PlayerAbilities : NetworkBehaviour
         {
             UseAbility(abilitySlot);
         }
+    }
+    
+    /// <summary>
+    /// Returns a float multiplier for the animation speed
+    /// </summary>
+    /// <param name="abilitySlot"></param>
+    /// <returns></returns>
+    private float GetAnimationAttackSpeed(AbilitySlot abilitySlot)
+    {
+        //This grabs the animation clip is we dont have it yet
+        if(attackClip == null)
+        {
+            //This gets an array of all the animation clips in the animator
+            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+            foreach (AnimationClip clip in clips)
+            {
+                if (clip.name == "Player_UseAbility")
+                {
+                    attackClip = clip;
+                    break;
+                }
+            }
+        }
+
+        //Gets a reference to the SO as we use it multiple times
+        AbilitySO abilitySO = GetAbilityFromSlot(abilitySlot).AbilitySO;
+
+        //Calculates the speed we need to do it to have it finish 25% earlier than the actual ability code
+        float animationSpeed = attackClip.length / (GetCooldown(abilitySO, abilitySO.Cooldown) * 0.75f);
+
+        return animationSpeed;
     }
 
     /// <summary>
@@ -312,7 +348,7 @@ public class PlayerAbilities : NetworkBehaviour
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
         {
             yield return null;
-        }
+        }        
 
         // Wait until the animation finishes playing.
         while (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
