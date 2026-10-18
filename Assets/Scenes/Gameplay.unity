@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.35, g: 0.35, b: 0.329, a: 1}
   m_AmbientEquatorColor: {r: 0.24, g: 0.22856, b: 0.2088, a: 1}
   m_AmbientGroundColor: {r: 0.8490566, g: 0.63393176, b: 0.47258806, a: 1}
-  m_AmbientIntensity: 0.8
+  m_AmbientIntensity: 0.7
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.7546386, g: 0.9924528, b: 0.9924528, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: d706917359284634d87b4f2fd2b430b3, type: 2}
@@ -3109,6 +3109,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1579601469}
+    - target: {fileID: 6157452201561135199, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 915649475cbfb614abb16e8e64bbf509, type: 2}
     - target: {fileID: 6171213211541532501, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3189,6 +3193,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 270698704}
+    - target: {fileID: 7602108730199152814, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 915649475cbfb614abb16e8e64bbf509, type: 2}
     - target: {fileID: 7629676961754458785, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
       propertyPath: SceneId
       value: 4018007984

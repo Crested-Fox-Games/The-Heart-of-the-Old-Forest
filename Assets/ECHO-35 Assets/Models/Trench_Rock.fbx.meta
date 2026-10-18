@@ -3,7 +3,12 @@ guid: ef2b1410ae07d204abab92f5fea58316
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trench_Rock
+    second: {fileID: 2100000, guid: 9646fc12acdf45c4f9b27c2fe2731830, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

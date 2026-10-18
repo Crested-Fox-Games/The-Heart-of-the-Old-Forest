@@ -55,4 +55,19 @@ public class SceneNavigator : MonoBehaviour
     }
 
     //Need to figure out how to do fishnet scene stuff here for the main menu
+
+    public void OpenMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
+    public void OpenCredits()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Credits");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
