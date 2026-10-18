@@ -24,6 +24,7 @@ public class Enemy : NetworkBehaviour
     private EnemyMovement enemyMovement;
     private EnemySpawner enemySpawner;
     private HealthBar healthBar;
+    private Animator animator;
 
     private GameObject heartCrystal;
 
@@ -64,6 +65,7 @@ public class Enemy : NetworkBehaviour
         enemyBrain = GetComponentInChildren<EnemyBrain>();
         enemyMovement = GetComponentInChildren<EnemyMovement>();
         healthBar = GetComponentInChildren<HealthBar>();
+        animator = GetComponentInChildren<Animator>();
 
         currentHealth.OnChange += UpdateHealthBar;
 
@@ -115,6 +117,10 @@ public class Enemy : NetworkBehaviour
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
+
+        animator.SetBool("isDead", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isMoving", false);
         
     }
 
@@ -145,10 +151,22 @@ public class Enemy : NetworkBehaviour
 
     private void Death()
     {
-        onEnemyKilled?.Invoke(this);
+        StartCoroutine(DeathCoroutine()); 
+    }
 
+    private IEnumerator DeathCoroutine()
+    {
+        //Stop enemy movement
+        enemyMovement.StopMoving();
+        //Set animation bools
+        animator.SetBool("isDead", true);
+        animator.SetBool("isMoving", false);
+        animator.SetBool("isAttacking", false);
+
+        yield return new WaitForSeconds(1.5f);
+        onEnemyKilled?.Invoke(this);
         ServerManager.Despawn(gameObject);
-        
+        yield return null;
     }
 
     /// <summary>

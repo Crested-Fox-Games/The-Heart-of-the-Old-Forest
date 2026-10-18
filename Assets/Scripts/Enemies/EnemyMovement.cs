@@ -147,7 +147,9 @@ public class EnemyMovement : NetworkBehaviour
         //}
     }
 
-    //Stop enemy movement completely
+    /// <summary>
+    /// Stop enemy movement
+    /// </summary>
     public void StopMoving()
     {
         if (!IsServerStarted)
