@@ -114,7 +114,6 @@ public class Enemy : NetworkBehaviour
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-        enemyMeleeClass.Initialize();
 
         //Intialise brain for both types of enemy
         enemyBrain.Initialize(HeartCrystal);    

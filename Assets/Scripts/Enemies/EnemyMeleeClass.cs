@@ -16,6 +16,11 @@ public class EnemyMeleeClass : Enemy
     //Attack timer
     private float attackCooldown;
 
+    private void OnEnable()
+    {
+        Initialize();
+    }
+
     /// <summary>
     /// Initializes the enemy melee class
     /// </summary>
