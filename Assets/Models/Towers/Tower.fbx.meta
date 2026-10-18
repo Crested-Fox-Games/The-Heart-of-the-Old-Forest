@@ -3,7 +3,17 @@ guid: f40e1e727f8ff3740bead18acec7663a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RockTest
+    second: {fileID: 2100000, guid: cc4a330a748f79346bac81f56cd3a7e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tree
+    second: {fileID: 2100000, guid: cc4a330a748f79346bac81f56cd3a7e5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
