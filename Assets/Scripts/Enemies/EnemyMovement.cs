@@ -13,6 +13,7 @@ public class EnemyMovement : NetworkBehaviour
 
     //References
     private NavMeshAgent agent;
+    public NavMeshAgent Agent => agent;
 
     /// <summary>
     /// Runs on the client side

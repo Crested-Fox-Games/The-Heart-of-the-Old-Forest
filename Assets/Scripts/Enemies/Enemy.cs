@@ -25,6 +25,7 @@ public class Enemy : NetworkBehaviour
     private EnemySpawner enemySpawner;
     private HealthBar healthBar;
     private Animator animator;
+    private Collider enemyCollider;
 
     private GameObject heartCrystal;
 
@@ -66,6 +67,7 @@ public class Enemy : NetworkBehaviour
         enemyMovement = GetComponentInChildren<EnemyMovement>();
         healthBar = GetComponentInChildren<HealthBar>();
         animator = GetComponentInChildren<Animator>();
+        enemyCollider = GetComponentInChildren<Collider>();
 
         currentHealth.OnChange += UpdateHealthBar;
 
@@ -112,6 +114,11 @@ public class Enemy : NetworkBehaviour
         //Sets the enemies health after initializing it
         currentHealth.Value = enemyMaxHealth;
 
+        enemyBrain.enabled = true;
+        enemyMovement.enabled = true;
+        enemyMovement.Agent.enabled = true;
+        enemyCollider.enabled = true;
+
         //Intialise brain for both types of enemy
         enemyBrain.Initialize(HeartCrystal);
 
@@ -156,14 +163,14 @@ public class Enemy : NetworkBehaviour
 
     private IEnumerator DeathCoroutine()
     {
-        //Stop enemy movement
-        enemyMovement.StopMoving();
-        //Set animation bools
+        enemyBrain.enabled = false;
+        enemyMovement.Agent.enabled = false;
+        enemyMovement.enabled = false;
+        enemyCollider.enabled = false;
+   
         animator.SetBool("isDead", true);
-        animator.SetBool("isMoving", false);
-        animator.SetBool("isAttacking", false);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
         onEnemyKilled?.Invoke(this);
         ServerManager.Despawn(gameObject);
         yield return null;
@@ -189,10 +196,8 @@ public class Enemy : NetworkBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        onEnemyKilled?.Invoke(this);
-
         //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
-        ServerManager.Despawn(gameObject);
+        StartCoroutine(DeathCoroutine());
     }
 
     public void ScaleBlightStats(float healthScale, float damageScale)
