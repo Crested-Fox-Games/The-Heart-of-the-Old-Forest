@@ -369,7 +369,7 @@ MonoBehaviour:
   healthRegenDelay: 5
   healthRegenPercent: 5
   respawnTime: 20
-  takeDamageAudio: {fileID: 0}
+  takeDamageAudio: {fileID: 8300000, guid: 52b53413ffeb92947964a4c9a872c589, type: 3}
   normalPivot: {fileID: 6935078648139966938}
   deathPivot: {fileID: 8883159309133473407}
 --- !u!114 &3523095287178685474

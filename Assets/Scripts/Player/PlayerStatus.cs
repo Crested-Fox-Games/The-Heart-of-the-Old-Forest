@@ -30,6 +30,11 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     private PlayerRef playerRef;
 
     /// <summary>
+    /// Reference to player animator
+    /// </summary>
+    private Animator animator;
+
+    /// <summary>
     /// The starting health for the player before upgrades are applied
     /// </summary>
     [SerializeField]
@@ -110,6 +115,8 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     public override void OnStartServer()
     {
         InitializeUpgradeDictionaries();
+
+        animator = GetComponentInChildren<Animator>();
 
         //Initialises the health of the structure
         currentMaxHealth = baseMaxHealth;
@@ -226,6 +233,14 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     private void PlayerDiedAnimationTrigger()
     {
         //Set the animator variable for player death to true
+        animator.SetBool("IsDead", true);
+    }
+
+    [ObserversRpc]
+    private void PlayerRespawnAnimationTrigger()
+    {
+        //Set the animator variable for player death to false
+        animator.SetBool("IsDead", false);
     }
 
     /// <summary>
@@ -247,6 +262,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         playerRef.playerInteraction.LoseAllResources();
 
         //Reset player animation from the death animation to idle
+        PlayerRespawnAnimationTrigger();
 
         //Move the player to their spawn position
         GamePlayerSpawner spawner = FindFirstObjectByType<GamePlayerSpawner>();
