@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   enemyName: Basic Enemy
   enemyDescription: Enemy Ahhhh lookin ahhhhh
-  enemyHealth: 300
+  enemyHealth: 500
   enemySpeed: 80
   enemyDamage: 50
   enemyAttackRate: 0.3
