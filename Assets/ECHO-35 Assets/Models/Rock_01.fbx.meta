@@ -3,7 +3,12 @@ guid: 8f67c026e4af1824e93a3fa02da3f23f
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rock_01
+    second: {fileID: 2100000, guid: 915649475cbfb614abb16e8e64bbf509, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
