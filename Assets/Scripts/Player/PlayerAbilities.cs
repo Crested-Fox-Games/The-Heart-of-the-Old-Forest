@@ -112,15 +112,25 @@ public class PlayerAbilities : NetworkBehaviour
 
     private Coroutine basicAttackRoutine;
 
+    private Coroutine abilityAnimationRoutine;
+
+    /// <summary>
+    /// Reference to player animator
+    /// </summary>
+    private Animator animator;
+
     private bool isBasicAttackHeld;
+
+    private AnimationClip attackClip;
 
     private void Awake()
     {
         basicAttack = AddAbility(basicAttackSO);
-        movementAbility = AddAbility(movementAbilitySO); //NOT IMPLEMENTED
+        movementAbility = AddAbility(movementAbilitySO);
         specialAbility = AddAbility(specialAbilitySO);
         ultimateAbility = AddAbility(ultimateAbilitySO);
         
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -172,11 +182,58 @@ public class PlayerAbilities : NetworkBehaviour
         if (GetAbilityFromSlot(abilitySlot).AbilitySO.NeedDirection)
         {
             UseAbility(abilitySlot, GetAimPoint());
+
+            animator.SetBool("IsUsingAbility", true);
+
+            //NOTE: This is definitely not a good way to do this (Hard coded basic attack), but it works for now. I will need to find a better way to do this later
+            animator.SetFloat("AttackSpeed", GetAnimationAttackSpeed(AbilitySlot.BasicAttack));
+
+            if (abilityAnimationRoutine == null)
+            {
+                //Enter ability animation
+                if (abilityAnimationRoutine != null)
+                {
+                    StopCoroutine(abilityAnimationRoutine);
+                }
+
+                abilityAnimationRoutine = StartCoroutine(WaitForAbilityAnimation());
+            }
         }
         else
         {
             UseAbility(abilitySlot);
         }
+    }
+    
+    /// <summary>
+    /// Returns a float multiplier for the animation speed
+    /// </summary>
+    /// <param name="abilitySlot"></param>
+    /// <returns></returns>
+    private float GetAnimationAttackSpeed(AbilitySlot abilitySlot)
+    {
+        //This grabs the animation clip is we dont have it yet
+        if(attackClip == null)
+        {
+            //This gets an array of all the animation clips in the animator
+            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+            foreach (AnimationClip clip in clips)
+            {
+                if (clip.name == "Player_UseAbility")
+                {
+                    attackClip = clip;
+                    break;
+                }
+            }
+        }
+
+        //Gets a reference to the SO as we use it multiple times
+        AbilitySO abilitySO = GetAbilityFromSlot(abilitySlot).AbilitySO;
+
+        //Calculates the speed we need to do it to have it finish 25% earlier than the actual ability code
+        float animationSpeed = attackClip.length / (GetCooldown(abilitySO, abilitySO.Cooldown) * 0.75f);
+
+        return animationSpeed;
     }
 
     /// <summary>
@@ -239,6 +296,8 @@ public class PlayerAbilities : NetworkBehaviour
     {
         isBasicAttackHeld = true;
 
+        animator.SetBool("IsUsingAbility", true);
+
         if(basicAttackRoutine == null)
         {
             basicAttackRoutine = StartCoroutine(BasicAttackLoop());
@@ -258,7 +317,15 @@ public class PlayerAbilities : NetworkBehaviour
             StopCoroutine(basicAttackRoutine);
             basicAttackRoutine = null;
         }
-        
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            if (abilityAnimationRoutine == null)
+            {
+                abilityAnimationRoutine = StartCoroutine(WaitForAbilityAnimation());
+            }
+        }
+
     }
 
     private IEnumerator BasicAttackLoop()
@@ -267,12 +334,38 @@ public class PlayerAbilities : NetworkBehaviour
         {
             TryUseBasicAttack();
   
-            yield return new WaitForSeconds(basicAttackCooldownRemaining.Value);
+            float cooldown = Mathf.Max(0.05f, basicAttackCooldownRemaining.Value);
 
-            yield return null;
+            yield return new WaitForSeconds(cooldown);
         }
 
         basicAttackRoutine = null; 
+    }
+
+    private IEnumerator WaitForAbilityAnimation()
+    {
+        // Wait until the Animator enters the ability animation state.
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            yield return null;
+        }        
+
+        // Wait until the animation finishes playing.
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_UseAbility"))
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (stateInfo.normalizedTime >= 1f)
+            {
+                break;
+            }
+            
+            yield return null;
+        }
+
+        // Return to the normal animation state.
+        animator.SetBool("IsUsingAbility", false);
+        abilityAnimationRoutine = null;
     }
 
     /// <summary>
