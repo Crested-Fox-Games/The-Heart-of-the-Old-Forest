@@ -125,7 +125,7 @@ public class EnemyMeleeClass : Enemy
             attackCooldown = 0f;
         }
 
-        enemyAnimator.Play("Badger_Attack");
+        enemyAnimator.SetBool("isAttacking", true);
     }
 
     
@@ -135,5 +135,6 @@ public class EnemyMeleeClass : Enemy
     public void EndAttack()
     {
         isAttacking = false;
+        enemyAnimator.SetBool("isAttacking", false);
     }
 }
