@@ -273,6 +273,7 @@ MonoBehaviour:
   maxHealth: 100
   childObject: {fileID: 1965358548375075743}
   interactTime: 3
+  takeDamageAudio: {fileID: 0}
 --- !u!114 &602552268693303302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +324,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 65535
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 7768755732172978535
+  <AssetPathHash>k__BackingField: 16890818952903878855
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
