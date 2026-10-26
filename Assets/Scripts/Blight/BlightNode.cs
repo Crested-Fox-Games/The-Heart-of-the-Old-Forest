@@ -1,8 +1,9 @@
 using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class BlightNode : NetworkBehaviour
 {
@@ -96,6 +97,13 @@ public class BlightNode : NetworkBehaviour
     /// </summary>
     private void BlightCleared()
     {
+        //StringBuilder debugLogStart = new StringBuilder($"Blight Cleared start \n");
+        //foreach(Transform Node in BlightManager.Instance.CurrentForwardNodes)
+        //{
+        //    debugLogStart.AppendLine($"{Node.name} with position: {Node.transform.position}");
+        //}
+        //Debug.Log(debugLogStart);
+
         if (nextBlightNode != null)
         {
             //If there is a next node, update it to keep the chain 
@@ -136,6 +144,13 @@ public class BlightNode : NetworkBehaviour
 
         //Despawn the blight node
         Despawn(this);
+
+        //StringBuilder debugLogEnd = new StringBuilder($"Blight Cleared End \n");
+        //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+        //{
+        //    debugLogEnd.AppendLine($"{Node.name} with position: {Node.transform.position}");
+        //}
+        //Debug.Log(debugLogEnd);
     }
 
     /// <summary>

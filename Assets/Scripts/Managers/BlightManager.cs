@@ -32,6 +32,8 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     private List<Transform> currentForwardNodes = new List<Transform>();
 
+    public List<Transform> CurrentForwardNodes => currentForwardNodes;
+
     private HeartCrystal heartCrystal;
 
     [SerializeField]
@@ -347,12 +349,12 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     public void UpdateForwardNodesFromNode(Transform nodeToRemove, Transform nodeToAdd)
     {
-        Debug.Log($"We are removing {nodeToRemove.name}");
+        Debug.Log($"We are removing {nodeToRemove.name} with position of {nodeToRemove.transform.position}");
         currentForwardNodes.Remove(nodeToRemove);
 
         currentForwardNodes.Add(nodeToAdd);
 
-        Debug.Log($"We just added {nodeToAdd.name}");
+        Debug.Log($"We just added {nodeToAdd.name} with position of {nodeToAdd.transform.position}");
     }
 
     /// <summary>
