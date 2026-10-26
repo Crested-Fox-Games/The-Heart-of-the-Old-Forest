@@ -130,7 +130,7 @@ public abstract class Ability : NetworkBehaviour
     {
         if(isActive && activeRemaining > 0)
         {
-            Debug.Log($"Active remaining {activeRemaining}");
+            //Debug.Log($"Active remaining {activeRemaining}");
             activeRemaining -= deltaTime;
         }
         else if(!isActive && activeRemaining > 0)

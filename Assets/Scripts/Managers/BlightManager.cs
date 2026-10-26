@@ -300,7 +300,7 @@ public class BlightManager : NetworkBehaviour
 
         Collider[] colliders = Physics.OverlapBox(pos, halfExtents, Quaternion.identity, obstructionMask, QueryTriggerInteraction.Ignore);
 
-        Debug.Log($"Trying to spawn blight node at {pos} with {colliders.Length} colliders in the way");
+        //Debug.Log($"Trying to spawn blight node at {pos} with {colliders.Length} colliders in the way");
 
         return colliders.Length == 0;
     }
@@ -334,7 +334,7 @@ public class BlightManager : NetworkBehaviour
                 {
                     lowestGroundY = Mathf.Min(lowestGroundY, hit.point.y);
 
-                    Debug.Log($"Hit ground object {hit.collider.gameObject.name} at Y {hit.point.y} for sample {i},{j}");
+                    //Debug.Log($"Hit ground object {hit.collider.gameObject.name} at Y {hit.point.y} for sample {i},{j}");
                 }
             }
         }

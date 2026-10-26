@@ -18,7 +18,7 @@ public class RabbitBasicAttack : Ability
 
     protected override void Activate(Vector3 direction)
     {
-        Debug.Log("Basic Attack Activated");
+        //Debug.Log("Basic Attack Activated");
         // Implementation for the basic attack activation
 
         //TODO: Trigger animation (Also might want to do the thing Marcus said like with enemy attacks)
