@@ -527,7 +527,7 @@ public class EnemyBrain : NetworkBehaviour
         animator.SetBool("isMoving", true);
         if (!IsOutsideBlightLeash())
         {
-            Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
+            //Debug.Log($"Entering Moving state  {currentTarget.TargetTransform.gameObject}");
 
             //Moves based on whether target is a player or not
             if (currentTarget.TargetTransform.GetComponent<PlayerRef>() != null)
@@ -548,7 +548,7 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void ExitMoving()
     {
-        Debug.Log("Exiting Moving state");
+        //Debug.Log("Exiting Moving state");
         animator.SetBool("isMoving", false);
         // connect to melee attack in enemymeleeclass
         enemyMovement.StopMoving();
@@ -559,7 +559,7 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void EnterAttacking()
     {
-        Debug.Log("Entering Attacking state");
+        //Debug.Log("Entering Attacking state");
         
         enemyMeleeClass.StartAttacking();
     }
@@ -569,7 +569,7 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void ExitAttacking()
     {
-        Debug.Log("Exiting Attacking state");
+        //Debug.Log("Exiting Attacking state");
 
         enemyMeleeClass.StopAttacking();
     }
@@ -579,7 +579,7 @@ public class EnemyBrain : NetworkBehaviour
     /// </summary>
     private void EnterReturning()
     {
-        Debug.Log("Returning to blight spawn");
+        //Debug.Log("Returning to blight spawn");
 
         enemyMovement.MovementTarget(blightSpawnPos);
     }
