@@ -2408,7 +2408,7 @@ MonoBehaviour:
   - {fileID: 853232844263223579}
   - {fileID: 6400402820781053741}
   - {fileID: 3672201414868947178}
-  - {fileID: 3672201414868947178}
+  - {fileID: 7363932690594211836}
   blightPrefab: {fileID: 5399148234845229741, guid: 5664f066181288b43a93293e563af6ca, type: 3}
   spawnConeRange: 90
   minDistance: 15
