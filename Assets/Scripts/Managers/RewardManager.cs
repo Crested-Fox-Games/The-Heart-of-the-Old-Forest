@@ -304,7 +304,7 @@ public class RewardManager : NetworkBehaviour
     private IEnumerator RewardCountdownTimer()
     {
         currentCountdownTime.Value = 0f;
-        Debug.Log($"Starting reward countdown timer and current countdown time: {currentCountdownTime.Value}");
+        //Debug.Log($"Starting reward countdown timer and current countdown time: {currentCountdownTime.Value}");
 
         while(currentCountdownTime.Value <= rewardCountdownTime)
         {

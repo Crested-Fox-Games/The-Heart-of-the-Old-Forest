@@ -46,7 +46,7 @@ public class TargetDetector : MonoBehaviour
 
         if (nearbyTargets.Add(target))
         {
-            Debug.Log($"{gameObject.name} detected {other.gameObject.name}");
+            //Debug.Log($"{gameObject.name} detected {other.gameObject.name}");
 
             TargetEntered?.Invoke(target);
         }
@@ -65,11 +65,11 @@ public class TargetDetector : MonoBehaviour
             return;
         }
 
-        Debug.Log("Should be removed");
+        //Debug.Log("Should be removed");
 
         if (nearbyTargets.Remove(target))
         {
-            Debug.Log($"{gameObject.name} lost {other.gameObject.name}");
+            //Debug.Log($"{gameObject.name} lost {other.gameObject.name}");
 
             TargetExited?.Invoke(target);
         }

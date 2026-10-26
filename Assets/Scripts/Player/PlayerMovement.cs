@@ -345,7 +345,7 @@ public class PlayerMovement : NetworkBehaviour
 
             //Trigger the event for anything that is affected by jumped
             onPlayerJump?.Invoke();
-            Debug.unityLogger.Log("Jumped");
+            //Debug.unityLogger.Log("Jumped");
         }
     }
 

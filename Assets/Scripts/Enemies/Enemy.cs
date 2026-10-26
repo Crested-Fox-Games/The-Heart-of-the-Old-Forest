@@ -146,7 +146,7 @@ public class Enemy : NetworkBehaviour
         if (!IsServerStarted)
             return;
 
-        Debug.Log($"{damage} damage dealt");
+        //Debug.Log($"{damage} damage dealt");
 
         currentHealth.Value -= damage;
 
