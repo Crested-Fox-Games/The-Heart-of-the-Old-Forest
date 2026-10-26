@@ -156,19 +156,6 @@ public class BlightNode : NetworkBehaviour
         nextBlightNode = next;
     }
 
-    
-    public void Interact(NetworkObject player)
-    {
-        //Handles what happens when the player clears the node
-        BlightCleared();
-    }
-
-    
-    public bool CanInteract(NetworkObject player)
-    {
-        return true;
-    }
-
     /// <summary>
     /// Scales the blight enemies health and damage based on its rarity
     /// </summary>
