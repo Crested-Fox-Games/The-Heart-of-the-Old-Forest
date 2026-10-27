@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -202,12 +203,57 @@ public class BlightManager : NetworkBehaviour
 
         //Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
 
-        if (currentForwardNodes[index].transform.position == Vector3.zero)
+        if (currentForwardNodes[index] == null || !currentForwardNodes[index].gameObject.activeInHierarchy)
         {
-            Debug.Log($"{currentForwardNodes[index].GetComponent<BlightNode>().PreviousBlightNode.name} at position {currentForwardNodes[index].GetComponent<BlightNode>().PreviousBlightNode.transform.position}");
+            //StringBuilder debugLogStart = new StringBuilder($"Blight Node Error Start\n");
+            //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+            //{
+            //    debugLogStart.AppendLine($"{Node.name} with position: {Node.transform.position}");
+            //}
+            //Debug.Log(debugLogStart);
+
+            currentForwardNodes[index] = SelectPreviousJumpNode(currentForwardNodes[index]);
+
+            if (currentForwardNodes[index] == null)
+            {
+                currentForwardNodes[index] = startingPoints[index];
+            }
+
+            //StringBuilder debugLogEnd = new StringBuilder($"Blight Node Error End\n");
+            //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+            //{
+            //    debugLogEnd.AppendLine($"{Node.name} with position: {Node.transform.position}");
+            //}
+            //Debug.Log(debugLogEnd);
         }
 
         return currentForwardNodes[index];
+    }
+
+    /// <summary>
+    /// This function is intended to be a failsafe for if an inactive node is still set as the forward node. 
+    /// </summary>
+    /// <param name="currentJumpNode"></param>
+    /// <returns></returns>
+    private Transform SelectPreviousJumpNode(Transform currentJumpNode)
+    {
+        int attempts = 0;
+
+        while(currentJumpNode != null && attempts < 20)
+        {
+            if(currentJumpNode.gameObject.activeInHierarchy)
+                return currentJumpNode;
+
+            BlightNode node = currentJumpNode.GetComponent<BlightNode>();
+
+            if (node == null)
+                return null;
+
+            currentJumpNode = node.PreviousBlightNode;
+            attempts++;
+        }
+
+        return null;
     }
 
     /// <summary>
