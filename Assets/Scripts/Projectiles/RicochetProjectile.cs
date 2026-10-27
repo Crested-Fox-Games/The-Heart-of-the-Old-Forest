@@ -49,11 +49,14 @@ public class RicochetProjectile : BaseProjectile
         targetPosition = target;
         projDamage = projectileDamage;
         this.maxRicochets = maxRicochets;
-        this.maxRicochetDistance = maxRicochetDist;
+        maxRicochetDistance = maxRicochetDist;
         hitTargets.Clear();
+        currentRicochets = 0;
 
         direction = (targetPosition - transform.position).normalized;
         movementCoroutine = StartCoroutine(MoveToTarget());
+
+        //Debug.Log($"Ricochet projectile initialized. hit targets: {hitTargets.Count} \n");
     }
 
     /// <summary>
@@ -148,7 +151,8 @@ public class RicochetProjectile : BaseProjectile
             direction = (targetPosition - transform.position).normalized;
 
             Debug.DrawRay(transform.position, direction * 5f, Color.red, 2f);
-            Debug.Log($"Target enemy {possibleTargets[0]} Target Pos {targetPosition} current pos {transform.position} direction {direction}");
+            //Debug.Log($"Target enemy {possibleTargets[0]} Target Pos {targetPosition} current pos {transform.position} direction {direction} \n" +
+            //    $"Bounces remaining: {maxRicochets - currentRicochets}");
             movementCoroutine = StartCoroutine(MoveToTarget());
         }
         else

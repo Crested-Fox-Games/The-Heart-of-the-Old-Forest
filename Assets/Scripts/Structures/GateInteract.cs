@@ -96,16 +96,16 @@ public class GateInteract : NetworkBehaviour, IInteractable
 
     public void Interact(NetworkObject player)
     {
-        Debug.Log("Interaction started");
+        //Debug.Log("Interaction started");
         if (!IsServerInitialized)
         {
-            Debug.Log("Server is not initialiased");
+            Debug.LogWarning("Server is not initialiased");
             return;
         }
 
         if (player == null)
         {
-            Debug.Log("player not found");
+            Debug.LogWarning("player not found");
             return;
         }
 
@@ -117,7 +117,7 @@ public class GateInteract : NetworkBehaviour, IInteractable
             return;
         }
 
-        Debug.Log("Interaction occurring");
+        //Debug.Log("Interaction occurring");
         ToggleGate(player);
     }
 

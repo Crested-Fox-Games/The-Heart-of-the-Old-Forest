@@ -69,7 +69,7 @@ public class PlayerRewardUi : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}");
+            //Debug.Log($"Reward {i}: Reward id{rewardIds[i]} : Corresponding reward {rewards[i].RewardName}");
             currentRewardOptions.Add(rewards[rewardIds[i]]);
         }
 

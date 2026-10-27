@@ -129,7 +129,7 @@ public class PlayerInteraction : NetworkBehaviour
         {
             //Sets the next interact time to the time of the interactable
             nextInteractTime = Time.time + interact.InteractTime;
-            Debug.Log($"Interact time of {interact} is {interact.InteractTime}");
+            //Debug.Log($"Interact time of {interact} is {interact.InteractTime}");
         }
         else
         {
