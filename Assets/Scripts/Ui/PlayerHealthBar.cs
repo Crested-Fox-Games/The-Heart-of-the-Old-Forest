@@ -62,6 +62,6 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void UpdateHealthText(float currentHealth, float maxHealth)
     {
-        healthText.text = $"{currentHealth:F0}/{maxHealth:F0}";
+        healthText.text = $"{Mathf.Max(0, currentHealth):F0}/{maxHealth:F0}";
     }
 }
