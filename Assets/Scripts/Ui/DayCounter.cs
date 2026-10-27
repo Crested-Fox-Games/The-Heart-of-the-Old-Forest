@@ -8,6 +8,6 @@ public class DayCounter : MonoBehaviour
 
     private void OnEnable()
     {
-        dayCounterText.text = $"Day: {TimeCycleManager.Instance.CurrentDay}";
+        dayCounterText.text = $"Day: {TimeCycleManager.Instance.CurrentDay + 1}";
     }
 }
