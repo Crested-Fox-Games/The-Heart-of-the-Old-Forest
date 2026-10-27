@@ -116,7 +116,7 @@ public class VacuumProjectile : BaseProjectile
 
         hasHit = true;
 
-        Debug.Log($"Vacuum Proj detected that it has hit {other.gameObject.name} which it considers valid");
+        //Debug.Log($"Vacuum Proj detected that it has hit {other.gameObject.name} which it considers valid");
 
         List<Enemy> enemiesHit = GetHitEnemies();
 

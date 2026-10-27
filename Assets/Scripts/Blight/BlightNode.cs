@@ -20,6 +20,9 @@ public class BlightNode : NetworkBehaviour
 
     private Transform nextBlightNode, previousBlightNode;
 
+    public Transform NextBlightNode => nextBlightNode;
+    public Transform PreviousBlightNode => previousBlightNode;
+
     /// <summary>
     /// A list of any resource nodes that are being affected by this blight nodes
     /// </summary>

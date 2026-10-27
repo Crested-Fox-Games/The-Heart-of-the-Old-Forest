@@ -169,8 +169,8 @@ public class EnemySpawner : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
-        Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
-            $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
+        //Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
+        //    $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
 
         //Check to see if we need to spawn a boss at the start of this night
         if(bossToSpawn)
