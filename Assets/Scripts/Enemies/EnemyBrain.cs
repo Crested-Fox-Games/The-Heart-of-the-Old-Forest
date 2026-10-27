@@ -307,7 +307,7 @@ public class EnemyBrain : NetworkBehaviour
 
         if (IsOutsideBlightLeash())
         {
-            Debug.Log("Outside blight leash detected");
+            //Debug.Log("Outside blight leash detected");
             ReturnToBlightSpawn();
         }
     }

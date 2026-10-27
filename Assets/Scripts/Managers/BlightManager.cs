@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Utility.Performance;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -199,7 +200,12 @@ public class BlightManager : NetworkBehaviour
     {
         int index = Random.Range(0, currentForwardNodes.Count);
 
-        Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
+        //Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
+
+        if (currentForwardNodes[index].transform.position == Vector3.zero)
+        {
+            Debug.Log($"{currentForwardNodes[index].GetComponent<BlightNode>().PreviousBlightNode.name} at position {currentForwardNodes[index].GetComponent<BlightNode>().PreviousBlightNode.transform.position}");
+        }
 
         return currentForwardNodes[index];
     }

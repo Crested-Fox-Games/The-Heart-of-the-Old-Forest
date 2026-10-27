@@ -161,7 +161,7 @@ public class GateInteract : NetworkBehaviour, IInteractable
     {
         while (gateAnim == true)
         {
-            Debug.Log("Entered toggle function");
+            //Debug.Log("Entered toggle function");
             if (!isOpen)
             {
                 animator.Play("GateOpenBack");
