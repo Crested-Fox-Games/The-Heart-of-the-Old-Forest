@@ -1165,6 +1165,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "DevCinematic",
+            "id": "e3b72e63-0e81-4ce0-970b-e1527bd67c26",
+            "actions": [
+                {
+                    "name": "NextPos",
+                    "type": "Button",
+                    "id": "0bc495ec-454d-42cc-9542-3cb1a7ecfeca",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrevPos",
+                    "type": "Button",
+                    "id": "a0f34b95-4b76-48c2-99d2-43c62d84e7ee",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StartAnim",
+                    "type": "Button",
+                    "id": "dd1bcdea-2692-4ede-9d00-93f15f1cb165",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "53850abb-56ae-4b6c-ba4e-7793276ba0a2",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "NextPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1de27475-832b-43be-bd69-354b8a9b401f",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PrevPos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7e5c1cc-9561-4c75-ba3c-8d54e21e8919",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "StartAnim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
