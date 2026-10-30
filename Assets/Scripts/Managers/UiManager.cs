@@ -184,6 +184,8 @@ public class UiManager : MonoBehaviour
     /// <param name="rewardIDs"></param>
     public void OpenRewardScreen(int[] rewardIDs, int[] rarities, PlayerRef player)
     {
+        HideOpenUiElements();
+
         //TODO: Rework this so that opening and populating are seperate
 
         //Send the rewards to a reward Ui script so that it can get the rewards to generate
@@ -246,27 +248,32 @@ public class UiManager : MonoBehaviour
     {
         if(UiElementOpen)
         {
-            // Handle exit button logic
-            if (tmpTowerPlacementUi.activeSelf)
-            {
-                HideTowerPlacementUi();
-            }
-            else if (towerUpgradeUi.activeSelf)
-            {
-                HideTowerUpgradeUi();
-            }
-            else if (tutorialOverlayUi.activeSelf)
-            {
-                CloseTutorialOverlayUI(new InputAction.CallbackContext());
-            }
-            else if (settingsOverlayUI.activeSelf)
-            {
-                CloseSettingsOverlayUI();
-            }
+            HideOpenUiElements();
         }
         else
         {
             OpenSettingsOverlayUI();
+        }
+    }
+
+    private void HideOpenUiElements()
+    {
+        // Handle exit button logic
+        if (tmpTowerPlacementUi.activeSelf)
+        {
+            HideTowerPlacementUi();
+        }
+        else if (towerUpgradeUi.activeSelf)
+        {
+            HideTowerUpgradeUi();
+        }
+        else if (tutorialOverlayUi.activeSelf)
+        {
+            CloseTutorialOverlayUI(new InputAction.CallbackContext());
+        }
+        else if (settingsOverlayUI.activeSelf)
+        {
+            CloseSettingsOverlayUI();
         }
     }
 }
