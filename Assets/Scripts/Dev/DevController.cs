@@ -113,39 +113,25 @@ public class DevController : MonoBehaviour
         OpenDevControls.performed -= ActivateDevControls;
     }
 
-    private void FindDevTimeMapActions()
-    {
-        skipToNight = devTimeMap.FindAction("SkipToNight");
-        quickEndDay = devTimeMap.FindAction("QuickEndDay");
-    }
-
-    private void ActivateDevTimeMapControls()
-    {
-        devTimeMap.Enable();
-
-        skipToNight.performed += SkipToNight;
-        quickEndDay.performed += QuickEndDay;
-    }
-
     private void NextPage(InputAction.CallbackContext context)
     {
-        for(int i = 0; i < actionMapsList.Count; i++)
+        for (int i = 0; i < actionMapsList.Count; i++)
         {
             InputActionMap map = actionMapsList[i];
 
-            if(map.enabled)
+            if (map.enabled)
             {
                 actionUiPanelList[i].gameObject.SetActive(false);
-                map.Disable();
+                DeactivateMap(i);
 
-                if(i == actionMapsList.Count -1)
+                if (i == actionMapsList.Count - 1)
                 {
-                    actionMapsList[0].Enable();
+                    ActivateMap(0);
                     actionUiPanelList[0].gameObject.SetActive(true);
                 }
                 else
                 {
-                    actionMapsList[i + 1].Enable();
+                    ActivateMap(i + 1);
                     actionUiPanelList[i + 1].gameObject.SetActive(true);
                 }
 
@@ -163,22 +149,55 @@ public class DevController : MonoBehaviour
             if (map.enabled)
             {
                 actionUiPanelList[i].gameObject.SetActive(false);
-                map.Disable();
+                DeactivateMap(i);
 
                 if (i == 0)
                 {
-                    actionMapsList[actionMapsList.Count - 1].Enable();
+                    ActivateMap(actionMapsList.Count - 1);
                     actionUiPanelList[actionMapsList.Count - 1].gameObject.SetActive(true);
                 }
                 else
                 {
-                    actionMapsList[i - 1].Enable();
+                    ActivateMap(i - 1);
                     actionUiPanelList[i - 1].gameObject.SetActive(true);
                 }
 
                 break;
             }
         }
+    }
+
+    private void ActivateMap(int index)
+    {
+        switch(index)
+        {
+            case 0: ActivateDevTimeMapControls(); break;
+            case 1: ActivateCinematicMapControls(); break;
+        }
+    }
+
+    private void DeactivateMap(int index)
+    {
+        switch (index)
+        {
+            case 0: DeactivateDevTimeMapControls(); break;
+            case 1: DeactivateCinematicMapControls(); break;
+        }
+    }
+
+    #region Time Map Functions
+    private void FindDevTimeMapActions()
+    {
+        skipToNight = devTimeMap.FindAction("SkipToNight");
+        quickEndDay = devTimeMap.FindAction("QuickEndDay");
+    }
+
+    private void ActivateDevTimeMapControls()
+    {
+        devTimeMap.Enable();
+
+        skipToNight.performed += SkipToNight;
+        quickEndDay.performed += QuickEndDay;
     }
 
     /// <summary>
@@ -192,21 +211,6 @@ public class DevController : MonoBehaviour
         quickEndDay.performed -= QuickEndDay;
     }
 
-    private void FindDevCinematicMapControls()
-    {
-
-    }
-
-    private void ActivateCinematicMapControls()
-    {
-
-    }
-
-    private void DeactivateCinematicMapControls()
-    {
-
-    }
-
     private void SkipToNight(InputAction.CallbackContext context)
     {
         TimeCycleManager.Instance.SkipToNight();
@@ -216,6 +220,53 @@ public class DevController : MonoBehaviour
     {
         TimeCycleManager.Instance.QuickEndDay();
     }
-    #endif
+
+    #endregion
+
+    #region Cinematic Map Functions
+    private void FindDevCinematicMapControls()
+    {
+        nextCameraPosition = devCinematicMap.FindAction("NextPos");
+        previousCameraPosition = devCinematicMap.FindAction("PrevPos");
+        startCameraAnimation = devCinematicMap.FindAction("StartAnim");
+    }
+
+    private void ActivateCinematicMapControls()
+    {
+        devCinematicMap.Enable();
+
+        nextCameraPosition.performed += NextCameraPosition;
+        previousCameraPosition.performed += PreviousCameraPosition;
+        startCameraAnimation.performed += StartCinematicAnimation;
+    }
+
+    private void DeactivateCinematicMapControls()
+    {
+        devCinematicMap.Disable();
+
+        nextCameraPosition.performed -= NextCameraPosition;
+        previousCameraPosition.performed -= PreviousCameraPosition;
+        startCameraAnimation.performed -= StartCinematicAnimation;
+    }
+
+    
+
+    private void NextCameraPosition(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void PreviousCameraPosition(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void StartCinematicAnimation(InputAction.CallbackContext context)
+    {
+
+    }
+    #endregion
+
+#endif
 
 }
