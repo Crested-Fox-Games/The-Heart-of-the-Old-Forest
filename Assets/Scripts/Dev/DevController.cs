@@ -42,6 +42,9 @@ public class DevController : MonoBehaviour
     /// </summary>
     private InputAction quickEndDay;
 
+    [SerializeField]
+    private CinematicController cinematicController;
+
     /// <summary>
     /// Goes to the next camera position for the camera
     /// </summary>
@@ -233,6 +236,7 @@ public class DevController : MonoBehaviour
 
     private void ActivateCinematicMapControls()
     {
+        cinematicController.gameObject.SetActive(true);
         devCinematicMap.Enable();
 
         nextCameraPosition.performed += NextCameraPosition;
@@ -253,17 +257,18 @@ public class DevController : MonoBehaviour
 
     private void NextCameraPosition(InputAction.CallbackContext context)
     {
-
+        //Debug.Log("Trying to go next camera pos");
+        cinematicController.NextCameraPosition();
     }
 
     private void PreviousCameraPosition(InputAction.CallbackContext context)
     {
-
+        cinematicController.PreviousCameraPosition();
     }
 
     private void StartCinematicAnimation(InputAction.CallbackContext context)
     {
-
+        cinematicController.ActivatePositionAnimation();
     }
     #endregion
 

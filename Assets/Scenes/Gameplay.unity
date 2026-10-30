@@ -3388,6 +3388,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6541622091204992989, guid: 03d5954309c9b7f41a9c89ab4928eca7, type: 3}
   m_PrefabInstance: {fileID: 1905318642101308237}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3469145549890160915
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 201746971839898638, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_Name
+      value: CinematicController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.11808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 33.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6394860267679255965, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+--- !u!114 &3469145549890160916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6308468063714079761, guid: dd291f3f11a9b6f44814520d4c0b35d1, type: 3}
+  m_PrefabInstance: {fileID: 3469145549890160915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0de63ad3da57c24a952dc2d7e4108db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CinematicController
 --- !u!1001 &3534941824682450870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3557,6 +3625,10 @@ PrefabInstance:
       propertyPath: devControlPanel
       value: 
       objectReference: {fileID: 7519108098769467536}
+    - target: {fileID: 7982202049907191913, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
+      propertyPath: cinematicController
+      value: 
+      objectReference: {fileID: 3469145549890160916}
     - target: {fileID: 7982202049907191913, guid: 502f81aae5d0d1d4ab95803c9a733b4e, type: 3}
       propertyPath: actionUiPanelList.Array.size
       value: 2
@@ -3849,6 +3921,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8628673083732237465, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3870,3 +3946,4 @@ SceneRoots:
   - {fileID: 1684495441}
   - {fileID: 3534941824682450870}
   - {fileID: 1886728653}
+  - {fileID: 3469145549890160915}

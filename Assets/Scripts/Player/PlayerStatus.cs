@@ -94,6 +94,8 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
     [SerializeField]
     private Transform normalPivot;
 
+    public Transform CameraPivot => normalPivot;
+
     /// <summary>
     /// The pivot point used for the camera when the player is dead
     /// </summary>
