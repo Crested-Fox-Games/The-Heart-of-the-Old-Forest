@@ -92,8 +92,13 @@ public class ArcherTower : Tower
             {
                 GameObject target = fireTargets[i];
 
-                if (target == null)
+                //Checks if the target is null, inactive, or if its an enemy with no health left
+                if (target == null || !target.activeInHierarchy || target.GetComponent<Enemy>().currentHealth.Value <= 0)
+                {
+                    fireTargets.RemoveAt(i);
                     continue;
+                }
+                    
 
                 var proj = NetworkManager.GetPooledInstantiated(projectile, transform.position, transform.rotation, true);
 

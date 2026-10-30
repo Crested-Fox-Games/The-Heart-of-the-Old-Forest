@@ -134,7 +134,7 @@ public class HealthBar : MonoBehaviour
         if (healthText != null)
         {
             //Displays the health as an integer value, rounded down, in the form of 'x/x'
-            healthText.text = $"{(int)currentHealth}/{(int)maxHealth}";
+            healthText.text = $"{(int)Mathf.Max(0, currentHealth)}/{(int)maxHealth}";
         }
     }
 }
