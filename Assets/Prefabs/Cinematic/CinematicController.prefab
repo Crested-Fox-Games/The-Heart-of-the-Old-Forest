@@ -32,6 +32,8 @@ Transform:
   m_Children:
   - {fileID: 3275139082503594940}
   - {fileID: 254348066320255616}
+  - {fileID: 4906618537503678428}
+  - {fileID: 4657547353675178508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6308468063714079761
@@ -49,6 +51,38 @@ MonoBehaviour:
   cameraPositions:
   - {fileID: 1041773554668033808}
   - {fileID: 4045053678912791597}
+  - {fileID: 951741904997974893}
+--- !u!1 &951741904997974893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4657547353675178508}
+  m_Layer: 8
+  m_Name: LookingAtBlightNode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4657547353675178508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951741904997974893}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.15072134, y: -0.15397426, z: 0.023035217, w: 0.9762399}
+  m_LocalPosition: {x: -3.5699997, y: 2.5899997, z: 29.280003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6394860267679255965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1041773554668033808
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,3 +145,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6394860267679255965}
   m_LocalEulerAnglesHint: {x: 5, y: 0, z: 0}
+--- !u!1001 &6097292179230459687
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6394860267679255965}
+    m_Modifications:
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.64533
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.12083
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 33.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305823759307032521, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+      propertyPath: m_Name
+      value: BlightNode
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+--- !u!4 &4906618537503678428 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1191801880243362043, guid: 5664f066181288b43a93293e563af6ca, type: 3}
+  m_PrefabInstance: {fileID: 6097292179230459687}
+  m_PrefabAsset: {fileID: 0}
