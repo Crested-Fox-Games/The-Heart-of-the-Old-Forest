@@ -116,7 +116,7 @@ public class VacuumProjectile : BaseProjectile
 
         hasHit = true;
 
-        Debug.Log($"Vacuum Proj detected that it has hit {other.gameObject.name} which it considers valid");
+        //Debug.Log($"Vacuum Proj detected that it has hit {other.gameObject.name} which it considers valid");
 
         List<Enemy> enemiesHit = GetHitEnemies();
 
@@ -134,7 +134,7 @@ public class VacuumProjectile : BaseProjectile
 
         foreach (Enemy enemy in enemiesHit)
         {
-            Debug.Log($"Enemy {enemy.name} has been hit, there are {enemiesHit.Count} total hits");
+            //Debug.Log($"Enemy {enemy.name} has been hit, there are {enemiesHit.Count} total hits");
             //Get the direction to the pull point
             Vector3 dir = (transform.position - enemy.transform.position).normalized;
 

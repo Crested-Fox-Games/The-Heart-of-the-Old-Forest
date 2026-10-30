@@ -69,7 +69,7 @@ public class EnemyMeleeClass : Enemy
             {
                 attackCooldown = 0f;
 
-                Debug.Log("Attack cooldown finished");
+                //Debug.Log("Attack cooldown finished");
             }
         }
 
@@ -81,7 +81,7 @@ public class EnemyMeleeClass : Enemy
     /// </summary>
     public void StartAttacking()
     {
-        Debug.Log("StartAttacking() called");
+        //Debug.Log("StartAttacking() called");
 
         if (!IsServerStarted)
         {
@@ -91,7 +91,7 @@ public class EnemyMeleeClass : Enemy
 
         shouldAttack = true;
 
-        Debug.Log("shouldAttack set to TRUE");
+        //Debug.Log("shouldAttack set to TRUE");
 
         TryAttack();
     }
@@ -123,7 +123,7 @@ public class EnemyMeleeClass : Enemy
         {
             return;
         }
-        Debug.Log("TryAttack success");
+        //Debug.Log("TryAttack success");
 
         StartAttack();
     }

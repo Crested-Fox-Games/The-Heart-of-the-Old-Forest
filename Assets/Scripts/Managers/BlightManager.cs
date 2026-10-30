@@ -1,8 +1,10 @@
 using FishNet.Object;
+using FishNet.Utility.Performance;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,6 +33,8 @@ public class BlightManager : NetworkBehaviour
     /// The current forwardmost node positions
     /// </summary>
     private List<Transform> currentForwardNodes = new List<Transform>();
+
+    public List<Transform> CurrentForwardNodes => currentForwardNodes;
 
     private HeartCrystal heartCrystal;
 
@@ -197,9 +201,59 @@ public class BlightManager : NetworkBehaviour
     {
         int index = Random.Range(0, currentForwardNodes.Count);
 
-        Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
+        //Debug.Log($"Blight node to spawn from selected as {currentForwardNodes[index].name} at position {currentForwardNodes[index].transform.position}");
+
+        if (currentForwardNodes[index] == null || !currentForwardNodes[index].gameObject.activeInHierarchy)
+        {
+            //StringBuilder debugLogStart = new StringBuilder($"Blight Node Error Start\n");
+            //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+            //{
+            //    debugLogStart.AppendLine($"{Node.name} with position: {Node.transform.position}");
+            //}
+            //Debug.Log(debugLogStart);
+
+            currentForwardNodes[index] = SelectPreviousJumpNode(currentForwardNodes[index]);
+
+            if (currentForwardNodes[index] == null)
+            {
+                currentForwardNodes[index] = startingPoints[index];
+            }
+
+            //StringBuilder debugLogEnd = new StringBuilder($"Blight Node Error End\n");
+            //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+            //{
+            //    debugLogEnd.AppendLine($"{Node.name} with position: {Node.transform.position}");
+            //}
+            //Debug.Log(debugLogEnd);
+        }
 
         return currentForwardNodes[index];
+    }
+
+    /// <summary>
+    /// This function is intended to be a failsafe for if an inactive node is still set as the forward node. 
+    /// </summary>
+    /// <param name="currentJumpNode"></param>
+    /// <returns></returns>
+    private Transform SelectPreviousJumpNode(Transform currentJumpNode)
+    {
+        int attempts = 0;
+
+        while(currentJumpNode != null && attempts < 20)
+        {
+            if(currentJumpNode.gameObject.activeInHierarchy)
+                return currentJumpNode;
+
+            BlightNode node = currentJumpNode.GetComponent<BlightNode>();
+
+            if (node == null)
+                return null;
+
+            currentJumpNode = node.PreviousBlightNode;
+            attempts++;
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -347,12 +401,12 @@ public class BlightManager : NetworkBehaviour
     /// </summary>
     public void UpdateForwardNodesFromNode(Transform nodeToRemove, Transform nodeToAdd)
     {
-        Debug.Log($"We are removing {nodeToRemove.name}");
+        Debug.Log($"We are removing {nodeToRemove.name} with position of {nodeToRemove.transform.position}");
         currentForwardNodes.Remove(nodeToRemove);
 
         currentForwardNodes.Add(nodeToAdd);
 
-        Debug.Log($"We just added {nodeToAdd.name}");
+        Debug.Log($"We just added {nodeToAdd.name} with position of {nodeToAdd.transform.position}");
     }
 
     /// <summary>
