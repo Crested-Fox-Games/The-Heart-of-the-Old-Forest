@@ -111,8 +111,11 @@ public class CinematicController : MonoBehaviour
         switch (cameraPosCount)
         {
             case -1: break;
-            case 0: cameraCoroutine = StartCoroutine(ZoomOut(5f, 3f)); break;
-            case 1: cameraCoroutine = StartCoroutine(ZoomIn(5f, 3f)); break;
+            case 0: cameraCoroutine = StartCoroutine(ZoomOut(15f, 9f)); break;
+            case 1: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
+            case 2: cameraCoroutine = StartCoroutine(ZoomOut(15f, 9f)); break;
+            case 4: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
+            case 5: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
         }
     }
 
