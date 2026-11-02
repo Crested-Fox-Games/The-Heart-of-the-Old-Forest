@@ -1080,6 +1080,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleDevUi",
+                    "type": "Button",
+                    "id": "3f716c12-252d-41f9-9fc7-66f8da048c83",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1113,6 +1122,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "PreviousPage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fba7179f-6d79-4349-ae14-1e5a4b5abb5d",
+                    "path": "<Keyboard>/backslash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleDevUi",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

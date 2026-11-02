@@ -32,6 +32,8 @@ public class DevController : MonoBehaviour
 
     private InputAction PreviousDevMap;
 
+    private InputAction ToggleDevUi;
+
     /// <summary>
     /// Skips to night time, for testing night time mechanics
     /// </summary>
@@ -100,6 +102,9 @@ public class DevController : MonoBehaviour
         PreviousDevMap = devMap.FindAction("PreviousPage");
         PreviousDevMap.performed += PreviousPage;
 
+        ToggleDevUi = devMap.FindAction("ToggleDevUi");
+        ToggleDevUi.performed += ToggleDevUiElement;
+
         //Find actions for all the action maps(add more functions below)
         FindDevTimeMapActions();
         FindDevCinematicMapControls();
@@ -114,6 +119,14 @@ public class DevController : MonoBehaviour
 
         //TODO: we might want to have it unsubcribe from this and subscribe to a deactivate later, but might not be worth it
         OpenDevControls.performed -= ActivateDevControls;
+    }
+
+    private void ToggleDevUiElement(InputAction.CallbackContext context)
+    {
+        if(devControlPanel.activeSelf)
+            devControlPanel.SetActive(false);
+        else
+            devControlPanel.SetActive(true);
     }
 
     private void NextPage(InputAction.CallbackContext context)

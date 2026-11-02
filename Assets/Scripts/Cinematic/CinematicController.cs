@@ -18,6 +18,7 @@ public class CinematicController : MonoBehaviour
     private Quaternion playerCamLocalRot;
 
     private Coroutine cameraZoomCoroutine;
+    private Coroutine cameraSlideCoroutine;
 
     //Inputs
     [SerializeField]
@@ -170,6 +171,25 @@ public class CinematicController : MonoBehaviour
 
         //Enable devcontrols ui again
 
+        cameraZoomCoroutine = null;
+    }
+
+    private IEnumerator SlideCamera(Vector3 direction, float amountToSlide, float timeForSlide)
+    {
+        float timer = 0f;
+        Vector3 startPos = mainCam.transform.position;
+        Vector3 endPos = startPos + direction * amountToSlide;
+        while (timer < timeForSlide)
+        {
+            timer += Time.deltaTime;
+            float progress = timer / timeForSlide;
+            mainCam.transform.position = Vector3.Lerp(startPos, endPos, progress);
+            yield return null;
+        }
+        mainCam.transform.position = endPos;
+        yield return new WaitForSeconds(3f);
+
+        //Enable devcontrols ui again
         cameraZoomCoroutine = null;
     }
 }
