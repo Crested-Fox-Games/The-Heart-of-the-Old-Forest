@@ -4476,7 +4476,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584155084691572016
+  _initializedTimestamp: -8584080242241861118
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -4495,7 +4495,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 1
+  <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 33710386010992803
   SceneId: 0
@@ -6796,17 +6796,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: DevControls
       objectReference: {fileID: 0}
-    - target: {fileID: 3869391144789438208, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5029275598140840375, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 143
       objectReference: {fileID: 0}
-    - target: {fileID: 5346495890418161200, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 7660174495030634415, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
+      propertyPath: m_text
+      value: 'Cinematic Camera Controls
+
+
+        1. Change Camera Mode
+
+        2.
+        Zoom In
+
+        3. Zoom Out'
       objectReference: {fileID: 0}
     - target: {fileID: 8745146117847879233, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
       propertyPath: m_fontAsset
@@ -6818,7 +6822,7 @@ PrefabInstance:
       objectReference: {fileID: -7785516814006663058, guid: 6657c742632ab1848826a95abc06526e, type: 2}
     - target: {fileID: 8745146117847879233, guid: f239cec616bc0bc448f37bae5b28b4b8, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

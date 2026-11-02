@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CinematicController : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> cameraPositions;
 
-    private int cameraPosCount = -1;
+    private bool cameraLocked = true;
 
     private PlayerRef player;
 
@@ -18,11 +17,34 @@ public class CinematicController : MonoBehaviour
     private Vector3 playerCamLocalPos;
     private Quaternion playerCamLocalRot;
 
-    private Coroutine cameraCoroutine;
+    private Coroutine cameraZoomCoroutine;
+
+    //Inputs
+    [SerializeField]
+    private InputActionAsset inputActions;
+
+    private InputActionMap cinematicMovementMap;
+
+    [Header("Zoom controls")]
+    [SerializeField]
+    private float zoomAmount = 5f;
+    [SerializeField]
+    private float zoomTime = 2f;
+
+    [Header("Slide controls")]
+    [SerializeField]
+    private float slideAmount = 5f;
+    [SerializeField]
+    private float slideTime = 2f;
+
 
     private void Start()
     {
         Initialize();
+
+        cinematicMovementMap = inputActions.FindActionMap("CinematicMovement");
+
+        cinematicMovementMap.Disable();
     }
 
     private void Initialize()
@@ -32,26 +54,22 @@ public class CinematicController : MonoBehaviour
 
         playerCamLocalPos = mainCam.transform.localPosition;
         playerCamLocalRot = mainCam.transform.localRotation;
-
-        Debug.Log($"Player cam pos: {playerCamLocalPos} || Player cam rot: {playerCamLocalRot}");
     }
 
-    public void NextCameraPosition()
+    public void ChangeCameraMode()
     {
         Debug.Log($"Trying to move camera {mainCam.name} to next position");
-        if(cameraPosCount == -1)
+        if (cameraLocked)
         {
-            cameraPosCount = 0;
+            cameraLocked = false;
             EnableCinematicMode();
 
             //Make the position the first in the list
-            mainCam.transform.parent = cameraPositions[cameraPosCount].transform;
-            mainCam.transform.SetPositionAndRotation(cameraPositions[cameraPosCount].transform.position, 
-                cameraPositions[cameraPosCount].transform.rotation);
+            mainCam.transform.parent = gameObject.transform;
         }
-        else if(cameraPosCount == cameraPositions.Count -1)
+        else if (!cameraLocked)
         {
-            cameraPosCount = -1;
+            cameraLocked = true;
             DisableCinematicMode();
 
             //Make the position the player
@@ -59,64 +77,26 @@ public class CinematicController : MonoBehaviour
             mainCam.transform.localPosition = playerCamLocalPos;
             mainCam.transform.localRotation = playerCamLocalRot;
         }
-        else
-        {
-            cameraPosCount++;
-
-            //Make the position the next in the list
-            mainCam.transform.parent = cameraPositions[cameraPosCount].transform;
-            mainCam.transform.SetPositionAndRotation(cameraPositions[cameraPosCount].transform.position, 
-                cameraPositions[cameraPosCount].transform.rotation);
-        }
     }
 
-    public void PreviousCameraPosition()
+    public void ActivateCameraZoomIn()
     {
-        if (cameraPosCount == -1)
-        {
-            cameraPosCount = cameraPositions.Count - 1;
-            EnableCinematicMode();
+        //Disable dev ui
 
-            //Make the position the first in the list
-            mainCam.transform.parent = cameraPositions[cameraPosCount].transform;
-            mainCam.transform.SetPositionAndRotation(cameraPositions[cameraPosCount].transform.position, 
-                cameraPositions[cameraPosCount].transform.rotation);
-        }
-        else if (cameraPosCount == 0)
-        {
-            cameraPosCount = -1;
-            DisableCinematicMode();
+        if (cameraZoomCoroutine != null)
+            StopCoroutine(cameraZoomCoroutine);
 
-            //Make the position the player
-            mainCam.transform.parent = player.playerStatus.CameraPivot;
-            mainCam.transform.localPosition = playerCamLocalPos;
-            mainCam.transform.localRotation = playerCamLocalRot;
-        }
-        else
-        {
-            cameraPosCount--;
-
-            //Make the position the next in the list
-            mainCam.transform.parent = cameraPositions[cameraPosCount].transform;
-            mainCam.transform.SetPositionAndRotation(cameraPositions[cameraPosCount].transform.position, 
-                cameraPositions[cameraPosCount].transform.rotation);
-        }
+        cameraZoomCoroutine = StartCoroutine(ZoomIn(zoomAmount, zoomTime));
     }
 
-    public void ActivatePositionAnimation()
+    public void ActivateCameraZoomOut()
     {
-        if (cameraCoroutine != null)
-            StopCoroutine(cameraCoroutine);
+        //Disable dev ui
 
-        switch (cameraPosCount)
-        {
-            case -1: break;
-            case 0: cameraCoroutine = StartCoroutine(ZoomOut(15f, 9f)); break;
-            case 1: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
-            case 2: cameraCoroutine = StartCoroutine(ZoomOut(15f, 9f)); break;
-            case 4: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
-            case 5: cameraCoroutine = StartCoroutine(ZoomIn(15f, 9f)); break;
-        }
+        if (cameraZoomCoroutine != null)
+            StopCoroutine(cameraZoomCoroutine);
+
+        cameraZoomCoroutine = StartCoroutine(ZoomOut(zoomAmount, zoomTime));
     }
 
     private void EnableCinematicMode()
@@ -126,6 +106,7 @@ public class CinematicController : MonoBehaviour
 
         //Disable Player Controls
         player.playerInput.DisablePlayerMap();
+        cinematicMovementMap.Enable();
     }
 
     private void DisableCinematicMode()
@@ -135,6 +116,7 @@ public class CinematicController : MonoBehaviour
 
         //Enable Player Controls
         player.playerInput.EnablePlayerMap();
+        cinematicMovementMap.Disable();
     }
 
     private IEnumerator ZoomOut(float amountToZoomOut, float timeForZoom)
@@ -161,7 +143,7 @@ public class CinematicController : MonoBehaviour
 
         //Enable devcontrols ui again
 
-        cameraCoroutine = null;
+        cameraZoomCoroutine = null;
     }
 
     private IEnumerator ZoomIn(float amountToZoomOut, float timeForZoom)
@@ -188,6 +170,6 @@ public class CinematicController : MonoBehaviour
 
         //Enable devcontrols ui again
 
-        cameraCoroutine = null;
+        cameraZoomCoroutine = null;
     }
 }

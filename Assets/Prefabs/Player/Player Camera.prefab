@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 181323723340778050}
   - component: {fileID: 5621597747880354502}
   - component: {fileID: 3999956039406435778}
+  - component: {fileID: -4529644585310476766}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -137,3 +138,18 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &-4529644585310476766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871496172995986343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94171b2b868909345a34400e0f334893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CinematicCameraControls
+  moveSpeed: 5
+  lookSpeed: 0.1
+  inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

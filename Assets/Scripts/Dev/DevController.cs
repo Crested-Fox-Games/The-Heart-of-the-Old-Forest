@@ -48,17 +48,17 @@ public class DevController : MonoBehaviour
     /// <summary>
     /// Goes to the next camera position for the camera
     /// </summary>
-    private InputAction nextCameraPosition;
+    private InputAction switchCameraMode;
 
     /// <summary>
     /// Goes to the previous camera position
     /// </summary>
-    private InputAction previousCameraPosition;
+    private InputAction zoomIn;
 
     /// <summary>
     /// Starts the camera animation for the position
     /// </summary>
-    private InputAction startCameraAnimation;
+    private InputAction zoomOut;
 
     private void Awake()
     {
@@ -229,9 +229,9 @@ public class DevController : MonoBehaviour
     #region Cinematic Map Functions
     private void FindDevCinematicMapControls()
     {
-        nextCameraPosition = devCinematicMap.FindAction("NextPos");
-        previousCameraPosition = devCinematicMap.FindAction("PrevPos");
-        startCameraAnimation = devCinematicMap.FindAction("StartAnim");
+        switchCameraMode = devCinematicMap.FindAction("SwitchCameraMode");
+        zoomIn = devCinematicMap.FindAction("ZoomIn");
+        zoomOut = devCinematicMap.FindAction("ZoomOut");
     }
 
     private void ActivateCinematicMapControls()
@@ -239,36 +239,36 @@ public class DevController : MonoBehaviour
         cinematicController.gameObject.SetActive(true);
         devCinematicMap.Enable();
 
-        nextCameraPosition.performed += NextCameraPosition;
-        previousCameraPosition.performed += PreviousCameraPosition;
-        startCameraAnimation.performed += StartCinematicAnimation;
+        switchCameraMode.performed += SwitchCameraMode;
+        zoomIn.performed += ZoomIn;
+        zoomOut.performed += ZoomOut;
     }
 
     private void DeactivateCinematicMapControls()
     {
         devCinematicMap.Disable();
 
-        nextCameraPosition.performed -= NextCameraPosition;
-        previousCameraPosition.performed -= PreviousCameraPosition;
-        startCameraAnimation.performed -= StartCinematicAnimation;
+        switchCameraMode.performed -= SwitchCameraMode;
+        zoomIn.performed -= ZoomIn;
+        zoomOut.performed -= ZoomOut;
     }
 
     
 
-    private void NextCameraPosition(InputAction.CallbackContext context)
+    private void SwitchCameraMode(InputAction.CallbackContext context)
     {
         //Debug.Log("Trying to go next camera pos");
-        cinematicController.NextCameraPosition();
+        cinematicController.ChangeCameraMode();
     }
 
-    private void PreviousCameraPosition(InputAction.CallbackContext context)
+    private void ZoomIn(InputAction.CallbackContext context)
     {
-        cinematicController.PreviousCameraPosition();
+        cinematicController.ActivateCameraZoomIn();
     }
 
-    private void StartCinematicAnimation(InputAction.CallbackContext context)
+    private void ZoomOut(InputAction.CallbackContext context)
     {
-        cinematicController.ActivatePositionAnimation();
+        cinematicController.ActivateCameraZoomOut();
     }
     #endregion
 
