@@ -62,6 +62,37 @@ public class DevController : MonoBehaviour
     /// </summary>
     private InputAction zoomOut;
 
+    /// <summary>
+    /// Slides the camera to the left
+    /// </summary>
+    private InputAction slideLeft;
+
+    /// <summary>
+    /// Slides the camera to the right
+    /// </summary>
+    private InputAction slideRight;
+
+    /// <summary>
+    /// Slides the camera up
+    /// </summary>
+    private InputAction slideUp;
+
+    /// <summary>
+    /// Slides the camera down
+    /// </summary>
+    private InputAction slideDown;
+
+    /// <summary>
+    /// Pans the camera to the left
+    /// </summary>
+    private InputAction panLeft;
+
+    /// <summary>
+    /// Pans the camera to the right
+    /// </summary>
+    private InputAction panRight;
+
+
     private void Awake()
     {
         GetActionMaps();
@@ -245,6 +276,12 @@ public class DevController : MonoBehaviour
         switchCameraMode = devCinematicMap.FindAction("SwitchCameraMode");
         zoomIn = devCinematicMap.FindAction("ZoomIn");
         zoomOut = devCinematicMap.FindAction("ZoomOut");
+        slideLeft = devCinematicMap.FindAction("SlideLeft");
+        slideRight = devCinematicMap.FindAction("SlideRight");
+        slideUp = devCinematicMap.FindAction("SlideUp");
+        slideDown = devCinematicMap.FindAction("SlideDown");
+        panLeft = devCinematicMap.FindAction("PanLeft");
+        panRight = devCinematicMap.FindAction("PanRight");
     }
 
     private void ActivateCinematicMapControls()
@@ -255,6 +292,12 @@ public class DevController : MonoBehaviour
         switchCameraMode.performed += SwitchCameraMode;
         zoomIn.performed += ZoomIn;
         zoomOut.performed += ZoomOut;
+        slideLeft.performed += SlideLeft;
+        slideRight.performed += SlideRight;
+        slideUp.performed += SlideUp;
+        slideDown.performed += SlideDown;
+        panLeft.performed += PanLeft;
+        panRight.performed += PanRight;
     }
 
     private void DeactivateCinematicMapControls()
@@ -264,9 +307,13 @@ public class DevController : MonoBehaviour
         switchCameraMode.performed -= SwitchCameraMode;
         zoomIn.performed -= ZoomIn;
         zoomOut.performed -= ZoomOut;
+        slideLeft.performed -= SlideLeft;
+        slideRight.performed -= SlideRight;
+        slideUp.performed -= SlideUp;
+        slideDown.performed -= SlideDown;
+        panLeft.performed -= PanLeft;
+        panRight.performed -= PanRight;
     }
-
-    
 
     private void SwitchCameraMode(InputAction.CallbackContext context)
     {
@@ -282,6 +329,36 @@ public class DevController : MonoBehaviour
     private void ZoomOut(InputAction.CallbackContext context)
     {
         cinematicController.ActivateCameraZoomOut();
+    }
+
+    private void SlideLeft(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivateSlideLeft();
+    }
+
+    private void SlideRight(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivateSlideRight();
+    }
+
+    private void SlideUp(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivateSlideUp();
+    }
+
+    private void SlideDown(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivateSlideDown();
+    }
+
+    private void PanLeft(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivatePanLeft();
+    }
+
+    private void PanRight(InputAction.CallbackContext context)
+    {
+        cinematicController.ActivatePanRight();
     }
     #endregion
 

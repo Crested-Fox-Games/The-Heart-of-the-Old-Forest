@@ -19,6 +19,7 @@ public class CinematicController : MonoBehaviour
 
     private Coroutine cameraZoomCoroutine;
     private Coroutine cameraSlideCoroutine;
+    private Coroutine cameraPanCoroutine;
 
     //Inputs
     [SerializeField]
@@ -38,6 +39,13 @@ public class CinematicController : MonoBehaviour
     [SerializeField]
     private float slideTime = 2f;
 
+    [Header("Pan controls")]
+    [SerializeField]
+    private float panCenterDistance = 10f;
+    [SerializeField]
+    private float panAmount = 5f;
+    [SerializeField]
+    private float panTime = 2f;
 
     private void Start()
     {
@@ -82,8 +90,6 @@ public class CinematicController : MonoBehaviour
 
     public void ActivateCameraZoomIn()
     {
-        //Disable dev ui
-
         if (cameraZoomCoroutine != null)
             StopCoroutine(cameraZoomCoroutine);
 
@@ -92,12 +98,58 @@ public class CinematicController : MonoBehaviour
 
     public void ActivateCameraZoomOut()
     {
-        //Disable dev ui
-
         if (cameraZoomCoroutine != null)
             StopCoroutine(cameraZoomCoroutine);
 
         cameraZoomCoroutine = StartCoroutine(ZoomOut(zoomAmount, zoomTime));
+    }
+
+    public void ActivateSlideLeft()
+    {
+        if (cameraSlideCoroutine != null)
+            StopCoroutine(cameraSlideCoroutine);
+
+        cameraSlideCoroutine = StartCoroutine(SlideCamera(-mainCam.transform.right, slideAmount, slideTime));
+    }
+
+    public void ActivateSlideRight()
+    {
+        if (cameraSlideCoroutine != null)
+            StopCoroutine(cameraSlideCoroutine);
+
+        cameraSlideCoroutine = StartCoroutine(SlideCamera(mainCam.transform.right, slideAmount, slideTime));
+    }
+
+    public void ActivateSlideUp()
+    {
+        if (cameraSlideCoroutine != null)
+            StopCoroutine(cameraSlideCoroutine);
+
+        cameraSlideCoroutine = StartCoroutine(SlideCamera(mainCam.transform.up, slideAmount, slideTime));
+    }
+
+    public void ActivateSlideDown()
+    {
+        if (cameraSlideCoroutine != null)
+            StopCoroutine(cameraSlideCoroutine);
+
+        cameraSlideCoroutine = StartCoroutine(SlideCamera(-mainCam.transform.up, slideAmount, slideTime));
+    }
+
+    public void ActivatePanLeft()
+    {
+        if (cameraPanCoroutine != null)
+            StopCoroutine(cameraPanCoroutine);
+
+        cameraPanCoroutine = StartCoroutine(PanCamera(mainCam.transform.right, panAmount, panTime));
+    }
+
+    public void ActivatePanRight()
+    {
+        if (cameraPanCoroutine != null)
+            StopCoroutine(cameraPanCoroutine);
+
+        cameraPanCoroutine = StartCoroutine(PanCamera(-mainCam.transform.right, panAmount, panTime));
     }
 
     private void EnableCinematicMode()
@@ -142,7 +194,6 @@ public class CinematicController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        //Enable devcontrols ui again
 
         cameraZoomCoroutine = null;
     }
@@ -169,7 +220,6 @@ public class CinematicController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        //Enable devcontrols ui again
 
         cameraZoomCoroutine = null;
     }
@@ -189,7 +239,42 @@ public class CinematicController : MonoBehaviour
         mainCam.transform.position = endPos;
         yield return new WaitForSeconds(3f);
 
-        //Enable devcontrols ui again
-        cameraZoomCoroutine = null;
+        cameraSlideCoroutine = null;
+    }
+
+    private IEnumerator PanCamera(Vector3 direction, float amountToPan, float timeForPan)
+    {
+        float timer = 0f;
+        
+        Vector3 orbitPoint = mainCam.transform.position + mainCam.transform.forward * panCenterDistance;
+
+        Vector3 startPos = mainCam.transform.position;
+
+        Vector3 rotationAxis = Vector3.Cross(mainCam.transform.forward, direction).normalized;
+        
+        Vector3 offset = startPos - orbitPoint;
+
+        Quaternion endRot = mainCam.transform.rotation;
+
+        while (timer < timeForPan)
+        {
+            timer += Time.deltaTime;
+            float progress = timer / timeForPan;
+
+            Quaternion currentRot = Quaternion.AngleAxis(progress * amountToPan, rotationAxis);
+
+            mainCam.transform.position = orbitPoint + currentRot * offset;
+
+            mainCam.transform.rotation = Quaternion.LookRotation(orbitPoint - mainCam.transform.position);
+            endRot = mainCam.transform.rotation;
+            yield return null;
+        }
+
+        mainCam.transform.rotation = endRot;
+
+        Debug.Log($"Pan complete. Target end rotation {endRot}, New camera rotation: {mainCam.transform.rotation}");
+        yield return new WaitForSeconds(3f);
+
+        cameraPanCoroutine = null;
     }
 }

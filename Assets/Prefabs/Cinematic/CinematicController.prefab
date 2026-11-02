@@ -49,3 +49,6 @@ MonoBehaviour:
   zoomTime: 2
   slideAmount: 5
   slideTime: 2
+  panCenterDistance: 10
+  panAmount: 20
+  panTime: 2
