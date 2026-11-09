@@ -60,6 +60,7 @@ public class CinematicController : MonoBehaviour
     {
         player = GameManager.Instance.LocalPlayer;
         mainCam = player.GetComponentInChildren<Camera>();
+        
 
         playerCamLocalPos = mainCam.transform.localPosition;
         playerCamLocalRot = mainCam.transform.localRotation;

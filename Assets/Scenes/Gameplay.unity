@@ -3761,6 +3761,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8596890769012687942, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596890769012687942, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596890769012687942, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596890769012687942, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596890769012687942, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8628673083732237465, guid: 654141f9c05762a4cb3f4e2051e43d37, type: 3}
       propertyPath: m_Name
       value: GameCanvas
