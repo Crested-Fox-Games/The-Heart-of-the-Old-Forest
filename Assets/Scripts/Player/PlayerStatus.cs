@@ -1,0 +1,398 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using System.Collections;
+using UnityEngine;
+
+/// <summary>
+/// The stats of the player that can be upgraded
+/// </summary>
+public enum PlayerStats
+{
+    Health,
+    MoveSpeed
+}
+
+public enum AbilityStats
+{
+    Damage,
+    Cooldown,
+    Range,
+    CritChance,
+    CritDamage
+}   
+
+public class PlayerStatus : NetworkBehaviour, ITargetable
+{
+    /// <summary>
+    /// The reference to the player ref script
+    /// </summary>
+    [SerializeField]
+    private PlayerRef playerRef;
+
+    /// <summary>
+    /// Reference to player animator
+    /// </summary>
+    private Animator animator;
+
+    /// <summary>
+    /// The starting health for the player before upgrades are applied
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The starting health for the player before upgrades are applied")]
+    private float baseMaxHealth = 100f;
+
+    /// <summary>
+    /// The delay in seconds before the players health starts coming back
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The delay in seconds before the players health starts coming back")]
+    private float healthRegenDelay = 5f;
+
+    /// <summary>
+    /// The amount of health the player gets back every second
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount of health the player gets back every second")]
+    private float healthRegenPercent = 5f;
+
+    /// <summary>
+    /// The amount of time it takes a player to respawn
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount of time it takes a player to respawn")]
+    private float respawnTime = 20f;
+
+    private float currentMaxHealth;
+
+    private float moveSpeed = 5f;
+
+    private Coroutine healthRegenCoroutine;
+
+    private readonly SyncVar<float> currentHealth = new();
+
+    /// <summary>
+    /// A dictionary that holds the values for the players additive upgrades
+    /// </summary>
+    private readonly SyncDictionary<PlayerStats, float> playerAdditiveUpgrades = new();
+
+    /// <summary>
+    /// A dictionary that holds the values for the players multiplicative upgrades
+    /// </summary>
+    private readonly SyncDictionary<PlayerStats, float> playerMultiplicativeUpgrades = new();
+
+    public Transform TargetTransform => transform;
+
+    /// <summary>
+    /// Audio clip for when the player takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
+
+    /// <summary>
+    /// The pivot point used for the camera when the player is alive
+    /// </summary>
+    [SerializeField]
+    private Transform normalPivot;
+
+    public Transform CameraPivot => normalPivot;
+
+    /// <summary>
+    /// The pivot point used for the camera when the player is dead
+    /// </summary>
+    [SerializeField]
+    private Transform deathPivot;
+
+    /// <summary>
+    /// The localPosition that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Vector3 cameraNormalPos;
+
+    /// <summary>
+    /// The localRotation that is saved when we move the camera for player death and respawning
+    /// </summary>
+    private Quaternion cameraNormalRot;
+
+    private Coroutine deathCamRoutine;
+
+    public override void OnStartServer()
+    {
+        InitializeUpgradeDictionaries();
+
+        animator = GetComponentInChildren<Animator>();
+
+        //Initialises the health of the structure
+        currentMaxHealth = baseMaxHealth;
+        currentHealth.Value = currentMaxHealth;
+
+        currentHealth.OnChange += UpdateHealthBar;
+
+        playerAdditiveUpgrades.OnChange += OnUpgradesChanged;
+        playerMultiplicativeUpgrades.OnChange += OnUpgradesChanged;
+    }
+
+    override public void OnStopServer()
+    {
+        currentHealth.OnChange -= UpdateHealthBar;
+        playerAdditiveUpgrades.OnChange -= OnUpgradesChanged;
+        playerMultiplicativeUpgrades.OnChange -= OnUpgradesChanged;
+    }
+
+    public bool IsAlive()
+    {
+        return currentHealth.Value > 0;
+    }
+
+    public bool IsAttackable()
+    {
+        //Can change later to add protection mechanics
+        return IsAlive();
+    }
+
+    public bool TakeDamage(float damage)
+    {
+        if (!IsServerStarted)
+            return true;
+
+        currentHealth.Value -= damage;
+
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio}");
+        }
+
+        //Debug.Log("Structure has taken damage");
+        if (currentHealth.Value <= 0)
+        {
+            HandePlayerDeath();
+            return false;
+        }
+        else
+        {
+            //If the regen coroutine is started we end it
+            if(healthRegenCoroutine != null)
+            {
+                StopCoroutine(healthRegenCoroutine);
+            }
+
+            //Starts the health regen coroutine
+            healthRegenCoroutine = StartCoroutine(HealthRegen());
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Handles what happens when the player dies
+    /// </summary>
+    public void HandePlayerDeath()
+    {
+        //Stops any health regen that is happening
+        if(healthRegenCoroutine != null)
+        {
+            StopCoroutine(healthRegenCoroutine);
+
+            healthRegenCoroutine = null;
+        }
+
+        //Disable the current players controls
+        playerRef.playerInput.DisablePlayerMap();
+
+        //Start an Ienumerator to respawn the player
+        StartCoroutine(PlayerRespawn());
+
+        //Start the death animation for the player that all players see
+        PlayerDiedAnimationTrigger();
+
+        //Do any fancy camera stuff we want to do for the death event
+        Camera cam = Camera.main;
+
+        //Save the pos and rotation of the camera
+        cameraNormalPos = cam.transform.localPosition;
+        cameraNormalRot = cam.transform.localRotation;
+
+        //Changes the parent
+        cam.transform.parent = deathPivot;
+
+        //Updates the position of the camera
+        cam.transform.position = new Vector3(deathPivot.transform.position.x + 5f, deathPivot.transform.position.y + 2.5f, deathPivot.transform.position.z);
+
+        //Makes the camera look down
+        cam.transform.LookAt(deathPivot.transform.position);
+
+        //Start the cam movement coroutine
+        deathCamRoutine = StartCoroutine(DeathCam());
+
+    }
+
+    /// <summary>
+    /// Tells all clients that this player has died and triggers that animation
+    /// </summary>
+    [ObserversRpc]
+    private void PlayerDiedAnimationTrigger()
+    {
+        //Set the animator variable for player death to true
+        animator.SetBool("IsDead", true);
+    }
+
+    /// <summary>
+    /// Tells all clients that this player has respawned and triggers transition to idle animation
+    /// </summary>
+    [ObserversRpc]
+    private void PlayerRespawnAnimationTrigger()
+    {
+        //Set the animator variable for player death to false
+        animator.SetBool("IsDead", false);
+    }
+
+    /// <summary>
+    /// Handles the respawning of the player
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayerRespawn()
+    {
+        //Tell the ui to start a timer on screen that shows how long until the respawn happens
+        UiManager.Instance.OpenPlayerDeathUi(respawnTime);
+
+        //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
+        yield return new WaitForSeconds(respawnTime - 0.5f);
+
+        //Reset players health
+        currentHealth.Value = currentMaxHealth;
+
+        //Gets rid of all the resources the player has on them when they die. 
+        playerRef.playerInteraction.LoseAllResources();
+
+        //Reset player animation from the death animation to idle
+        PlayerRespawnAnimationTrigger();
+
+        //Move the player to their spawn position
+        GamePlayerSpawner spawner = FindFirstObjectByType<GamePlayerSpawner>();
+
+        int rand = Random.Range(0, spawner.SpawnPoints.Length);
+
+        Vector3 spawnPoint = spawner.SpawnPoints[rand].transform.position;
+
+        transform.position = spawnPoint;
+
+        //Reset camera if relevant
+        StopCoroutine(deathCamRoutine);
+        
+        Camera.main.transform.parent = normalPivot;
+
+        Camera.main.transform.localPosition = cameraNormalPos;
+        Camera.main.transform.localRotation = cameraNormalRot;
+
+        
+        //Re-enable the players controls
+        playerRef.playerInput.EnablePlayerMap();
+
+    }
+
+    /// <summary>
+    /// Tells the ui manager that the health of the player has changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        UiManager.Instance.UpdatePlayerHealthBar(currentHealth.Value, currentMaxHealth);
+    }
+
+    /// <summary>
+    /// Initialize the values for the dictionaries
+    /// </summary>
+    private void InitializeUpgradeDictionaries()
+    {
+        playerAdditiveUpgrades[PlayerStats.Health] = 0f;
+        playerAdditiveUpgrades[PlayerStats.MoveSpeed] = 0f;
+
+        playerMultiplicativeUpgrades[PlayerStats.Health] = 1f;
+        playerMultiplicativeUpgrades[PlayerStats.MoveSpeed] = 1f;
+    }
+
+    public void AddUpgrade(PlayerStats stat, UpgradeType upgradeType, float amount)
+    {
+        if (upgradeType == UpgradeType.Addition)
+        {
+            playerAdditiveUpgrades[stat] += amount;
+        }
+        else if (upgradeType == UpgradeType.Multiplacation)
+        {
+            playerMultiplicativeUpgrades[stat] += amount;
+        }
+    }
+
+    private void OnUpgradesChanged(SyncDictionaryOperation op, PlayerStats key, float value, bool asServer)
+    {
+        // Handle the changes to the upgrade dictionaries here
+        // For example, you can update the player's stats based on the new values
+
+        switch(key)
+        {
+            case PlayerStats.Health:
+                // Update current and max health based on the new value
+                float newMaxHealth = GetHealth();
+
+                float difference = newMaxHealth - currentMaxHealth;
+
+                currentMaxHealth = newMaxHealth;
+                currentHealth.Value += difference;
+                break;
+            case PlayerStats.MoveSpeed:
+                // Update move speed based on the new value
+                break; 
+        }
+    }
+
+    public float GetHealth()
+    {
+        return (baseMaxHealth + playerAdditiveUpgrades[PlayerStats.Health]) * playerMultiplicativeUpgrades[PlayerStats.Health];
+    }
+
+    public float GetSpeed()
+    {
+        return (moveSpeed + playerAdditiveUpgrades[PlayerStats.MoveSpeed]) * playerMultiplicativeUpgrades[PlayerStats.MoveSpeed];
+    }
+
+
+    private IEnumerator HealthRegen()
+    {
+        //Waits for a delay after being hit to force the player to play safer to regen
+        yield return new WaitForSeconds(healthRegenDelay);
+
+        //Loops while health isnt at max
+        while(currentHealth.Value < currentMaxHealth)
+        {
+            //Currently gives players a % of hp back per tick
+            //Also ensures we dont overflow the health regen over max health
+            float tempHealthCount = currentHealth.Value + (baseMaxHealth * healthRegenPercent / 100);
+            currentHealth.Value = Mathf.Min(currentMaxHealth, tempHealthCount);
+
+            //The time between regen ticks
+            yield return new WaitForSecondsRealtime(1f);
+        }
+    }
+
+    /// <summary>
+    /// An ienumerator that rotates the camera around the player while they are dead
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeathCam()
+    {
+
+        while(true)
+        {
+            float angle = 5 * Time.deltaTime;
+
+            //This rotates the pivot point, making the camera rotate around it when the camera is a child of the pivot
+            deathPivot.transform.Rotate(Vector3.up, angle);
+
+            yield return null;
+        }
+    }
+}

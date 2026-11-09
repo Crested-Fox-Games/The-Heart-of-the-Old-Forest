@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
+using System.Collections;
 using UnityEngine;
 
 //TODO: make this class an abstract parent when implementing enemy types
@@ -8,18 +9,30 @@ public class Enemy : NetworkBehaviour
 {
     #region SO Fields
     [SerializeField]
-    private EnemySO enemySO;
+    protected EnemySO enemySO;
 
     private string enemyName, enemyDescription;
-    private float enemyHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight;
+    protected float enemyMaxHealth, enemySpeed, enemyDamage, enemyAttackRate, enemySpawnWeight, enemyAttackRange;
 
     public EnemySO EnemySO => enemySO;
+    public float EnemyAttackRange => enemyAttackRange;
 
     #endregion
 
     //References
     private EnemyBrain enemyBrain;
     private EnemyMovement enemyMovement;
+    private EnemySpawner enemySpawner;
+    private HealthBar healthBar;
+    private Animator animator;
+    private Collider enemyCollider;
+
+    private GameObject heartCrystal;
+
+    [SerializeField]
+    private GameObject enemyModel;
+
+    public GameObject EnemyModel => enemyModel;
 
     /// <summary>
     /// The current health of the enemy, the syncvar allows this variable to be updated across
@@ -27,43 +40,104 @@ public class Enemy : NetworkBehaviour
     /// </summary>
     public readonly SyncVar<float> currentHealth = new();
 
-    private GameObject heartCrystal;
-
+    //Update reference
     public GameObject HeartCrystal => heartCrystal;
 
-    public event Action onEnemyKilled;
+    //Input reference
+    public event Action<Enemy> onEnemyKilled;
+
+    //State bools
+    private bool isWaveEnemy;
+    public bool IsWaveEnemy => isWaveEnemy;
+
+    /// <summary>
+    /// Audio clip for when the enemy takes damage
+    /// </summary>
+    [SerializeField]
+    private AudioClip takeDamageAudio;
 
     public override void OnStartServer()
     {
+        base.OnStartServer();
+
         heartCrystal = FindFirstObjectByType<HeartCrystal>()?.gameObject;
+        enemySpawner = FindFirstObjectByType<EnemySpawner>();
 
-        enemyBrain = GetComponent<EnemyBrain>();
-        enemyMovement = GetComponent<EnemyMovement>();
+        enemyBrain = GetComponentInChildren<EnemyBrain>();
+        enemyMovement = GetComponentInChildren<EnemyMovement>();
+        healthBar = GetComponentInChildren<HealthBar>();
+        animator = GetComponentInChildren<Animator>();
+        enemyCollider = GetComponentInChildren<Collider>();
 
-        InitializeValues();
+        currentHealth.OnChange += UpdateHealthBar;
 
-        currentHealth.Value = enemyHealth;
+        currentHealth.Value = enemyMaxHealth;
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        currentHealth.OnChange -= UpdateHealthBar;
     }
 
     /// <summary>
     /// Sets the initial values of the enemy based on the SO
     /// </summary>
-    public void InitializeValues()
+    public void InitializeValues(bool isWaveEnemy = true)
     {
+        this.isWaveEnemy = isWaveEnemy;
+
         //Strings
         enemyName = enemySO.EnemyName;
         enemyDescription = enemySO.EnemyDescription;
 
         //Floats
-        enemyHealth = enemySO.EnemyHealth;
         enemySpeed = enemySO.EnemySpeed;
-        enemyDamage = enemySO.EnemyDamage;
         enemyAttackRate = enemySO.EnemyAttackRate;
         enemySpawnWeight = enemySO.EnemySpawnWeight;
+        enemyAttackRange = enemySO.EnemyAttackRange;
+
+        //Scaled values
+
+        if(isWaveEnemy)
+        {
+            enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
+        }
+        else
+        {
+            enemyMaxHealth = EnemyWaveScaling.EnemyHealthScaling(enemySO.EnemyHealth);
+            enemyDamage = EnemyWaveScaling.EnemyDamageScaling(enemySO.EnemyDamage);
+        }
+
+        //Sets the enemies health after initializing it
+        currentHealth.Value = enemyMaxHealth;
+
+        enemyBrain.enabled = true;
+        enemyMovement.enabled = true;
+        enemyMovement.Agent.enabled = true;
+        enemyCollider.enabled = true;
+
+        //Intialise brain for both types of enemy
+        enemyBrain.Initialize(HeartCrystal);
 
         //Starts the initialization for the enemy scripts
         enemyMovement.Initialize();
-        enemyBrain.Initialize(HeartCrystal);
+        if (isWaveEnemy)
+        {
+            animator.SetBool("isDead", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isDead", false);
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isMoving", false);
+        }
+        
+        
     }
 
     //TODO: Probably add an enum for proj types to easily trigger effects
@@ -72,9 +146,18 @@ public class Enemy : NetworkBehaviour
         if (!IsServerStarted)
             return;
 
-        Debug.Log($"{damage} damage dealt");
+        //Debug.Log($"{damage} damage dealt");
 
         currentHealth.Value -= damage;
+
+        if (takeDamageAudio != null)
+        {
+            AudioManager.Instance.PlayAudioClip(takeDamageAudio, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning($"The audio clip doesnt exist for {takeDamageAudio}");
+        }
 
         if (currentHealth.Value <= 0)
         {
@@ -84,16 +167,71 @@ public class Enemy : NetworkBehaviour
 
     private void Death()
     {
-        onEnemyKilled?.Invoke();
-
-        //TODO: add death functionality
+        onEnemyKilled?.Invoke(this);
+        ServerManager.Despawn(gameObject);
+        //StartCoroutine(DeathCoroutine()); 
     }
+
+    //private IEnumerator DeathCoroutine()
+    //{
+    //    enemyBrain.enabled = false;
+    //    enemyMovement.Agent.enabled = false;
+    //    enemyMovement.enabled = false;
+    //    enemyCollider.enabled = false;
+   
+    //    animator.SetBool("isDead", true);
+
+    //    yield return new WaitForSeconds(2.5f);
+    //    onEnemyKilled?.Invoke(this);
+    //    ServerManager.Despawn(gameObject);
+    //    yield return null;
+    //}
 
     /// <summary>
     /// This will be run by the game when day starts so that enemies will be removed without giving rewards
     /// </summary>
     public void GameDeath()
     {
-        //TODO: Check with design team if this is needed
+        StartCoroutine(SlowDeath());
+    }
+
+    private IEnumerator SlowDeath()
+    {
+        float startEnemyHealth = currentHealth.Value;
+        while (currentHealth.Value > 0f)
+        {
+            //Reduces the enemies health by 10% of what it was at the start of day.
+            currentHealth.Value -= startEnemyHealth / 10;
+
+            //Waits 1 second to do more damage
+            yield return new WaitForSeconds(1f);
+        }
+
+        //Handle death here, no rewards for this death if we're doing rewards for killing enemies.
+        onEnemyKilled?.Invoke(this);
+        ServerManager.Despawn(gameObject);
+        //StartCoroutine(DeathCoroutine());
+    }
+
+    public void ScaleBlightStats(float healthScale, float damageScale)
+    {
+        //Scales enemy damage to add the scale to its base damage, this gives us linear
+        //scaling rather than exponential of scaling multiplying its current stats
+        enemyDamage += enemySO.EnemyDamage * damageScale;
+
+        //Scales enemy health
+        float healthIncrease = enemySO.EnemyHealth * healthScale;
+
+        currentHealth.Value += healthIncrease;
+
+        enemyMaxHealth += healthIncrease;
+    }
+
+    /// <summary>
+    /// Updates the health bar of the enemy
+    /// </summary>
+    private void UpdateHealthBar(float prev, float next, bool asServer)
+    {
+        healthBar.TriggerHealthBarUpdate(currentHealth.Value, enemyMaxHealth);
     }
 }

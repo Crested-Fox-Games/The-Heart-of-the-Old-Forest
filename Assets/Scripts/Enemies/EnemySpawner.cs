@@ -23,35 +23,44 @@ public class EnemyCluster
     /// <summary>
     /// The list of enemies in the cluster
     /// </summary>
-    public List<GameObject> enemies = new();
+    public List<EnemySO> enemies = new();
 
     /// <summary>
-    /// The direction that the cluster will spawn in
+    /// The spawn point that the cluster is going to spawn at
     /// </summary>
-    public int direction = 0;
+    public Transform selectedSpawnPoint;
 }
 
 public class EnemySpawner : NetworkBehaviour
 {
     //TODO: Some sort of way to change spawn patterns (timer between spawns, amount of enemies at once, enemies stats)
     //based on conditions like bosses killed, amount of days passed, total player count
-    
-    //TODO: Dictionary of all enemies in the game that can be spawned at night
 
     /// <summary>
     /// The list of currently unlocked enemies that can be spawned.
     /// </summary>
     [SerializeField]
-    private List<GameObject> unlockedEnemies;
+    private List<EnemySO> SpawnableEnemies;
+
+    private List<EnemySO> unlockedEnemies;
+
+    /// <summary>
+    /// A list of all the bosses that can be spawned. For now will just be bigger prefabs of normal enemies
+    /// </summary>
+    [SerializeField]
+    private List<EnemySO> unlockedBosses;
 
     [SerializeField]
-    private TimeManager timeManager;
+    private TimeCycleManager timeManager;
 
     /// <summary>
     /// The gameobject for the heart crystal, so that this can be passed to enemies that spawn
     /// </summary>
     [SerializeField]
     private GameObject HeartCrystal;
+
+    [SerializeField]
+    private Transform[] spawnPoints;
 
     /// <summary>
     /// The coroutine used to ensure that the enemy spawns stop at the end of the night cycle
@@ -65,23 +74,42 @@ public class EnemySpawner : NetworkBehaviour
     private float baseSpawnInterval = 5f;
 
     /// <summary>
+    /// Base rate that enemy clusters will spawn with
+    /// </summary>
+    [SerializeField]
+    private float baseSpawnWeight = 25f;
+
+    /// <summary>
     /// The current amount of enemies that have been spawned
     /// </summary>
     private int spawnCount = 0;
 
     /// <summary>
-    /// The max amount of enemies that can be spawned at once
+    /// The base amount of enemies that can be spawned at once
     /// </summary>
-    private int maxSpawnCount = 100;
+    private int baseMaxSpawnCount = 30;
+
+    /// <summary>
+    /// Bool that checks if we need to spawn a boss on this night
+    /// </summary>
+    public bool bossToSpawn = false;
+
 
     /// <summary>
     /// This is called when the server starts running
     /// </summary>
     public override void OnStartServer()
     {
-            //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
-            timeManager.OnNightStart += NightStarted;
-            timeManager.OnNightEnd += NightEnded;
+        //This subscribes the functions to the time manager so that when the events fire, these functions will trigger
+        timeManager.OnNightStart += NightStarted;
+        timeManager.OnNightEnd += NightEnded;
+
+        unlockedEnemies = new List<EnemySO>();
+
+        //Subscribes to the blight spawned event
+        BlightManager.Instance.BlightNodeSpawned += SpawnBlightCluster;
+
+        unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
     }
 
     /// <summary>
@@ -89,9 +117,9 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     public override void OnStopServer()
     {
-            //This unsubscribes the functions to the time manager so that they dont fire anymore
-            timeManager.OnNightStart -= NightStarted;
-            timeManager.OnNightEnd -= NightEnded;
+        //This unsubscribes the functions to the time manager so that they dont fire anymore
+        timeManager.OnNightStart -= NightStarted;
+        timeManager.OnNightEnd -= NightEnded;
     }
 
     /// <summary>
@@ -99,6 +127,8 @@ public class EnemySpawner : NetworkBehaviour
     /// </summary>
     private void NightStarted()
     {
+        UpdateUnlockedEnemies();
+
         spawnCoroutine = StartCoroutine(SpawnEnemies());
     }
 
@@ -111,9 +141,26 @@ public class EnemySpawner : NetworkBehaviour
         {
             StopCoroutine(spawnCoroutine);
             spawnCoroutine = null;
-        }
 
-        //TODO: decide if all the enemies die once day hits, to encourage day exploration instead of wasting time killing leftover enemies
+            KillRemainingEnemies();
+        }
+    }
+
+    /// <summary>
+    /// A function that tells all remaining enemies that they should die off due to daytime
+    /// </summary>
+    private void KillRemainingEnemies()
+    {
+        Enemy[] enemies = GetComponentsInChildren<Enemy>();
+
+        foreach(Enemy enemy in enemies)
+        {
+            //NOTE: Probably dont want bosses to die here if we add them
+            if(enemy.gameObject.activeSelf)
+            {
+                enemy.GameDeath();
+            }
+        }
     }
 
     /// <summary>
@@ -122,9 +169,30 @@ public class EnemySpawner : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemies()
     {
+        //Debug.Log($"Enemy spawning started Health:{EnemyWaveScaling.EnemyHealthScaling(1f)}|Damage{EnemyWaveScaling.EnemyDamageScaling(1)}" +
+        //    $"|MaxSpawns:{EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount)}|MaxDensity:{EnemyWaveScaling.SpawnDensityScaling(10f)}");
+
+        //Check to see if we need to spawn a boss at the start of this night
+        if(bossToSpawn)
+        {
+            //Select which boss enemy we will spawn
+            int selection = Random.Range(0, unlockedBosses.Count);
+
+            //Get a random spawn point
+            int spawnIndex = Random.Range(0, spawnPoints.Length);
+
+            //Spawns the boss
+            SpawnWaveEnemy(unlockedBosses[selection], 5, spawnPoints[spawnIndex]);
+
+            //Reset boss check
+            bossToSpawn = false;
+        }
+
+        //This will just loop until the coroutine is stopped externally
         while (true)
         {
-            if(spawnCount < maxSpawnCount)
+            //Checks to see if the spawned enemies is less than the current max spawned enemies
+            if(spawnCount < EnemyWaveScaling.MaxEnemySpawnScaling(baseMaxSpawnCount))
             {
                 SpawnCluster();
             }
@@ -141,9 +209,19 @@ public class EnemySpawner : NetworkBehaviour
         //Creates a cluser of random enemies
         EnemyCluster cluster = GetRandomCluster();
 
-        foreach (GameObject enemy in cluster.enemies)
+        foreach (EnemySO enemy in cluster.enemies)
         {
-            SpawnEnemy(enemy, cluster.radius, cluster.direction);
+            SpawnWaveEnemy(enemy, cluster.radius, cluster.selectedSpawnPoint);
+        }
+    }
+
+    private void SpawnBlightCluster(NetworkObject BlightObject)
+    {
+        EnemyCluster cluster = GetRandomCluster();
+
+        foreach(EnemySO enemy in cluster.enemies)
+        {
+            SpawnBlightEnemy(enemy, 5f, BlightObject);
         }
     }
 
@@ -157,11 +235,13 @@ public class EnemySpawner : NetworkBehaviour
 
         float totalWeight = 0;
 
-        //spawn enemy cluster in NESW directions
-        newCluster.direction = Random.Range(0, 4);
+        //Get a random spawn point to spawn the cluster at
+        int spawnIndex = Random.Range(0, spawnPoints.Length);
 
-        //TODO: decide how we're actually going to do this, probably some game manager that handles scaling
-        newCluster.minSpawnValue = Random.Range(50, 100);
+        newCluster.selectedSpawnPoint = spawnPoints[spawnIndex];
+
+        //TODO: Decide what the base density is going to be
+        newCluster.minSpawnValue = EnemyWaveScaling.SpawnDensityScaling(baseSpawnWeight);
 
         //Probably redundant but just to be safe
         newCluster.enemies.Clear();
@@ -175,7 +255,7 @@ public class EnemySpawner : NetworkBehaviour
             int randomIndex = Random.Range(0, unlockedEnemies.Count);
 
             //The weight of the current enemy
-            float enemyWeight = unlockedEnemies[randomIndex].GetComponent<Enemy>().EnemySO.EnemySpawnWeight;
+            float enemyWeight = unlockedEnemies[randomIndex].EnemySpawnWeight;
 
             if(enemyWeight <= 0)
             {
@@ -195,52 +275,62 @@ public class EnemySpawner : NetworkBehaviour
     /// <summary>
     /// Used for the spawning of the individual enemies
     /// </summary>
-    private void SpawnEnemy(GameObject enemyPrefab, float spawnRadius, int direction)
+    private void SpawnWaveEnemy(EnemySO enemySO, float spawnRadius, Transform selectedPoint)
     {
         //Used for updating values in the script once we spawn the enemy
         Enemy currentEnemy;
 
         //Get enemy spawn position
-        Vector3 pos = GetSpawnPosition(spawnRadius, direction);
+        Vector3 pos = GetSpawnPosition(spawnRadius, selectedPoint);
 
         //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
-        currentEnemy = Instantiate(enemyPrefab, pos + GetEnemyHeightHalved(enemyPrefab), Quaternion.identity).GetComponent<Enemy>();
-
-        //Increment spawn count
-        spawnCount++;
+        currentEnemy = NetworkManager.GetPooledInstantiated(enemySO.EnemyPrefab, pos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity, true).GetComponent<Enemy>();
 
         //Spawns the enemy on the client side
         ServerManager.Spawn(currentEnemy.gameObject);
 
-        //Subscribe to enemy death event (Anonymous lambda function used to subscribe to the event)
-        currentEnemy.onEnemyKilled += () => spawnCount--;
+        currentEnemy.InitializeValues();
+
+        currentEnemy.GetComponent<NetworkObject>().SetParent(this);
+
+        //Increment spawn count
+        spawnCount++;
+
+        //Subscribe to enemy death event 
+        currentEnemy.onEnemyKilled += ReturnEnemy;
     }
 
-    private Vector3 GetSpawnPosition(float spawnRadius, int direction)
+    private void SpawnBlightEnemy(EnemySO enemySO, float spawnRadius, NetworkObject BlightObject)
     {
-        //TODO: change this later
-        float distance = 25f;
+        //Used for updating values in the script once we spawn the enemy
+        Enemy currentEnemy;
 
-        Vector3 cardinalPos;
+        //Get offset for spawn pos
+        Vector2 offset = Random.insideUnitCircle * spawnRadius;
 
-        //Get the position based on the cardinal directions
-        switch (direction)
-        {
-            case 0: //North
-                cardinalPos = new Vector3(0, 0, distance);
-                break;
-            case 1: //East
-                cardinalPos = new Vector3(distance, 0, 0);
-                break;
-            case 2: //South
-                cardinalPos = new Vector3(0, 0, -distance);
-                break;
-            case 3: //West
-                cardinalPos = new Vector3(-distance, 0, 0);
-                break;
-            default:
-                return Vector3.zero;
-        }
+        //Get the spawn pos
+        Vector3 spawnPos = BlightObject.transform.position + new Vector3(offset.x, 0f, offset.y);
+
+        //Spawn enemy (uses get enemy height halved due to pivot point being in middle, might need to change if assets are different)
+        currentEnemy = Instantiate(enemySO.EnemyPrefab, spawnPos + GetEnemyHeightHalved(enemySO.EnemyPrefab), Quaternion.identity).GetComponent<Enemy>();
+
+        //Spawns the enemy on the client side
+        ServerManager.Spawn(currentEnemy.gameObject);
+
+        currentEnemy.InitializeValues(false);
+
+        currentEnemy.GetComponent<NetworkObject>().SetParent(BlightObject);
+    }
+
+    /// <summary>
+    /// Gets the spawn position of the enemy by calculating it using paramters
+    /// </summary>
+    /// <param name="spawnRadius"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    private Vector3 GetSpawnPosition(float spawnRadius, Transform selectedPos)
+    {
+        Vector3 spawnPos = selectedPos.position;
 
         //This offsets the spawn pos to a random point in the spawn radius
         //TODO: Will need to check to ensure this spawn point is not inside any other enemies or obstacles
@@ -248,8 +338,7 @@ public class EnemySpawner : NetworkBehaviour
 
         //TODO: Need to use something like raycast to get ground height for spawn pos
 
-        //Uses the cardinal position and offset to get the spawn position based on the heart crystal's position
-        return HeartCrystal.transform.position + cardinalPos + new Vector3(offset.x, 0, offset.y);
+        return spawnPos + new Vector3(offset.x, 0, offset.y);
     }
 
     /// <summary>
@@ -262,6 +351,32 @@ public class EnemySpawner : NetworkBehaviour
         return new Vector3(0, enemy.GetComponentInChildren<Renderer>().bounds.size.y / 2f, 0);
     }
 
-    //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
-    //This might need to be a whole class that handles progression
+    /// <summary>
+    /// Returns the enemy to the pool
+    /// </summary>
+    /// <param name="enemy"></param>
+    public void ReturnEnemy(Enemy enemy)
+    {
+        spawnCount--;
+
+        //Unsubscribe from event to avoid duplication
+        enemy.onEnemyKilled -= ReturnEnemy;
+    }
+
+    /// <summary>
+    /// Updates the currently unlocked enemies
+    /// </summary>
+    private void UpdateUnlockedEnemies()
+    {
+        //TODO: create a function that unlocks enemies based on conditions, probably have subscriptions to boss death events for example
+        //This might need to be a whole class that handles progression
+
+        //TODO: Probably make this more complicated in the future than 1 per day
+
+        //This checks to make sure we dont have an out of bounds error
+        if (SpawnableEnemies.Count > timeManager.CurrentDay && timeManager.CurrentDay != 0)
+        {
+            unlockedEnemies.Add(SpawnableEnemies[timeManager.CurrentDay]);
+        }
+    }
 }

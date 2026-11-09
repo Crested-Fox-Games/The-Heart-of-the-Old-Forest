@@ -1,4 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+/// <summary>
+/// A class used instead of a dictionary in order to be able to fill it in while working in the inspector
+/// </summary>
+[System.Serializable]
+public class ResourceCost
+{
+    public ResourceType resource;
+    public int cost;
+}
 
 [CreateAssetMenu(fileName = "TowerSO", menuName = "Towers/TowerSO")]
 public class TowerSO : ScriptableObject
@@ -10,7 +21,16 @@ public class TowerSO : ScriptableObject
     private float attackRange, towerHealth, towerDamage, attackCooldown;
 
     [SerializeField]
-    private GameObject projectile, displayObject;
+    private GameObject projectile, displayObject, towerPrefab;
+
+    [SerializeField]
+    private List<ResourceCost> requiredResources;
+
+    [SerializeField]
+    private List<TowerUpgradePathSO> upgradePaths;
+
+    [SerializeField]
+    private AudioClip firingAudio;
 
     /// <summary>
     /// The name of the tower
@@ -51,4 +71,24 @@ public class TowerSO : ScriptableObject
     /// For placing into world, shows an outline
     /// </summary>
     public GameObject DisplayObject => displayObject;
+
+    /// <summary>
+    /// The prefab for the tower so that it can be spawned in by the spawning systems
+    /// </summary>
+    public GameObject TowerPrefab => towerPrefab;
+
+    /// <summary>
+    /// A dictionary containing the required resources and the amounts required
+    /// </summary>
+    public List<ResourceCost> RequiredResources => requiredResources;
+
+    /// <summary>
+    /// List of upgrade paths
+    /// </summary>
+    public List<TowerUpgradePathSO> UpgradePaths => upgradePaths;
+
+    /// <summary>
+    /// The audio that is played when the tower attacks
+    /// </summary>
+    public AudioClip FiringAudio => firingAudio;
 }

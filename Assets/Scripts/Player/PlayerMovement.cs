@@ -1,0 +1,522 @@
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using NUnit.Framework.Constraints;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerMovement : NetworkBehaviour
+{
+    #region Variables
+
+    private float playerSensMultiplier = 1f;
+
+    [SerializeField] private float sensitivity = 2.8f;
+    [SerializeField] private float rotationSmooth = 60f;
+    [SerializeField] private float minPivotRotation = -30f;
+    [SerializeField] private float maxPivotRotation = 65f;
+    [SerializeField] private float defaultVelocity = 0.2f;
+    [SerializeField] private float gravity = -0.001f;
+
+    /// <summary>
+    /// A multiplier for movement speed used for abilities and upgrades
+    /// </summary>
+    private float movementSpeedMultiplier = 1f;
+
+    public float MovementSpeedMultiplier => movementSpeedMultiplier;
+
+    // --- CAMERA ---
+    /// <summary>
+    /// The rotation set by input, used to lerp for smooth movement
+    /// </summary>
+    private float targetPlayerRotation;
+    /// <summary>
+    /// The rotation of the pivot point set by input, used to lerp for smooth movement
+    /// </summary>
+    private float targetPivotRotation;
+    /// <summary>
+    /// The current rotation of the player, used to lerp for smooth movement
+    /// </summary>
+    private float currentPlayerRotation;
+    /// <summary>
+    /// The current rotation of the pivot point, used to lerp for smooth movement
+    /// </summary>
+    private float currentPivotRotation;
+    private Transform cameraPivot;
+
+    [SerializeField]
+    private Camera cameraPrefab;
+
+
+    // --- COMPONENTS ---
+    
+    private Rigidbody rb;
+    private Animator animator;
+    private CapsuleCollider capsule;
+
+    // --- PLAYER INPUTS ---
+    /// <summary>
+    /// The action map for all of the player inputs
+    /// </summary>
+    private InputActionMap playerMap;
+
+    private InputAction moveAction;
+    private InputAction lookAction;
+    private InputAction slideAction;
+    private InputAction jumpAction;
+    
+    // --- MOVEMENT ---
+    /// <summary>
+    /// Holds the Vector3 of the players movement inputs
+    /// </summary>
+    private Vector3 movementInputVector;
+    private bool isMoving;
+    private bool isSliding;
+    private bool isJumping;
+    private bool hasLeftGroundDuringJump;
+
+    /// <summary>
+    /// A bool for if the player has been launched
+    /// </summary>
+    private bool isLaunched;
+
+    /// <summary>
+    /// A bool to help distinguish between the start and end of the launch
+    /// </summary>
+    private bool hasLeftGround;
+
+    private Vector3 playerVelocity;
+    private Vector3 residualVelocity;
+    /// <summary>
+    /// The velocity added when the player is launched
+    /// </summary>
+    private Vector3 launchVelocity;
+    private List<Vector3> movementCords;
+    
+    //Slide
+    private Vector3 addedSlideVelocity;
+
+    // --- PHYSICS ---
+    private bool isGrounded;
+    
+    // --- SYNC VARS ---
+    public readonly SyncVar<bool> IsMoving = new SyncVar<bool>();
+    public readonly SyncVar<bool > IsSliding = new SyncVar<bool>();
+
+    // --- EVENTS ---
+    /// <summary>
+    /// An event that fires when the player jumps, used for abilities and other features
+    /// </summary>
+    public event Action onPlayerJump;
+
+    /// <summary>
+    /// An event that fires when the player lands after a launch
+    /// </summary>
+    public event Action OnLaunchLanded;
+
+    #endregion
+
+    #region Server Events
+
+    /// <summary>
+    /// Is run when a client connects to the game
+    /// </summary>
+    public override void OnStartClient()
+    {
+        //Checks to make sure that this object is owned by the client
+        if (IsOwner)
+        {
+            //Subsribes functions to the player inputs
+            SubscribeToInputs();
+
+            //Create the camera at the pivot point
+            Camera cam = Instantiate(cameraPrefab, new Vector3(cameraPivot.position.x, cameraPivot.position.y, cameraPivot.position.z - 2.25f), cameraPivot.rotation, cameraPivot);
+            
+            GetComponent<PlayerInteraction>().SetCamera(cam);
+        }
+
+        IsMoving.OnChange += OnMovingChanged;
+        IsSliding.OnChange += OnSlidingChanged;
+    }
+
+    /// <summary>
+    /// This sends data to the server for the animators
+    /// </summary>
+    /// <param name="moving"></param>
+    /// <param name="sliding"></param>
+    [ServerRpc]
+    private void SetMovementStateServerRPC(bool moving, bool sliding)
+    {
+        IsMoving.Value = moving;
+        IsSliding.Value = sliding;
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the movement bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnMovingChanged(bool prev, bool next, bool asServer)
+    {
+        animator.SetBool("IsMoving", next);
+    }
+
+    /// <summary>
+    /// A function for updating the animator when the sliding bool is changed
+    /// </summary>
+    /// <param name="prev"></param>
+    /// <param name="next"></param>
+    /// <param name="asServer"></param>
+    private void OnSlidingChanged(bool prev, bool next, bool asServer)
+    {
+        //animator.SetBool("IsSliding", next);
+    }
+
+    #endregion
+   
+    void Awake()
+    {
+        Initialize();
+
+        //Gets the players action map
+        playerMap = InputSystem.actions.FindActionMap("Player");
+
+        //Finds the different player inputs
+        moveAction = playerMap.FindAction("Move");
+        lookAction = playerMap.FindAction("Look");
+        slideAction = playerMap.FindAction("Slide");
+        jumpAction = playerMap.FindAction("Jump");
+
+        //Subsribes functions to the player inputs
+        //SubscribeToInputs();
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromInputs();
+    }
+
+    private void SubscribeToInputs()
+    {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
+        moveAction.performed += OnMove;
+        moveAction.canceled += OnMove;
+
+        lookAction.performed += OnCameraMovement;
+        lookAction.canceled += OnCameraMovement;
+
+        //slideAction.started += OnSlide;
+        //slideAction.canceled += OnSlide;
+
+        jumpAction.started += OnJump;
+    }
+
+    private void UnsubscribeFromInputs()
+    {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
+        moveAction.performed -= OnMove;
+        moveAction.canceled -= OnMove;
+
+        lookAction.performed -= OnCameraMovement;
+        lookAction.canceled -= OnCameraMovement;
+        
+        slideAction.started -= OnSlide;
+        slideAction.canceled -= OnSlide;
+
+        jumpAction.started -= OnJump;
+    }
+    
+    /// <summary>
+    /// Sets the initial values for the components
+    /// </summary>
+    private void Initialize()
+    {
+        //Fetch Components 
+        rb = GetComponent<Rigidbody>();
+        capsule = GetComponent<CapsuleCollider>();
+        cameraPivot = transform.Find("Camera Pivot");
+        animator = GetComponentInChildren<Animator>();
+        
+        //Cursor Settings
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
+        //Turn off Unity Physics
+        rb.linearDamping = 0;
+        rb.angularDamping = 0;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        
+    }
+    
+    private void FixedUpdate()
+    {
+        //Checks to ensure that we arent moving other players models
+        if (!IsOwner)
+            return;
+
+        ApplyGravity(); //Applies Gravity
+        MovePlayer(); //Moves Player
+        SetMovementStateServerRPC(isMoving, isSliding);
+        UpdateCamera(); //Updates Camera
+        
+    }
+
+    // --- INPUT ---
+    /// <summary>
+    /// Handles the players movement inputs, doesn't do any movement itself
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        //Gets the values from the player input
+        Vector2 input = context.ReadValue<Vector2>();
+
+        //Sets the inputs to Vector3 for the movement function
+        movementInputVector = new Vector3(input.x, 0f, input.y);
+    }
+
+    /// <summary>
+    /// Handles the rotation of the player when the camera moves
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnCameraMovement(InputAction.CallbackContext context)
+    {
+
+        //Gets the delta between the last 2 updates
+        Vector2 delta = context.ReadValue<Vector2>();
+
+        //Ensures that if the magnitude is small it will not be jittery
+        if (delta.magnitude < 0.5f)
+        {
+            delta = Vector2.zero;
+        }
+
+        //Delta multiplied by sensitivity and (a random number?)
+        delta *= sensitivity * playerSensMultiplier * 0.0066f;
+
+        //Updates the player rotation and pivot rotation based on delta values
+        targetPlayerRotation += delta.x;
+        targetPivotRotation -= delta.y;
+
+        //Clamps the pivot rotation to stop the camera clipping
+        targetPivotRotation = Mathf.Clamp(targetPivotRotation, minPivotRotation, maxPivotRotation);
+    }
+
+    /// <summary>
+    /// Handles the player sliding
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        if (context.started && !isSliding)
+        {
+            isSliding = true;
+            addedSlideVelocity = transform.TransformDirection(movementInputVector * 0.5f); //adds a slide velocity in the direction of the players input relative to the rigidbody direction 
+            residualVelocity = residualVelocity + addedSlideVelocity; //Adjust residual velocity to contain the slide velocity
+        }
+        else if (context.canceled && isSliding) 
+        {
+            isSliding = false; //Turn off sliding
+            residualVelocity = residualVelocity - addedSlideVelocity; //Adjust residual velocity to remove the slide velocity
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context) //Ignore this for now, it needs changes.
+    {
+        if (KCollisionsFunction.CheckGrounded(capsule, rb.position))
+        {
+            isJumping = true;
+            hasLeftGroundDuringJump = false;
+
+            //Enter jump animation
+            animator.SetBool("IsJumping", true);
+            animator.SetBool("IsInAir", false);
+            animator.SetBool("IsLanding", false);
+
+            residualVelocity.y = residualVelocity.y + .2f;
+
+            //Trigger the event for anything that is affected by jumped
+            onPlayerJump?.Invoke();
+            //Debug.unityLogger.Log("Jumped");
+        }
+    }
+
+    // --- CAMERA ---
+    /// <summary>
+    /// Handles the camera movement
+    /// </summary>
+    private void UpdateCamera()
+    {
+        float t = 1f - Mathf.Exp(-rotationSmooth * Time.deltaTime); //how fast the rotation adjustments should be made, allows smoothing if desired 
+
+        currentPlayerRotation = Mathf.Lerp(currentPlayerRotation, targetPlayerRotation, t); //Lerps from current player rotation to target player rotation in t time (rotates the player to be in line with the camera)
+        currentPivotRotation = Mathf.Lerp(currentPivotRotation, targetPivotRotation, t); //Lerps from current pivot location to target pivot location in t time (moves camera to where it should be)
+
+        rb.MoveRotation(Quaternion.Euler(0f, currentPlayerRotation, 0f));
+        cameraPivot.localRotation = Quaternion.Euler(currentPivotRotation, 0f, 0f);
+    }
+
+    // --- MOVEMENT ---
+    private Vector3 FindPlayerVelocity()
+    {
+        return InputVelocity() + residualVelocity + launchVelocity;
+    }
+
+    /// <summary>
+    /// Gets the players velocity
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 InputVelocity()
+    {
+        if (movementInputVector.magnitude != 0) //if player is inputting a direction 
+        {
+            return transform.TransformDirection(movementInputVector * defaultVelocity * movementSpeedMultiplier); //Shifts input vector space to have the transform direction as the basis vectors, ensures movement inputs are relative to player and not global 
+        }
+
+        return Vector3.zero;
+    }
+    
+    /// <summary>
+    /// Handles the actual movement of the player
+    /// </summary>
+    private void MovePlayer()
+    {
+        //Uses the rigidbody to move the players position based on the player velocity
+        movementCords = KCollisionsFunction.CollisionAdjustMovementCords(FindPlayerVelocity(), capsule, rb, true, gravity, true);
+
+        
+        for (int i = 0; i < movementCords.Count; i++) //Move the player step by step to all points they would've traveled during this frame 
+        {
+            rb.MovePosition(movementCords[i]);
+        }
+
+        movementCords.Clear();
+
+        Vector3 velocity = FindPlayerVelocity();
+
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
+
+        isMoving = isGrounded && horizontalVelocity.magnitude > 0.1f;
+
+        ////Updates the boolean for the animator
+        //if (velocity.magnitude > 0.1f)
+        //{
+        //    isMoving = true;
+        //}
+        //else
+        //{
+        //    isMoving = false;
+        //}
+    }
+
+    /// <summary>
+    /// Handles updating the animator of the player
+    /// </summary>
+    private void SetAnimationParameters()
+    {
+        animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("IsSliding", isSliding);
+    }
+
+
+    // --- PHYSICS ---
+
+    /// <summary>
+    /// Applies gravity to the player
+    /// </summary>
+    private void ApplyGravity()
+    {
+        //Ground Check, boolean
+        isGrounded = KCollisionsFunction.CheckGrounded(capsule, rb.position);
+
+        //Enable gravity if not grounded
+        if (!isGrounded)
+        {
+            //Check if player has left the ground through jumping or launching
+            if (isLaunched || isJumping)
+            {
+                hasLeftGroundDuringJump = true;
+
+                //Enter in air looping animation
+                animator.SetBool("IsJumping", false);
+                animator.SetBool("IsInAir", true);
+                animator.SetBool("IsLanding", false);
+            }
+
+            if(isLaunched)
+            {
+                hasLeftGround = true;
+            }
+
+            residualVelocity.y = residualVelocity.y + gravity; //Add gravity factor to velocity
+        }
+        else
+        {
+            if(isLaunched && hasLeftGround)
+            {
+                isLaunched = false;
+
+                launchVelocity = Vector3.zero;
+
+                OnLaunchLanded?.Invoke();
+            }
+            
+            if (!isLaunched && hasLeftGroundDuringJump)
+            {
+                isJumping = false;
+                hasLeftGroundDuringJump = false;
+
+                //Enter Landing animation
+                animator.SetBool("IsJumping", false);
+                animator.SetBool("IsInAir", false);
+                animator.SetBool("IsLanding", true);
+            }
+
+            if (residualVelocity.y < 0f)
+            {
+                residualVelocity.y = 0f;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Adds a multiplier to the movement speed
+    /// </summary>
+    /// <param name="moveSpeed"></param>
+    public void SetMovementSpeedMultiplier(float moveSpeed)
+    {
+        movementSpeedMultiplier = moveSpeed;
+    }
+
+    /// <summary>
+    /// Launches the player in the direction of the vector
+    /// </summary>
+    /// <param name="velocity"></param>
+    public void Launch(Vector3 velocity)
+    {
+        launchVelocity += velocity;
+        isJumping = true;
+        isLaunched = true;
+        hasLeftGround = false;
+        hasLeftGroundDuringJump = false;
+
+        //Enter jump animation
+        animator.SetBool("IsJumping", true);
+        animator.SetBool("IsInAir", false);
+        animator.SetBool("IsLanding", false);
+    }
+
+    public void SetSensitivityMultiplier(int value)
+    {
+        playerSensMultiplier = 1 + (value - 1) * 0.1f;
+    }
+}
+

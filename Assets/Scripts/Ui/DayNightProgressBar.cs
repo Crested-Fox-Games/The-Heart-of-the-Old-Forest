@@ -1,0 +1,72 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DayNightProgressBar : MonoBehaviour
+{
+    /// <summary>
+    /// The bar for filling up to night time
+    /// </summary>
+    [SerializeField]
+    private Image nightBar;
+
+    /// <summary>
+    /// The bar for filling up to day time
+    /// </summary>
+    [SerializeField]
+    private Image dayBar;
+
+    [SerializeField]
+    private TextMeshProUGUI dayText;
+
+    private TimeCycleManager timeManager;
+
+    /// <summary>
+    /// The icon that shows whether it is day or night
+    /// </summary>
+    [SerializeField]
+    private Image iconImage;
+
+    /// <summary>
+    /// The icons for the time of day
+    /// </summary>
+    [SerializeField]
+    private Sprite dayIcon, nightIcon;
+
+    private void Start()
+    {
+        timeManager = TimeCycleManager.Instance;
+
+        timeManager.OnNightEnd += OnNewDay;
+        timeManager.OnNightStart += OnNightStart;
+    }
+
+    private void Update()
+    {
+        //Checks to see if its day time
+        if(timeManager.cycleTime.Value < timeManager.CycleDayDuration)
+        {
+            nightBar.fillAmount = timeManager.cycleTime.Value / timeManager.CycleDayDuration;
+        }
+        else
+        {
+            nightBar.fillAmount = 1;
+
+            dayBar.fillAmount = (timeManager.cycleTime.Value - timeManager.CycleDayDuration) / timeManager.CycleNightDuration;
+        }
+    }
+
+    private void OnNewDay()
+    {
+        nightBar.fillAmount = 0;
+        dayBar.fillAmount = 0;
+        dayText.text = $"Day {TimeCycleManager.Instance.CurrentDay + 1}";
+
+        iconImage.sprite = dayIcon;
+    }
+
+    private void OnNightStart()
+    {
+        iconImage.sprite = nightIcon;
+    }
+}

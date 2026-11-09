@@ -1,0 +1,325 @@
+using FishNet.Object;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+public class BlightNode : NetworkBehaviour
+{
+    [SerializeField]
+    private HealthBar healthBar;
+
+    [SerializeField]
+    private GameObject blightModel;
+
+    public GameObject BlightModel => blightModel;
+
+    [SerializeField]
+    private GameObject healthBarObject;
+
+    private Transform nextBlightNode, previousBlightNode;
+
+    public Transform NextBlightNode => nextBlightNode;
+    public Transform PreviousBlightNode => previousBlightNode;
+
+    /// <summary>
+    /// A list of any resource nodes that are being affected by this blight nodes
+    /// </summary>
+    private List<ResourceNode> blightedNodes = new List<ResourceNode>();
+
+    /// <summary>
+    /// The amount the healthbar will be offset in the y axis
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The amount the healthbar will be offset in the y axis")]
+    private float healthBaroffset = 1f;
+
+    /// <summary>
+    /// The base max health of the node
+    /// </summary>
+    [SerializeField]
+    [Tooltip("The base max health of the node")]
+    private float nodeMaxHealth = 50f;
+
+    private float nodeCurrentHealth;
+
+    /// <summary>
+    /// The rarity of the node
+    /// </summary>
+    private Rarity nodeRarity;
+
+    /// <summary>
+    /// The factor that the rarity of the blight will scale it by
+    /// </summary>
+    [SerializeField]
+    private float blightUncommonMult = 1.5f, blightRareMult = 2f, blightMythicMult = 3f;
+
+    /// <summary>
+    /// The collider for the blight node
+    /// </summary>
+    [SerializeField]
+    private Collider placementCollider;
+
+    /// <summary>
+    /// Prefab to spawn
+    /// </summary>
+    [SerializeField] private BlightSpreadShader SpreadPrefab;
+
+    /// <summary>
+    /// The spawned prefab
+    /// </summary>
+    private BlightSpreadShader SpreadInstance;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent<ResourceNode>(out ResourceNode node))
+        {
+            //Corrupts nodes that are in its radius so that they cant be used
+            node.UpdateNodeCorruption(true);
+        }
+    }
+
+    public void Initialize(Transform previous, Rarity rarity)
+    {
+        previousBlightNode = previous;
+        nextBlightNode = null;
+        //Subscribe to blight buff event
+        BlightManager.Instance.BlightNodesBuffed += BuffBlight;
+
+        SetRarityScales(rarity);
+        nodeCurrentHealth = nodeMaxHealth;
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
+
+        //Spawn spread prefab
+        SpreadInstance = Instantiate(SpreadPrefab, transform.position, SpreadPrefab.transform.rotation);
+    }
+
+    /// <summary>
+    /// Handles what happens when a node is cleared
+    /// </summary>
+    private void BlightCleared()
+    {
+        //StringBuilder debugLogStart = new StringBuilder($"Blight Cleared start \n");
+        //foreach(Transform Node in BlightManager.Instance.CurrentForwardNodes)
+        //{
+        //    debugLogStart.AppendLine($"{Node.name} with position: {Node.transform.position}");
+        //}
+        //Debug.Log(debugLogStart);
+
+        if (nextBlightNode != null)
+        {
+            //If there is a next node, update it to keep the chain 
+            if(nextBlightNode.TryGetComponent<BlightNode>(out BlightNode node))
+            {
+                node.SetPreviousNode(previousBlightNode);
+
+                //Checks to see if there is a previous node in the chain and updates it
+                if(previousBlightNode.TryGetComponent<BlightNode>(out BlightNode prevNode))
+                {
+                    prevNode.SetNextNode(nextBlightNode);
+                }
+            }
+        }
+        else
+        {
+            //update the manager so it knows what the chain is
+            BlightManager.Instance.UpdateForwardNodesFromNode(transform, previousBlightNode);
+        }
+
+        //Uncorrupt each node
+        foreach (ResourceNode resource in blightedNodes)
+        {
+            resource.UpdateNodeCorruption(false);
+        }
+
+        //Tells the blight manager that a blight node has been cleared
+        BlightManager.Instance.BlightCleared(nodeRarity);
+
+        //Update the enemy logic
+        UpdateEnemies();
+
+        //Tells the blight shader to shrink, then destroy itself.
+        if (SpreadInstance != null)
+        {
+            SpreadInstance.Shrink();
+        }
+
+        //Despawn the blight node
+        Despawn(this);
+
+        //StringBuilder debugLogEnd = new StringBuilder($"Blight Cleared End \n");
+        //foreach (Transform Node in BlightManager.Instance.CurrentForwardNodes)
+        //{
+        //    debugLogEnd.AppendLine($"{Node.name} with position: {Node.transform.position}");
+        //}
+        //Debug.Log(debugLogEnd);
+    }
+
+    /// <summary>
+    /// Updates the previous node transform
+    /// </summary>
+    /// <param name="previous"></param>
+    public void SetPreviousNode(Transform previous)
+    {
+        previousBlightNode = previous;
+    }
+
+    /// <summary>
+    /// Updates the next node transform
+    /// </summary>
+    /// <param name="next"></param>
+    public void SetNextNode(Transform next)
+    {
+        nextBlightNode = next;
+    }
+
+    /// <summary>
+    /// Scales the blight enemies health and damage based on its rarity
+    /// </summary>
+    /// <param name="rarity"></param>
+    private void SetRarityScales(Rarity rarity)
+    {
+        nodeRarity = rarity;
+
+        //Update the scale and buff the blight based on the rarity multiplier
+        switch(rarity)
+        {
+            case Rarity.uncommon:
+                blightModel.transform.localScale = Vector3.one * blightUncommonMult;
+                nodeMaxHealth *= blightUncommonMult;
+                BuffBlight(blightUncommonMult, blightUncommonMult);
+                break;
+            case Rarity.rare:
+                blightModel.transform.localScale = Vector3.one * blightRareMult;
+                nodeMaxHealth *= blightRareMult;
+                BuffBlight(blightRareMult, blightRareMult);
+                break;
+            case Rarity.mythic:
+                blightModel.transform.localScale = Vector3.one * blightMythicMult;
+                nodeMaxHealth *= blightMythicMult;
+                BuffBlight(blightMythicMult, blightMythicMult);
+                break;
+        }
+
+        //Fix the position of the node
+        Renderer modelRender = blightModel.GetComponent<Renderer>();
+        //blightModel.transform.position = new Vector3(modelRender.transform.position.x, blightModel.transform.localScale.y, modelRender.transform.position.z);
+
+        healthBarObject.transform.position = new Vector3(modelRender.transform.position.x, modelRender.bounds.max.y + healthBaroffset, modelRender.transform.position.z);
+
+        //Tell the reveal controller to update the size for revealing
+        blightModel.GetComponent<RevealController>().UpdateRender();
+    }
+
+    /// <summary>
+    /// Triggers when another blight node is cleared and buffs this one
+    /// </summary>
+    private void BuffBlight()
+    {
+        foreach(Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if(child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Scales up the blight creatures stats whenever another node is cleared
+                enemy.ScaleBlightStats(0.05f, 0.05f);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Overload of the buff blight for passing in values
+    /// </summary>
+    /// <param name="healthMult"></param>
+    /// <param name="damageMult"></param>
+    private void BuffBlight(float healthMult, float damageMult)
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Scales up the blight creatures stats whenever another node is cleared
+                enemy.ScaleBlightStats(healthMult, damageMult);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Update the enemies so that theyre no longer children of the blight node
+    /// and update their logic
+    /// </summary>
+    private void UpdateEnemies()
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                //Update the parent of the child to be the enemy spawner
+                child.parent = FindFirstObjectByType<EnemySpawner>().gameObject.transform;
+
+                //MARCUS TODO: Tell the enemy to update its logic to be a wave enemy or whatever we decide to do
+            }
+        }
+    }
+
+    /// <summary>
+    /// Node takes damage when hit
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeDamage(float damage)
+    {
+        //If the node has enemies, it gains damage resistance
+        if(HasEnemies())
+        {
+            nodeCurrentHealth -= damage * 0.05f;
+        }
+        else
+        {
+            nodeCurrentHealth -= damage;
+        }
+
+        healthBar.TriggerHealthBarUpdate(nodeCurrentHealth, nodeMaxHealth);
+
+        if (nodeCurrentHealth <= 0)
+        {
+            BlightCleared();
+        }
+    }
+
+    /// <summary>
+    /// Returns whether or not the blight node has enemies in its children
+    /// </summary>
+    /// <returns></returns>
+    private bool HasEnemies()
+    {
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Vector3 GetPlacementHalfExtents(Rarity rarity)
+    {
+        float scale = GetScaleFromRarity(rarity);
+
+        Bounds bounds = placementCollider.bounds;
+
+        return bounds.extents * scale;
+    }
+
+    private float GetScaleFromRarity(Rarity rarity)
+    {
+        return rarity switch
+        {
+            Rarity.uncommon => blightUncommonMult,
+            Rarity.rare => blightRareMult,
+            Rarity.mythic => blightMythicMult,
+            _ => 1f
+        };
+    }
+
+}

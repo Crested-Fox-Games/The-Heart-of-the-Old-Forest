@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748fc758e0b4ac84a8c3ae06a610c1f6, type: 3}
+  m_Name: Archer Tower
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSO
+  towerName: Archer Tower
+  towerDescription: Shoots arrows
+  attackRange: 3
+  towerHealth: 100
+  towerDamage: 10
+  attackCooldown: 2
+  projectile: {fileID: 3723794516530627890, guid: b030de0ebcb6b3a45a6b11c67908523d, type: 3}
+  displayObject: {fileID: 0}
+  towerPrefab: {fileID: 7829146077412672749, guid: 825707b6501974e43954d0e456274cc6, type: 3}
+  requiredResources:
+  - resource: 2
+    cost: 20
+  upgradePaths:
+  - {fileID: 11400000, guid: bcd8f663dbd78844da9984453e200e38, type: 2}
+  - {fileID: 11400000, guid: dd8b844374c6ccb4c8c438bc82e949eb, type: 2}
+  firingAudio: {fileID: 8300000, guid: 88ad98eb9b75b6042ab4690bdbdf40f2, type: 3}
