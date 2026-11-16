@@ -404,31 +404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
-  <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
-  WasActiveDuringEdit_Set1: 1
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 5554828885100303472}
-  - {fileID: 9025497405741031671}
-  - {fileID: 3523095287178685474}
-  - {fileID: 4249959293906175344}
-  - {fileID: 1680321782225394051}
-  - {fileID: 5854695226715694454}
-  - {fileID: 5131311982947011687}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedTimestamp: -8584122181914855043
   _localLevelOfDetailCalculationType: 0
   _useLevelOfDetail: 0
   _useRootLevelOfDetail: 1
@@ -456,6 +431,31 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 5554828885100303472}
+  - {fileID: 9025497405741031671}
+  - {fileID: 3523095287178685474}
+  - {fileID: 4249959293906175344}
+  - {fileID: 1680321782225394051}
+  - {fileID: 5854695226715694454}
+  - {fileID: 5131311982947011687}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: -8584122181914855043
 --- !u!114 &4249959293906175344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +671,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kaia_Defult_Pose
       objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7072302
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7069834
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -89.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128556080250245328, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6110864081891061072, guid: e6c8db60c3bba5448b962fbc4904c17a, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 2
@@ -679,10 +703,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d34a94a894d81804197a66b66142ba94, type: 2}
-    - target: {fileID: 6633253267746993225, guid: 8d2b689f2e0eb9e4d833a4d9dd5c804b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -6447701603868965571, guid: 20961d51ee697f146a1413b8a7a28540, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -705,6 +725,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 1051e7b82741f804cba0482817db3d50, type: 2}
     - target: {fileID: 5866666021909216657, guid: 20961d51ee697f146a1413b8a7a28540, type: 3}
       propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6633253267746993225, guid: 8d2b689f2e0eb9e4d833a4d9dd5c804b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
