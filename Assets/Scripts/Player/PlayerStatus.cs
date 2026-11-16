@@ -201,9 +201,11 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Disable the current players controls
         playerRef.playerInput.DisablePlayerMap();
 
-        //Start an Ienumerator to respawn the player
-        StartCoroutine(PlayerRespawn());
-
+        if(!GameManager.Instance.isGameOver)
+        { 
+            //Start an Ienumerator to respawn the player
+            StartCoroutine(PlayerRespawn());
+        }
         //Start the death animation for the player that all players see
         PlayerDiedAnimationTrigger();
 
@@ -260,6 +262,9 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         //Wait until the timer is up (Maybe make the timer here 0.5f shorter than respawn time to give networking time to do its stuff)
         yield return new WaitForSeconds(respawnTime - 0.5f);
 
+        if (GameManager.Instance.isGameOver)
+            yield break;
+
         //Reset players health
         currentHealth.Value = currentMaxHealth;
 
@@ -270,7 +275,7 @@ public class PlayerStatus : NetworkBehaviour, ITargetable
         PlayerRespawnAnimationTrigger();
 
         //Move the player to their spawn position
-        GamePlayerSpawner spawner = FindFirstObjectByType<GamePlayerSpawner>();
+        GamePlayerSpawner spawner = FindAnyObjectByType<GamePlayerSpawner>();
 
         int rand = Random.Range(0, spawner.SpawnPoints.Length);
 
