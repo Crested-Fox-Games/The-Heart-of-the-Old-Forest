@@ -8,7 +8,6 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     /// <summary>
     /// Scriptable object containing the upgrade's information
     /// </summary>
-    [SerializeField]
     private TowerUpgradeSO towerUpgradeSO;
 
     /// <summary>
@@ -59,10 +58,10 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void Initialize(TowerUpgradeUI towerUpgradeUi, TowerUpgradeSO so, int pathIndex)
     {
         this.towerUpgradeUi = towerUpgradeUi;
-        this.towerUpgradeSO = so;
+        towerUpgradeSO = so;
         this.pathIndex = pathIndex;
 
-
+        Debug.Log($"WAWWAWAAWWAAWWAWAWAWA {so.UpgradeName}");
         upgradeName.text = so.UpgradeName;
         descriptionText.text = so.Description;
 

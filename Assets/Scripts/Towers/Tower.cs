@@ -403,6 +403,7 @@ public abstract class Tower : NetworkBehaviour
     {
         int cycleLength = path.RandomUpgradesBetweenMilestones + 1;
 
+        //Debug.Log($"Is milestone upgrade: upcount {upgradeCount} cycleng {cycleLength}");
         return upgradeCount % cycleLength == 0;
     }
 

@@ -133,7 +133,9 @@ public class TowerUpgradeUI : MonoBehaviour
             //Deletes slots that havent been selected
             foreach (UpgradeSlot slot in slots)
             {
-                if(slot.PathIndex != key)
+                Debug.Log($"We are Checking {slot.name} that has the key of {key} and the path index is {slot.PathIndex}");
+
+                if (slot.PathIndex != subscribedTower.SelectedPath)
                 {
                     Destroy(slot.gameObject);
                 }
@@ -142,6 +144,7 @@ public class TowerUpgradeUI : MonoBehaviour
             UpgradeSlot currentSlot = GetComponentInChildren<UpgradeSlot>();
 
             //Updates the ui for the current tower
+            Debug.Log($"AHHHHHHHHHHHHHHHHHHHHH {subscribedTower.GetNextSelectedUpgrade(subscribedTower.SelectedPath)}");
             currentSlot.Initialize(this, subscribedTower.GetNextSelectedUpgrade(subscribedTower.SelectedPath), subscribedTower.SelectedPath);
         }
     }
